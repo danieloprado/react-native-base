@@ -1,0 +1,28 @@
+{
+  "extends": "eslint:recommended",
+  "plugins": [
+    "react"
+  ],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "rules": {
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "no-console": "off",
+    "quotes": ["warn", "single", { "avoidEscape": true }],
+    "eqeqeq": "error",
+    "max-depth": ["error", { "max": 2 }],
+    "semi": "error",
+    "no-var": "error"
+  }
+}
