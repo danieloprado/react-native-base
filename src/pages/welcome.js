@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Dimensions, Image, StatusBar, TouchableNativeFeedback } from 'react-native';
-import { Container, Content, Text, View, Button, Icon } from 'native-base';
+import { Content, Text, View, Button, Icon } from 'native-base';
 import { NavigationActions } from 'react-navigation';
+import Wrapper from '../theme/wrapper';
 import theme from '../theme';
 
 export default class WelcomPage extends Component {
@@ -12,17 +13,17 @@ export default class WelcomPage extends Component {
   navigateToHome() {
     const resetAction = NavigationActions.reset({
       index: 0,
-      actions: [
-        NavigationActions.navigate({ routeName: 'Home' })
-      ]
+      actions: [NavigationActions.navigate({ routeName: 'Home' })]
     });
 
     this.props.navigation.dispatch(resetAction);
   }
 
   render() {
+    setTimeout(() => this.navigateToHome());
+
     return (
-      <Container>
+      <Wrapper>
         <Content>
           <View style={StyleSheet.flatten(styles.container)}>
             <StatusBar translucent={true}></StatusBar>  
@@ -34,7 +35,6 @@ export default class WelcomPage extends Component {
               <Text style={StyleSheet.flatten(styles.instructions)}>
                 Gostaríamos de te conhecer
               </Text>
-              <Text onPress={() => navigate('Home')}>Pular</Text>
               <View style={StyleSheet.flatten(styles.buttons)}>
                 <TouchableNativeFeedback>
                   <Button onPress={() => this.navigateToHome()} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
@@ -49,10 +49,11 @@ export default class WelcomPage extends Component {
                   </Button>
                 </TouchableNativeFeedback>  
               </View>
+              <Text onPress={() => this.navigateToHome()} style={StyleSheet.flatten( styles.skip )}>Pular</Text>
             </Image>  
           </View>    
         </Content>  
-      </Container>
+      </Wrapper>
     );
   }
 }
@@ -93,5 +94,9 @@ const styles = StyleSheet.create({
   },
   buttonFirst: {
     marginRight: 20
+  },
+  skip: {
+    color: 'white',
+    marginTop: 100
   }
 });

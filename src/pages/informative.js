@@ -16,17 +16,19 @@ import {
 export default class HomePage extends Component {
   static navigationOptions = {
     headerVisible: false,
-    drawerLabel: 'Início',
+    drawerLabel: 'Informativos',
     drawerIcon: ({ tintColor }) => (
-      <Icon name="home" style={{ color: tintColor }} />
+      <Icon name="paper" style={{ color: tintColor }} />
     )
   };
 
   openDrawer() {
+    console.log('here');
     this.props.navigation.navigate('DrawerOpen');
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <Wrapper>
         <Header>
@@ -36,13 +38,13 @@ export default class HomePage extends Component {
             </Button>
           </Left>
           <Body>
-              <Title>ICB Sorocaba</Title>
+              <Title>Informativos</Title>
           </Body>
         </Header>
         <Content padder={true}>
           <Card>
             <CardItem header>
-                <Text>NativeBase</Text>
+                <Text>Informative</Text>
             </CardItem>
             <CardItem>
                 <Body>
@@ -52,7 +54,7 @@ export default class HomePage extends Component {
             <CardItem header>
                 <Text>GeekyAnts</Text>
             </CardItem>
-          </Card>
+        </Card>
         </Content>  
       </Wrapper>
     );
