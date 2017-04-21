@@ -1,4 +1,4 @@
-package com.churchreact;
+package br.com.icbsorocaba.app;
 
 import com.facebook.react.ReactActivity;
 

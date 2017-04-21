@@ -87,13 +87,21 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.churchreact"
+        applicationId "br.com.icbsorocaba.app"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file("./release.keystore")
+            storePassword "rx12241274"
+            keyAlias "churchapp"
+            keyPassword "rx12241274"
         }
     }
     splits {
