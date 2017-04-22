@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Linking } from 'react-native';
 import churchService from '../services/church';
+import phoneFormatter from '../formatters/phone';
 import {
   Text,
   Body,
@@ -24,6 +25,14 @@ export default class ChurchCard extends Component {
     });
   }
 
+  openPhone() {
+    Linking.openURL(`tel:${this.state.church.phone}`);
+  }
+
+  openAddress() {
+    Linking.openURL(`geo:${this.state.church.latitude},${this.state.church.longitude}?q=${this.state.church.address}`);
+  }
+
   render() {
     return (
       <Card>
@@ -38,9 +47,13 @@ export default class ChurchCard extends Component {
           </CardItem>
           :
           <View>
-            <CardItem>
+            <CardItem button onPress={() => this.openPhone()}>
               <Icon name="call" />  
-              <Text>{this.state.church.phone}</Text>
+              <Text>{phoneFormatter(this.state.church.phone)}</Text>
+            </CardItem>
+            <CardItem button onPress={() => this.openAddress()}>
+              <Icon name="map" />  
+              <Text>{this.state.church.address}</Text>
             </CardItem>
             <CardItem footer>
               <Text>Detalhes</Text>
