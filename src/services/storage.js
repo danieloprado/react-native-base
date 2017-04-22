@@ -7,17 +7,16 @@ export class Storage {
   }
 
   get(key) {
-    return Observable.fromPromise(async() => {
+    return Observable.fromPromise((async() => {
       const result = await this.asyncStorage.getItem(key);
       return result ? JSON.parse(result) : null;
-    });
+    })());
   }
 
   set(key, value) {
-    return Observable.fromPromise(async() => {
-      value = JSON.stringify(value);
-      await this.asyncStorage.setItem(key, value);
-    });
+    return Observable
+      .fromPromise(this.asyncStorage.setItem(key, JSON.stringify(value)))
+      .map(() => value);
   }
 
 }

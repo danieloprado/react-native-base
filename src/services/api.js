@@ -12,9 +12,10 @@ export class ApiService {
     this.http = (method, url, data = null) => {
       const body = data ? JSON.stringify(data) : null;
       return Observable
-        .fromPromise(() => fetch(`${this.settings.apiEndpoint}/${url}`, { method, headers, body }))
-        .timeout(this.settings.apiTimeout)
+        .fromPromise(fetch(`${this.settings.apiEndpoint}/${url}`, { method, headers, body }))
         .do(res => this.checkNewToken(res))
+        // .timeout(this.settings.apiTimeout)
+        .flatMap(res => Observable.fromPromise(res.json()))
         .catch(err => this.errorHandler(err));
     };
 
@@ -38,7 +39,7 @@ export class ApiService {
   }
 
   checkNewToken(response) {
-    const accessToken = response.headers['X-Token'];
+    const accessToken = response.headers.get('X-Token');
 
     if (accessToken) {
       this.tokenService.setAccessToken(accessToken).subscribe();
@@ -46,6 +47,7 @@ export class ApiService {
   }
 
   errorHandler(err) {
+    console.log(err);
     if (this.settings.env === 'development') {
       console.log('******* API ERROR ********');
       console.dir(err);

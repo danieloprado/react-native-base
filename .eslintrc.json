@@ -3,10 +3,12 @@
   "plugins": [
     "react"
   ],
+  "parser": "babel-eslint",
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2017,
     "ecmaFeatures": {
+      "classes": true,
       "jsx": true
     }
   },

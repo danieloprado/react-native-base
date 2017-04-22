@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import Wrapper from '../theme/wrapper';
+import ChurchCard from '../components/churchCard';
 import {
   Content,
-  Text,
   Header,
   Left,
   Body,
   Button,
   Title,
-  Icon,
-  Card,
-  CardItem
+  Icon
 } from 'native-base';
 
 export default class HomePage extends Component {
@@ -40,19 +38,7 @@ export default class HomePage extends Component {
           </Body>
         </Header>
         <Content padder={true}>
-          <Card>
-            <CardItem header>
-                <Text>NativeBase</Text>
-            </CardItem>
-            <CardItem>
-                <Body>
-                    <Text>Body</Text>
-                </Body>
-            </CardItem>
-            <CardItem header>
-                <Text>GeekyAnts</Text>
-            </CardItem>
-          </Card>
+          <ChurchCard></ChurchCard>
         </Content>  
       </Wrapper>
     );
