@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
+import { StyleSheet, View, InteractionManager } from 'react-native';
+import theme from '../theme';
+import dateFormatter from '../formatters/date';
+import informativeService from '../services/informative';
 import Wrapper from '../theme/wrapper';
 import {
   Content,
-  Text,
   Header,
   Left,
+  Right,
   Body,
   Button,
   Title,
   Icon,
-  Card,
-  CardItem
+  Spinner,
+  Text,
+  List,
+  ListItem
 } from 'native-base';
 
 export default class HomePage extends Component {
@@ -22,13 +28,27 @@ export default class HomePage extends Component {
     )
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { loading: true };
+  }
+
   openDrawer() {
-    console.log('here');
     this.props.navigation.navigate('DrawerOpen');
   }
 
+  componentDidMount() {
+    informativeService.list().subscribe(informatives => {
+      informatives = informatives || [];
+      InteractionManager.runAfterInteractions(() => {
+        this.setState({ loading: false, informatives });
+      });
+    }, err => {
+      console.log(err);
+    });
+  }
+
   render() {
-    const { navigate } = this.props.navigation;
     return (
       <Wrapper>
         <Header>
@@ -41,22 +61,41 @@ export default class HomePage extends Component {
               <Title>Informativos</Title>
           </Body>
         </Header>
-        <Content padder={true}>
-          <Card>
-            <CardItem header>
-                <Text>Informative</Text>
-            </CardItem>
-            <CardItem>
-                <Body>
-                    <Text>Body</Text>
-                </Body>
-            </CardItem>
-            <CardItem header>
-                <Text>GeekyAnts</Text>
-            </CardItem>
-        </Card>
+        <Content contentContainerStyle={StyleSheet.flatten(theme.contentWhite)}>
+          {this.state.loading ?
+            <View style={StyleSheet.flatten([theme.alignCenter])}>
+              <Spinner />
+            </View>
+            :
+            <List>
+              { this.state.informatives.map(informative => 
+                <ListItem key={informative.id}>
+                  <Left style={StyleSheet.flatten(styles.iconWrapper)}>
+                    <Icon name={informative.icon} style={StyleSheet.flatten(styles.icon)} />
+                  </Left>
+                  <Body>
+                    <Text>{informative.title}</Text>
+                    <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
+                  </Body>
+                  <Right style={StyleSheet.flatten(styles.iconWrapper)}>
+                    <Icon name="arrow-forward" />
+                  </Right>
+                </ListItem>
+              )}    
+            </List>
+          }            
         </Content>  
       </Wrapper>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  iconWrapper: {
+    flex: 0
+  },
+  icon: {
+    width: 40,
+    fontSize: 30
+  }
+});

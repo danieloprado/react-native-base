@@ -39,6 +39,7 @@ export class ApiService {
   }
 
   checkNewToken(response) {
+    console.log(response);
     const accessToken = response.headers.get('X-Token');
 
     if (accessToken) {

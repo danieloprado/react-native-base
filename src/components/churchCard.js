@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Linking } from 'react-native';
+import { StyleSheet, Linking, TouchableNativeFeedback, InteractionManager } from 'react-native';
+import theme from '../theme';
 import churchService from '../services/church';
 import phoneFormatter from '../formatters/phone';
 import {
@@ -9,16 +10,21 @@ import {
   CardItem,
   Spinner,
   View,
-  Icon
+  Icon,
+  Button
 } from 'native-base';
 
 export default class ChurchCard extends Component {
   constructor(props) {
     super(props);
     this.state = { loading: true };
+  }
 
+  componentDidMount() {
     churchService.info().subscribe(church => {
-      this.setState({ loading: false, church });
+      InteractionManager.runAfterInteractions(() => {
+        this.setState({ loading: false, church });
+      });
     }, err => {
       console.log(err);
       alert('error');
@@ -41,7 +47,7 @@ export default class ChurchCard extends Component {
         </CardItem>
         { this.state.loading ?
           <CardItem>
-            <Body style={StyleSheet.flatten(styles.spinnerBody)}>
+            <Body style={StyleSheet.flatten(theme.alignCenter)}>
               <Spinner />
             </Body>
           </CardItem>
@@ -53,10 +59,16 @@ export default class ChurchCard extends Component {
             </CardItem>
             <CardItem button onPress={() => this.openAddress()}>
               <Icon name="map" />  
-              <Text>{this.state.church.address}</Text>
+              <Text style={StyleSheet.flatten(theme.cardItemMultiline)}>
+                {this.state.church.address}
+              </Text>
             </CardItem>
-            <CardItem footer>
-              <Text>Detalhes</Text>
+            <CardItem footer style={StyleSheet.flatten(theme.alignRight)}>
+              <TouchableNativeFeedback>
+                <Button transparent>
+                  <Text>Detalhes</Text>
+                </Button>  
+              </TouchableNativeFeedback>  
             </CardItem>
           </View>  
         }  
@@ -65,10 +77,3 @@ export default class ChurchCard extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  spinnerBody: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
-});
