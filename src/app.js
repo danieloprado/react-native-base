@@ -6,6 +6,7 @@ import SideMenu from './components/sideMenu';
 import Welcome from './pages/welcome';
 import Home from './pages/home';
 import Informative from './pages/informative';
+import InformativeDetails from './pages/informativeDetails';
 
 const appDrawer = DrawerNavigator({
   Home: { screen: Home },
@@ -21,6 +22,7 @@ const appNavigator = StackNavigator({
   Welcome: { screen: Welcome },
   Home: { screen: appDrawer },
   Informative: { screen: appDrawer },
+  InformativeDetails: { screen: InformativeDetails },
 }, { headerMode: 'none' });
 
 AppRegistry.registerComponent('churchReact', () => appNavigator);

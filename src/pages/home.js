@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
+import BaseComponent from '../components/base';
 import Wrapper from '../theme/wrapper';
 import ChurchCard from '../components/churchCard';
 import {
   Content,
   Header,
   Left,
+  Right,
   Body,
   Button,
   Title,
   Icon
 } from 'native-base';
 
-export default class HomePage extends Component {
+export default class HomePage extends BaseComponent {
   static navigationOptions = {
     headerVisible: false,
     drawerLabel: 'Início',
@@ -19,10 +21,6 @@ export default class HomePage extends Component {
       <Icon name="home" style={{ color: tintColor }} />
     )
   };
-
-  openDrawer() {
-    this.props.navigation.navigate('DrawerOpen');
-  }
 
   render() {
     return (
@@ -36,6 +34,7 @@ export default class HomePage extends Component {
           <Body>
               <Title>ICB Sorocaba</Title>
           </Body>
+          <Right />
         </Header>
         <Content padder={true}>
           <ChurchCard></ChurchCard>

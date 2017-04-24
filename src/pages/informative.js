@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, InteractionManager } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import BaseComponent from '../components/base';
 import theme from '../theme';
 import dateFormatter from '../formatters/date';
 import informativeService from '../services/informative';
@@ -19,7 +20,7 @@ import {
   ListItem
 } from 'native-base';
 
-export default class HomePage extends Component {
+export default class InformativePage extends BaseComponent {
   static navigationOptions = {
     headerVisible: false,
     drawerLabel: 'Informativos',
@@ -33,19 +34,17 @@ export default class HomePage extends Component {
     this.state = { loading: true };
   }
 
-  openDrawer() {
-    this.props.navigation.navigate('DrawerOpen');
-  }
-
   componentDidMount() {
     informativeService.list().subscribe(informatives => {
       informatives = informatives || [];
-      InteractionManager.runAfterInteractions(() => {
-        this.setState({ loading: false, informatives });
-      });
+      this.setState({ loading: false, informatives });
     }, err => {
       console.log(err);
     });
+  }
+
+  details(informative) {
+    this.navigate('InformativeDetails', { informative });
   }
 
   render() {
@@ -60,6 +59,7 @@ export default class HomePage extends Component {
           <Body>
               <Title>Informativos</Title>
           </Body>
+          <Right />
         </Header>
         <Content contentContainerStyle={StyleSheet.flatten(theme.contentWhite)}>
           {this.state.loading ?
@@ -68,19 +68,21 @@ export default class HomePage extends Component {
             </View>
             :
             <List>
-              { this.state.informatives.map(informative => 
-                <ListItem key={informative.id}>
-                  <Left style={StyleSheet.flatten(styles.iconWrapper)}>
-                    <Icon name={informative.icon} style={StyleSheet.flatten(styles.icon)} />
-                  </Left>
-                  <Body>
-                    <Text>{informative.title}</Text>
-                    <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
-                  </Body>
-                  <Right style={StyleSheet.flatten(styles.iconWrapper)}>
-                    <Icon name="arrow-forward" />
-                  </Right>
-                </ListItem>
+              {this.state.informatives.map(informative => 
+                <TouchableOpacity key={informative.id}>
+                  <ListItem button onPress={() => this.details(informative)}>
+                    <Left style={StyleSheet.flatten(styles.iconWrapper)}>
+                      <Icon name={informative.icon} style={StyleSheet.flatten(styles.icon)} />
+                    </Left>
+                    <Body>
+                      <Text>{informative.title}</Text>
+                      <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
+                    </Body>
+                    <Right style={StyleSheet.flatten(styles.iconWrapper)}>
+                      <Icon name="arrow-forward" />
+                    </Right>
+                  </ListItem>
+                </TouchableOpacity>  
               )}    
             </List>
           }            

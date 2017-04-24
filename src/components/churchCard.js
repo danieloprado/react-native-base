@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { StyleSheet, Linking, TouchableNativeFeedback, InteractionManager } from 'react-native';
+import React from 'react';
+import { StyleSheet, Linking, TouchableNativeFeedback } from 'react-native';
+import BaseComponent from './base';
 import theme from '../theme';
 import churchService from '../services/church';
 import phoneFormatter from '../formatters/phone';
@@ -14,7 +15,7 @@ import {
   Button
 } from 'native-base';
 
-export default class ChurchCard extends Component {
+export default class ChurchCard extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = { loading: true };
@@ -22,9 +23,7 @@ export default class ChurchCard extends Component {
 
   componentDidMount() {
     churchService.info().subscribe(church => {
-      InteractionManager.runAfterInteractions(() => {
-        this.setState({ loading: false, church });
-      });
+      this.setState({ loading: false, church });
     }, err => {
       console.log(err);
       alert('error');

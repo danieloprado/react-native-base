@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, Dimensions, Image, StatusBar, TouchableNativeFeedback } from 'react-native';
 import { Content, Text, View, Button, Icon } from 'native-base';
 import { NavigationActions } from 'react-navigation';
+import BaseComponent from '../components/base';
 import Wrapper from '../theme/wrapper';
 import theme from '../theme';
 
-export default class WelcomPage extends Component {
+export default class WelcomPage extends BaseComponent {
   static navigationOptions = {
     headerVisible: false
   };

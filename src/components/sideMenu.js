@@ -17,6 +17,7 @@ export default props => {
       </ScrollView>
     </View>
   );
+
 };
 
 const styles = StyleSheet.create({
