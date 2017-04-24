@@ -60,7 +60,7 @@ export default {
 
 
   get btnPrimaryBg() {
-    return this.brandPrimary;
+    return this.accent;
   },
   get btnPrimaryColor() {
     return this.inverseTextColor;
@@ -118,7 +118,7 @@ export default {
 
 
   // Color
-  brandPrimary: (platform === 'ios') ? '#007aff' : primary,
+  brandPrimary: (platform === 'ios') ? primary : primary,
   brandInfo: '#62B1F6',
   brandSuccess: '#5cb85c',
   brandDanger: '#d9534f',

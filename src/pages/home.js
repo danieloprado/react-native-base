@@ -24,7 +24,7 @@ export default class HomePage extends BaseComponent {
 
   render() {
     return (
-      <Wrapper>
+      <Wrapper gray={true}>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>

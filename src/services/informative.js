@@ -26,12 +26,6 @@ class InformativeService {
     });
   }
 
-  get(id) {
-    return this.list().map(informatives => {
-      return informatives.filter(i => i.id === id)[0];
-    });
-  }
-
   last(refresh = false) {
     return this.list(refresh).map(informatives => informatives[0]);
   }

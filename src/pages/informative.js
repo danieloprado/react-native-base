@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, RefreshControl } from 'react-native';
 import BaseComponent from '../components/base';
-import theme from '../theme';
 import dateFormatter from '../formatters/date';
 import informativeService from '../services/informative';
 import Wrapper from '../theme/wrapper';
@@ -14,7 +13,6 @@ import {
   Button,
   Title,
   Icon,
-  Spinner,
   Text,
   List,
   ListItem
@@ -31,20 +29,26 @@ export default class InformativePage extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.state = { loading: true };
+    this.state = { refreshing: true, informatives: [] };
   }
 
   componentDidMount() {
-    informativeService.list().subscribe(informatives => {
-      informatives = informatives || [];
-      this.setState({ loading: false, informatives });
-    }, err => {
-      console.log(err);
-    });
+    this.load();
   }
 
   details(informative) {
     this.navigate('InformativeDetails', { informative });
+  }
+
+  load(refresh = false) {
+    this.setState({ refreshing: true }, true);
+
+    informativeService.list(refresh).subscribe(informatives => {
+      informatives = informatives || [];
+      this.setState({ refreshing: false, informatives });
+    }, err => {
+      console.log(err);
+    });
   }
 
   render() {
@@ -61,31 +65,32 @@ export default class InformativePage extends BaseComponent {
           </Body>
           <Right />
         </Header>
-        <Content contentContainerStyle={StyleSheet.flatten(theme.contentWhite)}>
-          {this.state.loading ?
-            <View style={StyleSheet.flatten([theme.alignCenter])}>
-              <Spinner />
-            </View>
-            :
-            <List>
-              {this.state.informatives.map(informative => 
-                <TouchableOpacity key={informative.id}>
-                  <ListItem button onPress={() => this.details(informative)}>
-                    <Left style={StyleSheet.flatten(styles.iconWrapper)}>
-                      <Icon name={informative.icon} style={StyleSheet.flatten(styles.icon)} />
-                    </Left>
-                    <Body>
-                      <Text>{informative.title}</Text>
-                      <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
-                    </Body>
-                    <Right style={StyleSheet.flatten(styles.iconWrapper)}>
-                      <Icon name="arrow-forward" />
-                    </Right>
-                  </ListItem>
-                </TouchableOpacity>  
-              )}    
-            </List>
-          }            
+        <Content
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.load(true)}
+            />
+          }
+        >
+          <List dataArray={this.state.informatives} renderRow={informative => 
+            <ListItem
+              button
+              key={informative.id}
+              onPress={() => this.details(informative)}>
+              <Left style={StyleSheet.flatten(styles.iconWrapper)}>
+                <Icon name={informative.icon} style={StyleSheet.flatten(styles.icon)} />
+              </Left>
+              <Body>
+                <Text>{informative.title}</Text>
+                <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
+              </Body>
+              <Right style={StyleSheet.flatten(styles.iconWrapper)}>
+                <Icon name="arrow-forward" />
+              </Right>
+            </ListItem>
+            }
+          />
         </Content>  
       </Wrapper>
     );

@@ -7,10 +7,13 @@ import Welcome from './pages/welcome';
 import Home from './pages/home';
 import Informative from './pages/informative';
 import InformativeDetails from './pages/informativeDetails';
+import Event from './pages/event';
+import EventDetails from './pages/eventDetails';
 
 const appDrawer = DrawerNavigator({
   Home: { screen: Home },
-  Informative: { screen: Informative }
+  Informative: { screen: Informative },
+  Event: { screen: Event }
 }, {
   contentComponent: SideMenu,
   contentOptions: {
@@ -23,6 +26,8 @@ const appNavigator = StackNavigator({
   Home: { screen: appDrawer },
   Informative: { screen: appDrawer },
   InformativeDetails: { screen: InformativeDetails },
+  Event: { screen: appDrawer },
+  EventDetails: { screen: EventDetails }
 }, { headerMode: 'none' });
 
 AppRegistry.registerComponent('churchReact', () => appNavigator);

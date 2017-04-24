@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { WebView, Share } from 'react-native';
 import BaseComponent from '../components/base';
-import theme from '../theme';
 import Wrapper from '../theme/wrapper';
 import { enInformativeType } from '../services/informative';
+import informativeRender from '../formatters/informativeRender';
 import {
   Content,
   Header,
@@ -12,14 +12,29 @@ import {
   Body,
   Button,
   Title,
-  Icon,
-  Text
+  Icon
 } from 'native-base';
 
 export default class InformativeDetailsPage extends BaseComponent {
   constructor(props) {
     super(props);
-    this.informative = this.params.informative;
+
+    this.state = {
+      informative: this.params.informative,
+      html: informativeRender(this.params.informative)
+    };
+  }
+
+  share() {
+    Share.share({
+      title: this.state.informative.title,
+      message: this.state.text
+    });
+  }
+
+  setText(text) {
+    this.state.text = text;
+    this.setState(this.state);
   }
 
   render() {
@@ -33,15 +48,22 @@ export default class InformativeDetailsPage extends BaseComponent {
           </Left>
           <Body>
             <Title>
-              {this.informative.type === enInformativeType.cell ?
+              {this.state.informative.type === enInformativeType.cell ?
                 'Célula' : 'Igreja'
               }
             </Title>
           </Body>
-          <Right />
+          <Right>
+            <Button transparent onPress={() => this.share()}>
+                <Icon name='share' />
+            </Button>  
+          </Right>  
         </Header>
-        <Content contentContainerStyle={StyleSheet.flatten(theme.contentWhite)}>
-          <Text>Here</Text>          
+        <Content>
+          <WebView
+            source={{ html: this.state.html }}
+            onMessage={event => this.setText(event.nativeEvent.data)}
+            style={{ height: 300 }} />
         </Content>  
       </Wrapper>
     );

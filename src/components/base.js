@@ -26,7 +26,11 @@ export default class BaseComponent extends Component {
     });
   }
 
-  setState(value) {
-    InteractionManager.runAfterInteractions(() => super.setState(value));
+  setState(value, skip) {
+    if (skip) {
+      return super.setState(value);
+    }
+
+    return InteractionManager.runAfterInteractions(() => super.setState(value));
   }
 }

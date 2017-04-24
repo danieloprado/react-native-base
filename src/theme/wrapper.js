@@ -7,7 +7,7 @@ export default class Wrapper extends React.Component {
   render() {
     return (
       <StyleProvider style={getTheme(platform)}>
-        <Container>
+        <Container style={this.props.gray ? {  } : { backgroundColor: 'white' } }>
           {this.props.children}
         </Container>    
       </StyleProvider>
