@@ -39,7 +39,7 @@ export default class EventPage extends BaseComponent {
   }
 
   details(eventData) {
-    this.navigate('EventDetails', { eventData });
+    this.navigate('EventDetails', { event: eventData.event, date: eventData });
   }
 
   load(refresh = false) {

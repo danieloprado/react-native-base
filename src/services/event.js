@@ -21,7 +21,7 @@ class EventService {
     });
   }
 
-  last(refresh = false) {
+  next(refresh = false) {
     return this.list(refresh).map(events => events[0]);
   }
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import BaseComponent from '../components/base';
 import ChurchCard from '../components/churchCard';
+import InformativeCard from '../components/informativeCard';
+import EventCard from '../components/eventCard';
 import theme from '../theme';
 import {
   Container,
@@ -12,7 +14,8 @@ import {
   Body,
   Button,
   Title,
-  Icon
+  Icon,
+  View
 } from 'native-base';
 
 export default class HomePage extends BaseComponent {
@@ -38,10 +41,20 @@ export default class HomePage extends BaseComponent {
           </Body>
           <Right />
         </Header>
-        <Content padder={true}>
-          <ChurchCard></ChurchCard>
+        <Content>
+          <View style={StyleSheet.flatten(styles.container)}>
+            <ChurchCard navigation={this.props.navigation}></ChurchCard>
+            <InformativeCard navigation={this.props.navigation}></InformativeCard>
+            <EventCard navigation={this.props.navigation}></EventCard>
+          </View>    
         </Content>  
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 8
+  }
+});

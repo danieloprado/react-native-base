@@ -21,9 +21,9 @@ export default class BaseComponent extends Component {
   }
 
   navigate(url, params) {
-    InteractionManager.runAfterInteractions(() => {
-      this.props.navigation.navigate(url, params);
-    });
+    // InteractionManager.runAfterInteractions(() => {
+    this.props.navigation.navigate(url, params);
+    // });
   }
 
   setState(value, skip) {

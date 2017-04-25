@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Linking, TouchableNativeFeedback } from 'react-native';
+import { StyleSheet, Linking } from 'react-native';
 import BaseComponent from './base';
 import theme from '../theme';
 import churchService from '../services/church';
@@ -68,11 +68,9 @@ export default class ChurchCard extends BaseComponent {
                 </CardItem>
             }    
             <CardItem footer style={StyleSheet.flatten(theme.alignRight)}>
-              <TouchableNativeFeedback>
-                <Button transparent>
-                  <Text>DETALHES</Text>
-                </Button>  
-              </TouchableNativeFeedback>  
+              <Button transparent onPress={() => this.navigate('Church')}>
+                <Text>DETALHES</Text>
+              </Button>  
             </CardItem>
           </View>  
         }  

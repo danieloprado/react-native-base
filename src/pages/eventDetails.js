@@ -21,11 +21,14 @@ import {
 export default class EventDetailsPage extends BaseComponent {
   constructor(props) {
     super(props);
-    this.state = { eventData: this.params.eventData };
+    this.state = {
+      event: this.params.event,
+      date: this.params.date
+    };
   }
 
   render() {
-    const eventData = this.state.eventData;
+    const { event, date } = this.state;
 
     return (
       <Container>
@@ -42,14 +45,14 @@ export default class EventDetailsPage extends BaseComponent {
         </Header>
         <Content>
           <View style={StyleSheet.flatten(styles.header)}>
-            <H2 style={StyleSheet.flatten(styles.headerText)}>{eventData.event.title}</H2>
+            <H2 style={StyleSheet.flatten(styles.headerText)}>{event.title}</H2>
             <Text note style={StyleSheet.flatten(styles.headerNote)}>
-              {dateFormatter.format(eventData.beginDate, 'ddd, DD [de] MMMM [de] YYYY [às] HH:mm')}
-              {eventData.endDate ? ' - ' + dateFormatter.format(eventData.endDate, 'HH:mm') : ''}
+              {dateFormatter.format(date.beginDate, 'ddd, DD [de] MMMM [de] YYYY [às] HH:mm')}
+              {date.endDate ? ' - ' + dateFormatter.format(date.endDate, 'HH:mm') : ''}
             </Text>
           </View>
           <Text style={StyleSheet.flatten(styles.content)}>
-            {eventData.event.description || 'Sem descrição'}
+            {event.description || 'Sem descrição'}
           </Text>
         </Content>  
       </Container>
