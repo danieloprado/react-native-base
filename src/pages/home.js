@@ -1,8 +1,10 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import BaseComponent from '../components/base';
-import Wrapper from '../theme/wrapper';
 import ChurchCard from '../components/churchCard';
+import theme from '../theme';
 import {
+  Container,
   Content,
   Header,
   Left,
@@ -24,7 +26,7 @@ export default class HomePage extends BaseComponent {
 
   render() {
     return (
-      <Wrapper gray={true}>
+      <Container style={StyleSheet.flatten(theme.cardsContainer)}>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
@@ -39,7 +41,7 @@ export default class HomePage extends BaseComponent {
         <Content padder={true}>
           <ChurchCard></ChurchCard>
         </Content>  
-      </Wrapper>
+      </Container>
     );
   }
 }

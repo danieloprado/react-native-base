@@ -3479,6 +3479,10 @@ react-native-scrollable-tab-view@^0.7.1:
     react-static-container "^1.0.1"
     react-timer-mixin "^0.13.3"
 
+react-native-splash-screen@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-2.0.0.tgz#d03caaef7d92a0ac1eab60ee4204a1d6bf8234ec"
+
 react-native-tab-view@^0.0.59:
   version "0.0.59"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.59.tgz#2cd1d809a5699fcc5d45fa6fc08deb21d3f81fea"

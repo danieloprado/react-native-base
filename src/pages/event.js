@@ -4,8 +4,8 @@ import BaseComponent from '../components/base';
 import dateFormatter from '../formatters/date';
 import eventListFormatter from '../formatters/eventList';
 import eventService from '../services/event';
-import Wrapper from '../theme/wrapper';
 import {
+  Container,
   Content,
   Header,
   Left,
@@ -54,7 +54,7 @@ export default class EventPage extends BaseComponent {
 
   render() {
     return (
-      <Wrapper>
+      <Container>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
@@ -110,7 +110,7 @@ export default class EventPage extends BaseComponent {
             }
           />
         </Content>  
-      </Wrapper>
+      </Container>
     );
   }
 }

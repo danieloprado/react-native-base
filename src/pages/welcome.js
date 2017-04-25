@@ -1,10 +1,16 @@
 import React from 'react';
-import { StyleSheet, Dimensions, Image, StatusBar, TouchableNativeFeedback } from 'react-native';
-import { Content, Text, View, Button, Icon } from 'native-base';
+import { StyleSheet, Dimensions, Image, StatusBar } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import BaseComponent from '../components/base';
-import Wrapper from '../theme/wrapper';
 import theme from '../theme';
+import {
+  Container,
+  Content,
+  Text,
+  View,
+  Button,
+  Icon
+} from 'native-base';
 
 export default class WelcomPage extends BaseComponent {
   static navigationOptions = {
@@ -21,10 +27,10 @@ export default class WelcomPage extends BaseComponent {
   }
 
   render() {
-    setTimeout(() => this.navigateToHome());
+    // setTimeout(() => this.navigateToHome());
 
     return (
-      <Wrapper>
+      <Container>
         <Content>
           <View style={StyleSheet.flatten(styles.container)}>
             <StatusBar translucent={true}></StatusBar>  
@@ -37,24 +43,24 @@ export default class WelcomPage extends BaseComponent {
                 Gostaríamos de te conhecer
               </Text>
               <View style={StyleSheet.flatten(styles.buttons)}>
-                <TouchableNativeFeedback>
-                  <Button onPress={() => this.navigateToHome()} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
-                    <Icon name='logo-facebook' />  
-                    <Text>Facebook</Text>
-                  </Button>
-                </TouchableNativeFeedback>  
-                <TouchableNativeFeedback>
-                  <Button iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
-                    <Icon name='logo-google' />  
-                    <Text>Google</Text>                  
-                  </Button>
-                </TouchableNativeFeedback>  
+                <Button onPress={() => this.navigateToHome()} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
+                  <Icon name='logo-facebook' />  
+                  <Text>FACEBOOK</Text>
+                </Button>
+                <Button iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
+                  <Icon name='logo-google' />  
+                  <Text>GOOGLE</Text>                  
+                </Button>
               </View>
-              <Text onPress={() => this.navigateToHome()} style={StyleSheet.flatten( styles.skip )}>Pular</Text>
+              <View style={StyleSheet.flatten(styles.skipWrapper)}>
+                <Button transparent onPress={() => this.navigateToHome()}>
+                  <Text style={StyleSheet.flatten(styles.skipText)}>PULAR</Text>
+                </Button>
+              </View>
             </Image>  
           </View>    
         </Content>  
-      </Wrapper>
+      </Container>
     );
   }
 }
@@ -96,8 +102,10 @@ const styles = StyleSheet.create({
   buttonFirst: {
     marginRight: 20
   },
-  skip: {
-    color: 'white',
-    marginTop: 100
+  skipWrapper: {
+    marginTop: 50
+  },
+  skipText: {
+    color: 'white'
   }
 });

@@ -1,10 +1,10 @@
 import React from 'react';
 import { WebView, Share } from 'react-native';
 import BaseComponent from '../components/base';
-import Wrapper from '../theme/wrapper';
 import { enInformativeType } from '../services/informative';
 import informativeRender from '../formatters/informativeRender';
 import {
+  Container,
   Content,
   Header,
   Left,
@@ -39,7 +39,7 @@ export default class InformativeDetailsPage extends BaseComponent {
 
   render() {
     return (
-      <Wrapper>
+      <Container>
         <Header>
           <Left>
             <Button transparent onPress={() => this.goBack()}>
@@ -65,7 +65,7 @@ export default class InformativeDetailsPage extends BaseComponent {
             onMessage={event => this.setText(event.nativeEvent.data)}
             style={{ height: 300 }} />
         </Content>  
-      </Wrapper>
+      </Container>
     );
   }
 }

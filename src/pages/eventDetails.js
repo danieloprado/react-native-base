@@ -1,8 +1,8 @@
 import React from 'react';
 import dateFormatter from '../formatters/date';
 import BaseComponent from '../components/base';
-import Wrapper from '../theme/wrapper';
 import {
+  Container,
   Content,
   Header,
   Left,
@@ -26,7 +26,7 @@ export default class EventDetailsPage extends BaseComponent {
     const eventData = this.state.eventData;
 
     return (
-      <Wrapper>
+      <Container>
         <Header>
           <Left>
             <Button transparent onPress={() => this.goBack()}>
@@ -48,7 +48,7 @@ export default class EventDetailsPage extends BaseComponent {
           </View>
           <Text>{eventData.event.description || 'Sem descrição'}</Text>
         </Content>  
-      </Wrapper>
+      </Container>
     );
   }
 }

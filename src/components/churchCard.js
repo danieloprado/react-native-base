@@ -26,7 +26,6 @@ export default class ChurchCard extends BaseComponent {
       this.setState({ loading: false, church });
     }, err => {
       console.log(err);
-      alert('error');
     });
   }
 
@@ -65,7 +64,7 @@ export default class ChurchCard extends BaseComponent {
             <CardItem footer style={StyleSheet.flatten(theme.alignRight)}>
               <TouchableNativeFeedback>
                 <Button transparent>
-                  <Text>Detalhes</Text>
+                  <Text>DETALHES</Text>
                 </Button>  
               </TouchableNativeFeedback>  
             </CardItem>

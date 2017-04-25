@@ -7,6 +7,9 @@ export default StyleSheet.create({
   buttonGoogle: {
     backgroundColor: '#de5245'
   },
+  cardsContainer: {
+    backgroundColor: '#f4f4f7'
+  },
   cardItemMultiline: {
     width: Dimensions.get('screen').width - 120,
   },

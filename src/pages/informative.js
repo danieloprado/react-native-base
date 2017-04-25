@@ -3,8 +3,8 @@ import { StyleSheet, RefreshControl } from 'react-native';
 import BaseComponent from '../components/base';
 import dateFormatter from '../formatters/date';
 import informativeService from '../services/informative';
-import Wrapper from '../theme/wrapper';
 import {
+  Container,
   Content,
   Header,
   Left,
@@ -53,7 +53,7 @@ export default class InformativePage extends BaseComponent {
 
   render() {
     return (
-      <Wrapper>
+      <Container>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
@@ -92,7 +92,7 @@ export default class InformativePage extends BaseComponent {
             }
           />
         </Content>  
-      </Wrapper>
+      </Container>
     );
   }
 }
