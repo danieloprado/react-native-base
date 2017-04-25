@@ -16,7 +16,8 @@ import {
   Icon,
   Text,
   List,
-  ListItem
+  ListItem,
+  View
 } from 'native-base';
 
 export default class EventPage extends BaseComponent {
@@ -48,6 +49,7 @@ export default class EventPage extends BaseComponent {
       const eventGroup = eventListFormatter(events || []);
       this.setState({ refreshing: false, eventGroup });
     }, err => {
+      this.setState({ refreshing: false });
       console.log(err);
     });
   }
@@ -66,23 +68,32 @@ export default class EventPage extends BaseComponent {
           </Body>
           <Right />
         </Header>
-        <Content
-          refreshControl={
+        <Content refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
               onRefresh={() => this.load(true)}
             />
-          }
-        >
-          <List dataArray={this.state.eventGroup} renderRow={data =>
-            data.divider ? 
-              <ListItem itemHeader>
-                <Text>{dateFormatter.format(data.date, 'MMMM')}</Text>
-              </ListItem>
-              :
-              <ListItem style={StyleSheet.flatten(styles.listItem)}>
-                {
-                  data.firstOfDate ?
+          }>
+          <List dataArray={this.state.eventGroup} renderRow={(data, sectionId, rowId) => this.renderRow(data, rowId)}/>
+        </Content>  
+      </Container>
+    );
+  }
+
+  renderRow(data, rowId) {
+    return (
+      <View key={data.divider ? data.beginDate : data.event.id}>
+        {
+          data.divider ?
+            <ListItem style={StyleSheet.flatten(rowId === '0' ? styles.listItemHeaderFirst :  styles.listItemHeader)}>
+              <Text style={StyleSheet.flatten(styles.listItemHeaderText)}>
+                {dateFormatter.format(data.date, 'MMMM').toUpperCase()}
+              </Text>
+            </ListItem>
+            :
+            <ListItem style={StyleSheet.flatten(styles.listItem)}>
+              {
+                data.firstOfDate ?
                   <Left style={StyleSheet.flatten(styles.leftWrapper)}>
                     <Text style={StyleSheet.flatten(styles.eventDay)}>
                       {dateFormatter.format(data.beginDate, 'DD')}
@@ -93,29 +104,38 @@ export default class EventPage extends BaseComponent {
                   </Left>
                   :
                   <Left style={StyleSheet.flatten(styles.leftWrapper)} />
-                }    
-                <Body>
-                  <Button
-                    block
-                    onPress={() => this.details(data)}
-                    style={StyleSheet.flatten(styles.buttonDetails)}>
-                    <Text style={StyleSheet.flatten(styles.eventTitle)}>{data.event.title}</Text>
-                    <Text style={StyleSheet.flatten(styles.eventHour)}>
-                      {dateFormatter.format(data.beginDate, 'HH:mm')}
-                      {data.endDate ? ' - ' + dateFormatter.format(data.endDate, 'HH:mm') : ''}
-                    </Text>
-                  </Button>    
-                </Body>
-              </ListItem>
-            }
-          />
-        </Content>  
-      </Container>
+              }
+              <Body>
+                <Button
+                  block
+                  onPress={() => this.details(data)}
+                  style={StyleSheet.flatten(styles.buttonDetails)}>
+                  <Text style={StyleSheet.flatten(styles.eventTitle)}>{data.event.title}</Text>
+                  <Text style={StyleSheet.flatten(styles.eventHour)}>
+                    {dateFormatter.format(data.beginDate, 'HH:mm')}
+                    {data.endDate ? ' - ' + dateFormatter.format(data.endDate, 'HH:mm') : ''}
+                  </Text>
+                </Button>
+              </Body>
+            </ListItem>
+        }
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  listItemHeader: {
+    borderBottomWidth: 0,
+    marginTop: 20
+  },
+  listItemHeaderFirst: {
+    borderBottomWidth: 0,
+  },
+  listItemHeaderText: {
+    fontWeight: 'bold',
+    opacity: 0.6
+  },
   listItem: {
     borderBottomWidth: 0,
     marginLeft: 0,
@@ -127,7 +147,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   eventDay: {
-    fontSize: 24
+    fontSize: 24,
+    textAlign: 'center'
+  },
+  eventWeekDay: {
+    textAlign: 'center'
   },
   eventTitle: {
     fontSize: 18,
@@ -141,7 +165,7 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   buttonDetails: {
-    marginLeft: 10,
+    marginLeft: 15,
     height: null,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',

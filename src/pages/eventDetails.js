@@ -1,4 +1,6 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
+import { variables } from '../theme';
 import dateFormatter from '../formatters/date';
 import BaseComponent from '../components/base';
 import {
@@ -12,7 +14,7 @@ import {
   Title,
   Icon,
   View,
-  H1,
+  H2,
   Text
 } from 'native-base';
 
@@ -39,16 +41,35 @@ export default class EventDetailsPage extends BaseComponent {
           <Right /> 
         </Header>
         <Content>
-          <View>
-            <H1>{eventData.event.title}</H1>
-            <Text note>
+          <View style={StyleSheet.flatten(styles.header)}>
+            <H2 style={StyleSheet.flatten(styles.headerText)}>{eventData.event.title}</H2>
+            <Text note style={StyleSheet.flatten(styles.headerNote)}>
               {dateFormatter.format(eventData.beginDate, 'ddd, DD [de] MMMM [de] YYYY [às] HH:mm')}
               {eventData.endDate ? ' - ' + dateFormatter.format(eventData.endDate, 'HH:mm') : ''}
             </Text>
           </View>
-          <Text>{eventData.event.description || 'Sem descrição'}</Text>
+          <Text style={StyleSheet.flatten(styles.content)}>
+            {eventData.event.description || 'Sem descrição'}
+          </Text>
         </Content>  
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: variables.accent,
+    padding: 16
+  },
+  headerText: {
+    color: 'white'
+  },
+  headerNote: {
+    color: 'white',
+    opacity: 0.8
+  },
+  content: {
+    padding: 16
+  }
+});

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, RefreshControl } from 'react-native';
 import BaseComponent from '../components/base';
+import theme from '../theme';
 import dateFormatter from '../formatters/date';
 import informativeService from '../services/informative';
 import {
@@ -78,14 +79,14 @@ export default class InformativePage extends BaseComponent {
               button
               key={informative.id}
               onPress={() => this.details(informative)}>
-              <Left style={StyleSheet.flatten(styles.iconWrapper)}>
-                <Icon name={informative.icon} style={StyleSheet.flatten(styles.icon)} />
+              <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
+                <Icon name={informative.icon} style={StyleSheet.flatten(theme.listIcon)} />
               </Left>
               <Body>
                 <Text>{informative.title}</Text>
                 <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
               </Body>
-              <Right style={StyleSheet.flatten(styles.iconWrapper)}>
+              <Right style={StyleSheet.flatten(theme.listIconWrapper)}>
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
@@ -96,13 +97,3 @@ export default class InformativePage extends BaseComponent {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  iconWrapper: {
-    flex: 0
-  },
-  icon: {
-    width: 40,
-    fontSize: 30
-  }
-});

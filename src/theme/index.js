@@ -1,4 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import variablesTheme from '../../native-base-theme/variables/platform';
+
+export const variables = variablesTheme;
 
 export default StyleSheet.create({
   buttonFacebook: {
@@ -26,5 +29,16 @@ export default StyleSheet.create({
   alignRight: {
     justifyContent: 'flex-end',
     alignItems: 'flex-end'
+  },
+  listIconWrapper: {
+    maxWidth: 40,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  listIcon: {
+    width: 40,
+    fontSize: 30,
+    textAlign: 'center'
   }
 });

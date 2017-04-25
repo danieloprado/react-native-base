@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, Dimensions, Image, StatusBar } from 'react-native';
+import { StyleSheet, Dimensions, Image, StatusBar, Animated } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import SplashScreen from 'react-native-splash-screen';
 import BaseComponent from '../components/base';
 import theme from '../theme';
+import storage from '../services/storage';
 import {
   Container,
   Content,
@@ -17,13 +19,60 @@ export default class WelcomPage extends BaseComponent {
     headerVisible: false
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      animationHeight: new Animated.Value(0),
+      animationFade: new Animated.Value(0),
+      animationClass: {}
+    };
+  }
+
   navigateToHome() {
     const resetAction = NavigationActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Event' })]
+      actions: [NavigationActions.navigate({ routeName: 'Church' })]
     });
 
     this.props.navigation.dispatch(resetAction);
+  }
+
+  completed() {
+    storage.set('welcomeCompleted', true).subscribe(() => {
+      this.navigateToHome();
+    });
+  }
+
+  viewLoaded(event) {
+    if (this.state.loaded) return;
+    const finalHeight = event.nativeEvent.layout.height;
+
+    this.setState({
+      loaded: true,
+      animationClass: {
+        height: this.state.animationHeight,
+        opacity: this.state.animationFade
+      }
+    }).then(() => {
+      storage.get('welcomeCompleted').subscribe(completed => {
+        if (completed) {
+          this.navigateToHome();
+          SplashScreen.hide();
+          return;
+        }
+
+        SplashScreen.hide();
+        this.animate(finalHeight);
+      });
+    });
+  }
+
+  animate(finalHeight) {
+    setTimeout(() => {
+      Animated.timing(this.state.animationFade, { toValue: 1 }).start();
+      Animated.timing(this.state.animationHeight, { toValue: finalHeight }).start();
+    }, 500);
   }
 
   render() {
@@ -33,30 +82,34 @@ export default class WelcomPage extends BaseComponent {
       <Container>
         <Content>
           <View style={StyleSheet.flatten(styles.container)}>
-            <StatusBar translucent={true}></StatusBar>  
+            <StatusBar backgroundColor="#000000"></StatusBar>  
             <Image source={require('../images/background.png')} style={styles.background}>
               <Image source={require('../images/logo.png')} style={styles.logo}/>
-              <Text style={StyleSheet.flatten(styles.welcome)}>
-                Olá!
-              </Text>
-              <Text style={StyleSheet.flatten(styles.instructions)}>
-                Gostaríamos de te conhecer
-              </Text>
-              <View style={StyleSheet.flatten(styles.buttons)}>
-                <Button onPress={() => this.navigateToHome()} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
-                  <Icon name='logo-facebook' />  
-                  <Text>FACEBOOK</Text>
-                </Button>
-                <Button iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
-                  <Icon name='logo-google' />  
-                  <Text>GOOGLE</Text>                  
-                </Button>
-              </View>
-              <View style={StyleSheet.flatten(styles.skipWrapper)}>
-                <Button transparent onPress={() => this.navigateToHome()}>
-                  <Text style={StyleSheet.flatten(styles.skipText)}>PULAR</Text>
-                </Button>
-              </View>
+              <Animated.View
+                onLayout={event => this.viewLoaded(event)}
+                style={this.state.animationClass}>
+                <Text style={StyleSheet.flatten(styles.welcome)}>
+                  Olá!
+                </Text>
+                <Text style={StyleSheet.flatten(styles.instructions)}>
+                  Gostaríamos de te conhecer
+                </Text>
+                <View style={StyleSheet.flatten(styles.buttons)}>
+                  <Button onPress={() => this.navigateToHome()} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
+                    <Icon name='logo-facebook' />  
+                    <Text>FACEBOOK</Text>
+                  </Button>
+                  <Button iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
+                    <Icon name='logo-google' />  
+                    <Text>GOOGLE</Text>                  
+                  </Button>
+                </View>
+                <View style={StyleSheet.flatten(styles.skipWrapper)}>
+                  <Button block transparent onPress={() => this.completed()}>
+                    <Text style={StyleSheet.flatten(styles.skipText)}>PULAR</Text>
+                  </Button>
+                </View>
+              </Animated.View>  
             </Image>  
           </View>    
         </Content>  
@@ -97,13 +150,15 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: 20,
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   buttonFirst: {
     marginRight: 20
   },
   skipWrapper: {
-    marginTop: 50
+    marginTop: 50,
   },
   skipText: {
     color: 'white'

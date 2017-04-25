@@ -27,10 +27,15 @@ export default class BaseComponent extends Component {
   }
 
   setState(value, skip) {
-    if (skip) {
-      return super.setState(value);
-    }
+    return new Promise(resolve => {
 
-    return InteractionManager.runAfterInteractions(() => super.setState(value));
+      if (skip) {
+        return super.setState(value, () => resolve());
+      }
+
+      return InteractionManager.runAfterInteractions(() => {
+        super.setState(value, () => resolve());
+      });
+    });
   }
 }

@@ -38,6 +38,8 @@ export default class ChurchCard extends BaseComponent {
   }
 
   render() {
+    const church = this.state.church;
+
     return (
       <Card>
         <CardItem header>
@@ -51,16 +53,20 @@ export default class ChurchCard extends BaseComponent {
           </CardItem>
           :
           <View>
-            <CardItem button onPress={() => this.openPhone()}>
-              <Icon name="call" />  
-              <Text>{phoneFormatter(this.state.church.phone)}</Text>
-            </CardItem>
-            <CardItem button onPress={() => this.openAddress()}>
-              <Icon name="map" />  
-              <Text style={StyleSheet.flatten(theme.cardItemMultiline)}>
-                {this.state.church.address}
-              </Text>
-            </CardItem>
+            { !church.phone ? null :
+              <CardItem button onPress={() => this.openPhone()}>
+                <Icon name="call" />
+                <Text>{phoneFormatter(church.phone)}</Text>
+              </CardItem>
+            }
+            { !church.address ? null :
+                <CardItem button onPress={() => this.openAddress()}>
+                  <Icon name="pin" />
+                  <Text style={StyleSheet.flatten(theme.cardItemMultiline)}>
+                    {church.address}
+                  </Text>
+                </CardItem>
+            }    
             <CardItem footer style={StyleSheet.flatten(theme.alignRight)}>
               <TouchableNativeFeedback>
                 <Button transparent>
