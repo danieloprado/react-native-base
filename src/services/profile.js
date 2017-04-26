@@ -21,8 +21,8 @@ class ProfileService {
     const application = this.settings.churchSlug;
     const name = `${device.getManufacturer()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`;
 
-    return this.api.post('/register', { deviceId, name, application, provider, accessToken }).flatMap(res => {
-      return this.tokenService.setToken(res.json());
+    return this.api.post('register', { deviceId, name, application, provider, accessToken }).flatMap(res => {
+      return this.tokenService.setToken(res);
     });
   }
 
@@ -32,7 +32,7 @@ class ProfileService {
         return Observable.of(null);
       }
 
-      const stream$ = this.api.get('profile').map(res => res.json());
+      const stream$ = this.api.get('profile');
       return this.cache.from('service-profile', stream$, refresh).map(profile => {
         return this.dateFormatter.parseObj(profile);
       });

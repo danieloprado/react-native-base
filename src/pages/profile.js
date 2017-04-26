@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { variables } from '../theme';
 import BaseComponent from '../components/base';
-import theme from '../theme';
+import theme, { variables } from '../theme';
 import profileService from '../services/profile';
 // import toast from '../services/toast';
 import {
@@ -44,6 +43,8 @@ export default class ProfilePage extends BaseComponent {
   }
 
   render() {
+    const { profile, loading, error } = this.state;
+
     return (
       <Container>
         <Header>
@@ -58,15 +59,15 @@ export default class ProfilePage extends BaseComponent {
           <Right />
         </Header>
         <Content>
-          { this.state.loading ?
+          { loading ?
             <View style={StyleSheet.flatten(theme.alignCenter)}>
-              <Spinner />
+              <Spinner color={variables.accent} />
             </View>
-            : !this.state.profile && this.state.error ?  
+            : !profile && error ?  
             <View style={StyleSheet.flatten(theme.emptyMessage)}>
               <Text note>Não foi possível carregar</Text>
             </View>
-            : !this.state.profile ?
+            : !profile ?
             <View style={StyleSheet.flatten(theme.alignCenter)}>
               <Text note>Nãoentrou</Text>
               <Button onPress={() => this.navigate('Welcome', { force: true })}>
@@ -75,7 +76,7 @@ export default class ProfilePage extends BaseComponent {
             </View> 
             :    
             <View style={StyleSheet.flatten(styles.header)}>
-              <H2 style={StyleSheet.flatten(styles.headerText)}>Daniel</H2>
+              <H2 style={StyleSheet.flatten(styles.headerText)}>{profile.fullName}</H2>
             </View>
           }
         </Content>  

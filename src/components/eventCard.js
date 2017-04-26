@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import BaseComponent from './base';
-import theme from '../theme';
+import theme, { variables } from '../theme';
 import eventService from '../services/event';
 import dateFormatter from '../formatters/date';
 import {
@@ -41,7 +41,7 @@ export default class EventCard extends BaseComponent {
         { this.state.loading ?
           <CardItem>
             <Body style={StyleSheet.flatten(theme.alignCenter)}>
-              <Spinner />
+              <Spinner color={variables.accent} />
             </Body>
           </CardItem>
           :

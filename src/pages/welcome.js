@@ -2,9 +2,12 @@ import React from 'react';
 import { StyleSheet, Dimensions, Image, StatusBar, Animated } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import Loader from '../components/loader';
 import BaseComponent from '../components/base';
 import theme from '../theme';
 import storage from '../services/storage';
+import profileService from '../services/profile';
 import {
   Container,
   Content,
@@ -76,11 +79,26 @@ export default class WelcomPage extends BaseComponent {
     }, 500);
   }
 
-  render() {
-    // setTimeout(() => this.navigateToHome());
+  async loginFacebook() {
+    try {
+      const { isCancelled } = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+      if (isCancelled) return;
 
+      const { accessToken } = await AccessToken.getCurrentAccessToken();
+      this.refs.loader.fromObservable(profileService.register('facebook', accessToken))
+        .subscribe(() => {
+          this.completed();
+        });
+    } catch (error) {
+      console.log('error', error);
+      alert('Um erro aconteceu');
+    }
+  }
+
+  render() {
     return (
-      <Container>
+      <Container>  
+        <Loader ref="loader" />
         <Content>
           <View style={StyleSheet.flatten(styles.container)}>
             <StatusBar backgroundColor="#000000"></StatusBar>  
@@ -96,7 +114,7 @@ export default class WelcomPage extends BaseComponent {
                   Gostaríamos de te conhecer
                 </Text>
                 <View style={StyleSheet.flatten(styles.buttons)}>
-                  <Button onPress={() => this.navigateToHome()} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
+                  <Button onPress={() => this.loginFacebook()} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
                     <Icon name='logo-facebook' />  
                     <Text>FACEBOOK</Text>
                   </Button>
@@ -124,7 +142,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: Dimensions.get('window').height
+    height: Dimensions.get('screen').height
   },
   welcome: {
     fontSize: 30,

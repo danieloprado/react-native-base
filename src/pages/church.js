@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Image, Linking } from 'react-native';
 import BaseComponent from '../components/base';
-import theme from '../theme';
+import theme, { variables } from '../theme';
 import churchService from '../services/church';
 import phoneFormatter from '../formatters/phone';
 import {
@@ -79,7 +79,7 @@ export default class ChurchPage extends BaseComponent {
         <Content>
           { this.state.loading ?
             <View style={StyleSheet.flatten(theme.alignCenter)}>
-              <Spinner />
+              <Spinner color={variables.accent} />
             </View>
             : !church ?
               <View style={StyleSheet.flatten(theme.emptyMessage)}>

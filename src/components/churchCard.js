@@ -4,6 +4,7 @@ import BaseComponent from './base';
 import theme from '../theme';
 import churchService from '../services/church';
 import phoneFormatter from '../formatters/phone';
+import { variables } from '../theme';
 import {
   Text,
   Body,
@@ -48,7 +49,7 @@ export default class ChurchCard extends BaseComponent {
         { this.state.loading ?
           <CardItem>
             <Body style={StyleSheet.flatten(theme.alignCenter)}>
-              <Spinner />
+              <Spinner color={variables.accent} />
             </Body>
           </CardItem>
           :
