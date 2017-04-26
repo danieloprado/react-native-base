@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 import { variables } from '../theme';
 import BaseComponent from '../components/base';
 import theme from '../theme';
+import profileService from '../services/profile';
+// import toast from '../services/toast';
 import {
   Container,
   Content,
@@ -13,8 +15,10 @@ import {
   Button,
   Title,
   Icon,
+  Text,
   View,
-  H2
+  H2,
+  Spinner
 } from 'native-base';
 
 export default class ProfilePage extends BaseComponent {
@@ -26,9 +30,22 @@ export default class ProfilePage extends BaseComponent {
     )
   };
 
+  constructor(props) {
+    super(props);
+    this.state = { loading: true };
+  }
+
+  componentDidMount() {
+    profileService.get().subscribe(profile => {
+      this.setState({ loading: false, profile });
+    }, () => {
+      this.setState({ loading: false, error: true });
+    });
+  }
+
   render() {
     return (
-      <Container style={StyleSheet.flatten(theme.cardsContainer)}>
+      <Container>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
@@ -41,9 +58,26 @@ export default class ProfilePage extends BaseComponent {
           <Right />
         </Header>
         <Content>
-          <View style={StyleSheet.flatten(styles.header)}>
-            <H2 style={StyleSheet.flatten(styles.headerText)}>Daniel</H2>
-          </View>
+          { this.state.loading ?
+            <View style={StyleSheet.flatten(theme.alignCenter)}>
+              <Spinner />
+            </View>
+            : !this.state.profile && this.state.error ?  
+            <View style={StyleSheet.flatten(theme.emptyMessage)}>
+              <Text note>Não foi possível carregar</Text>
+            </View>
+            : !this.state.profile ?
+            <View style={StyleSheet.flatten(theme.alignCenter)}>
+              <Text note>Nãoentrou</Text>
+              <Button onPress={() => this.navigate('Welcome', { force: true })}>
+                <Text>Entrar</Text>
+              </Button>    
+            </View> 
+            :    
+            <View style={StyleSheet.flatten(styles.header)}>
+              <H2 style={StyleSheet.flatten(styles.headerText)}>Daniel</H2>
+            </View>
+          }
         </Content>  
       </Container>
     );

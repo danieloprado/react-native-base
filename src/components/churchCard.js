@@ -24,8 +24,8 @@ export default class ChurchCard extends BaseComponent {
   componentDidMount() {
     churchService.info().subscribe(church => {
       this.setState({ loading: false, church });
-    }, err => {
-      console.log(err);
+    }, () => {
+      this.setState({ loading: false });
     });
   }
 
@@ -51,6 +51,11 @@ export default class ChurchCard extends BaseComponent {
               <Spinner />
             </Body>
           </CardItem>
+          :
+          !church ? 
+          <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
+            <Text note>Não foi possível carregar</Text>
+          </CardItem>     
           :
           <View>
             { !church.phone ? null :

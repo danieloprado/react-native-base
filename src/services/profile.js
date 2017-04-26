@@ -1,36 +1,44 @@
+import { Observable } from 'rxjs';
+import device from 'react-native-device-info';
+import dateFormatter from '../formatters/date';
 import api from './api';
 import cache from './cache';
-import dateFormatter from '../formatters/date';
+import tokenService from './token';
+import settings from '../settings';
 
-class EventService {
+class ProfileService {
 
-  constructor(cache, api, dateFormatter) {
-    this.cache = cache;
+  constructor(apit, settings, cache, tokenService, dateFormatter) {
     this.api = api;
+    this.settings = settings;
+    this.cache = cache;
+    this.tokenService = tokenService;
     this.dateFormatter = dateFormatter;
   }
 
-  list(refresh = false) {
-    const stream$ = this.api.get('events');
+  register(provider, accessToken) {
+    const deviceId = device.getUniqueID();
+    const application = this.settings.churchSlug;
+    const name = `${device.getManufacturer()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`;
 
-    return this.cache.from('service-event-list', stream$, refresh).map(data => {
-      return (data || []).map(event => {
-        event.dates = event.dates.map(d => this.dateFormatter.parseObj(d));
-        return event;
-      }).sort((a, b) => this.sortByFirstDate(a, b));
+    return this.api.post('/register', { deviceId, name, application, provider, accessToken }).flatMap(res => {
+      return this.tokenService.setToken(res.json());
     });
   }
 
-  next(refresh = false) {
-    return this.list(refresh).map(events => events[0]);
-  }
+  get(refresh = false) {
+    return this.tokenService.getToken().first().flatMap(token => {
+      if (!token) {
+        return Observable.of(null);
+      }
 
-  sortByFirstDate(a, b) {
-    if (a.dates[0].beginDate === b.dates[0].beginDate) return 0;
-    if (a.dates[0].beginDate < b.dates[0].beginDate) return -1;
-    return 1;
+      const stream$ = this.api.get('profile').map(res => res.json());
+      return this.cache.from('service-profile', stream$, refresh).map(profile => {
+        return this.dateFormatter.parseObj(profile);
+      });
+    });
   }
 
 }
 
-export default new EventService(cache, api, dateFormatter);
+export default new ProfileService(api, settings, cache, tokenService, dateFormatter);

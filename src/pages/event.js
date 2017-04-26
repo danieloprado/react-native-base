@@ -4,6 +4,7 @@ import BaseComponent from '../components/base';
 import dateFormatter from '../formatters/date';
 import eventListFormatter from '../formatters/eventList';
 import eventService from '../services/event';
+import theme from '../theme';
 import {
   Container,
   Content,
@@ -48,9 +49,8 @@ export default class EventPage extends BaseComponent {
     eventService.list(refresh).subscribe(events => {
       const eventGroup = eventListFormatter(events || []);
       this.setState({ refreshing: false, eventGroup });
-    }, err => {
+    }, () => {
       this.setState({ refreshing: false });
-      console.log(err);
     });
   }
 
@@ -73,7 +73,12 @@ export default class EventPage extends BaseComponent {
               refreshing={this.state.refreshing}
               onRefresh={() => this.load(true)}
             />
-          }>
+        }>
+          {!this.state.refreshing && !this.state.eventGroup.length && 
+            <View style={StyleSheet.flatten(theme.emptyMessage)}>
+              <Text note>Não foi possível carregar</Text>
+            </View> 
+          }  
           <List dataArray={this.state.eventGroup} renderRow={(data, sectionId, rowId) => this.renderRow(data, rowId)}/>
         </Content>  
       </Container>

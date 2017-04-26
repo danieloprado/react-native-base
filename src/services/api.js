@@ -47,10 +47,9 @@ export class ApiService {
   }
 
   errorHandler(err) {
-    console.log(err);
     if (this.settings.env === 'development') {
       console.log('******* API ERROR ********');
-      console.dir(err);
+      console.log(err);
     }
 
     if (err.status === 401) {

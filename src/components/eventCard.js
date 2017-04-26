@@ -25,8 +25,8 @@ export default class EventCard extends BaseComponent {
   componentDidMount() {
     eventService.next().subscribe(event => {
       this.setState({ loading: false, event });
-    }, err => {
-      console.log(err);
+    }, () => {
+      this.setState({ loading: false });
     });
   }
 
@@ -44,6 +44,11 @@ export default class EventCard extends BaseComponent {
               <Spinner />
             </Body>
           </CardItem>
+          :
+          !event ?
+          <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
+            <Text note>Não foi possível carregar</Text>
+          </CardItem> 
           :
           <View>
             <CardItem button onPress={() => this.navigate('EventDetails', { event, date: event.dates[0] })}>

@@ -22,6 +22,14 @@ export default StyleSheet.create({
     alignItems: 'center',
     height: Dimensions.get('window').height
   },
+  emptyMessage: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16
+  },
+  textCenter: {
+    textAlign: 'center'
+  },
   alignCenter: {
     justifyContent: 'center',
     alignItems: 'center'

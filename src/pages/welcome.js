@@ -25,7 +25,8 @@ export default class WelcomPage extends BaseComponent {
     this.state = {
       animationHeight: new Animated.Value(0),
       animationFade: new Animated.Value(0),
-      animationClass: {}
+      animationClass: {},
+      force: (this.params || {}).force
     };
   }
 
@@ -45,7 +46,7 @@ export default class WelcomPage extends BaseComponent {
   }
 
   viewLoaded(event) {
-    if (this.state.loaded) return;
+    if (this.state.loaded || this.state.force) return;
     const finalHeight = event.nativeEvent.layout.height;
 
     this.setState({

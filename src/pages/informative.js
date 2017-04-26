@@ -16,7 +16,8 @@ import {
   Icon,
   Text,
   List,
-  ListItem
+  ListItem,
+  View
 } from 'native-base';
 
 export default class InformativePage extends BaseComponent {
@@ -47,8 +48,8 @@ export default class InformativePage extends BaseComponent {
     informativeService.list(refresh).subscribe(informatives => {
       informatives = informatives || [];
       this.setState({ refreshing: false, informatives });
-    }, err => {
-      console.log(err);
+    }, () => {
+      this.setState({ refreshing: false });
     });
   }
 
@@ -74,6 +75,11 @@ export default class InformativePage extends BaseComponent {
             />
           }
         >
+          {!this.state.refreshing && !this.state.informatives.length && 
+            <View style={StyleSheet.flatten(theme.emptyMessage)}>
+              <Text note>Não foi possível carregar</Text>
+            </View> 
+          }  
           <List dataArray={this.state.informatives} renderRow={informative => 
             <ListItem
               button

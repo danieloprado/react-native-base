@@ -25,8 +25,8 @@ export default class InformativeCard extends BaseComponent {
   componentDidMount() {
     informativeService.last().subscribe(informative => {
       this.setState({ loading: false, informative });
-    }, err => {
-      console.log(err);
+    }, () => {
+      this.setState({ loading: false });
     });
   }
 
@@ -44,6 +44,11 @@ export default class InformativeCard extends BaseComponent {
               <Spinner />
             </Body>
           </CardItem>
+          :
+          !informative ?
+          <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
+            <Text note>Não foi possível carregar</Text>
+          </CardItem> 
           :
           <View>
             <CardItem button onPress={() => this.navigate('InformativeDetails', { informative })}>
