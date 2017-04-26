@@ -3,6 +3,7 @@ package br.com.icbsorocaba.app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.facebook.react.ReactNativeHost;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
+import co.apptailor.googlesignin.RNGoogleSigninPackage; 
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -32,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNGoogleSigninPackage(),
             new FBSDKPackage(mCallbackManager),
             new RNDeviceInfo(),
           new SplashScreenReactPackage() 

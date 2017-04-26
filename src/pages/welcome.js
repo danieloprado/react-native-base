@@ -3,11 +3,16 @@ import { StyleSheet, Dimensions, Image, StatusBar, Animated } from 'react-native
 import { NavigationActions } from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import { GoogleSignin } from 'react-native-google-signin';
+
 import Loader from '../components/loader';
 import BaseComponent from '../components/base';
 import theme from '../theme';
 import storage from '../services/storage';
+import toast from '../services/toast';
 import profileService from '../services/profile';
+import settings from '../settings';
+
 import {
   Container,
   Content,
@@ -31,6 +36,19 @@ export default class WelcomPage extends BaseComponent {
       animationClass: {},
       force: (this.params || {}).force
     };
+  }
+
+  async componentDidMount() {
+    try {
+      await GoogleSignin.hasPlayServices({ autoResolve: true });
+      await GoogleSignin.configure({
+        iosClientId: settings.googleApi.iosClientid,
+        webClientId: settings.googleApi.webClientId,
+        offlineAccess: true
+      });
+    } catch (err) {
+      toast('Um erro aconteceu...');
+    }
   }
 
   navigateToHome() {
@@ -80,19 +98,26 @@ export default class WelcomPage extends BaseComponent {
   }
 
   async loginFacebook() {
-    try {
-      const { isCancelled } = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
-      if (isCancelled) return;
+    const { isCancelled } = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+    if (isCancelled) return;
 
-      const { accessToken } = await AccessToken.getCurrentAccessToken();
-      this.refs.loader.fromObservable(profileService.register('facebook', accessToken))
-        .subscribe(() => {
-          this.completed();
-        });
-    } catch (error) {
-      console.log('error', error);
-      alert('Um erro aconteceu');
-    }
+    const { accessToken } = await AccessToken.getCurrentAccessToken();
+    this.register('facebook', accessToken);
+  }
+
+  async loginGoogle() {
+    const { accessToken } = await GoogleSignin.signIn();
+    this.register('google', accessToken);
+  }
+
+  register(provider, accessToken) {
+    this.refs.loader.fromObservable(
+      profileService.register(provider, accessToken)
+    ).subscribe(() => {
+      this.completed();
+    }, () => {
+      toast('Um erro aconteceu...');
+    });
   }
 
   render() {
@@ -118,7 +143,7 @@ export default class WelcomPage extends BaseComponent {
                     <Icon name='logo-facebook' />  
                     <Text>FACEBOOK</Text>
                   </Button>
-                  <Button iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
+                  <Button onPress={() => this.loginGoogle()} iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
                     <Icon name='logo-google' />  
                     <Text>GOOGLE</Text>                  
                   </Button>

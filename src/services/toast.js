@@ -1,5 +1,9 @@
-import { ToastAndroid } from 'react-native';
+import { ToastAndroid, Platform } from 'react-native';
 
 export default function show(message, duraction = ToastAndroid.LONG) {
-  ToastAndroid.showWithGravity(message, duraction, ToastAndroid.BOTTOM);
+  if (Platform.OS === 'ios') {
+    return alert(message);
+  }
+
+  ToastAndroid.show(message, duraction);
 }

@@ -96,7 +96,7 @@ export default class ChurchPage extends BaseComponent {
                   <ListItem
                     button
                     onPress={() => this.openPhone()}
-                  style={StyleSheet.flatten(styles.listItem)}>
+                    style={StyleSheet.flatten(styles.listItem)}>
                     <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
                       <Icon name="call" style={StyleSheet.flatten(theme.listIcon)} />
                     </Left>

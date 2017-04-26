@@ -8,4 +8,10 @@ const apiEndpoint = env === 'production' ?
 // `http://10.84.77.199:3001/api/app/${churchSlug}`;
 
 
-export default { env, churchSlug, apiEndpoint, apiTimeout };
+const googleApi = {
+  iosClientid: '808003968903-f53sinpkpe1sjc8jtaauho5ouemo1ere.apps.googleusercontent.com',
+  webClientId: '808003968903-apaspmu2kabjhpdv88ki1brmtgqv4o6r.apps.googleusercontent.com'
+};
+
+
+export default { env, churchSlug, apiEndpoint, apiTimeout, googleApi };

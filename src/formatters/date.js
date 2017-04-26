@@ -35,6 +35,13 @@ class DateFormatter {
   format(date, format) {
     return moment(date).format(format).replace('-feira', '');
   }
+
+  formatBirthday(value) {
+    if (!value || !(value instanceof Date) || isNaN(value.getTime())) return;
+
+    const format = value.getFullYear() === 1900 ? 'DD [de] MMMM' : 'DD [de] MMMM [de] YYYY';
+    return this.format(value, format);
+  }
 }
 
 export default new DateFormatter();

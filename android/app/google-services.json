@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "808003968903",
+    "firebase_url": "https://gifted-torus-149115.firebaseio.com",
+    "project_id": "gifted-torus-149115",
+    "storage_bucket": "gifted-torus-149115.appspot.com"
+  },
+  "client": [{
+    "client_info": {
+      "mobilesdk_app_id": "1:808003968903:android:5355359ce5226bc3",
+      "android_client_info": {
+        "package_name": "br.com.icbsorocaba.app"
+      }
+    },
+    "oauth_client": [{
+        "client_id": "808003968903-5gfhu1jej9ht7qo5n1aphahon4o96cft.apps.googleusercontent.com",
+        "client_type": 1,
+        "android_info": {
+          "package_name": "br.com.icbsorocaba.app",
+          "certificate_hash": "a0c6348353c30fa8110da1501aad310130373566"
+        }
+      },
+      {
+        "client_id": "808003968903-apaspmu2kabjhpdv88ki1brmtgqv4o6r.apps.googleusercontent.com",
+        "client_type": 3
+      }
+    ],
+    "api_key": [{
+      "current_key": "AIzaSyBMuqY-MooNwhhTclRzTgbemA3a88QB97Q"
+    }],
+    "services": {
+      "analytics_service": {
+        "status": 1
+      },
+      "appinvite_service": {
+        "status": 2,
+        "other_platform_oauth_client": [{
+            "client_id": "808003968903-apaspmu2kabjhpdv88ki1brmtgqv4o6r.apps.googleusercontent.com",
+            "client_type": 3
+          },
+          {
+            "client_id": "808003968903-f53sinpkpe1sjc8jtaauho5ouemo1ere.apps.googleusercontent.com",
+            "client_type": 2,
+            "ios_info": {
+              "bundle_id": "br.com.icbsorocaba.app"
+            }
+          }
+        ]
+      },
+      "ads_service": {
+        "status": 2
+      }
+    }
+  }],
+  "configuration_version": "1"
+}

@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Image } from 'react-native';
 import BaseComponent from '../components/base';
 import theme, { variables } from '../theme';
 import profileService from '../services/profile';
-// import toast from '../services/toast';
+import dateFormatter from '../formatters/date';
 import {
   Container,
   Content,
@@ -17,7 +17,9 @@ import {
   Text,
   View,
   H2,
-  Spinner
+  Spinner,
+  List,
+  ListItem
 } from 'native-base';
 
 export default class ProfilePage extends BaseComponent {
@@ -44,6 +46,20 @@ export default class ProfilePage extends BaseComponent {
 
   render() {
     const { profile, loading, error } = this.state;
+    let gender = null;
+
+    if (profile) {
+      switch (profile.gender) {
+        case 'm':
+          gender = 'Masculino';
+          break;
+        case 'f':
+          gender = 'Feminino';
+          break;
+        default:
+          gender = 'Não informado';
+      }
+    }
 
     return (
       <Container>
@@ -75,9 +91,46 @@ export default class ProfilePage extends BaseComponent {
               </Button>    
             </View> 
             :    
-            <View style={StyleSheet.flatten(styles.header)}>
-              <H2 style={StyleSheet.flatten(styles.headerText)}>{profile.fullName}</H2>
-            </View>
+            <View>
+                <View style={StyleSheet.flatten(styles.header)}>
+                { profile.avatar ?
+                  <Image style={StyleSheet.flatten(styles.avatarImg)} source={{ uri: profile.avatar }} />
+                  :
+                  <Icon name="contact" style={StyleSheet.flatten(styles.avatarIcon)} />
+                }
+                <H2 style={StyleSheet.flatten(styles.headerText)}>{profile.fullName}</H2>
+              </View>
+              <List style={StyleSheet.flatten(styles.list)}>
+                { !profile.email ? null :
+                  <ListItem style={StyleSheet.flatten(styles.listItem)}>
+                    <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
+                      <Icon name="mail" style={StyleSheet.flatten(theme.listIcon)} />
+                    </Left>
+                    <Body>
+                      <Text>{profile.email}</Text>
+                    </Body>
+                  </ListItem>
+                }
+                <ListItem style={StyleSheet.flatten(styles.listItem)}>
+                  <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
+                    <Icon name={profile.gender === 'f' ? 'female': 'male'} style={StyleSheet.flatten(theme.listIcon)} />
+                  </Left>
+                  <Body>
+                    <Text>{gender}</Text>
+                  </Body>
+                </ListItem>
+                { !profile.birthday ? null :
+                  <ListItem style={StyleSheet.flatten(styles.listItem)}>
+                    <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
+                      <Icon name="calendar" style={StyleSheet.flatten(theme.listIcon)} />
+                    </Left>
+                    <Body>
+                      <Text>{dateFormatter.formatBirthday(profile.birthday)}</Text>
+                    </Body>
+                  </ListItem>
+                }    
+              </List>    
+            </View>          
           }
         </Content>  
       </Container>
@@ -88,7 +141,9 @@ export default class ProfilePage extends BaseComponent {
 const styles = StyleSheet.create({
   header: {
     backgroundColor: variables.accent,
-    padding: 16
+    padding: 16,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   headerText: {
     color: 'white'
@@ -97,7 +152,26 @@ const styles = StyleSheet.create({
     color: 'white',
     opacity: 0.8
   },
+  avatarImg: {
+    width: 100,
+    height: 100,
+    borderRadius: 100,
+    marginBottom: 10,
+    borderColor: 'white',
+    borderWidth: 2
+  },
+  avatarIcon: {
+    marginBottom: 10,
+    color: 'white',
+    fontSize: 100
+  },
   content: {
     padding: 16
+  },
+  list: {
+    marginTop: 10
+  },
+  listItem: {
+    borderBottomWidth: 0
   }
 });

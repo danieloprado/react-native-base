@@ -13,6 +13,7 @@ export class ApiService {
       const body = data ? JSON.stringify(data) : null;
       return Observable
         .fromPromise(fetch(`${this.settings.apiEndpoint}/${url}`, { method, headers, body }))
+        .map(res => this.checkResponse(res))
         .do(res => this.checkNewToken(res))
         // .timeout(this.settings.apiTimeout)
         .flatMap(res => Observable.fromPromise(res.json()))
@@ -36,6 +37,14 @@ export class ApiService {
 
   post(url, body) {
     return this.http('POST', url, body);
+  }
+
+  checkResponse(response) {
+    if (response.ok) {
+      return response;
+    }
+
+    throw response;
   }
 
   checkNewToken(response) {
