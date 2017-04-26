@@ -1,3 +1,5 @@
+rm ICBSorocaba.apk
+rm ICBSorocaba-signed.apk
 (cd android && ./gradlew assembleRelease)
 mv android/app/build/outputs/apk/app-release-unsigned.apk ICBSorocaba.apk
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore android/app/release.keystore ICBSorocaba.apk churchapp

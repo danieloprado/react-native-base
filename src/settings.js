@@ -8,4 +8,4 @@ const apiEndpoint = env === 'production' ?
 // `http://10.84.77.199:3001/api/app/${churchSlug}`;
 
 
-export default { env, apiEndpoint, apiTimeout };
+export default { env, churchSlug, apiEndpoint, apiTimeout };

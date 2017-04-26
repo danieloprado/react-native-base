@@ -5,6 +5,7 @@ import SideMenu from './components/sideMenu';
 import Welcome from './pages/welcome';
 import Home from './pages/home';
 import Church from './pages//church';
+import Profile from './pages/profile';
 import Informative from './pages/informative';
 import InformativeDetails from './pages/informativeDetails';
 import Event from './pages/event';
@@ -12,6 +13,7 @@ import EventDetails from './pages/eventDetails';
 
 const appDrawer = DrawerNavigator({
   Home: { screen: Home },
+  Profile: { screen: Profile },
   Informative: { screen: Informative },
   Event: { screen: Event },
   Church: { screen: Church }
@@ -26,6 +28,7 @@ const appDrawer = DrawerNavigator({
 export default StackNavigator({
   Welcome: { screen: Welcome },
   Home: { screen: appDrawer },
+  Profile: { screen: appDrawer },
   Informative: { screen: appDrawer },
   InformativeDetails: { screen: InformativeDetails },
   Event: { screen: appDrawer },

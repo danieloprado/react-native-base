@@ -26,17 +26,18 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: platform.toolbarDefaultBg,
-    justifyContent: 'center',
+    // height: 200
+    flexDirection: 'row',
     alignItems: 'center',
-    height: 200
+    padding: 16
   },
   logo: {
-    height: 100,
-    width: 100
+    height: 80,
+    width: 80,
+    marginRight: 20
   },
   headerText: {
     fontSize: 20,
-    color: platform.toolbarTextColor,
-    marginTop: 10
+    color: platform.toolbarTextColor
   }
 });

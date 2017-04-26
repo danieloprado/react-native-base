@@ -32,7 +32,7 @@ export default class WelcomPage extends BaseComponent {
   navigateToHome() {
     const resetAction = NavigationActions.reset({
       index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Home' })]
+      actions: [NavigationActions.navigate({ routeName: 'Profile' })]
     });
 
     this.props.navigation.dispatch(resetAction);
