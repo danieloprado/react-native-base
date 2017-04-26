@@ -48,5 +48,8 @@ export default StyleSheet.create({
     width: 40,
     fontSize: 30,
     textAlign: 'center'
+  },
+  iconLarge: {
+    fontSize: 80
   }
 });

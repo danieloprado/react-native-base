@@ -37,11 +37,15 @@ export default class ProfilePage extends BaseComponent {
   }
 
   componentDidMount() {
-    profileService.get().subscribe(profile => {
+    this.profileStream$ = profileService.get().subscribe(profile => {
       this.setState({ loading: false, profile });
     }, () => {
       this.setState({ loading: false, error: true });
     });
+  }
+
+  componentWillUnmount() {
+    this.profileStream$.unsubscribe();
   }
 
   render() {
@@ -72,7 +76,13 @@ export default class ProfilePage extends BaseComponent {
           <Body>
               <Title>Perfil</Title>
           </Body>
-          <Right />
+          <Right>
+            { profile && 
+            <Button transparent onPress={() => this.navigate('ProfileEdit')}>
+               <Icon name='create' />
+            </Button>
+            }
+          </Right>
         </Header>
         <Content>
           { loading ?
@@ -84,11 +94,12 @@ export default class ProfilePage extends BaseComponent {
               <Text note>Não foi possível carregar</Text>
             </View>
             : !profile ?
-            <View style={StyleSheet.flatten(theme.alignCenter)}>
-              <Text note>Nãoentrou</Text>
-              <Button onPress={() => this.navigate('Welcome', { force: true })}>
+            <View style={StyleSheet.flatten([theme.emptyMessage, theme.alignCenter])}>
+              <Icon name="contact" style={StyleSheet.flatten([styles.loginIcon,theme.iconLarge])} />      
+              <Text style={StyleSheet.flatten(styles.loginText)}>Ainda não te conhecemos, mas gostaríamos de saber mais sobre você!</Text>
+              <Button block onPress={() => this.navigate('Welcome', { force: true })}>
                 <Text>Entrar</Text>
-              </Button>    
+              </Button>
             </View> 
             :    
             <View>
@@ -139,6 +150,15 @@ export default class ProfilePage extends BaseComponent {
 }
 
 const styles = StyleSheet.create({
+  loginIcon: {
+    marginTop: 20,
+    marginBottom: 10,
+    color: variables.accent
+  },
+  loginText: {
+    textAlign: 'center',
+    marginBottom: 20
+  },
   header: {
     backgroundColor: variables.accent,
     padding: 16,

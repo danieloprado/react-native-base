@@ -27,7 +27,7 @@ class ProfileService {
   }
 
   get(refresh = false) {
-    return this.tokenService.getToken().first().flatMap(token => {
+    return this.tokenService.getToken().flatMap(token => {
       if (!token) {
         return Observable.of(null);
       }

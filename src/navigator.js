@@ -6,6 +6,7 @@ import Welcome from './pages/welcome';
 import Home from './pages/home';
 import Church from './pages//church';
 import Profile from './pages/profile';
+import ProfileEdit from './pages/profileEdit';
 import Informative from './pages/informative';
 import InformativeDetails from './pages/informativeDetails';
 import Event from './pages/event';
@@ -29,6 +30,7 @@ export default StackNavigator({
   Welcome: { screen: Welcome },
   Home: { screen: appDrawer },
   Profile: { screen: appDrawer },
+  ProfileEdit: { screen: ProfileEdit },
   Informative: { screen: appDrawer },
   InformativeDetails: { screen: InformativeDetails },
   Event: { screen: appDrawer },

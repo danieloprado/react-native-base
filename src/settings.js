@@ -1,4 +1,5 @@
 const env = 'development';
+// const env = 'production';
 const churchSlug = 'icb-sorocaba';
 
 const apiTimeout = 15 * 1000;
