@@ -52,7 +52,7 @@ export default class WelcomPage extends BaseComponent {
   }
 
   navigateToHome() {
-    const page = this.state.force ? 'Profile' : 'ProfileEdit';
+    const page = this.state.force ? 'Profile' : 'Informative';
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: page })]
@@ -125,39 +125,37 @@ export default class WelcomPage extends BaseComponent {
     return (
       <Container>  
         <Loader ref="loader" />
-        <Content>
-          <View style={StyleSheet.flatten(styles.container)}>
-            <StatusBar backgroundColor="#000000"></StatusBar>  
-            <Image source={require('../images/background.png')} style={styles.background}>
-              <Image source={require('../images/logo.png')} style={styles.logo}/>
-              <Animated.View
-                onLayout={event => this.viewLoaded(event)}
-                style={this.state.animationClass}>
-                <Text style={StyleSheet.flatten(styles.welcome)}>
-                  Olá!
-                </Text>
-                <Text style={StyleSheet.flatten(styles.instructions)}>
-                  Gostaríamos de te conhecer
-                </Text>
-                <View style={StyleSheet.flatten(styles.buttons)}>
-                  <Button onPress={() => this.loginFacebook()} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
-                    <Icon name='logo-facebook' />  
-                    <Text>FACEBOOK</Text>
-                  </Button>
-                  <Button onPress={() => this.loginGoogle()} iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
-                    <Icon name='logo-google' />  
-                    <Text>GOOGLE</Text>                  
-                  </Button>
-                </View>
-                <View style={StyleSheet.flatten(styles.skipWrapper)}>
-                  <Button block transparent onPress={() => this.completed()}>
-                    <Text style={StyleSheet.flatten(styles.skipText)}>PULAR</Text>
-                  </Button>
-                </View>
-              </Animated.View>  
-            </Image>  
-          </View>    
-        </Content>  
+        <View style={StyleSheet.flatten(styles.container)}>
+          <StatusBar backgroundColor="#000000"></StatusBar>  
+          <Image source={require('../images/background.png')} style={styles.background}>
+            <Image source={require('../images/logo.png')} style={styles.logo}/>
+            <Animated.View
+              onLayout={event => this.viewLoaded(event)}
+              style={this.state.animationClass}>
+              <Text style={StyleSheet.flatten(styles.welcome)}>
+                Olá!
+              </Text>
+              <Text style={StyleSheet.flatten(styles.instructions)}>
+                Gostaríamos de te conhecer
+              </Text>
+              <View style={StyleSheet.flatten(styles.buttons)}>
+                <Button onPress={() => this.loginFacebook()} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
+                  <Icon name='logo-facebook' />  
+                  <Text>FACEBOOK</Text>
+                </Button>
+                <Button onPress={() => this.loginGoogle()} iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
+                  <Icon name='logo-google' />  
+                  <Text>GOOGLE</Text>                  
+                </Button>
+              </View>
+              <View style={StyleSheet.flatten(styles.skipWrapper)}>
+                <Button block transparent onPress={() => this.completed()}>
+                  <Text style={StyleSheet.flatten(styles.skipText)}>PULAR</Text>
+                </Button>
+              </View>
+            </Animated.View>  
+          </Image>  
+        </View>    
       </Container>
     );
   }
@@ -167,8 +165,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    height: Dimensions.get('screen').height
+    alignItems: 'center'
   },
   welcome: {
     fontSize: 30,

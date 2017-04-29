@@ -5,7 +5,7 @@ import { enInformativeType } from '../services/informative';
 import informativeRender from '../formatters/informativeRender';
 import {
   Container,
-  Content,
+  View,
   Header,
   Left,
   Right,
@@ -59,12 +59,12 @@ export default class InformativeDetailsPage extends BaseComponent {
             </Button>  
           </Right>  
         </Header>
-        <Content>
+        <View style={{flex: 1}}>
           <WebView
             source={{ html: this.state.html }}
             onMessage={event => this.setText(event.nativeEvent.data)}
-            style={{ height: 300 }} />
-        </Content>  
+            style={{flex: 1}} />
+        </View>  
       </Container>
     );
   }

@@ -41,7 +41,8 @@ export default function informativeRender(informative) {
           }
 
           h1 {
-            margin-top: 3rem;
+            margin-top: 4rem;
+            margin-bottom: 1rem;
             font-size: 24px;
             color: #86bd90;
           }
@@ -61,7 +62,7 @@ export default function informativeRender(informative) {
           }
 
           p {
-            margin-bottom: 0;
+            margin: 0;
           }
         </style>
       </head>
