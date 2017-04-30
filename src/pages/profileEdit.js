@@ -97,8 +97,8 @@ export default class ProfilePage extends BaseComponent {
             </View>
             :
             <Form>
-              <Field label="Nome" model={profile.firstName} error={validation['firstName']} onChange={v => this.updateModel('firstName', v)} />
-              <Field label="Sobrenome" model={profile.lastName} onChange={v => this.updateModel('lastName', v)} />
+              <Field label="Nome" model={profile} field="firstName" errors={validation} onChange={this.updateModel.bind(this)} />
+              <Field label="Sobrenome" model={profile} field="lastName" errors={validation} onChange={this.updateModel.bind(this)} />
             </Form>          
           }
         </Content>  

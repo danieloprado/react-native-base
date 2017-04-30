@@ -7,21 +7,22 @@ import { Item, Input, Text, View, Icon } from 'native-base';
 export default class Field extends BaseComponent {
   static propTypes = {
     label: React.PropTypes.string.isRequired,
-    model: React.PropTypes.any.isRequired,
+    model: React.PropTypes.object.isRequired,
+    field: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
-    error: React.PropTypes.array
+    errors: React.PropTypes.object
   };
 
   render() {
-    let { label, model, onChange, error } = this.props;
-    error = error || [];
-    let hasError = error.length > 0;
+    let { label, model, onChange, errors, field } = this.props;
+    const error = (errors || {})[field] || [];
+    const hasError = error.length > 0;
 
     return (
       <View style={StyleSheet.flatten(styles.container)}>
         <Text note style={StyleSheet.flatten(hasError ? styles.errorMessage: null)}>{label}</Text>
         <Item style={StyleSheet.flatten(styles.item)} error={hasError}>
-          <Input value={model} onChangeText={value => onChange(value)} style={StyleSheet.flatten(styles.input)}  />
+          <Input value={model[field]} onChangeText={value => onChange(field, value)} style={StyleSheet.flatten(styles.input)}  />
           {hasError && 
             <Icon name='close-circle' />
           }
