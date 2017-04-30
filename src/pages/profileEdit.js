@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import BaseComponent from '../components/base';
 import theme, { variables } from '../theme';
 import profileService from '../services/profile';
+import profileValidator from '../validators/profile';
 import {
   Container,
   Content,
@@ -38,7 +39,8 @@ export default class ProfilePage extends BaseComponent {
 
   componentDidMount() {
     profileService.get().first().subscribe(profile => {
-      this.setState({ loading: false, profile, firstName: 'Daniel' });
+      profileValidator.validate(profile).then(result => console.log(result));
+      this.setState({ loading: false, profile });
     }, () => {
       this.setState({ loading: false, error: true });
     });
@@ -71,7 +73,7 @@ export default class ProfilePage extends BaseComponent {
             </View>
             :
             <Form>
-                <Item floatingLabel error={true}>
+                <Item stackedLabel error={true}>
                   <Label>Nome</Label>
                   <Input value={this.state.firstName} onChangeText={firstName => this.setState({ firstName  }, true)}  />
                 </Item>

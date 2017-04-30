@@ -828,13 +828,9 @@ babel-types@^6.18.0, babel-types@^6.19.0, babel-types@^6.21.0, babel-types@^6.23
     lodash "^4.2.0"
     to-fast-properties "^1.0.1"
 
-babylon@^6.11.0, babylon@^6.13.0, babylon@^6.15.0, babylon@^6.17.0:
+babylon@^6.11.0, babylon@^6.13.0, babylon@^6.14.1, babylon@^6.15.0, babylon@^6.17.0:
   version "6.17.0"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.17.0.tgz#37da948878488b9c4e3c4038893fa3314b3fc932"
-
-babylon@^6.14.1:
-  version "6.16.1"
-  resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.16.1.tgz#30c5a22f481978a9e7f8cdfdf496b11d94b404d3"
 
 balanced-match@^0.4.1:
   version "0.4.2"
@@ -930,15 +926,9 @@ browser-resolve@^1.11.2:
   dependencies:
     resolve "1.1.7"
 
-bser@1.0.2:
+bser@1.0.2, bser@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/bser/-/bser-1.0.2.tgz#381116970b2a6deea5646dd15dd7278444b56169"
-  dependencies:
-    node-int64 "^0.4.0"
-
-bser@^1.0.2:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/bser/-/bser-1.0.3.tgz#d63da19ee17330a0e260d2a34422b21a89520317"
   dependencies:
     node-int64 "^0.4.0"
 
@@ -3031,16 +3021,16 @@ mute-stream@0.0.5:
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.5.tgz#8fbfabb0a98a253d3184331f9e8deb7372fac6c0"
 
-native-base-shoutem-theme@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/native-base-shoutem-theme/-/native-base-shoutem-theme-0.1.0.tgz#412ca5f46f4cd3b93ef7785024cb0ef7700c336a"
+native-base-shoutem-theme@0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/native-base-shoutem-theme/-/native-base-shoutem-theme-0.1.3.tgz#fa7e46832022a4388f239c2b376e745844d3bc24"
   dependencies:
     hoist-non-react-statics "^1.0.5"
     lodash "^4.10.1"
 
-native-base@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/native-base/-/native-base-2.1.2.tgz#5bb5a516b86b422ffa413953ffd00b7ebe204e71"
+native-base@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/native-base/-/native-base-2.1.3.tgz#22d238ea2caef8a53c0a2adbdd73a9bef728884a"
   dependencies:
     "@shoutem/animation" "^0.8.9"
     blueimp-md5 "^2.5.0"
@@ -3048,7 +3038,7 @@ native-base@^2.1.2:
     color "~0.11.1"
     fs-extra "^2.0.0"
     lodash "~4.11.1"
-    native-base-shoutem-theme "0.1.0"
+    native-base-shoutem-theme "0.1.3"
     print-message "^2.1.0"
     react-native-drawer "^2.3.0"
     react-native-easy-grid "0.1.7"
@@ -3512,9 +3502,9 @@ react-native-vector-icons@~4.0.0:
     lodash "^4.0.0"
     yargs "^6.3.0"
 
-react-native@0.43.3:
-  version "0.43.3"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.43.3.tgz#4f8e0d8d88827553789c02ef21cbc1afb68474d0"
+react-native@0.43.4:
+  version "0.43.4"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.43.4.tgz#92fb6937ab415b2e5612835a93a61845de98eb4d"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
@@ -4371,6 +4361,10 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
+
+validatorjs@^3.12.0:
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/validatorjs/-/validatorjs-3.12.0.tgz#6319f4ea872a323dd459000e2cbe9e632fd4816b"
 
 vary@~1.0.1:
   version "1.0.1"

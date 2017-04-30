@@ -52,7 +52,7 @@ export default class WelcomPage extends BaseComponent {
   }
 
   navigateToHome() {
-    const page = this.state.force ? 'Profile' : 'Informative';
+    const page = this.state.force ? 'Profile' : 'ProfileEdit';
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: page })]
