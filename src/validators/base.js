@@ -1,6 +1,7 @@
 import validator from 'validatorjs';
 import lang from 'validatorjs/src/lang';
-lang._set('en', {});
+import langPt from 'validatorjs/src/lang/pt';
+lang._set('en', langPt);
 
 export default class BaseValidator {
   rules = {};

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import BaseComponent from '../components/base';
+import Field from '../components/field';
 import theme, { variables } from '../theme';
 import profileService from '../services/profile';
 import profileValidator from '../validators/profile';
@@ -17,10 +18,7 @@ import {
   Text,
   View,
   Spinner,
-  Form,
-  Item,
-  Label,
-  Input
+  Form
 } from 'native-base';
 
 export default class ProfilePage extends BaseComponent {
@@ -34,20 +32,42 @@ export default class ProfilePage extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.state = { loading: true };
+    this.state = { loading: false, profile: { firstName: 'D', lastName: 'Prado' } };
   }
 
   componentDidMount() {
-    profileService.get().first().subscribe(profile => {
-      profileValidator.validate(profile).then(result => console.log(result));
-      this.setState({ loading: false, profile });
-    }, () => {
-      this.setState({ loading: false, error: true });
+    // profileService.get().first().subscribe(profile => {
+    //   profileValidator.validate(profile).then(result => console.log(result));
+    //   this.setState({ loading: false, profile });
+    // }, () => {
+    //   this.setState({ loading: false, error: true });
+    // });
+  }
+
+  updateModel(key, value) {
+    this.state.profile[key] = value;
+    this.setState({ profile: this.state.profile }, true);
+
+    clearTimeout(this.validationTimeout);
+    this.validationTimeout = setTimeout(() => this.validate().catch(() => {}), 100);
+  }
+
+  validate() {
+    return profileValidator.validate(this.state.profile).catch(errors => {
+      this.setState({ validation: errors });
+      return Promise.reject(errors);
+    });
+  }
+
+  save() {
+    this.validate().then(() => {
+      alert('ok');
     });
   }
 
   render() {
-    const { profile, loading, error } = this.state;
+    let { profile, loading, error, validation } = this.state;
+    validation = validation || {};
 
     return (
       <Container>
@@ -60,9 +80,13 @@ export default class ProfilePage extends BaseComponent {
           <Body>
               <Title>Editar</Title>
           </Body>
-          <Right />
+          <Right>
+            <Button transparent onPress={() => this.save()}>
+              <Icon name="checkmark" />
+            </Button>
+          </Right>
         </Header>
-        <Content>
+        <Content padder={true}>
           { loading ?
             <View style={StyleSheet.flatten(theme.alignCenter)}>
               <Spinner color={variables.accent} />
@@ -73,10 +97,8 @@ export default class ProfilePage extends BaseComponent {
             </View>
             :
             <Form>
-                <Item stackedLabel error={true}>
-                  <Label>Nome</Label>
-                  <Input value={this.state.firstName} onChangeText={firstName => this.setState({ firstName  }, true)}  />
-                </Item>
+              <Field label="Nome" model={profile.firstName} error={validation['firstName']} onChange={v => this.updateModel('firstName', v)} />
+              <Field label="Sobrenome" model={profile.lastName} onChange={v => this.updateModel('lastName', v)} />
             </Form>          
           }
         </Content>  
