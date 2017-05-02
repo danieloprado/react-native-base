@@ -21,6 +21,12 @@ import {
   Form
 } from 'native-base';
 
+const genderOptions = [
+  { value: null, display: 'Não informado' },
+  { value: 'm', display: 'Masculino' },
+  { value: 'f', display: 'Feminino' },
+];
+
 export default class ProfilePage extends BaseComponent {
   static navigationOptions = {
     headerVisible: false,
@@ -32,7 +38,7 @@ export default class ProfilePage extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.state = { loading: false, profile: { firstName: 'D', lastName: 'Prado' } };
+    this.state = { loading: false, profile: { firstName: 'Dan', lastName: 'Prado', birthday: new Date(1992, 0, 5) } };
   }
 
   componentDidMount() {
@@ -97,8 +103,12 @@ export default class ProfilePage extends BaseComponent {
             </View>
             :
             <Form>
+              <Text>{JSON.stringify(profile)}</Text>
               <Field label="Nome" model={profile} field="firstName" errors={validation} onChange={this.updateModel.bind(this)} />
               <Field label="Sobrenome" model={profile} field="lastName" errors={validation} onChange={this.updateModel.bind(this)} />
+              <Field label="Email" model={profile} field="email" type="email" errors={validation} onChange={this.updateModel.bind(this)} />
+              <Field label="Sexo" model={profile} field="gender" type="multi" options={genderOptions} errors={validation} onChange={this.updateModel.bind(this)} />
+              <Field label="Aniversário" model={profile} field="birthday" type="date" errors={validation} onChange={this.updateModel.bind(this)} />
             </Form>          
           }
         </Content>  
