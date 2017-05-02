@@ -3428,6 +3428,10 @@ react-devtools-core@^2.0.8:
     cross-env "^3.1.4"
     ws "^2.0.3"
 
+react-native-animatable@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.1.1.tgz#00ddc72985f62f62a11a505abb1a06e77a92cd8a"
+
 react-native-busy-indicator@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-busy-indicator/-/react-native-busy-indicator-1.1.0.tgz#bdbd938980c81e6a5bba095c70228497e3011378"
@@ -3477,6 +3481,19 @@ react-native-keyboard-aware-scroll-view@0.2.7:
   resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.2.7.tgz#dd344cec25284b6314f1cc9d1b75ba267483c6b6"
   dependencies:
     react-timer-mixin "^0.13.3"
+
+react-native-modal-datetime-picker@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-4.4.0.tgz#a60d3c2032035216241d24af3d3a7411b355be10"
+  dependencies:
+    moment "^2.18.1"
+    react-native-modal "^2.2.0"
+
+react-native-modal@^2.2.0:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-2.3.2.tgz#d616355e312d378a9dcd99de5565523b7b5b4c84"
+  dependencies:
+    react-native-animatable "^1.1.1"
 
 react-native-scrollable-tab-view@^0.7.1:
   version "0.7.4"
