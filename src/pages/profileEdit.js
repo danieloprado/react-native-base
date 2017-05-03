@@ -38,16 +38,15 @@ export default class ProfilePage extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.state = { loading: false, profile: { firstName: 'Dan', lastName: 'Prado', birthday: new Date(1992, 0, 5) } };
+    this.state = { loading: true };
   }
 
   componentDidMount() {
-    // profileService.get().first().subscribe(profile => {
-    //   profileValidator.validate(profile).then(result => console.log(result));
-    //   this.setState({ loading: false, profile });
-    // }, () => {
-    //   this.setState({ loading: false, error: true });
-    // });
+    profileService.get().first().subscribe(profile => {
+      this.setState({ loading: false, profile });
+    }, () => {
+      this.setState({ loading: false, error: true });
+    });
   }
 
   updateModel(key, value) {
@@ -103,7 +102,6 @@ export default class ProfilePage extends BaseComponent {
             </View>
             :
             <Form>
-              <Text>{JSON.stringify(profile)}</Text>
               <Field label="Nome" model={profile} field="firstName" errors={validation} onChange={this.updateModel.bind(this)} />
               <Field label="Sobrenome" model={profile} field="lastName" errors={validation} onChange={this.updateModel.bind(this)} />
               <Field label="Email" model={profile} field="email" type="email" errors={validation} onChange={this.updateModel.bind(this)} />

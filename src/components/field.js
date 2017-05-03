@@ -2,8 +2,9 @@ import React from 'react';
 import BaseComponent from './base';
 import { variables } from '../theme';
 import { StyleSheet } from 'react-native';
-import { Item, Input, Text, View, Icon, Picker } from 'native-base';
+import { Item, Input, Text, View, Icon, Picker, Button } from 'native-base';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import dateFormatter from '../formatters/date';
 
 const keyboardTypes = {
   'text': 'default',
@@ -48,12 +49,20 @@ export default class Field extends BaseComponent {
           </Picker>
           </View>
         : type === 'date' ?
-          <View>
-
+          <View onTouchStart={() => this.setState({ showDatePicker: true })}>
+            <Item style={StyleSheet.flatten(styles.item)} error={hasError}>
+              <Input
+                disabled
+                value={model[field] ? dateFormatter.format(model[field], 'DD [de] MMMM [de] YYYY') : null} 
+                style={StyleSheet.flatten(styles.input)} />
+              { hasError && <Icon name='close-circle' /> }
+            </Item>
             <DateTimePicker
-              isVisible={showDatePicker}
-              onConfirm={value => onChange(field, value)}
-            />
+                date={model[field]}
+                isVisible={showDatePicker}
+                onConfirm={value => this.setState({ showDatePicker: false }) && onChange(field, value)}
+                onCancel={() => this.setState({ showDatePicker: false })}
+              />
           </View>
         :
           <Item style={StyleSheet.flatten(styles.item)} error={hasError}>
@@ -71,19 +80,6 @@ export default class Field extends BaseComponent {
   }
 
 }
-
-const datePickerStyle = {
-  dateIcon: {
-
-  },
-  dateInput: {
-    borderWidth: variables.borderWidth * 2,
-    borderTopWidth: 0,
-    borderRightWidth: 0,
-    borderLeftWidth: 0,
-    borderColor: variables.inputBorderColor
-  }
-};
 
 const styles = StyleSheet.create({
   container: {
