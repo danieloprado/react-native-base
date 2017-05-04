@@ -39,7 +39,7 @@ export default StyleSheet.create({
     alignItems: 'flex-end'
   },
   listIconWrapper: {
-    maxWidth: 40,
+    maxWidth: 45,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'

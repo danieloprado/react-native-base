@@ -19,7 +19,8 @@ import {
   Text,
   View,
   Spinner,
-  Form
+  Form,
+  List
 } from 'native-base';
 
 const genderOptions = [
@@ -28,15 +29,7 @@ const genderOptions = [
   { value: 'f', display: 'Feminino' },
 ];
 
-export default class ProfilePage extends BaseComponent {
-  static navigationOptions = {
-    headerVisible: false,
-    drawerLabel: 'Perfil',
-    drawerIcon: ({ tintColor }) => (
-      <Icon name="contact" style={{ color: tintColor }} />
-    )
-  };
-
+export default class ProfileEditPage extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = { loading: true };
@@ -87,7 +80,7 @@ export default class ProfilePage extends BaseComponent {
             </Button>
           </Left>
           <Body>
-              <Title>Editar</Title>
+              <Title>Atualizar Perfil</Title>
           </Body>
           <Right>
             <Button transparent onPress={() => this.save()}>
@@ -106,12 +99,16 @@ export default class ProfilePage extends BaseComponent {
             </View>
             :
             <Form>
-              <Field label="Nome" model={profile} field="firstName" errors={validation} onChange={this.updateModel.bind(this)} />
-              <Field label="Sobrenome" model={profile} field="lastName" errors={validation} onChange={this.updateModel.bind(this)} />
-              <Field label="Email" model={profile} field="email" type="email" errors={validation} onChange={this.updateModel.bind(this)} />
-              <Field label="Sexo" model={profile} field="gender" type="multi" options={genderOptions} errors={validation} onChange={this.updateModel.bind(this)} />
-              <Field label="Aniversário" model={profile} field="birthday" type="date" errors={validation} onChange={this.updateModel.bind(this)} />
-            </Form>          
+              <List>
+                <Field label="Nome" icon="person" model={profile} field="firstName" errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field label="Sobrenome" icon="empty" model={profile} field="lastName" errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field label="Email" icon="mail" model={profile} field="email" type="email" errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field label="Sexo" icon="male" model={profile} field="gender" type="multi" options={genderOptions} errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field label="Aniversário" icon="calendar" model={profile} field="birthday" type="date" errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field label="Cep" icon="pin" model={profile} field="cep" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field label="Endereço" icon="empty" model={profile} field="address" errors={validation} onChange={this.updateModel.bind(this)} />
+              </List>
+            </Form>
           }
         </Content>  
       </Container>
