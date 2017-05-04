@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Dimensions, Image, StatusBar, Animated } from 'react-native';
+import { StyleSheet, Image, StatusBar, Animated } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import SplashScreen from 'react-native-splash-screen';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
@@ -15,7 +15,6 @@ import settings from '../settings';
 
 import {
   Container,
-  Content,
   Text,
   View,
   Button,
@@ -52,7 +51,7 @@ export default class WelcomPage extends BaseComponent {
   }
 
   navigateToHome() {
-    const page = this.state.force ? 'Profile' : 'ProfileEdit';
+    const page = this.state.force ? 'Profile' : 'Profile';
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: page })]

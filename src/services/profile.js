@@ -1,44 +1,48 @@
-import { Observable } from 'rxjs';
 import device from 'react-native-device-info';
 import dateFormatter from '../formatters/date';
 import api from './api';
 import cache from './cache';
 import tokenService from './token';
 import settings from '../settings';
+import { Observable, Subject } from 'rxjs';
 
 class ProfileService {
 
-  constructor(apit, settings, cache, tokenService, dateFormatter) {
-    this.api = api;
-    this.settings = settings;
-    this.cache = cache;
-    this.tokenService = tokenService;
-    this.dateFormatter = dateFormatter;
+  constructor() {
+    this.profileUpdate$ = new Subject();
   }
 
   register(provider, accessToken) {
     const deviceId = device.getUniqueID();
-    const application = this.settings.churchSlug;
+    const application = settings.churchSlug;
     const name = `${device.getManufacturer()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`;
 
-    return this.api.post('register', { deviceId, name, application, provider, accessToken }).flatMap(res => {
-      return this.tokenService.setToken(res);
+    return api.post('register', { deviceId, name, application, provider, accessToken }).flatMap(res => {
+      return tokenService.setToken(res);
     });
   }
 
   get(refresh = false) {
-    return this.tokenService.getToken().flatMap(token => {
+    return tokenService.getToken().flatMap(token => {
       if (!token) {
         return Observable.of(null);
       }
 
-      const stream$ = this.api.get('profile');
-      return this.cache.from('service-profile', stream$, refresh).map(profile => {
-        return this.dateFormatter.parseObj(profile);
-      });
+      const stream$ = api.get('profile');
+      return cache.from('service-profile', stream$, refresh).map(profile => {
+        return dateFormatter.parseObj(profile);
+      }).concat(this.profileUpdate$);
+    });
+  }
+
+  save(model) {
+    return api.post('profile', model).map(profile => {
+      profile = dateFormatter.parseObj(profile);
+      this.profileUpdate$.next(profile);
+      return profile;
     });
   }
 
 }
 
-export default new ProfileService(api, settings, cache, tokenService, dateFormatter);
+export default new ProfileService();

@@ -12,7 +12,6 @@ export default class Loader extends BaseComponent {
   constructor(props) {
     super(props);
     this.state = { show: false };
-    // setTimeout(() => this.hide(), 3000);
   }
 
   fromObservable(stream$) {

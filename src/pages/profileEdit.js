@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import BaseComponent from '../components/base';
 import Field from '../components/field';
 import theme, { variables } from '../theme';
+import Loader from '../components/loader';
 import profileService from '../services/profile';
 import profileValidator from '../validators/profile';
 import {
@@ -42,7 +43,7 @@ export default class ProfilePage extends BaseComponent {
   }
 
   componentDidMount() {
-    profileService.get().first().subscribe(profile => {
+    profileService.get(true).first().subscribe(profile => {
       this.setState({ loading: false, profile });
     }, () => {
       this.setState({ loading: false, error: true });
@@ -66,8 +67,10 @@ export default class ProfilePage extends BaseComponent {
 
   save() {
     this.validate().then(() => {
-      alert('ok');
-    });
+      this.refs.loader.fromObservable(profileService.save(this.state.profile)).subscribe(() => {
+        this.goBack();
+      });
+    }).catch(() => {});
   }
 
   render() {
@@ -76,6 +79,7 @@ export default class ProfilePage extends BaseComponent {
 
     return (
       <Container>
+        <Loader ref="loader" />
         <Header>
           <Left>
             <Button transparent onPress={() => this.goBack()}>
