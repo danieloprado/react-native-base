@@ -4,18 +4,12 @@ import dateFormatter from '../formatters/date';
 
 class EventService {
 
-  constructor(cache, api, dateFormatter) {
-    this.cache = cache;
-    this.api = api;
-    this.dateFormatter = dateFormatter;
-  }
-
   list(refresh = false) {
-    const stream$ = this.api.get('events');
+    const stream$ = api.get('events');
 
-    return this.cache.from('service-event-list', stream$, refresh).map(data => {
+    return cache.from('service-event-list', stream$, refresh).map(data => {
       return (data || []).map(event => {
-        event.dates = event.dates.map(d => this.dateFormatter.parseObj(d));
+        event.dates = event.dates.map(d => dateFormatter.parseObj(d));
         return event;
       }).sort((a, b) => this.sortByFirstDate(a, b));
     });
@@ -33,4 +27,4 @@ class EventService {
 
 }
 
-export default new EventService(cache, api, dateFormatter);
+export default new EventService();

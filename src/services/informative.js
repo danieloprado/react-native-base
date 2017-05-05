@@ -9,19 +9,13 @@ export const enInformativeType = {
 
 class InformativeService {
 
-  constructor(cache, api, dateFormatter) {
-    this.cache = cache;
-    this.api = api;
-    this.dateFormatter = dateFormatter;
-  }
-
   list(refresh = false) {
-    const stream$ = this.api.get('informatives');
+    const stream$ = api.get('informatives');
 
-    return this.cache.from('service-informative-list', stream$, refresh).map(data => {
+    return cache.from('service-informative-list', stream$, refresh).map(data => {
       return (data || []).map(informative => {
         informative.icon = informative.typeId === enInformativeType.cell ? 'home' : 'paper';
-        return this.dateFormatter.parseObj(informative);
+        return dateFormatter.parseObj(informative);
       });
     });
   }
@@ -32,4 +26,4 @@ class InformativeService {
 
 }
 
-export default new InformativeService(cache, api, dateFormatter);
+export default new InformativeService();

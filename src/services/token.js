@@ -2,11 +2,9 @@ import { BehaviorSubject } from 'rxjs/Rx';
 import storage from './storage';
 
 class TokenService {
-  constructor(storage) {
-    this.storage = storage;
-
+  constructor() {
     this.authToken$ = new BehaviorSubject(null);
-    this.storage.get('authToken').subscribe(token => {
+    storage.get('authToken').subscribe(token => {
       this.token = token;
       this.authToken$.next(token);
     });
@@ -17,7 +15,7 @@ class TokenService {
   }
 
   setToken(token) {
-    return this.storage.set('authToken', token).do(() => {
+    return storage.set('authToken', token).do(() => {
       this.token = token;
       this.authToken$.next(token);
     });
@@ -29,7 +27,7 @@ class TokenService {
 
   setAccessToken(accessToken) {
     this.token.accessToken = accessToken;
-    return this.storage.set('authToken', this.token).do(() => {
+    return storage.set('authToken', this.token).do(() => {
       this.authToken$.next(this.token);
     });
   }

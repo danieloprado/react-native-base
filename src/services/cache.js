@@ -6,9 +6,7 @@ import storage from './storage';
 export class EmptyCache extends Error {}
 
 export class Cache {
-  constructor(storage, settings) {
-    this.settings = settings;
-    this.storage = storage;
+  constructor() {
     this.connected = false;
 
     NetInfo.isConnected.addEventListener('change', isConnected => {
@@ -36,7 +34,13 @@ export class Cache {
               observer.next(cache.data);
               observer.complete();
             }),
-            error: error => observer.error(error)
+            error: error => {
+              if (refresh && cache && this.connected) {
+                observer.next(cache);
+              }
+
+              observer.error(error);
+            }
           });
           return;
         }
@@ -48,20 +52,20 @@ export class Cache {
   }
 
   isExpirated(cache) {
-    if (this.settings.env === 'development') return true;
+    if (settings.env === 'development') return true;
 
     const difference = Date.now() - new Date(cache.createdAt).getTime();
     return (difference / 1000 / 60) > 5; //5 minutes
   }
 
   getData(key) {
-    return this.storage.get(key);
+    return storage.get(key);
   }
 
   saveData(key, data) {
-    return this.storage.set(key, { createdAt: new Date(), data });
+    return storage.set(key, { createdAt: new Date(), data });
   }
 
 }
 
-export default new Cache(storage, settings);
+export default new Cache();

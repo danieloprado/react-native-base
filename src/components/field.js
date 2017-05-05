@@ -17,7 +17,7 @@ export default class Field extends BaseComponent {
   static propTypes = {
     label: React.PropTypes.string.isRequired,
     icon: React.PropTypes.string,
-    type: React.PropTypes.oneOf(['text', 'email', 'multi', 'date', 'number']),
+    type: React.PropTypes.oneOf(['text', 'email', 'dropdown', 'dialog', 'date', 'number']),
     options: React.PropTypes.any,
     model: React.PropTypes.object.isRequired,
     field: React.PropTypes.string.isRequired,
@@ -46,11 +46,12 @@ export default class Field extends BaseComponent {
         <Body>
           <View>
           <Text note style={StyleSheet.flatten(hasError ? styles.errorMessage: null)}>{label}</Text>
-          { type === 'multi' ?
+          { type === 'dropdown' || type === 'dialog' ?
             <View style={StyleSheet.flatten(styles.picker)}>
               <Picker
-                iosHeader="Selecione"
-                mode="dropdown"
+                iosHeader={label}
+                mode={type}
+                prompt={label}
                 selectedValue={model[field]}
                 onValueChange={value => onChange(field, value)}>
                 {options.map(option => 

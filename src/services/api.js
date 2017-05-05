@@ -4,23 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import tokenService from './token';
 
 export class ApiService {
-  constructor(fetch, settings, tokenService) {
+  constructor() {
     const headers = { 'Content-type': 'application/json' };
-
-    this.settings = settings;
-    this.tokenService = tokenService;
-    this.http = (method, url, data = null) => {
-      const body = data ? JSON.stringify(data) : null;
-      return Observable
-        .fromPromise(fetch(`${this.settings.apiEndpoint}/${url}`, { method, headers, body }))
-        .map(res => this.checkResponse(res))
-        .do(res => this.checkNewToken(res))
-        // .timeout(this.settings.apiTimeout)
-        .flatMap(res => Observable.fromPromise(res.json()))
-        .catch(err => this.errorHandler(err));
-    };
-
-    this.tokenService.getToken().subscribe(tokens => {
+    tokenService.getToken().subscribe(tokens => {
       delete headers['Authorization'];
       delete headers['RefreshToken'];
 
@@ -29,6 +15,17 @@ export class ApiService {
         headers['RefreshToken'] = tokens.refreshToken;
       }
     });
+
+    this.http = (method, url, data = null) => {
+      const body = data ? JSON.stringify(data) : null;
+      return Observable
+        .fromPromise(fetch(`${settings.apiEndpoint}/${url}`, { method, headers, body }))
+        .map(res => this.checkResponse(res))
+        .do(res => this.checkNewToken(res))
+        // .timeout(settings.apiTimeout)
+        .flatMap(res => Observable.fromPromise(res.json()))
+        .catch(err => this.errorHandler(err));
+    };
   }
 
   get(url) {
@@ -51,18 +48,18 @@ export class ApiService {
     const accessToken = response.headers.get('X-Token');
 
     if (accessToken) {
-      this.tokenService.setAccessToken(accessToken).subscribe();
+      tokenService.setAccessToken(accessToken).subscribe();
     }
   }
 
   errorHandler(err) {
-    if (this.settings.env === 'development') {
+    if (settings.env === 'development') {
       console.log('******* API ERROR ********');
       console.log(err);
     }
 
     if (err.status === 401) {
-      return this.tokenService.clearToken().flatMap(() => {
+      return tokenService.clearToken().flatMap(() => {
         return Observable.throw(err);
       });
     }
@@ -72,4 +69,4 @@ export class ApiService {
 
 }
 
-export default new ApiService(fetch, settings, tokenService);
+export default new ApiService();
