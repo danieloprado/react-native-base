@@ -1,5 +1,7 @@
 const env = 'development';
 // const env = 'production';
+const isDevelopment = env === 'development';
+
 const churchSlug = 'icb-sorocaba';
 const defaultAddress = {
   state: 'SP',
@@ -19,4 +21,4 @@ const googleApi = {
 };
 
 
-export default { env, churchSlug, apiEndpoint, apiTimeout, googleApi, defaultAddress };
+export default { env, isDevelopment, churchSlug, apiEndpoint, apiTimeout, googleApi, defaultAddress };

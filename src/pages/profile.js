@@ -140,6 +140,16 @@ export default class ProfilePage extends BaseComponent {
                     </Body>
                   </ListItem>
                 }    
+                { !profile.fullAddress ? null :
+                  <ListItem style={StyleSheet.flatten(styles.listItem)}>
+                    <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
+                      <Icon name="pin" style={StyleSheet.flatten(theme.listIcon)} />
+                    </Left>
+                    <Body>
+                      <Text>{profile.fullAddress}</Text>
+                    </Body>
+                  </ListItem>
+                }    
               </List>    
             </View>          
           }

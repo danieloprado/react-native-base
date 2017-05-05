@@ -4,6 +4,7 @@ import BaseComponent from '../components/base';
 import Field from '../components/field';
 import theme, { variables } from '../theme';
 import Loader from '../components/loader';
+import toast from '../services/toast';
 import profileService from '../services/profile';
 import addressService from '../services/address';
 import profileValidator from '../validators/profile';
@@ -36,66 +37,56 @@ export default class ProfileEditPage extends BaseComponent {
     super(props);
     this.state = {
       loading: true,
-      addressStates: [
-        { value: null, display: 'Não informado' },
-        ...addressService.states()
-      ],
-      addressCities: [
-        { value: null, display: 'Selecione o estado' },
-      ]
+      addressStates: addressService.states(),
+      addressCities: []
     };
   }
 
   componentDidMount() {
     profileService.get(true).first().subscribe(profile => {
-      this.setState({ loading: false, profile });
-      this.loadCities(profile);
+      const addressCities = addressService.citites(profile ? profile.state : null);
+      this.setState({ loading: false, profile, addressCities });
     }, () => {
       this.setState({ loading: false, error: true });
     });
   }
 
   updateModel(key, value) {
-    this.state.profile[key] = value;
-    this.setState({ profile: this.state.profile }, true);
+    let { profile, addressCities } = this.state;
+    profile[key] = value;
 
     if (key === 'state') {
-      this.loadCities(this.state.profile);
+      addressCities = addressService.citites(value);
     }
 
-    clearTimeout(this.validationTimeout);
-    this.validationTimeout = setTimeout(() => this.validate().catch(() => {}), 100);
-  }
-
-  loadCities(profile) {
-    let addressCities = [{ value: null, display: 'Selecione o estado' }];
-
-    if (profile && profile.state) {
-      addressCities = [
-        { value: null, display: 'Não informado' },
-        ...addressService.citites(profile.state)
-      ];
-    }
-
-    this.setState({ addressCities });
+    profileValidator.validate(this.state.profile).then(() => {
+      this.setState({ validation: {}, profile, addressCities }, true);
+    }).catch(errors => {
+      this.setState({ validation: errors, profile, addressCities }, true);
+    });
   }
 
   validate() {
     return profileValidator.validate(this.state.profile).then(() => {
-      this.setState({ validation: {} });
+      this.setState({ validation: {} }, true);
     }).catch(errors => {
       this.setState({ validation: errors });
-      return Promise.reject(errors);
+      return Promise.reject(errors, true);
     });
   }
 
   save() {
-    clearTimeout(this.validationTimeout);
-    this.validate().then(() => {
+    profileValidator.validate(this.state.profile).then(() => {
+      this.setState({ validation: {} });
       this.refs.loader.fromObservable(profileService.save(this.state.profile)).subscribe(() => {
         this.goBack();
+      }, err => {
+        toast('Não foi possível salvar');
+        console.log(err);
       });
-    }).catch(() => {});
+    }).catch(errors => {
+      this.setState({ validation: errors });
+    });
   }
 
   render() {
@@ -115,9 +106,11 @@ export default class ProfileEditPage extends BaseComponent {
               <Title>Atualizar Perfil</Title>
           </Body>
           <Right>
+            {!loading && !error  &&
             <Button transparent onPress={() => this.save()}>
               <Icon name="checkmark" />
             </Button>
+            }
           </Right>
         </Header>
         <Content>
@@ -140,8 +133,10 @@ export default class ProfileEditPage extends BaseComponent {
                 <Field label="Sexo" icon="male" model={profile} field="gender" type="dropdown" options={genderOptions} errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Aniversário" icon="calendar" model={profile} field="birthday" type="date" errors={validation} onChange={this.updateModel.bind(this)} />
                 
-                <Field label="Cep" icon="pin" model={profile} field="cep" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field label="Cep" icon="pin" model={profile} field="zipcode" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Endereço" icon="empty" model={profile} field="address" errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field label="Número" icon="empty" model={profile} field="number" errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field label="Complemento" icon="empty" model={profile} field="complement" errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Estado" icon="empty" model={profile} field="state" type="dialog" options={addressStates} errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Cidade" icon="empty" model={profile} field="city" type="dialog" options={addressCities} errors={validation} onChange={this.updateModel.bind(this)} />
               </List>

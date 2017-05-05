@@ -8,7 +8,7 @@ class ProfileValidator extends BaseValidator {
     email: 'string|email|max:150',
     gender: 'string|in:f,m',
     birthday: 'date',
-    cep: 'string|max:8',
+    cep: 'string|min:8|max:8',
     address: 'string|max:150',
     city: 'string|max:100',
     state: 'string|max:2',

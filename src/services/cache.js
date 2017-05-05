@@ -36,7 +36,7 @@ export class Cache {
             }),
             error: error => {
               if (refresh && cache && this.connected) {
-                observer.next(cache);
+                observer.next(cache.data);
               }
 
               observer.error(error);

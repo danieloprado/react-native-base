@@ -3,6 +3,7 @@ import settings from '../settings';
 class AddressService {
   constructor() {
     this._states = [
+      { value: null, display: 'Não informado' },
       STATES.filter(s => s.code === settings.defaultAddress.state).map(state => {
         return { value: state.code, display: state.name };
       })[0],
@@ -16,12 +17,15 @@ class AddressService {
     return this._states;
   }
 
-  citites(stateCode) {
-    return STATES.filter(state => state.code === stateCode).map(state => {
-      return state.cities.map(city => {
-        return { value: city, display: city };
-      });
-    })[0];
+  citites(stateCode = null) {
+    return [
+      { value: null, display: stateCode ? 'Não informado' : 'Selecione o estado' },
+      ...(STATES.filter(state => state.code === stateCode).map(state => {
+        return state.cities.map(city => {
+          return { value: city, display: city };
+        });
+      })[0] || [])
+    ];
   }
 
 }

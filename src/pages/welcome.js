@@ -51,7 +51,12 @@ export default class WelcomPage extends BaseComponent {
   }
 
   navigateToHome() {
-    const page = this.state.force ? 'Profile' : 'ProfileEdit';
+    let page = this.state.force ? 'Profile' : 'Home';
+
+    if (settings.isDevelopment) {
+      page = 'ProfileEdit';
+    }
+
     const resetAction = NavigationActions.reset({
       index: 0,
       actions: [NavigationActions.navigate({ routeName: page })]
