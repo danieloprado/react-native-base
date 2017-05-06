@@ -88,10 +88,10 @@ android {
 
     defaultConfig {
         applicationId "br.com.icbsorocaba.app"
-        minSdkVersion 16
-        targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 17
+        targetSdkVersion 23
+        versionCode 2
+        versionName "2.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
