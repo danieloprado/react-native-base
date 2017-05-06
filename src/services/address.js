@@ -21,9 +21,14 @@ class AddressService {
     return [
       { value: null, display: stateCode ? 'Não informado' : 'Selecione o estado' },
       ...(STATES.filter(state => state.code === stateCode).map(state => {
-        return state.cities.map(city => {
-          return { value: city, display: city };
-        });
+        return [
+          ...state.cities.filter(c => c === settings.defaultAddress.city).map(city => {
+            return { value: city, display: city };
+          }),
+          ...state.cities.filter(c => c !== settings.defaultAddress.city).map(city => {
+            return { value: city, display: city };
+          })
+        ];
       })[0] || [])
     ];
   }

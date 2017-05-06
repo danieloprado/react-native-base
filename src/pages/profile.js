@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, Alert } from 'react-native';
 import BaseComponent from '../components/base';
 import theme, { variables } from '../theme';
 import profileService from '../services/profile';
 import dateFormatter from '../formatters/date';
+import tokenService from '../services/token';
 import {
   Container,
   Content,
@@ -48,6 +49,16 @@ export default class ProfilePage extends BaseComponent {
     this.profileStream$.unsubscribe();
   }
 
+  logout() {
+    Alert.alert(
+      'Confirmar',
+      'Deseja realmente sair?', [
+        { text: 'Não', style: 'cancel' },
+        { text: 'Sim', onPress: () => tokenService.clearToken().subscribe() }
+      ], { cancelable: false }
+    );
+  }
+
   render() {
     const { profile, loading, error } = this.state;
     let gender = null;
@@ -78,7 +89,7 @@ export default class ProfilePage extends BaseComponent {
           </Body>
           <Right>
             { profile && 
-            <Button transparent onPress={() => this.navigate('ProfileEdit')}>
+            <Button transparent onPress={() => this.navigate('ProfileEdit', { profile })}>
                <Icon name='create' />
             </Button>
             }
@@ -98,7 +109,7 @@ export default class ProfilePage extends BaseComponent {
               <Icon name="contact" style={StyleSheet.flatten([styles.loginIcon,theme.iconLarge])} />      
               <Text style={StyleSheet.flatten(styles.loginText)}>Ainda não te conhecemos, mas gostaríamos de saber mais sobre você!</Text>
               <Button block onPress={() => this.navigate('Welcome', { force: true })}>
-                <Text>Entrar</Text>
+                <Text>ENTRAR</Text>
               </Button>
             </View> 
             :    
@@ -151,6 +162,9 @@ export default class ProfilePage extends BaseComponent {
                   </ListItem>
                 }    
               </List>    
+              <Button block light style={StyleSheet.flatten(styles.logoutButton)} onPress={() => this.logout()}>
+                <Text>SAIR</Text>
+              </Button>
             </View>          
           }
         </Content>  
@@ -203,5 +217,8 @@ const styles = StyleSheet.create({
   },
   listItem: {
     borderBottomWidth: 0
+  },
+  logoutButton: {
+    margin: 16
   }
 });

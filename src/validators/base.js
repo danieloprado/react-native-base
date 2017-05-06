@@ -3,6 +3,10 @@ import lang from 'validatorjs/src/lang';
 import langPt from 'validatorjs/src/lang/pt';
 lang._set('en', langPt);
 
+validator.register('zipcode', value => {
+  return /^\d{8}$/g.test(value);
+}, 'Inválido');
+
 export default class BaseValidator {
   rules = {};
   messages = {

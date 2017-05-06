@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import BaseComponent from '../components/base';
 import Field from '../components/field';
-import theme, { variables } from '../theme';
 import Loader from '../components/loader';
 import toast from '../services/toast';
 import profileService from '../services/profile';
@@ -18,9 +17,7 @@ import {
   Button,
   Title,
   Icon,
-  Text,
   View,
-  Spinner,
   Form,
   List
 } from 'native-base';
@@ -35,20 +32,12 @@ const genderOptions = [
 export default class ProfileEditPage extends BaseComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      loading: true,
-      addressStates: addressService.states(),
-      addressCities: []
-    };
-  }
 
-  componentDidMount() {
-    profileService.get(true).first().subscribe(profile => {
-      const addressCities = addressService.citites(profile ? profile.state : null);
-      this.setState({ loading: false, profile, addressCities });
-    }, () => {
-      this.setState({ loading: false, error: true });
-    });
+    this.state = {
+      profile: this.params.profile,
+      addressStates: addressService.states(),
+      addressCities: addressService.citites(this.params.profile.state)
+    };
   }
 
   updateModel(key, value) {
@@ -76,9 +65,9 @@ export default class ProfileEditPage extends BaseComponent {
   }
 
   save() {
-    profileValidator.validate(this.state.profile).then(() => {
+    profileValidator.validate(this.state.profile).then(model => {
       this.setState({ validation: {} });
-      this.refs.loader.fromObservable(profileService.save(this.state.profile)).subscribe(() => {
+      this.refs.loader.fromObservable(profileService.save(model)).subscribe(() => {
         this.goBack();
       }, err => {
         toast('Não foi possível salvar');
@@ -90,7 +79,7 @@ export default class ProfileEditPage extends BaseComponent {
   }
 
   render() {
-    let { profile, loading, error, validation, addressStates, addressCities } = this.state;
+    let { profile, validation, addressStates, addressCities } = this.state;
     validation = validation || {};
 
     return (
@@ -106,24 +95,13 @@ export default class ProfileEditPage extends BaseComponent {
               <Title>Atualizar Perfil</Title>
           </Body>
           <Right>
-            {!loading && !error  &&
             <Button transparent onPress={() => this.save()}>
               <Icon name="checkmark" />
             </Button>
-            }
           </Right>
         </Header>
         <Content>
           <View style={StyleSheet.flatten(styles.container)}>
-          { loading ?
-            <View style={StyleSheet.flatten(theme.alignCenter)}>
-              <Spinner color={variables.accent} />
-            </View>
-            : error ?  
-            <View style={StyleSheet.flatten(theme.emptyMessage)}>
-              <Text note>Não foi possível carregar</Text>
-            </View>
-            :
             <Form>
               <List>
                 <Field label="Nome" icon="person" model={profile} field="firstName" errors={validation} onChange={this.updateModel.bind(this)} />
@@ -137,11 +115,11 @@ export default class ProfileEditPage extends BaseComponent {
                 <Field label="Endereço" icon="empty" model={profile} field="address" errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Número" icon="empty" model={profile} field="number" errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Complemento" icon="empty" model={profile} field="complement" errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field label="Bairro" icon="empty" model={profile} field="neighborhood" errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Estado" icon="empty" model={profile} field="state" type="dialog" options={addressStates} errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Cidade" icon="empty" model={profile} field="city" type="dialog" options={addressCities} errors={validation} onChange={this.updateModel.bind(this)} />
               </List>
             </Form>
-          }
           </View>
         </Content>  
       </Container>
@@ -152,6 +130,6 @@ export default class ProfileEditPage extends BaseComponent {
 const styles = StyleSheet.create({
   container: {
     padding: 8,
-    paddingBottom: 16
+    paddingBottom: 30
   }
 });

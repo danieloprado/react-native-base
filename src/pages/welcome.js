@@ -54,7 +54,7 @@ export default class WelcomPage extends BaseComponent {
     let page = this.state.force ? 'Profile' : 'Home';
 
     if (settings.isDevelopment) {
-      page = 'ProfileEdit';
+      page = 'Profile';
     }
 
     const resetAction = NavigationActions.reset({
