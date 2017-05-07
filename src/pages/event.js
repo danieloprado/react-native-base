@@ -144,11 +144,12 @@ const styles = StyleSheet.create({
   listItem: {
     borderBottomWidth: 0,
     marginLeft: 0,
-    paddingTop: 6,
-    paddingBottom: 6,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   leftWrapper: {
     maxWidth: 50,
+    opacity: 0.5,
     flexDirection: 'column'
   },
   eventDay: {
@@ -159,8 +160,9 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   eventTitle: {
-    fontSize: 18,
-    marginBottom: 2
+    fontSize: 16,
+    marginBottom: 2,
+    lineHeight: 22
   },
   eventHour: {
     opacity: 0.8

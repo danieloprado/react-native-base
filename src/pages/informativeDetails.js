@@ -38,6 +38,8 @@ export default class InformativeDetailsPage extends BaseComponent {
   }
 
   render() {
+    const { informative, html } = this.state;
+
     return (
       <Container>
         <Header>
@@ -48,7 +50,7 @@ export default class InformativeDetailsPage extends BaseComponent {
           </Left>
           <Body>
             <Title>
-              {this.state.informative.type === enInformativeType.cell ?
+              {informative.typeId === enInformativeType.cell ?
                 'Célula' : 'Igreja'
               }
             </Title>
@@ -61,7 +63,7 @@ export default class InformativeDetailsPage extends BaseComponent {
         </Header>
         <View style={{flex: 1}}>
           <WebView
-            source={{ html: this.state.html }}
+            source={{ html: html }}
             onMessage={event => this.setText(event.nativeEvent.data)}
             style={{flex: 1}} />
         </View>  

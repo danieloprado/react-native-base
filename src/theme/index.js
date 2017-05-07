@@ -44,6 +44,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  listIconWrapperSmall: {
+    maxWidth: 25,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   listIcon: {
     width: 40,
     fontSize: 30,
