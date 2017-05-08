@@ -1,3 +1,4 @@
 {
-  "editor.formatOnType": false
+  "editor.formatOnType": false,
+  "java.configuration.updateBuildConfiguration": "disabled"
 }
