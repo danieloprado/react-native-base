@@ -75,31 +75,31 @@ export default class WelcomPage extends BaseComponent {
     if (this.state.loaded || this.state.force) return;
     const finalHeight = event.nativeEvent.layout.height;
 
+    this.setState({ loaded: true });
+    storage.get('welcomeCompleted').subscribe(completed => {
+      if (completed) {
+        this.navigateToHome();
+        SplashScreen.hide();
+        return;
+      }
+
+      this.animate(finalHeight);
+    });
+  }
+
+  animate(finalHeight) {
     this.setState({
-      loaded: true,
       animationClass: {
         height: this.state.animationHeight,
         opacity: this.state.animationFade
       }
     }).then(() => {
-      storage.get('welcomeCompleted').subscribe(completed => {
-        if (completed) {
-          this.navigateToHome();
-          SplashScreen.hide();
-          return;
-        }
-
-        SplashScreen.hide();
-        this.animate(finalHeight);
-      });
+      SplashScreen.hide();
+      setTimeout(() => {
+        Animated.timing(this.state.animationFade, { toValue: 1 }).start();
+        Animated.timing(this.state.animationHeight, { toValue: finalHeight }).start();
+      }, 500);
     });
-  }
-
-  animate(finalHeight) {
-    setTimeout(() => {
-      Animated.timing(this.state.animationFade, { toValue: 1 }).start();
-      Animated.timing(this.state.animationHeight, { toValue: finalHeight }).start();
-    }, 500);
   }
 
   async loginFacebook() {
