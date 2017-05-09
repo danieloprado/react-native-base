@@ -15,7 +15,7 @@ export class Cache {
   }
 
   from(key, stream$, refresh = false) {
-    return Observable.create(observer => {
+    return new Observable(observer => {
 
       this.getData(key).subscribe(cache => {
         if (!cache && !this.connected) {

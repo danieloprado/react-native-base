@@ -1,6 +1,7 @@
 import api from './api';
 import cache from './cache';
 import dateFormatter from '../formatters/date';
+import { Observable } from 'rxjs';
 
 export const enInformativeType = {
   church: 1,
@@ -16,6 +17,22 @@ class InformativeService {
       return (data || []).map(informative => {
         informative.icon = informative.typeId === enInformativeType.cell ? 'home' : 'paper';
         return dateFormatter.parseObj(informative);
+      });
+    });
+  }
+
+  get(id) {
+    return new Observable(observer => {
+      const listSubscriber = this.list().subscribe(informatives => {
+        const informative = informatives.filter(i => i.id === id)[0];
+
+        if (informative) {
+          listSubscriber.unsubscribe();
+          observer.next(informative);
+          observer.complete();
+        }
+      }, error => observer.error(error), () => {
+        observer.next(null);
       });
     });
   }

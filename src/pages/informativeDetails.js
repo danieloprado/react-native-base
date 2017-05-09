@@ -1,7 +1,8 @@
 import React from 'react';
-import { WebView, Share } from 'react-native';
+import { WebView, Share, StyleSheet } from 'react-native';
 import BaseComponent from '../components/base';
-import { enInformativeType } from '../services/informative';
+import informativeService, { enInformativeType } from '../services/informative';
+import theme, { variables } from '../theme';
 import informativeRender from '../formatters/informativeRender';
 import {
   Container,
@@ -12,17 +13,33 @@ import {
   Body,
   Button,
   Title,
-  Icon
+  Icon,
+  Spinner,
+  Text
 } from 'native-base';
 
 export default class InformativeDetailsPage extends BaseComponent {
   constructor(props) {
     super(props);
 
+    const { informative } = this.params;
+
     this.state = {
-      informative: this.params.informative,
-      html: informativeRender(this.params.informative)
+      loading: informative ? false : true,
+      informative,
+      html: informative ? informativeRender(informative) : null
     };
+  }
+
+  componentDidMount() {
+    if (this.state.informative) return;
+
+    informativeService.get(this.params.id).subscribe(informatives => {
+      const informative = informatives;
+      const html = informative ? informativeRender(informative) : null;
+
+      this.setState({ loading: false, informative, html });
+    });
   }
 
   share() {
@@ -38,6 +55,13 @@ export default class InformativeDetailsPage extends BaseComponent {
   }
 
   render() {
+    const { loading, html, informative } = this.state;
+    let title = 'Informativo';
+
+    if (informative) {
+      title = informative.type === enInformativeType.cell ? 'Célula' : 'Igreja';
+    }
+
     return (
       <Container>
         <Header>
@@ -47,24 +71,33 @@ export default class InformativeDetailsPage extends BaseComponent {
             </Button>
           </Left>
           <Body>
-            <Title>
-              {this.state.informative.type === enInformativeType.cell ?
-                'Célula' : 'Igreja'
-              }
-            </Title>
+            <Title>{title}</Title>
           </Body>
           <Right>
-            <Button transparent onPress={() => this.share()}>
-                <Icon name='share' />
-            </Button>  
+            {informative && 
+              <Button transparent onPress={() => this.share()}>
+                  <Icon name='share' />
+              </Button>  
+            }
           </Right>  
         </Header>
-        <View style={{flex: 1}}>
-          <WebView
-            source={{ html: this.state.html }}
-            onMessage={event => this.setText(event.nativeEvent.data)}
-            style={{flex: 1}} />
-        </View>  
+        {loading ?
+          <View style={StyleSheet.flatten(theme.alignCenter)}>
+            <Spinner color={variables.accent} />
+          </View>
+        : !informative ?
+          <View style={StyleSheet.flatten(theme.emptyMessage)}>
+            <Text note>Não foi possível carregar</Text>
+          </View>
+        :
+          <View style={{flex: 1}}>
+            <WebView
+              source={{ html }}
+              onMessage={event => this.setText(event.nativeEvent.data)}
+              style={{flex: 1}} />
+          </View>  
+        }
+       
       </Container>
     );
   }
