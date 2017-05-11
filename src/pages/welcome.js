@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image, StatusBar, Animated } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { StyleSheet, Image, StatusBar, Animated, InteractionManager } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { GoogleSignin } from 'react-native-google-signin';
@@ -11,6 +10,7 @@ import theme from '../theme';
 import storage from '../services/storage';
 import toast from '../services/toast';
 import profileService from '../services/profile';
+import notificationService from '../services/notification';
 import settings from '../settings';
 
 import {
@@ -51,18 +51,12 @@ export default class WelcomPage extends BaseComponent {
   }
 
   navigateToHome() {
-    let page = this.state.force ? 'Profile' : 'Home';
-
-    if (settings.isDevelopment) {
-      page = 'Profile';
+    if (this.state.force) {
+      this.goBack();
+      return;
     }
 
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: page })]
-    });
-
-    this.props.navigation.dispatch(resetAction);
+    this.navigate('Home', null, true);
   }
 
   completed() {
@@ -72,18 +66,28 @@ export default class WelcomPage extends BaseComponent {
   }
 
   viewLoaded(event) {
-    if (this.state.loaded || this.state.force) return;
+    if (this.state.loaded || this.state.force) {
+      return;
+    }
+
     const finalHeight = event.nativeEvent.layout.height;
 
     this.setState({ loaded: true });
     storage.get('welcomeCompleted').subscribe(completed => {
+      notificationService.appDidOpen();
+
       if (completed) {
         this.navigateToHome();
-        SplashScreen.hide();
+
+        if (!notificationService.hasNotification()) {
+          InteractionManager.runAfterInteractions(() => SplashScreen.hide());
+        }
         return;
       }
 
-      this.animate(finalHeight);
+      if (!notificationService.hasNotification()) {
+        this.animate(finalHeight);
+      }
     });
   }
 

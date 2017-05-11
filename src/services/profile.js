@@ -4,6 +4,7 @@ import api from './api';
 import cache from './cache';
 import tokenService from './token';
 import settings from '../settings';
+import notificationService from './notification';
 import { Observable, Subject } from 'rxjs';
 
 class ProfileService {
@@ -15,9 +16,10 @@ class ProfileService {
   register(provider, accessToken) {
     const deviceId = device.getUniqueID();
     const application = settings.churchSlug;
+    const notificationId = notificationService.userId;
     const name = `${device.getManufacturer()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`;
 
-    return api.post('register', { deviceId, name, application, provider, accessToken }).flatMap(res => {
+    return api.post('register', { deviceId, name, application, provider, accessToken, notificationId }).flatMap(res => {
       return tokenService.setToken(res);
     });
   }

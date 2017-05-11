@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { InteractionManager } from 'react-native';
-// import { Toast } from 'native-base';
+import { NavigationActions } from 'react-navigation';
 
 export default class BaseComponent extends Component {
   constructor(props) {
@@ -12,10 +12,6 @@ export default class BaseComponent extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   this.toastInstance = Toast.toastInstance;
-  // }
-
   openDrawer() {
     this.navigate('DrawerOpen');
   }
@@ -26,10 +22,16 @@ export default class BaseComponent extends Component {
     });
   }
 
-  navigate(url, params) {
-    // InteractionManager.runAfterInteractions(() => {
-    this.props.navigation.navigate(url, params);
-    // });
+  navigate(routeName, params, reset) {
+    if (!reset) {
+      this.props.navigation.navigate(routeName, params);
+      return;
+    }
+
+    this.props.navigation.dispatch(NavigationActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName, params })]
+    }));
   }
 
   setState(value, skip) {
