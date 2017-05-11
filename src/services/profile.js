@@ -17,7 +17,7 @@ class ProfileService {
     const deviceId = device.getUniqueID();
     const application = settings.churchSlug;
     const notificationId = notificationService.getUserId();
-    const name = `${device.getManufacturer()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`;
+    const name = `${device.getBrand()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`;
 
     return api.post('register', { deviceId, name, application, provider, accessToken, notificationId }).flatMap(res => {
       return tokenService.setToken(res);
