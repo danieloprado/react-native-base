@@ -15,38 +15,42 @@ const ACTION_HANDLERS = {
 class NotificationService {
 
   constructor() {
-    this.userId = null;
-    this.hasNotification = false;
-    this.appDidOpened = new BehaviorSubject(false);
+    this._userId = null;
+    this._hasNotification = false;
+    this._appDidOpen$ = new BehaviorSubject(false);
   }
 
   setUserId(userId) {
-    this.userId = userId;
+    this._userId = userId;
+  }
+
+  getUserId() {
+    return this._userId;
   }
 
   appDidOpen() {
-    this.appDidOpen.next(true);
+    this._appDidOpen$.next(true);
   }
 
   hasNotification() {
-    return this.hasNotification;
+    return this._hasNotification;
   }
 
   resolve(navigator, notification) {
-    this.hasNotification = true;
+    this._hasNotification = true;
 
     const { dispatch } = navigator;
     const data = notification.payload.additionalData;
     if (!data || !ACTION_HANDLERS[data.action]) return Promise.resolve();
 
-    const subscription = this.appDidOpen.subscribe(opened => {
+    const subscription = this._appDidOpen$.subscribe(opened => {
       if (!opened) return;
       subscription.unsubscribe();
 
       return InteractionManager.runAfterInteractions(() => {
         return ACTION_HANDLERS[data.action](dispatch, data);
       }).then(() => {
-        this.hasNotification = false;
+        this._hasNotification = false;
         SplashScreen.hide();
       });
     });
