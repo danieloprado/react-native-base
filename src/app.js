@@ -33,7 +33,7 @@ class App extends Component {
   render() {
     return (
       <StyleProvider style={getTheme(platform)}>
-        <Navigator ref={nav => { this.navigator = nav; }} />
+        <Navigator ref={nav => { this.navigator = nav; }} onNavigationStateChange={null} />
       </StyleProvider>
     );
   }

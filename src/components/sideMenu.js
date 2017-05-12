@@ -1,6 +1,6 @@
 import { Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
 
-import { DrawerView } from 'react-navigation';
+import { DrawerItems } from 'react-navigation';
 import React from 'react';
 import { Text } from 'native-base';
 import platform from '../../native-base-theme/variables/platform';
@@ -14,7 +14,7 @@ export default props => {
         <Text style={StyleSheet.flatten(styles.headerText)}>ICB Sorocaba</Text>
       </View>
       <ScrollView>
-        <DrawerView.Items {...props} />
+        <DrawerItems {...props} />
       </ScrollView>
     </View>
   );
