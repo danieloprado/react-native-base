@@ -1,26 +1,11 @@
-import React from 'react';
-import { StyleSheet, Image, Linking } from 'react-native';
-import BaseComponent from '../components/base';
+import { Body, Button, Container, Content, H2, Header, Icon, Left, List, ListItem, Right, Spinner, Text, Title, View } from 'native-base';
+import { Image, Linking, StyleSheet } from 'react-native';
 import theme, { variables } from '../theme';
+
+import BaseComponent from '../components/base';
+import React from 'react';
 import churchService from '../services/church';
 import phoneFormatter from '../formatters/phone';
-import {
-  Container,
-  Content,
-  Header,
-  Left,
-  Right,
-  Body,
-  Button,
-  Title,
-  Icon,
-  View,
-  H2,
-  Spinner,
-  List,
-  ListItem,
-  Text
-} from 'native-base';
 
 export default class ChurchPage extends BaseComponent {
   static navigationOptions = {

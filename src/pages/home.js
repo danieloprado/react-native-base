@@ -1,22 +1,12 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Body, Button, Container, Content, Header, Icon, Left, Right, Title, View } from 'native-base';
+
 import BaseComponent from '../components/base';
 import ChurchCard from '../components/churchCard';
-import InformativeCard from '../components/informativeCard';
 import EventCard from '../components/eventCard';
+import InformativeCard from '../components/informativeCard';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import theme from '../theme';
-import {
-  Container,
-  Content,
-  Header,
-  Left,
-  Right,
-  Body,
-  Button,
-  Title,
-  Icon,
-  View
-} from 'native-base';
 
 export default class HomePage extends BaseComponent {
   static navigationOptions = {

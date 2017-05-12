@@ -1,4 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+
 import variablesTheme from '../../native-base-theme/variables/platform';
 
 export const variables = variablesTheme;

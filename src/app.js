@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+
 import { AppRegistry } from 'react-native';
-import { StyleProvider } from 'native-base';
-import getTheme from '../native-base-theme/components';
-import platform from '../native-base-theme/variables/platform';
 import Navigator from './navigator';
 import OneSignal from 'react-native-onesignal';
+import { StyleProvider } from 'native-base';
+import getTheme from '../native-base-theme/components';
 import notificationService from './services/notification';
+import platform from '../native-base-theme/variables/platform';
 
 console.ignoredYellowBox = ['Warning: BackAndroid'];
 

@@ -1,27 +1,12 @@
-import React from 'react';
-import { StyleSheet, Image, Alert } from 'react-native';
-import BaseComponent from '../components/base';
+import { Alert, Image, StyleSheet } from 'react-native';
+import { Body, Button, Container, Content, H2, Header, Icon, Left, List, ListItem, Right, Spinner, Text, Title, View } from 'native-base';
 import theme, { variables } from '../theme';
-import profileService from '../services/profile';
+
+import BaseComponent from '../components/base';
+import React from 'react';
 import dateFormatter from '../formatters/date';
+import profileService from '../services/profile';
 import tokenService from '../services/token';
-import {
-  Container,
-  Content,
-  Header,
-  Left,
-  Right,
-  Body,
-  Button,
-  Title,
-  Icon,
-  Text,
-  View,
-  H2,
-  Spinner,
-  List,
-  ListItem
-} from 'native-base';
 
 export default class ProfilePage extends BaseComponent {
   static navigationOptions = {

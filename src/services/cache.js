@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs/Observable';
 import { NetInfo } from 'react-native';
+import { Observable } from 'rxjs/Observable';
 import settings from '../settings';
 import storage from './storage';
 

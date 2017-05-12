@@ -1,26 +1,14 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Body, Button, Container, Content, Form, Header, Icon, Left, List, Right, Title, View } from 'native-base';
+
 import BaseComponent from '../components/base';
 import Field from '../components/field';
 import Loader from '../components/loader';
-import toast from '../services/toast';
-import profileService from '../services/profile';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import addressService from '../services/address';
+import profileService from '../services/profile';
 import profileValidator from '../validators/profile';
-import {
-  Container,
-  Content,
-  Header,
-  Left,
-  Right,
-  Body,
-  Button,
-  Title,
-  Icon,
-  View,
-  Form,
-  List
-} from 'native-base';
+import toast from '../services/toast';
 
 const genderOptions = [
   { value: null, display: 'Não informado' },

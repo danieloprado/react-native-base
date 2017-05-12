@@ -1,16 +1,16 @@
-import { StackNavigator, DrawerNavigator } from 'react-navigation';
-import platform from '../native-base-theme/variables/platform';
+import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
-import SideMenu from './components/sideMenu';
-import Welcome from './pages/welcome';
-import Home from './pages/home';
 import Church from './pages//church';
-import Profile from './pages/profile';
-import ProfileEdit from './pages/profileEdit';
-import Informative from './pages/informative';
-import InformativeDetails from './pages/informativeDetails';
 import Event from './pages/event';
 import EventDetails from './pages/eventDetails';
+import Home from './pages/home';
+import Informative from './pages/informative';
+import InformativeDetails from './pages/informativeDetails';
+import Profile from './pages/profile';
+import ProfileEdit from './pages/profileEdit';
+import SideMenu from './components/sideMenu';
+import Welcome from './pages/welcome';
+import platform from '../native-base-theme/variables/platform';
 
 const appDrawer = DrawerNavigator({
   Home: { screen: Home },

@@ -1,22 +1,10 @@
+import { Body, Button, Container, Content, H2, Header, Icon, Left, Right, Text, Title, View } from 'native-base';
+
+import BaseComponent from '../components/base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { variables } from '../theme';
 import dateFormatter from '../formatters/date';
-import BaseComponent from '../components/base';
-import {
-  Container,
-  Content,
-  Header,
-  Left,
-  Right,
-  Body,
-  Button,
-  Title,
-  Icon,
-  View,
-  H2,
-  Text
-} from 'native-base';
+import { variables } from '../theme';
 
 export default class EventDetailsPage extends BaseComponent {
   constructor(props) {

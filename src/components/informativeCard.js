@@ -1,20 +1,11 @@
+import { Body, Button, Card, CardItem, Icon, Right, Spinner, Text, View } from 'native-base';
+import theme, { variables } from '../theme';
+
+import BaseComponent from './base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import BaseComponent from './base';
-import theme, { variables } from '../theme';
-import informativeService from '../services/informative';
 import dateFormatter from '../formatters/date';
-import {
-  Text,
-  Body,
-  Card,
-  CardItem,
-  Spinner,
-  View,
-  Right,
-  Icon,
-  Button
-} from 'native-base';
+import informativeService from '../services/informative';
 
 export default class InformativeCard extends BaseComponent {
   constructor(props) {

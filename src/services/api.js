@@ -1,6 +1,7 @@
 import 'rxjs/add/operator/map';
-import settings from '../settings';
+
 import { Observable } from 'rxjs/Observable';
+import settings from '../settings';
 import tokenService from './token';
 
 export class ApiService {

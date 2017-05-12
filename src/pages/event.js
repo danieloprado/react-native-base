@@ -1,25 +1,12 @@
-import React from 'react';
+import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title, View } from 'native-base';
 import { RefreshControl, StyleSheet } from 'react-native';
+
 import BaseComponent from '../components/base';
+import React from 'react';
 import dateFormatter from '../formatters/date';
 import eventListFormatter from '../formatters/eventList';
 import eventService from '../services/event';
 import theme from '../theme';
-import {
-  Container,
-  Content,
-  Header,
-  Left,
-  Right,
-  Body,
-  Button,
-  Title,
-  Icon,
-  Text,
-  List,
-  ListItem,
-  View
-} from 'native-base';
 
 export default class EventPage extends BaseComponent {
   static navigationOptions = {

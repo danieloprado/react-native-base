@@ -1,6 +1,6 @@
-import validator from 'validatorjs';
 import lang from 'validatorjs/src/lang';
 import langPt from 'validatorjs/src/lang/pt';
+import validator from 'validatorjs';
 lang._set('en', langPt);
 
 validator.register('zipcode', value => {

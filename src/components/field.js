@@ -1,11 +1,12 @@
-import React from 'react';
+import { Body, Icon, Input, Item, Left, ListItem, Picker, Text, View } from 'native-base';
+
 import BaseComponent from './base';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import dateFormatter from '../formatters/date';
 import theme from '../theme';
 import { variables } from '../theme';
-import { StyleSheet } from 'react-native';
-import { Item, Input, Text, View, Icon, Picker, ListItem, Left, Body } from 'native-base';
-import DateTimePicker from 'react-native-modal-datetime-picker';
-import dateFormatter from '../formatters/date';
 
 const keyboardTypes = {
   'text': 'default',

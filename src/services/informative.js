@@ -1,7 +1,7 @@
+import { Observable } from 'rxjs';
 import api from './api';
 import cache from './cache';
 import dateFormatter from '../formatters/date';
-import { Observable } from 'rxjs';
 
 export const enInformativeType = {
   church: 1,

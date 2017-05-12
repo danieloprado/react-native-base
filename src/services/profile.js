@@ -1,11 +1,12 @@
-import device from 'react-native-device-info';
-import dateFormatter from '../formatters/date';
+import { Observable, Subject } from 'rxjs';
+
 import api from './api';
 import cache from './cache';
-import tokenService from './token';
-import settings from '../settings';
+import dateFormatter from '../formatters/date';
+import device from 'react-native-device-info';
 import notificationService from './notification';
-import { Observable, Subject } from 'rxjs';
+import settings from '../settings';
+import tokenService from './token';
 
 class ProfileService {
 

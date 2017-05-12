@@ -1,22 +1,11 @@
-import React from 'react';
-import { WebView, Share, StyleSheet } from 'react-native';
-import BaseComponent from '../components/base';
+import { Body, Button, Container, Header, Icon, Left, Right, Spinner, Text, Title, View } from 'native-base';
+import { Share, StyleSheet, WebView } from 'react-native';
 import informativeService, { enInformativeType } from '../services/informative';
 import theme, { variables } from '../theme';
+
+import BaseComponent from '../components/base';
+import React from 'react';
 import informativeRender from '../formatters/informativeRender';
-import {
-  Container,
-  View,
-  Header,
-  Left,
-  Right,
-  Body,
-  Button,
-  Title,
-  Icon,
-  Spinner,
-  Text
-} from 'native-base';
 
 export default class InformativeDetailsPage extends BaseComponent {
   constructor(props) {

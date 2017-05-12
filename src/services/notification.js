@@ -1,6 +1,6 @@
+import { BehaviorSubject } from 'rxjs';
 import { InteractionManager } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import { BehaviorSubject } from 'rxjs';
 
 const ACTION_HANDLERS = {
   'new-informative': async(dispatch, data) => {

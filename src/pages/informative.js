@@ -1,24 +1,11 @@
-import React from 'react';
-import { StyleSheet, RefreshControl } from 'react-native';
+import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title, View } from 'native-base';
+import { RefreshControl, StyleSheet } from 'react-native';
+
 import BaseComponent from '../components/base';
-import theme from '../theme';
+import React from 'react';
 import dateFormatter from '../formatters/date';
 import informativeService from '../services/informative';
-import {
-  Container,
-  Content,
-  Header,
-  Left,
-  Right,
-  Body,
-  Button,
-  Title,
-  Icon,
-  Text,
-  List,
-  ListItem,
-  View
-} from 'native-base';
+import theme from '../theme';
 
 export default class InformativePage extends BaseComponent {
   static navigationOptions = {

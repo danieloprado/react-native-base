@@ -1,25 +1,18 @@
-import React from 'react';
-import { StyleSheet, Image, StatusBar, Animated, InteractionManager } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
-import { LoginManager, AccessToken } from 'react-native-fbsdk';
-import { GoogleSignin } from 'react-native-google-signin';
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import { Animated, Image, InteractionManager, StatusBar, StyleSheet } from 'react-native';
+import { Button, Container, Icon, Text, View } from 'native-base';
 
-import Loader from '../components/loader';
 import BaseComponent from '../components/base';
-import theme from '../theme';
-import storage from '../services/storage';
-import toast from '../services/toast';
-import profileService from '../services/profile';
+import { GoogleSignin } from 'react-native-google-signin';
+import Loader from '../components/loader';
+import React from 'react';
+import SplashScreen from 'react-native-splash-screen';
 import notificationService from '../services/notification';
+import profileService from '../services/profile';
 import settings from '../settings';
-
-import {
-  Container,
-  Text,
-  View,
-  Button,
-  Icon
-} from 'native-base';
+import storage from '../services/storage';
+import theme from '../theme';
+import toast from '../services/toast';
 
 export default class WelcomPage extends BaseComponent {
   static navigationOptions = {

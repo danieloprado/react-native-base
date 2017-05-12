@@ -1,6 +1,7 @@
-import React from 'react';
-import { ScrollView, View, Image, StyleSheet, Dimensions } from 'react-native';
+import { Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
+
 import { DrawerView } from 'react-navigation';
+import React from 'react';
 import { Text } from 'native-base';
 import platform from '../../native-base-theme/variables/platform';
 

@@ -1,4 +1,4 @@
-import { ToastAndroid, Platform } from 'react-native';
+import { Platform, ToastAndroid } from 'react-native';
 
 export default function show(message, duraction = ToastAndroid.LONG) {
   if (Platform.OS === 'ios') {
