@@ -86,7 +86,6 @@ export default class InformativeDetailsPage extends BaseComponent {
               style={{flex: 1}} />
           </View>  
         }
-       
       </Container>
     );
   }

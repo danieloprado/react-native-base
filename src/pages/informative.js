@@ -71,15 +71,16 @@ export default class InformativePage extends BaseComponent {
             <ListItem
               button
               key={informative.id}
+              style={StyleSheet.flatten(styles.listItem)}
               onPress={() => this.details(informative)}>
               <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
-                <Icon name={informative.icon} style={StyleSheet.flatten(theme.listIcon)} />
+                <Icon name={informative.icon} style={StyleSheet.flatten([theme.listIcon, styles.listIcon])} />
               </Left>
               <Body>
                 <Text>{informative.title}</Text>
                 <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
               </Body>
-              <Right style={StyleSheet.flatten(theme.listIconWrapper)}>
+              <Right style={StyleSheet.flatten(theme.listIconWrapperSmall)}>
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
@@ -90,3 +91,12 @@ export default class InformativePage extends BaseComponent {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  listItem: {
+    marginLeft: 0
+  },
+  listIcon: {
+    marginLeft: 10
+  }
+});
