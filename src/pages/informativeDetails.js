@@ -48,7 +48,7 @@ export default class InformativeDetailsPage extends BaseComponent {
     let title = 'Informativo';
 
     if (informative) {
-      title = informative.type === enInformativeType.cell ? 'Célula' : 'Igreja';
+      title = informative.typeId === enInformativeType.cell ? 'Célula' : 'Igreja';
     }
 
     return (

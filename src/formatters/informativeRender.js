@@ -6,7 +6,7 @@ export default function informativeRender(informative) {
       <head>
         <style>
           html, body {
-            padding: 0;
+            padding: 0 0 20px 0;
             margin: 0;
             -webkit-font-smoothing: antialiased;
             font-smoothing: antialiased;
