@@ -1497,9 +1497,9 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-plugin-react@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.0.0.tgz#084cfe772d229ec5ae7e525dfc6d299cc21ddd77"
+eslint-plugin-react@7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.0.1.tgz#e78107e1e559c6e2b17786bb67c2e2a010ad0d2f"
   dependencies:
     doctrine "^2.0.0"
     has "^1.0.1"
@@ -3318,6 +3318,13 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
+prop-types@15.5.10:
+  version "15.5.10"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+
 prop-types@^15.5.8:
   version "15.5.9"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.9.tgz#d478eef0e761396942f70c78e772f76e8be747c9"
@@ -3389,7 +3396,7 @@ react-devtools-core@^2.0.8:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-animatable@^1.1.1:
+react-native-animatable@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.2.0.tgz#fd279c6ee4b49161c6cc3b951ed7765b35a73467"
 
@@ -3443,18 +3450,20 @@ react-native-keyboard-aware-scroll-view@0.2.7:
   dependencies:
     react-timer-mixin "^0.13.3"
 
-react-native-modal-datetime-picker@4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-4.5.0.tgz#2a289111ea2a2b7027118dd287fa0e50599d4be7"
+react-native-modal-datetime-picker@4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-4.6.0.tgz#bf0bfa771d76678eb883dbba1b4ff21dfe885b6d"
   dependencies:
     moment "^2.18.1"
-    react-native-modal "^2.2.0"
+    prop-types "15.5.10"
+    react-native-modal "^2.4.0"
 
-react-native-modal@^2.2.0:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-2.3.2.tgz#d616355e312d378a9dcd99de5565523b7b5b4c84"
+react-native-modal@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-2.4.0.tgz#ea9794f5ba9fa21476d337da291ec26930904995"
   dependencies:
-    react-native-animatable "^1.1.1"
+    prop-types "15.5.10"
+    react-native-animatable "^1.2.0"
 
 react-native-onesignal@3.0.4:
   version "3.0.4"
@@ -3572,7 +3581,7 @@ react-native@0.44.0:
     xpipe "^1.0.5"
     yargs "^6.4.0"
 
-react-navigation@^1.0.0-beta.9:
+react-navigation@1.0.0-beta.9:
   version "1.0.0-beta.9"
   resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.0.0-beta.9.tgz#9fb1f8e4d15cee70cc8b5d58719a986ca443664d"
   dependencies:
