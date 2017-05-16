@@ -100,6 +100,12 @@ android {
                                 onesignal_google_project_number: "REMOTE"]
     }
     signingConfigs {
+        debug {
+            storeFile file("../keystores/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
         release {
             storeFile file("../keystores/release.keystore")
             storePassword "rx12241274"
@@ -117,8 +123,9 @@ android {
     }
     buildTypes {
          debug {
+            signingConfig signingConfigs.debug
             buildConfigField "String", "CODEPUSH_KEY", '""'
-            applicationIdSuffix ".debug"
+            // applicationIdSuffix ".debug"
         }
         releaseStaging {
             signingConfig signingConfigs.release
