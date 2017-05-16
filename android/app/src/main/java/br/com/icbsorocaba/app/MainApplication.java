@@ -3,6 +3,8 @@ package br.com.icbsorocaba.app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.microsoft.codepush.react.CodePush;
+import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -26,25 +28,33 @@ import java.util.List;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage; 
 
-public class MainApplication extends Application implements ReactApplication {
+abstract class CodePushReactNativeHost extends ReactNativeHost implements ReactInstanceHolder {
+  protected CodePushReactNativeHost(Application application) {
+    super(application);
+  }
+}
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+public class MainApplication extends Application implements ReactApplication {
+  private final CodePushReactNativeHost mReactNativeHost = new CodePushReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
 
     @Override
+    protected String getJSBundleFile() {
+        return CodePush.getJSBundleFile();
+    }
+
+    @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new ReactNativeOneSignalPackage(),
-            new RNGoogleSigninPackage(),
-            new RNDeviceInfo(),
-            new ReactNativeOneSignalPackage(),
-            new RNGoogleSigninPackage(),
-            new FBSDKPackage(mCallbackManager),
-            new RNDeviceInfo(),
+          new CodePush(BuildConfig.CODEPUSH_KEY, getApplicationContext(), BuildConfig.DEBUG),
+          new ReactNativeOneSignalPackage(),
+          new RNGoogleSigninPackage(),
+          new RNDeviceInfo(),
+          new FBSDKPackage(mCallbackManager),
           new SplashScreenReactPackage() 
       );
     }
@@ -61,6 +71,7 @@ public class MainApplication extends Application implements ReactApplication {
     SoLoader.init(this, /* native exopackage */ false);
     FacebookSdk.sdkInitialize(getApplicationContext());
     AppEventsLogger.activateApp(this);
+    CodePush.setReactInstanceHolder(mReactNativeHost);
   }
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();

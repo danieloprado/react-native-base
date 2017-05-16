@@ -66,6 +66,7 @@ import com.android.build.OutputFile
  */
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -100,7 +101,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("release.keystore")
+            storeFile file("../keystores/release.keystore")
             storePassword "rx12241274"
             keyAlias "churchapp"
             keyPassword "rx12241274"
@@ -115,7 +116,17 @@ android {
         }
     }
     buildTypes {
+         debug {
+            buildConfigField "String", "CODEPUSH_KEY", '""'
+            applicationIdSuffix ".debug"
+        }
+        releaseStaging {
+            signingConfig signingConfigs.release
+            buildConfigField "String", "CODEPUSH_KEY", '"M95mw_HzyUbTkN_VCIlOlKICEB11VkO0tCQxm"'
+        }
         release {
+            signingConfig signingConfigs.release
+            buildConfigField "String", "CODEPUSH_KEY", '"6r57M3nNWDwNe-XpdfLpRzfU0o_jVkO0tCQxm"'
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -136,12 +147,10 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-onesignal')
-    compile project(':react-native-google-signin')
-    compile project(':react-native-device-info')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"
+    compile project(':react-native-code-push')
     compile project(':react-native-fbsdk')
     compile (project(':react-native-onesignal'))  {
        exclude group: "com.google.android.gms" 

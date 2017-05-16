@@ -4,6 +4,7 @@ import { AppRegistry } from 'react-native';
 import Navigator from './navigator';
 import OneSignal from 'react-native-onesignal';
 import { StyleProvider } from 'native-base';
+import codePush from "react-native-code-push";
 import getTheme from '../native-base-theme/components';
 import notificationService from './services/notification';
 import platform from '../native-base-theme/variables/platform';
@@ -39,4 +40,4 @@ class App extends Component {
   }
 }
 
-AppRegistry.registerComponent('churchReact', () => App);
+AppRegistry.registerComponent('churchReact', () => codePush(App));

@@ -1,4 +1,5 @@
 *.apk
+*.zip
 # OSX
 #
 .DS_Store
