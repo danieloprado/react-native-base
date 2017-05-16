@@ -122,11 +122,11 @@ android {
         }
         releaseStaging {
             signingConfig signingConfigs.release
-            buildConfigField "String", "CODEPUSH_KEY", '"M95mw_HzyUbTkN_VCIlOlKICEB11VkO0tCQxm"'
+            buildConfigField "String", "CODEPUSH_KEY", '"fyTPy7mddFq7lOQnu1hvZXiBVenHVkO0tCQxm"'
         }
         release {
             signingConfig signingConfigs.release
-            buildConfigField "String", "CODEPUSH_KEY", '"6r57M3nNWDwNe-XpdfLpRzfU0o_jVkO0tCQxm"'
+            buildConfigField "String", "CODEPUSH_KEY", '"_5glK-h3yrEF5aDnfaX3orneHm52VkO0tCQxm"'
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
