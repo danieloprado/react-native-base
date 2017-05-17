@@ -124,12 +124,12 @@ export default class WelcomPage extends BaseComponent {
 
   render() {
     return (
-      <Container>  
+      <Container>
         <Loader ref="loader" />
         <View style={StyleSheet.flatten(styles.container)}>
-          <StatusBar backgroundColor="#000000"></StatusBar>  
+          <StatusBar backgroundColor="#000000"></StatusBar>
           <Image source={require('../images/background.png')} style={styles.background}>
-            <Image source={require('../images/logo.png')} style={styles.logo}/>
+            <Image source={require('../images/logo.png')} style={styles.logo} />
             <Animated.View
               onLayout={event => this.viewLoaded(event)}
               style={this.state.animationClass}>
@@ -141,12 +141,12 @@ export default class WelcomPage extends BaseComponent {
               </Text>
               <View style={StyleSheet.flatten(styles.buttons)}>
                 <Button onPress={() => this.loginFacebook()} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
-                  <Icon name='logo-facebook' />  
+                  <Icon name='logo-facebook' />
                   <Text>FACEBOOK</Text>
                 </Button>
                 <Button onPress={() => this.loginGoogle()} iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
-                  <Icon name='logo-google' />  
-                  <Text>GOOGLE</Text>                  
+                  <Icon name='logo-google' />
+                  <Text>GOOGLE</Text>
                 </Button>
               </View>
               <View style={StyleSheet.flatten(styles.skipWrapper)}>
@@ -154,9 +154,9 @@ export default class WelcomPage extends BaseComponent {
                   <Text style={StyleSheet.flatten(styles.skipText)}>PULAR</Text>
                 </Button>
               </View>
-            </Animated.View>  
-          </Image>  
-        </View>    
+            </Animated.View>
+          </Image>
+        </View>
       </Container>
     );
   }
@@ -172,12 +172,14 @@ const styles = StyleSheet.create({
     fontSize: 30,
     textAlign: 'center',
     marginBottom: 5,
-    color: 'white'
+    color: 'white',
+    backgroundColor: 'transparent'
   },
   instructions: {
     fontSize: 20,
     textAlign: 'center',
-    color: 'white'
+    color: 'white',
+    backgroundColor: 'transparent'
   },
   background: {
     flex: 1,

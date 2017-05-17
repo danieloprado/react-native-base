@@ -1,6 +1,14 @@
-import { Platform, StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
 
 import React from 'react';
+
+const Button = props => {
+  if (Platform.OS === 'ios') {
+    return <TouchableOpacity {...props}>{props.children}</TouchableOpacity>;
+  }
+
+  return <TouchableNativeFeedback {...props}>{props.children}</TouchableNativeFeedback>;
+};
 
 const DrawerNavigatorItems = ({
   navigation,
@@ -14,39 +22,39 @@ const DrawerNavigatorItems = ({
   labelStyle,
   routes
 }) => (
-  <View style={[styles.container, style]}>
-    {routes.map((route, index) => {
-      
-      const focused = navigation.state.index === index;
-      const color = focused ? activeTintColor : inactiveTintColor;
-      const backgroundColor = focused ? activeBackgroundColor : inactiveBackgroundColor;
-      const scene = { route, index, focused, tintColor: color };
-      const icon = renderIcon(scene);
-      const label = getLabel(scene);
+    <View style={[styles.container, style]}>
+      {routes.map((route, index) => {
 
-      return (
-        <TouchableNativeFeedback
-          key={route.key}
-          onPress={() => { navigation.navigate('DrawerClose'); navigation.navigate(route.routeName); }}
-          delayPressIn={0}
-        >
-          <View style={[styles.item, { backgroundColor }]}>
-            {icon &&
-              <View style={[styles.icon, focused ? null : styles.inactiveIcon]}>
-                {icon}
-              </View>
-            }
-            {typeof label !== 'string' ? label :
-              <Text style={[styles.label, { color }, labelStyle]}>
-                {label}
-              </Text>
-            }
-          </View>
-        </TouchableNativeFeedback>
-      );
-    })}
-  </View>
-);
+        const focused = navigation.state.index === index;
+        const color = focused ? activeTintColor : inactiveTintColor;
+        const backgroundColor = focused ? activeBackgroundColor : inactiveBackgroundColor;
+        const scene = { route, index, focused, tintColor: color };
+        const icon = renderIcon(scene);
+        const label = getLabel(scene);
+
+        return (
+          <Button
+            key={route.key}
+            onPress={() => { navigation.navigate('DrawerClose'); navigation.navigate(route.routeName); }}
+            delayPressIn={0}
+          >
+            <View style={[styles.item, { backgroundColor }]}>
+              {icon &&
+                <View style={[styles.icon, focused ? null : styles.inactiveIcon]}>
+                  {icon}
+                </View>
+              }
+              {typeof label !== 'string' ? label :
+                <Text style={[styles.label, { color }, labelStyle]}>
+                  {label}
+                </Text>
+              }
+            </View>
+          </Button>
+        );
+      })}
+    </View>
+  );
 
 DrawerNavigatorItems.defaultProps = {
   activeTintColor: '#2196f3',
