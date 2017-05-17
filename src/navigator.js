@@ -1,6 +1,7 @@
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
-import Church from './pages//church';
+import Church from './pages/church';
+import ChurchReport from './pages/churchReport';
 import Event from './pages/event';
 import EventDetails from './pages/eventDetails';
 import Home from './pages/home';
@@ -17,14 +18,15 @@ const appDrawer = DrawerNavigator({
   Profile: { screen: Profile },
   Informative: { screen: Informative },
   Event: { screen: Event },
+  ChurchReport: { screen: ChurchReport },
   Church: { screen: Church }
 }, {
-  contentComponent: SideMenu,
-  contentOptions: {
-    inactiveTintColor: 'black',
-    activeTintColor: platform.accent
-  }
-});
+    contentComponent: SideMenu,
+    contentOptions: {
+      inactiveTintColor: 'black',
+      activeTintColor: platform.accent
+    }
+  });
 
 export default StackNavigator({
   Welcome: { screen: Welcome },
@@ -35,5 +37,6 @@ export default StackNavigator({
   InformativeDetails: { screen: InformativeDetails },
   Event: { screen: appDrawer },
   EventDetails: { screen: EventDetails },
+  ChurchReport: { screen: appDrawer },
   Church: { screen: appDrawer },
 }, { headerMode: 'none' });

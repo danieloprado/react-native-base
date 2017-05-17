@@ -1,6 +1,6 @@
-import { Platform, PixelRatio } from 'react-native';
-import _ from 'lodash';
+import { PixelRatio, Platform } from 'react-native';
 
+import _ from 'lodash';
 import variable from './../variables/platform';
 
 export default (variables = variable) => {
@@ -194,6 +194,7 @@ export default (variables = variable) => {
       flex: ((platform === 'ios') && (platformStyle !== 'material')) ? 1 : 0.5,
       alignSelf: 'center',
       alignItems: 'flex-start',
+      maxWidth: 50
     },
     'NativeBase.Body': {
       flex: 1,
@@ -289,6 +290,10 @@ export default (variables = variable) => {
       alignItems: 'flex-end',
       flexDirection: 'row',
       justifyContent: 'flex-end',
+      maxWidth: 50
+      // flexGrow: 0,
+      // flexShrink: 0,
+      // flexBasis: 'auto'
     },
     backgroundColor: variables.toolbarDefaultBg,
     flexDirection: 'row',
