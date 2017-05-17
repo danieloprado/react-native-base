@@ -26,6 +26,10 @@ export default class EventPage extends BaseComponent {
     this.load();
   }
 
+  componentWillUnmount() {
+    this.subscription.unsubscribe();
+  }
+
   details(eventData) {
     this.navigate('EventDetails', { event: eventData.event, date: eventData });
   }
@@ -33,7 +37,7 @@ export default class EventPage extends BaseComponent {
   load(refresh = false) {
     this.setState({ refreshing: true }, true);
 
-    eventService.list(refresh).subscribe(events => {
+    this.subscription = eventService.list(refresh).subscribe(events => {
       const eventGroup = eventListFormatter(events || []);
       this.setState({ refreshing: false, eventGroup });
     }, () => {

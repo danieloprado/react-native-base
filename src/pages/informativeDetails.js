@@ -23,12 +23,17 @@ export default class InformativeDetailsPage extends BaseComponent {
   componentDidMount() {
     if (this.state.informative) return;
 
-    informativeService.get(this.params.id).subscribe(informatives => {
+    this.subscription = informativeService.get(this.params.id).subscribe(informatives => {
       const informative = informatives;
       const html = informative ? informativeRender(informative) : null;
 
       this.setState({ loading: false, informative, html });
     });
+  }
+
+  componentWillUnmount() {
+    if (!this.subscription) return;
+    this.subscription.unsubscribe();
   }
 
   share() {

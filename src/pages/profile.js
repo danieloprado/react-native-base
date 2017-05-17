@@ -23,7 +23,7 @@ export default class ProfilePage extends BaseComponent {
   }
 
   componentDidMount() {
-    this.profileStream$ = profileService.get().subscribe(profile => {
+    this.subscription = profileService.get().subscribe(profile => {
       this.setState({ loading: false, profile });
     }, () => {
       this.setState({ loading: false, error: true });
@@ -31,7 +31,7 @@ export default class ProfilePage extends BaseComponent {
   }
 
   componentWillUnmount() {
-    this.profileStream$.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   logout() {

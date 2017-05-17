@@ -14,11 +14,15 @@ export default class InformativeCard extends BaseComponent {
   }
 
   componentDidMount() {
-    informativeService.last().subscribe(informative => {
+    this.subscription = informativeService.last().subscribe(informative => {
       this.setState({ loading: false, informative });
     }, () => {
       this.setState({ loading: false });
     });
+  }
+
+  componentWillUnmount() {
+    this.subscription.unsubscribe();
   }
 
   render() {

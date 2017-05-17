@@ -14,11 +14,15 @@ export default class EventCard extends BaseComponent {
   }
 
   componentDidMount() {
-    eventService.next().subscribe(event => {
+    this.subscription = eventService.next().subscribe(event => {
       this.setState({ loading: false, event });
     }, () => {
       this.setState({ loading: false });
     });
+  }
+
+  componentWillUnmount() {
+    this.subscription.unsubscribe();
   }
 
   render() {

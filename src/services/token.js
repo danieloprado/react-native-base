@@ -11,7 +11,27 @@ class TokenService {
   }
 
   getToken() {
-    return this.authToken$;
+    return this.authToken$.distinctUntilChanged();
+  }
+
+  getUser() {
+    return this.authToken$.distinctUntilChanged().map(tokens => {
+      if (!tokens) return;
+
+      try {
+        const user = JSON.parse(atob(tokens.accessToken.split('.')[1]));
+        user.canAccess = roles => {
+          if (!roles || roles.length === 0) return true;
+          if (user.roles.includes('sysAdmin') || user.roles.includes('admin')) return true;
+
+          return roles.some(r => user.roles.includes(r));
+        };
+
+        return user;
+      } catch (err) {
+        return null;
+      }
+    });
   }
 
   setToken(token) {
@@ -37,4 +57,4 @@ class TokenService {
   }
 }
 
-export default new TokenService(storage);
+export default new TokenService();

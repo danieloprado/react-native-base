@@ -28,6 +28,11 @@ export default class ProfileEditPage extends BaseComponent {
     };
   }
 
+  componentWillUnmount() {
+    if (!this.subscription) return;
+    this.subscription.unsubscribe();
+  }
+
   updateModel(key, value) {
     let { profile, addressCities } = this.state;
     profile[key] = value;
@@ -55,7 +60,7 @@ export default class ProfileEditPage extends BaseComponent {
   save() {
     profileValidator.validate(this.state.profile).then(model => {
       this.setState({ validation: {} });
-      this.refs.loader.fromObservable(profileService.save(model)).subscribe(() => {
+      this.subscription = this.refs.loader.fromObservable(profileService.save(model)).subscribe(() => {
         this.goBack();
       }, err => {
         toast('Não foi possível salvar');

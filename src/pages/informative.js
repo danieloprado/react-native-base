@@ -25,6 +25,10 @@ export default class InformativePage extends BaseComponent {
     this.load();
   }
 
+  componentWillUnmount() {
+    this.subscription.unsubscribe();
+  }
+
   details(informative) {
     this.navigate('InformativeDetails', { informative });
   }
@@ -32,7 +36,7 @@ export default class InformativePage extends BaseComponent {
   load(refresh = false) {
     this.setState({ refreshing: true }, true);
 
-    informativeService.list(refresh).subscribe(informatives => {
+    this.subscription = informativeService.list(refresh).subscribe(informatives => {
       informatives = informatives || [];
       this.setState({ refreshing: false, informatives });
     }, () => {

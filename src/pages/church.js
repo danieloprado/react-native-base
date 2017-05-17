@@ -22,11 +22,15 @@ export default class ChurchPage extends BaseComponent {
   }
 
   componentDidMount() {
-    churchService.info().subscribe(church => {
+    this.subscription = churchService.info().subscribe(church => {
       this.setState({ loading: false, church });
     }, () => {
       this.setState({ loading: false });
     });
+  }
+
+  componentWillUnmount() {
+    this.subscription.unsubscribe();
   }
 
   openPhone() {
