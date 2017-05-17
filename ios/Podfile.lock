@@ -1,4 +1,12 @@
 PODS:
+  - CodePush (2.0.3):
+    - CodePush/Core (= 2.0.3)
+    - CodePush/SSZipArchive (= 2.0.3)
+    - React
+  - CodePush/Core (2.0.3):
+    - React
+  - CodePush/SSZipArchive (2.0.3):
+    - React
   - FirebaseAnalytics (3.7.0):
     - FirebaseCore (~> 3.5)
     - FirebaseInstanceID (~> 1.0)
@@ -33,6 +41,8 @@ PODS:
   - GTMSessionFetcher/Core (1.1.9)
   - GTMSessionFetcher/Full (1.1.9):
     - GTMSessionFetcher/Core (= 1.1.9)
+  - React (0.44.0):
+    - React/Core (= 0.44.0)
   - React/Core (0.44.0):
     - React/cxxreact
     - Yoga (= 0.44.0.React)
@@ -63,6 +73,7 @@ PODS:
   - Yoga (0.44.0.React)
 
 DEPENDENCIES:
+  - CodePush (from `../node_modules/react-native-code-push`)
   - Google/SignIn
   - React/Core (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
@@ -78,12 +89,15 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 EXTERNAL SOURCES:
+  CodePush:
+    :path: ../node_modules/react-native-code-push
   React:
     :path: ../node_modules/react-native
   Yoga:
     :path: ../node_modules/react-native/ReactCommon/yoga
 
 SPEC CHECKSUMS:
+  CodePush: 351e03bb2c91fc1d037e0f627ce72224c4598360
   FirebaseAnalytics: 0d1b7d81d5021155be37702a94ba1ec16d45365d
   FirebaseCore: a024587e43778508700af8c6b1209f7c4516ba02
   FirebaseInstanceID: 2d0518b1378fe9d685ef40cbdd63d2fdc1125339
@@ -95,6 +109,6 @@ SPEC CHECKSUMS:
   React: d2077cc20245ccdc8bfe1fdc002f2003318ae8d8
   Yoga: a92a5d8e128905bf9f29c82f870192a6e873dd98
 
-PODFILE CHECKSUM: ecb79fca5788410300c3b975aecdcc41579f5ec4
+PODFILE CHECKSUM: 6795b4614f6e37136e5c70462ad76bbef756a949
 
 COCOAPODS: 1.2.1

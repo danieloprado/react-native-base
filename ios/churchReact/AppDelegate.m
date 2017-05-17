@@ -14,6 +14,7 @@
 #import "SplashScreen.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <RNGoogleSignin/RNGoogleSignin.h>
+#import <CodePush/CodePush.h>
 
 @implementation AppDelegate
 
@@ -21,8 +22,12 @@
 {
   NSURL *jsCodeLocation;
 
+#ifdef DEBUG
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
-
+#else
+  jsCodeLocation = [CodePush bundleURL];
+#endif
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"churchReact"
                                                initialProperties:nil
