@@ -27,25 +27,20 @@ const DrawerNavigatorItems = ({
       return (
         <TouchableNativeFeedback
           key={route.key}
-          onPress={() => {
-            navigation.navigate('DrawerClose');
-            navigation.navigate(route.routeName);
-          }}
+          onPress={() => { navigation.navigate('DrawerClose'); navigation.navigate(route.routeName); }}
           delayPressIn={0}
         >
           <View style={[styles.item, { backgroundColor }]}>
-            {icon
-              ? <View
-                  style={[styles.icon, focused ? null : styles.inactiveIcon]}
-                >
-                  {icon}
-                </View>
-              : null}
-            {typeof label === 'string'
-              ? <Text style={[styles.label, { color }, labelStyle]}>
-                  {label}
-                </Text>
-              : label}
+            {icon &&
+              <View style={[styles.icon, focused ? null : styles.inactiveIcon]}>
+                {icon}
+              </View>
+            }
+            {typeof label !== 'string' ? label :
+              <Text style={[styles.label, { color }, labelStyle]}>
+                {label}
+              </Text>
+            }
           </View>
         </TouchableNativeFeedback>
       );

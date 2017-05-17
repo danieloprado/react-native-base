@@ -17,9 +17,7 @@ export default class BaseComponent extends Component {
   }
 
   goBack() {
-    InteractionManager.runAfterInteractions(() => {
-      this.props.navigation.goBack();
-    });
+    this.props.navigation.goBack();
   }
 
   navigate(routeName, params, reset) {
