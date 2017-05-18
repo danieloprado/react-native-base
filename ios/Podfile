@@ -23,6 +23,9 @@ target 'churchReact' do
   # Pods for churchReact
   pod 'Google/SignIn'
   pod 'CodePush', :path => '../node_modules/react-native-code-push'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKShareKit'
+  pod 'FBSDKLoginKit'
 
   target 'churchReact-tvOSTests' do
     inherit! :search_paths
