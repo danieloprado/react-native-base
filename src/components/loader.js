@@ -37,13 +37,13 @@ export default class Loader extends BaseComponent {
   render() {
     return (
       <Modal
-        animationType='fade'  
-        transparent={true}  
+        animationType='fade'
+        transparent={true}
         visible={this.state.show}
         onRequestClose={() => { }}
       >
         <View style={StyleSheet.flatten(styles.container)}>
-         <Spinner size={60} color={variables.accent} style={StyleSheet.flatten(styles.spinner)} />
+          <Spinner color={variables.accent} style={StyleSheet.flatten(styles.spinner)} />
         </View>
       </Modal>
     );

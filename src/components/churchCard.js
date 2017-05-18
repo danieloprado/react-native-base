@@ -42,41 +42,41 @@ export default class ChurchCard extends BaseComponent {
         <CardItem header>
           <Text>Igreja</Text>
         </CardItem>
-        { this.state.loading ?
+        {this.state.loading ?
           <CardItem>
             <Body style={StyleSheet.flatten(theme.alignCenter)}>
               <Spinner color={variables.accent} />
             </Body>
           </CardItem>
           :
-          !church ? 
-          <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
-            <Text note>Não foi possível carregar</Text>
-          </CardItem>     
-          :
-          <View>
-            { !church.phone ? null :
-              <CardItem button onPress={() => this.openPhone()}>
-                <Icon name="call" />
-                <Text>{phoneFormatter(church.phone)}</Text>
-              </CardItem>
-            }
-            { !church.address ? null :
+          !church ?
+            <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
+              <Text note>Não foi possível carregar</Text>
+            </CardItem>
+            :
+            <View>
+              {!church.phone ? null :
+                <CardItem button onPress={() => this.openPhone()}>
+                  <Icon name="call" />
+                  <Text>{phoneFormatter(church.phone)}</Text>
+                </CardItem>
+              }
+              {!church.address ? null :
                 <CardItem button onPress={() => this.openAddress()}>
                   <Icon name="pin" />
                   <Text style={StyleSheet.flatten(theme.cardItemMultiline)}>
                     {church.address}
                   </Text>
                 </CardItem>
-            }    
-            <CardItem footer style={StyleSheet.flatten(theme.alignRight)}>
-              <Button transparent onPress={() => this.navigate('Church')}>
-                <Text>DETALHES</Text>
-              </Button>  
-            </CardItem>
-          </View>  
-        }  
-       
+              }
+              <CardItem footer style={StyleSheet.flatten(theme.alignRight)}>
+                <Button transparent onPress={() => this.navigate('Church')}>
+                  <Text>DETALHES</Text>
+                </Button>
+              </CardItem>
+            </View>
+        }
+
       </Card>
     );
   }
