@@ -13,6 +13,11 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* churchReactTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* churchReactTests.m */; };
+		0307F9041ECDFE3000367B45 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0307F9031ECDFE3000367B45 /* Bolts.framework */; };
+		0307F9061ECDFE3B00367B45 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0307F9051ECDFE3B00367B45 /* FBSDKCoreKit.framework */; };
+		0307F9081ECDFE4C00367B45 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0307F9071ECDFE4C00367B45 /* FBSDKLoginKit.framework */; };
+		0307F90A1ECDFE5700367B45 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0307F9091ECDFE5700367B45 /* FBSDKShareKit.framework */; };
+		03875A851ECE034A004CBC7C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 03875A841ECE0349004CBC7C /* GoogleService-Info.plist */; };
 		0BB3E3A3AD3D8C10C8CDCE87 /* libPods-churchReact-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3893E3F6319D5BCA3262F544 /* libPods-churchReact-tvOSTests.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
@@ -34,11 +39,6 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* churchReactTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* churchReactTests.m */; };
-		3F68E3FF1ECA622600B3D437 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F68E3FB1ECA622600B3D437 /* Bolts.framework */; };
-		3F68E4001ECA622600B3D437 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F68E3FC1ECA622600B3D437 /* FBSDKCoreKit.framework */; };
-		3F68E4011ECA622600B3D437 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F68E3FD1ECA622600B3D437 /* FBSDKLoginKit.framework */; };
-		3F68E4021ECA622600B3D437 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F68E3FE1ECA622600B3D437 /* FBSDKShareKit.framework */; };
-		3F68E4141ECA677D00B3D437 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F68E4131ECA677D00B3D437 /* GoogleService-Info.plist */; };
 		4F4F4D096859400EB106301D /* libRCTOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E0C7B2ECE434A5B8B8C8FCC /* libRCTOneSignal.a */; };
 		55532C10592D40E594090C33 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749762B08A024C40B00B7CD7 /* libCodePush.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -297,6 +297,12 @@
 		00E356EE1AD99517003FC87E /* churchReactTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = churchReactTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* churchReactTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = churchReactTests.m; sourceTree = "<group>"; };
+		0307F9021ECDFC4000367B45 /* churchReact.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = churchReact.entitlements; path = churchReact/churchReact.entitlements; sourceTree = "<group>"; };
+		0307F9031ECDFE3000367B45 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
+		0307F9051ECDFE3B00367B45 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		0307F9071ECDFE4C00367B45 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		0307F9091ECDFE5700367B45 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		03875A841ECE0349004CBC7C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "churchReact/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0732F441A074B4E3F08AFF13 /* libPods-churchReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-churchReact.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1121C2A17ABC420BA2A215BB /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
 		11B88D0453D702387BFA9BE2 /* libPods-churchReactTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-churchReactTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -315,11 +321,6 @@
 		30A56B1AC6B44CAB9F19D3C5 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		3893E3F6319D5BCA3262F544 /* libPods-churchReact-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-churchReact-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E0C7B2ECE434A5B8B8C8FCC /* libRCTOneSignal.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOneSignal.a; sourceTree = "<group>"; };
-		3F68E3FB1ECA622600B3D437 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../../Documents/FacebookSDK/Bolts.framework; sourceTree = "<group>"; };
-		3F68E3FC1ECA622600B3D437 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		3F68E3FD1ECA622600B3D437 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		3F68E3FE1ECA622600B3D437 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
-		3F68E4131ECA677D00B3D437 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4A70086732E240E1AE197380 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		582080E3705D4230C77995AE /* Pods-churchReactTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-churchReactTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-churchReactTests/Pods-churchReactTests.release.xcconfig"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -328,14 +329,17 @@
 		652150AEA42E2636609CB6BE /* Pods-churchReact-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-churchReact-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-churchReact-tvOSTests/Pods-churchReact-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6BA4FAE3279C400F860F1442 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		6F2F5A2C084C4926AEBFF751 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
+		71CBACB4BDFA3BEC50B2B942 /* Pods-churchReact.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-churchReact.staging.xcconfig"; path = "Pods/Target Support Files/Pods-churchReact/Pods-churchReact.staging.xcconfig"; sourceTree = "<group>"; };
 		749762B08A024C40B00B7CD7 /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
 		76E5D48C7B4F4B3F9D19853C /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		79422E5C292B43AC9C2CC0C6 /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		87A4B9CBB8BD44F9814C8D57 /* RCTOneSignal.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOneSignal.xcodeproj; path = "../node_modules/react-native-onesignal/ios/RCTOneSignal.xcodeproj"; sourceTree = "<group>"; };
+		977B9F9FD66C107C5FEC7F0A /* Pods-churchReactTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-churchReactTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-churchReactTests/Pods-churchReactTests.staging.xcconfig"; sourceTree = "<group>"; };
 		9BDFABCA8EE2463E695E5244 /* Pods-churchReactTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-churchReactTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-churchReactTests/Pods-churchReactTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A2583DA3E97D4888BC8DDEE5 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
+		AA907E6094FC9C2927CB82DB /* Pods-churchReact-tvOSTests.staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-churchReact-tvOSTests.staging.xcconfig"; path = "Pods/Target Support Files/Pods-churchReact-tvOSTests/Pods-churchReact-tvOSTests.staging.xcconfig"; sourceTree = "<group>"; };
 		ACF3BCC905474D8C9D6B2DDE /* CodePush.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		EA4A2E01167078954348C36F /* Pods-churchReact.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-churchReact.release.xcconfig"; path = "Pods/Target Support Files/Pods-churchReact/Pods-churchReact.release.xcconfig"; sourceTree = "<group>"; };
 		F6A3FCB0688805C0A9DC5BBA /* Pods-churchReact.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-churchReact.debug.xcconfig"; path = "Pods/Target Support Files/Pods-churchReact/Pods-churchReact.debug.xcconfig"; sourceTree = "<group>"; };
@@ -359,21 +363,21 @@
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
+				0307F9061ECDFE3B00367B45 /* FBSDKCoreKit.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
+				0307F90A1ECDFE5700367B45 /* FBSDKShareKit.framework in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
-				3F68E4001ECA622600B3D437 /* FBSDKCoreKit.framework in Frameworks */,
+				0307F9081ECDFE4C00367B45 /* FBSDKLoginKit.framework in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				3F68E4021ECA622600B3D437 /* FBSDKShareKit.framework in Frameworks */,
 				D4E648E9F6234FDD934E80CD /* libSplashScreen.a in Frameworks */,
-				3F68E4011ECA622600B3D437 /* FBSDKLoginKit.framework in Frameworks */,
-				3F68E3FF1ECA622600B3D437 /* Bolts.framework in Frameworks */,
 				F1FFAB8B5E914838B41B4961 /* libRNDeviceInfo.a in Frameworks */,
 				6A1C37F823AA44AD975259EB /* libRCTFBSDK.a in Frameworks */,
 				6CE52B0076684C6DB8580C8B /* libRNGoogleSignin.a in Frameworks */,
+				0307F9041ECDFE3000367B45 /* Bolts.framework in Frameworks */,
 				4F4F4D096859400EB106301D /* libRCTOneSignal.a in Frameworks */,
 				C5656278F402D98595F27FF8 /* libPods-churchReact.a in Frameworks */,
 				55532C10592D40E594090C33 /* libCodePush.a in Frameworks */,
@@ -487,7 +491,8 @@
 		13B07FAE1A68108700A75B9A /* churchReact */ = {
 			isa = PBXGroup;
 			children = (
-				3F68E4131ECA677D00B3D437 /* GoogleService-Info.plist */,
+				03875A841ECE0349004CBC7C /* GoogleService-Info.plist */,
+				0307F9021ECDFC4000367B45 /* churchReact.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -556,10 +561,10 @@
 		3F68E3FA1ECA620B00B3D437 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3F68E3FB1ECA622600B3D437 /* Bolts.framework */,
-				3F68E3FC1ECA622600B3D437 /* FBSDKCoreKit.framework */,
-				3F68E3FD1ECA622600B3D437 /* FBSDKLoginKit.framework */,
-				3F68E3FE1ECA622600B3D437 /* FBSDKShareKit.framework */,
+				0307F9091ECDFE5700367B45 /* FBSDKShareKit.framework */,
+				0307F9071ECDFE4C00367B45 /* FBSDKLoginKit.framework */,
+				0307F9051ECDFE3B00367B45 /* FBSDKCoreKit.framework */,
+				0307F9031ECDFE3000367B45 /* Bolts.framework */,
 				0732F441A074B4E3F08AFF13 /* libPods-churchReact.a */,
 				3893E3F6319D5BCA3262F544 /* libPods-churchReact-tvOSTests.a */,
 				11B88D0453D702387BFA9BE2 /* libPods-churchReactTests.a */,
@@ -594,6 +599,9 @@
 				1C8EE02ADFB107B487656388 /* Pods-churchReact-tvOSTests.release.xcconfig */,
 				9BDFABCA8EE2463E695E5244 /* Pods-churchReactTests.debug.xcconfig */,
 				582080E3705D4230C77995AE /* Pods-churchReactTests.release.xcconfig */,
+				71CBACB4BDFA3BEC50B2B942 /* Pods-churchReact.staging.xcconfig */,
+				AA907E6094FC9C2927CB82DB /* Pods-churchReact-tvOSTests.staging.xcconfig */,
+				977B9F9FD66C107C5FEC7F0A /* Pods-churchReactTests.staging.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -772,10 +780,13 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 7W954R4FXL;
+						DevelopmentTeam = UYTYK89PLU;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 0;
 							};
 						};
 					};
@@ -1114,8 +1125,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				3F68E4141ECA677D00B3D437 /* GoogleService-Info.plist in Resources */,
 				9A889B57E6FE42EDBB9A4E89 /* Ionicons.ttf in Resources */,
+				03875A851ECE034A004CBC7C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1222,7 +1233,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		A2A0A13A857B289C099149C3 /* [CP] Check Pods Manifest.lock */ = {
@@ -1237,7 +1248,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		AF557A293BB20367A9617E22 /* [CP] Embed Pods Frameworks */ = {
@@ -1267,7 +1278,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		D8F94968F70D09930D30BC98 /* [CP] Copy Pods Resources */ = {
@@ -1436,7 +1447,16 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = 7W954R4FXL;
+				DEVELOPMENT_TEAM = UYTYK89PLU;
+				FRAMEWORK_SEARCH_PATHS = (
+					"~/Documents/FacebookSDK",
+					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
+					"\"${PODS_ROOT}/FirebaseCore/Frameworks\"",
+					"\"${PODS_ROOT}/FirebaseInstanceID/Frameworks\"",
+					"\"${PODS_ROOT}/Google/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleSignIn/Frameworks\"",
+					"\"$(PODS_ROOR)/FBSDKCoreKit\"",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
@@ -1466,7 +1486,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7W954R4FXL;
+				DEVELOPMENT_TEAM = UYTYK89PLU;
+				FRAMEWORK_SEARCH_PATHS = (
+					"~/Documents/FacebookSDK",
+					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
+					"\"${PODS_ROOT}/FirebaseCore/Frameworks\"",
+					"\"${PODS_ROOT}/FirebaseInstanceID/Frameworks\"",
+					"\"${PODS_ROOT}/Google/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleSignIn/Frameworks\"",
+					"\"$(PODS_ROOR)/FBSDKCoreKit\"",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
@@ -1679,12 +1708,22 @@
 		};
 		3F915F2D1ECBE4D30053768B /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA4A2E01167078954348C36F /* Pods-churchReact.release.xcconfig */;
+			baseConfigurationReference = 71CBACB4BDFA3BEC50B2B942 /* Pods-churchReact.staging.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7W954R4FXL;
+				DEVELOPMENT_TEAM = UYTYK89PLU;
+				FRAMEWORK_SEARCH_PATHS = (
+					"~/Documents/FacebookSDK",
+					"\"${PODS_ROOT}/FirebaseAnalytics/Frameworks\"",
+					"\"${PODS_ROOT}/FirebaseCore/Frameworks\"",
+					"\"${PODS_ROOT}/FirebaseInstanceID/Frameworks\"",
+					"\"${PODS_ROOT}/Google/Frameworks\"",
+					"\"${PODS_ROOT}/GoogleSignIn/Frameworks\"",
+					"\"$(PODS_ROOR)/FBSDKCoreKit\"",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
@@ -1709,7 +1748,7 @@
 		};
 		3F915F2E1ECBE4D30053768B /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 582080E3705D4230C77995AE /* Pods-churchReactTests.release.xcconfig */;
+			baseConfigurationReference = 977B9F9FD66C107C5FEC7F0A /* Pods-churchReactTests.staging.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -1789,7 +1828,7 @@
 		};
 		3F915F301ECBE4D30053768B /* Staging */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1C8EE02ADFB107B487656388 /* Pods-churchReact-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = AA907E6094FC9C2927CB82DB /* Pods-churchReact-tvOSTests.staging.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
