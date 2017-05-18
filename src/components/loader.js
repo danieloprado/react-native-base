@@ -43,7 +43,7 @@ export default class Loader extends BaseComponent {
         onRequestClose={() => { }}
       >
         <View style={StyleSheet.flatten(styles.container)}>
-          <Spinner color={variables.accent} style={StyleSheet.flatten(styles.spinner)} />
+          <Spinner size='large' color={variables.accent} style={StyleSheet.flatten(styles.spinner)} />
         </View>
       </Modal>
     );
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.4)',
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    transform: [{ scale: 1.5 }]
   }
 });

@@ -18,7 +18,7 @@ const appDrawer = DrawerNavigator({
   Profile: { screen: Profile },
   Informative: { screen: Informative },
   Event: { screen: Event },
-  ChurchReport: { screen: ChurchReport },
+  // ChurchReport: { screen: ChurchReport },
   Church: { screen: Church }
 }, {
     contentComponent: SideMenu,
