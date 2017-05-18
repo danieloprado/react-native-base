@@ -6,11 +6,15 @@ Workspace General
 
 ```bash
 npm install -g yarn react-native-cli
+cd path/code/project
 yarn
 ```
 
-Workspace Android
------------------
+Android
+=======
+
+Workspace
+---------
 
 * Install ORACLE JAVA SDK
 * Set JAVA_HOME enviroment:
@@ -40,8 +44,9 @@ export ANDROID_HOME=/path/to/android/sdk
 
 * Copy **./android/keystores/debug.keystore** to **$ANDROID_HOME**
 
-Dev Android
--------------
+
+Development
+-----------
 
 ```bash
 yarn dev-android # Build apk and start the packager
@@ -51,10 +56,59 @@ yarn start # Just start packager
 adb reverse tcp:8081 tcp:8081
 ```
 
-Release Android
----------------
+Release
+-------
+
 
 ```bash
 yarn release-android
 # ICBSorocaba-signed.apk will be generated at the project folder
+```
+
+IOS
+===
+
+Workspace
+---------
+* Install XCode
+* Install [Cocoapods](https://guides.cocoapods.org/using/getting-started.html)
+* Download [Facebook SDK for IOS](https://developers.facebook.com/docs/ios/) and unzip on **~/Documents/FacebookSDK**
+* Install dependecies:
+```bash
+# inside project folder
+cd ./ios
+pod install
+```
+
+Known Issue
+-----------
+https://github.com/facebook/react-native/issues/13198
+
+#### Workaround
+
+Change:  
+**#import <RCTAnimation/RCTValueAnimatedNode.h>**  
+To:    
+**#import "RCTValueAnimatedNode.h"**
+
+Development
+-----------
+
+### XCode
+Open the *ios/churchReact.xcworkspace*
+
+### Command line:
+```bash
+react-native run-ios
+```
+
+Release
+-----------
+
+### XCode:
+*Product > Schemes > Edit Scheme*, change configuration to **Release** then build project
+
+### Comamnd line:
+```bash
+react-native run-ios --configuration Release
 ```
