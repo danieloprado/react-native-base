@@ -63,6 +63,10 @@
       <string>fb-messenger-api</string>
       <string>fbauth2</string>
       <string>fbshareextension</string>
+      <string>geo</string>
+      <string>waze</string>
+      <string>comgooglemaps</string>
+      <string>tel</string>
     </array>
     <key>LSRequiresIPhoneOS</key>
     <true/>
@@ -133,12 +137,5 @@
     </array>
     <key>UIViewControllerBasedStatusBarAppearance</key>
     <false/>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>geo</string>
-      <string>waze</string>
-      <string>comgooglemaps</string>
-      <string>tel</string>
-    </array>
   </dict>
 </plist>
