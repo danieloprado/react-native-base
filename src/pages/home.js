@@ -23,11 +23,11 @@ export default class HomePage extends BaseComponent {
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
-                <Icon name='menu' />
+              <Icon name='menu' />
             </Button>
           </Left>
           <Body>
-              <Title>ICB Sorocaba</Title>
+            <Title>ICB Sorocaba</Title>
           </Body>
           <Right />
         </Header>
@@ -36,8 +36,8 @@ export default class HomePage extends BaseComponent {
             <ChurchCard navigation={this.props.navigation}></ChurchCard>
             <InformativeCard navigation={this.props.navigation}></InformativeCard>
             <EventCard navigation={this.props.navigation}></EventCard>
-          </View>    
-        </Content>  
+          </View>
+        </Content>
       </Container>
     );
   }
