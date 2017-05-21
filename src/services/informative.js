@@ -21,16 +21,28 @@ class InformativeService {
     });
   }
 
-  get(id) {
+  get(id, refresh = false) {
     return new Observable(observer => {
-      const listSubscriber = this.list().subscribe(informatives => {
+      this.list(refresh).first().subscribe(informatives => {
         const informative = informatives.filter(i => i.id === id)[0];
 
         if (informative) {
-          listSubscriber.unsubscribe();
           observer.next(informative);
           observer.complete();
+          return;
         }
+
+        if (!refresh) {
+          this.list(true).first().subscribe(informatives => {
+            const informative = informatives.filter(i => i.id === id)[0];
+            observer.next(informative);
+            observer.complete();
+          });
+          return;
+        }
+
+        observer.next(null);
+        observer.complete();
       }, error => observer.error(error), () => {
         observer.next(null);
       });

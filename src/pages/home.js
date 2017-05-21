@@ -18,6 +18,7 @@ export default class HomePage extends BaseComponent {
   };
 
   render() {
+
     return (
       <Container style={StyleSheet.flatten(theme.cardsContainer)}>
         <Header>

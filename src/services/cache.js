@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import settings from '../settings';
 import storage from './storage';
 
-export class EmptyCache extends Error {}
+export class EmptyCache extends Error { }
 
 export class Cache {
   constructor() {
@@ -52,7 +52,7 @@ export class Cache {
   }
 
   isExpirated(cache) {
-    if (settings.env === 'development') return true;
+    if (settings.isDevelopment) return true;
 
     const difference = Date.now() - new Date(cache.createdAt).getTime();
     return (difference / 1000 / 60) > 5; //5 minutes

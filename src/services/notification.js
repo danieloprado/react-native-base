@@ -7,7 +7,7 @@ const ACTION_HANDLERS = {
     dispatch({
       type: 'Navigation/NAVIGATE',
       routeName: 'InformativeDetails',
-      params: { id: data.id }
+      params: { id: Number(data.id) }
     });
   }
 };
@@ -44,7 +44,6 @@ class NotificationService {
     if (!data || !ACTION_HANDLERS[data.action]) return Promise.resolve();
 
     this._appDidOpen$.subscribe(opened => {
-      console.log('here', opened);
       if (!opened) return;
 
       return InteractionManager.runAfterInteractions(() => {
