@@ -3,7 +3,7 @@ import { InteractionManager } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
 const ACTION_HANDLERS = {
-  'new-informative': async(dispatch, data) => {
+  'open-informative': async (dispatch, data) => {
     dispatch({
       type: 'Navigation/NAVIGATE',
       routeName: 'InformativeDetails',
@@ -43,9 +43,9 @@ class NotificationService {
     const data = notification.payload.additionalData;
     if (!data || !ACTION_HANDLERS[data.action]) return Promise.resolve();
 
-    const subscription = this._appDidOpen$.subscribe(opened => {
+    this._appDidOpen$.subscribe(opened => {
+      console.log('here', opened);
       if (!opened) return;
-      subscription.unsubscribe();
 
       return InteractionManager.runAfterInteractions(() => {
         return ACTION_HANDLERS[data.action](dispatch, data);
