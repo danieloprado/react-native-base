@@ -2,6 +2,7 @@ import { Body, Button, Container, Content, Fab, Header, Icon, Left, Right, Text,
 
 import BaseComponent from '../components/base';
 import React from 'react';
+import { StyleSheet } from 'react-native';
 
 export default class ChurchReportPage extends BaseComponent {
   static navigationOptions = {
@@ -32,7 +33,7 @@ export default class ChurchReportPage extends BaseComponent {
           <Right />
         </Header>
         <Content>
-          <View style={{ flex: 1, backgroundColor: 'blue' }}>
+          <View style={StyleSheet.flatten(styles.container)}>
             <Text>Here 2</Text>
             <Fab
               active={this.state.active}
@@ -56,3 +57,12 @@ export default class ChurchReportPage extends BaseComponent {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'gray'
+  }
+});
