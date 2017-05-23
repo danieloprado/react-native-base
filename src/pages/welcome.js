@@ -49,6 +49,7 @@ export default class WelcomPage extends BaseComponent {
       return;
     }
 
+    if (settings.isDevelopment) return this.navigate('ChurchReport', null, true);
     this.navigate('Home', null, true);
   }
 
