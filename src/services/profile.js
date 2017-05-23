@@ -20,13 +20,13 @@ class ProfileService {
     const notificationId = notificationService.getUserId();
     const name = `${device.getBrand()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`;
 
-    return api.post('register', { deviceId, name, application, provider, accessToken, notificationId }).flatMap(res => {
+    return api.post('register', { deviceId, name, application, provider, accessToken, notificationId }).switchMap(res => {
       return tokenService.setToken(res);
     });
   }
 
   get(refresh = false) {
-    return tokenService.getToken().flatMap(token => {
+    return tokenService.getToken().switchMap(token => {
       if (!token) {
         return Observable.of(null);
       }

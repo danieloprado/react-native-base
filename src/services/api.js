@@ -24,7 +24,7 @@ export class ApiService {
         .map(res => this.checkResponse(res))
         .do(res => this.checkNewToken(res))
         // .timeout(settings.apiTimeout)
-        .flatMap(res => Observable.fromPromise(res.json()))
+        .switchMap(res => Observable.fromPromise(res.json()))
         .catch(err => this.errorHandler(err));
     };
   }
@@ -60,7 +60,7 @@ export class ApiService {
     }
 
     if (err.status === 401) {
-      return tokenService.clearToken().flatMap(() => {
+      return tokenService.clearToken().switchMap(() => {
         return Observable.throw(err);
       });
     }
