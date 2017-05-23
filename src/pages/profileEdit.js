@@ -41,7 +41,7 @@ export default class ProfileEditPage extends BaseComponent {
       addressCities = addressService.citites(value);
     }
 
-    profileValidator.validate(this.state.profile).then(() => {
+    profileValidator.validate(profile).then(() => {
       this.setState({ validation: {}, profile, addressCities }, true);
     }).catch(errors => {
       this.setState({ validation: errors, profile, addressCities }, true);
@@ -81,11 +81,11 @@ export default class ProfileEditPage extends BaseComponent {
         <Header>
           <Left>
             <Button transparent onPress={() => this.goBack()}>
-                <Icon name='arrow-back' />
+              <Icon name='arrow-back' />
             </Button>
           </Left>
           <Body>
-              <Title>Atualizar Perfil</Title>
+            <Title>Atualizar Perfil</Title>
           </Body>
           <Right>
             <Button transparent onPress={() => this.save()}>
@@ -99,11 +99,11 @@ export default class ProfileEditPage extends BaseComponent {
               <List>
                 <Field label="Nome" icon="person" model={profile} field="firstName" errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Sobrenome" icon="empty" model={profile} field="lastName" errors={validation} onChange={this.updateModel.bind(this)} />
-                
+
                 <Field label="Email" icon="mail" model={profile} field="email" type="email" errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Sexo" icon="male" model={profile} field="gender" type="dropdown" options={genderOptions} errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Aniversário" icon="calendar" model={profile} field="birthday" type="date" errors={validation} onChange={this.updateModel.bind(this)} />
-                
+
                 <Field label="Cep" icon="pin" model={profile} field="zipcode" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Endereço" icon="empty" model={profile} field="address" errors={validation} onChange={this.updateModel.bind(this)} />
                 <Field label="Número" icon="empty" model={profile} field="number" errors={validation} onChange={this.updateModel.bind(this)} />
@@ -114,7 +114,7 @@ export default class ProfileEditPage extends BaseComponent {
               </List>
             </Form>
           </View>
-        </Content>  
+        </Content>
       </Container>
     );
   }

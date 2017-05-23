@@ -2,6 +2,7 @@ import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
 import Church from './pages/church';
 import ChurchReport from './pages/churchReport';
+import ChurchReportForm from './pages/churchReportForm';
 import Event from './pages/event';
 import EventDetails from './pages/eventDetails';
 import Home from './pages/home';
@@ -38,5 +39,6 @@ export default StackNavigator({
   Event: { screen: appDrawer },
   EventDetails: { screen: EventDetails },
   ChurchReport: { screen: appDrawer },
+  ChurchReportForm: { screen: ChurchReportForm },
   Church: { screen: appDrawer },
 }, { headerMode: 'none' });
