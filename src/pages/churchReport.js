@@ -18,7 +18,7 @@ export default class ChurchReportPage extends BaseComponent {
   }
 
   componentDidMount() {
-    this.navigate('ChurchReportForm');
+    setTimeout(() => this.navigate('ChurchReportForm'), 1000);
   }
 
   render() {
