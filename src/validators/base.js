@@ -27,7 +27,7 @@ export default class BaseValidator {
   };
 
   validate(model) {
-    const result = new validator(model, this.rules, this.messages);
+    const result = new validator(model || {}, this.rules, this.messages);
 
     if (result.passes()) {
       return Promise.resolve(this.cleanModel(model));

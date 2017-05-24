@@ -39,57 +39,57 @@ export default class Field extends BaseComponent {
 
     return (
       <ListItem style={StyleSheet.flatten(styles.container)}>
-        {icon && 
-        <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
-          {icon !== 'empty' && <Icon name={icon} style={StyleSheet.flatten(theme.listIcon)} />}
-        </Left>
+        {icon &&
+          <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
+            {icon !== 'empty' && <Icon name={icon} style={StyleSheet.flatten(theme.listIcon)} />}
+          </Left>
         }
         <Body>
           <View>
-          <Text note style={StyleSheet.flatten(hasError ? styles.errorMessage: null)}>{label}</Text>
-          { type === 'dropdown' || type === 'dialog' ?
-            <View style={StyleSheet.flatten(styles.picker)}>
-              <Picker
-                iosHeader={label}
-                mode={type}
-                prompt={label}
-                selectedValue={model[field]}
-                onValueChange={value => onChange(field, value)}>
-                {options.map(option => 
-                  <Item key={option.value} label={option.display} value={option.value} />
-                )}
-            </Picker>
-            </View>
-          : type === 'date' ?
-            <View onTouchStart={() => this.setState({ showDatePicker: true })}>
-              <Item style={StyleSheet.flatten(styles.item)} error={hasError}>
-                <Input
-                  disabled
-                  value={model[field] ? dateFormatter.format(model[field], 'DD [de] MMMM [de] YYYY') : null} 
-                  style={StyleSheet.flatten(styles.input)} />
-                { hasError && <Icon name='close-circle' /> }
-              </Item>
-              <DateTimePicker
-                  date={model[field]}
-                  isVisible={showDatePicker}
-                  onConfirm={value => this.setState({ showDatePicker: false }) && onChange(field, value)}
-                  onCancel={() => this.setState({ showDatePicker: false })}
-                />
-            </View>
-          :
-            <Item style={StyleSheet.flatten(styles.item)} error={hasError}>
-              <Input 
-                value={model[field]} 
-                onChangeText={value => onChange(field, value)}
-                keyboardType={keyboardTypes[type] || keyboardTypes.text}
-                style={StyleSheet.flatten(styles.input)} />
-              { hasError && <Icon name='close-circle' /> }
-            </Item>
-          }
-          <Text note style={StyleSheet.flatten(styles.errorMessage)}>{error[0]}</Text>
-        </View>
-      </Body>
-    </ListItem>
+            <Text note style={StyleSheet.flatten(hasError ? styles.errorLabel : null)}>{label}</Text>
+            {type === 'dropdown' || type === 'dialog' ?
+              <View style={StyleSheet.flatten(styles.picker)}>
+                <Picker
+                  iosHeader={label}
+                  mode={type}
+                  prompt={label}
+                  selectedValue={model[field]}
+                  onValueChange={value => onChange(field, value)}>
+                  {options.map(option =>
+                    <Item key={option.value} label={option.display} value={option.value} />
+                  )}
+                </Picker>
+              </View>
+              : type === 'date' ?
+                <View onTouchStart={() => this.setState({ showDatePicker: true })}>
+                  <Item style={StyleSheet.flatten(styles.item)} error={hasError}>
+                    <Input
+                      disabled
+                      value={model[field] ? dateFormatter.format(model[field], 'DD [de] MMMM [de] YYYY') : null}
+                      style={StyleSheet.flatten(styles.input)} />
+                    {hasError && <Icon name='close-circle' />}
+                  </Item>
+                  <DateTimePicker
+                    date={model[field]}
+                    isVisible={showDatePicker}
+                    onConfirm={value => this.setState({ showDatePicker: false }) && onChange(field, value)}
+                    onCancel={() => this.setState({ showDatePicker: false })}
+                  />
+                </View>
+                :
+                <Item style={StyleSheet.flatten(styles.item)} error={hasError}>
+                  <Input
+                    value={model[field]}
+                    onChangeText={value => onChange(field, value)}
+                    keyboardType={keyboardTypes[type] || keyboardTypes.text}
+                    style={StyleSheet.flatten(styles.input)} />
+                  {hasError && <Icon name='close-circle' />}
+                </Item>
+            }
+            <Text note style={StyleSheet.flatten(styles.errorMessage)}>{error[0]}</Text>
+          </View>
+        </Body>
+      </ListItem>
     );
   }
 
@@ -114,6 +114,10 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderLeftWidth: 0,
     borderColor: variables.inputBorderColor,
+  },
+  errorLabel: {
+    opacity: 0.8,
+    color: variables.inputErrorBorderColor
   },
   errorMessage: {
     color: variables.inputErrorBorderColor

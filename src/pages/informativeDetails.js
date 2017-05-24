@@ -61,35 +61,35 @@ export default class InformativeDetailsPage extends BaseComponent {
         <Header>
           <Left>
             <Button transparent onPress={() => this.goBack()}>
-                <Icon name='arrow-back' />
+              <Icon name='arrow-back' />
             </Button>
           </Left>
           <Body>
             <Title>{title}</Title>
           </Body>
           <Right>
-            {informative && 
+            {informative &&
               <Button transparent onPress={() => this.share()}>
-                  <Icon name='share' />
-              </Button>  
+                <Icon name='share' />
+              </Button>
             }
-          </Right>  
+          </Right>
         </Header>
         {loading ?
           <View style={StyleSheet.flatten(theme.alignCenter)}>
             <Spinner color={variables.accent} />
           </View>
-        : !informative ?
-          <View style={StyleSheet.flatten(theme.emptyMessage)}>
-            <Text note>Não foi possível carregar</Text>
-          </View>
-        :
-          <View style={{flex: 1}}>
-            <WebView
-              source={{ html }}
-              onMessage={event => this.setText(event.nativeEvent.data)}
-              style={{flex: 1}} />
-          </View>  
+          : !informative ?
+            <View style={StyleSheet.flatten(theme.emptyMessage)}>
+              <Text note>Não foi possível carregar</Text>
+            </View>
+            :
+            <View style={{ flex: 1 }}>
+              <WebView
+                source={{ html }}
+                onMessage={event => this.setText(event.nativeEvent.data)}
+                style={{ flex: 1 }} />
+            </View>
         }
       </Container>
     );
