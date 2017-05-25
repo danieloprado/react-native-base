@@ -27,6 +27,10 @@ export default class ChurchReportFormPage extends BaseComponent {
   componentDidMount() {
     this.subscription = churchReportService.types().subscribe(types => {
       console.log(types);
+      this.setState({ loading: false, types });
+    }, err => {
+      this.setState({ loading: false, error: true });
+      console.log(err);
     });
   }
 
@@ -67,7 +71,7 @@ export default class ChurchReportFormPage extends BaseComponent {
   }
 
   render() {
-    const { model, validation, loading, error } = this.state;
+    const { model, validation, loading, error, types } = this.state;
 
     return (
       <Container>
@@ -103,7 +107,9 @@ export default class ChurchReportFormPage extends BaseComponent {
                 <Form>
                   <List>
                     <Field label="Descrição" icon="paper" model={model} field="title" errors={validation} onChange={this.updateModel.bind(this)} />
+                    <Field label="Tipo" icon="empty" model={model} field="typeId" type="dropdown" options={types} errors={validation} onChange={this.updateModel.bind(this)} />
                     <Field label="Data" icon="calendar" model={model} field="date" type="date" errors={validation} onChange={this.updateModel.bind(this)} />
+
                     <Field label="Total de Membros" icon="contacts" model={model} field="totalMembers" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
                     <Field label="Total de Visitantes" icon="empty" model={model} field="totalNewVisitors" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
                     <Field label="Total de Frequentadores" icon="empty" model={model} field="totalFrequentVisitors" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
