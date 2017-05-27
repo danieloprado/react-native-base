@@ -26,8 +26,12 @@ export default class ChurchReportFormPage extends BaseComponent {
 
   componentDidMount() {
     this.subscription = churchReportService.types().subscribe(types => {
-      console.log(types);
-      this.setState({ loading: false, types });
+      this.setState({
+        loading: false, types: [
+          { value: null, display: 'Selecione...' },
+          ...types.map(type => ({ value: type.id, display: type.name }))
+        ]
+      });
     }, err => {
       this.setState({ loading: false, error: true });
       console.log(err);
@@ -56,7 +60,7 @@ export default class ChurchReportFormPage extends BaseComponent {
   }
 
   save() {
-    churchReportValidator.validate(this.state.profile).then(model => {
+    churchReportValidator.validate(this.state.model).then(model => {
       this.setState({ validation: {}, submitted: true });
       this.subscription = this.refs.loader.fromObservable(churchReportService.save(model))
         .subscribe(() => {
@@ -66,12 +70,13 @@ export default class ChurchReportFormPage extends BaseComponent {
           console.log(err);
         });
     }).catch(errors => {
-      this.setState({ validation: errors, submitted: true });
+      this.setState({ validation: errors, submitted: true }, true);
     });
   }
 
   render() {
     const { model, validation, loading, error, types } = this.state;
+    console.log(model);
 
     return (
       <Container>

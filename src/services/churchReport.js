@@ -6,16 +6,12 @@ class ChurchReportService {
 
   types() {
     const stream$ = api.get('church-report/types');
-    return cache.from('church-report-types', stream$, false).map(types => {
-      return types.map(type => ({ value: type.id, display: type.name }));
-    });
+    return cache.from('church-report-types', stream$, false);
   }
 
   save(model) {
-    return api.post('profile', model).map(profile => {
-      profile = dateFormatter.parseObj(profile);
-      this.profileUpdate$.next(profile);
-      return profile;
+    return api.post('church-report', model).map(churchReport => {
+      return dateFormatter.parseObj(churchReport);
     });
   }
 
