@@ -76,7 +76,6 @@ export default class ChurchReportFormPage extends BaseComponent {
 
   render() {
     const { model, validation, loading, error, types } = this.state;
-    console.log(model);
 
     return (
       <Container>
@@ -111,14 +110,85 @@ export default class ChurchReportFormPage extends BaseComponent {
               <View style={StyleSheet.flatten(styles.container)}>
                 <Form>
                   <List>
-                    <Field label="Descrição" icon="paper" model={model} field="title" errors={validation} onChange={this.updateModel.bind(this)} />
-                    <Field label="Tipo" icon="empty" model={model} field="typeId" type="dropdown" options={types} errors={validation} onChange={this.updateModel.bind(this)} />
-                    <Field label="Data" icon="calendar" model={model} field="date" type="date" errors={validation} onChange={this.updateModel.bind(this)} />
 
-                    <Field label="Total de Membros" icon="contacts" model={model} field="totalMembers" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
-                    <Field label="Total de Visitantes" icon="empty" model={model} field="totalNewVisitors" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
-                    <Field label="Total de Frequentadores" icon="empty" model={model} field="totalFrequentVisitors" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
-                    <Field label="Total de Crianças" icon="empty" model={model} field="totalKids" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
+                    <Field
+                      label="Descrição"
+                      icon="paper"
+                      ref="description"
+                      model={model}
+                      field="title"
+                      next={this.refs.typeId}
+                      errors={validation}
+                      onChange={this.updateModel.bind(this)}
+                    />
+                    <Field
+                      label="Tipo"
+                      ref="typeId"
+                      icon="empty"
+                      model={model}
+                      field="typeId"
+                      next={this.refs.date}
+                      type="dropdown"
+                      options={types}
+                      errors={validation}
+                      onChange={this.updateModel.bind(this)}
+                    />
+                    <Field
+                      label="Data"
+                      icon="calendar"
+                      ref="date"
+                      model={model}
+                      field="date"
+                      next={this.refs.totalMembers}
+                      type="date"
+                      errors={validation}
+                      onChange={this.updateModel.bind(this)}
+                    />
+
+                    <Field
+                      label="Total de Membros"
+                      icon="contacts"
+                      ref="totalMembers"
+                      model={model}
+                      field="totalMembers"
+                      next={this.refs.totalNewVisitors}
+                      type="number"
+                      errors={validation}
+                      onChange={this.updateModel.bind(this)}
+                    />
+                    <Field
+                      label="Total de Visitantes"
+                      icon="empty"
+                      ref="totalNewVisitors"
+                      model={model}
+                      field="totalNewVisitors"
+                      next={this.refs.totalFrequentVisitors}
+                      type="number"
+                      errors={validation}
+                      onChange={this.updateModel.bind(this)}
+                    />
+                    <Field
+                      label="Total de Frequentadores"
+                      icon="empty"
+                      ref="totalFrequentVisitors"
+                      model={model}
+                      field="totalFrequentVisitors"
+                      next={this.refs.totalKids}
+                      type="number"
+                      errors={validation}
+                      onChange={this.updateModel.bind(this)}
+                    />
+                    <Field
+                      label="Total de Crianças"
+                      icon="empty"
+                      ref="totalKids"
+                      model={model}
+                      field="totalKids"
+                      type="number"
+                      errors={validation}
+                      onChange={this.updateModel.bind(this)}
+                      onSubmit={() => this.save()}
+                    />
                   </List>
                 </Form>
               </View>

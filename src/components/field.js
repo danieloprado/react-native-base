@@ -17,13 +17,15 @@ const keyboardTypes = {
 export default class Field extends BaseComponent {
   static propTypes = {
     label: React.PropTypes.string.isRequired,
+    next: React.PropTypes.any,
     icon: React.PropTypes.string,
     type: React.PropTypes.oneOf(['text', 'email', 'dropdown', 'dialog', 'date', 'number']),
     options: React.PropTypes.any,
     model: React.PropTypes.object.isRequired,
     field: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
-    errors: React.PropTypes.object
+    errors: React.PropTypes.object,
+    onSubmit: React.PropTypes.func
   };
 
   constructor(props) {
@@ -31,9 +33,40 @@ export default class Field extends BaseComponent {
     this.state = { showDatePicker: false };
   }
 
+  focus() {
+    if (this.props.type === 'date') {
+      this.setState({ showDatePicker: true });
+      return;
+    }
+
+    if (this.input) {
+      this.input._root.focus();
+      return;
+    }
+
+    console.log(this.picker);
+  }
+
+  next() {
+    if (this.props.onSubmit) {
+      this.props.onSubmit();
+      return;
+    }
+
+    this.props.next && this.props.next.focus();
+  }
+
+  onChange(value) {
+    this.props.onChange(this.props.field, value);
+
+    if (this.props.type === 'date' || this.props.type === 'dropdown') {
+      this.next();
+    }
+  }
+
   render() {
     const { showDatePicker } = this.state;
-    const { label, model, onChange, errors, field, type, options, icon } = this.props;
+    const { label, model, errors, field, type, options, icon } = this.props;
     const error = (errors || {})[field] || [];
     const hasError = error.length > 0;
 
@@ -53,8 +86,9 @@ export default class Field extends BaseComponent {
                   iosHeader={label}
                   mode={type}
                   prompt={label}
+                  ref={p => this.picker = p}
                   selectedValue={model[field]}
-                  onValueChange={value => onChange(field, value)}>
+                  onValueChange={value => this.onChange(value)}>
                   {options.map(option =>
                     <Item key={option.value} label={option.display} value={option.value} />
                   )}
@@ -66,23 +100,28 @@ export default class Field extends BaseComponent {
                     <Input
                       disabled
                       value={model[field] ? dateFormatter.format(model[field], 'DD [de] MMMM [de] YYYY') : null}
-                      style={StyleSheet.flatten(styles.input)} />
+                      style={StyleSheet.flatten(styles.input)}
+                    />
                     {hasError && <Icon name='close-circle' />}
                   </Item>
                   <DateTimePicker
                     date={model[field]}
                     isVisible={showDatePicker}
-                    onConfirm={value => this.setState({ showDatePicker: false }) && onChange(field, value)}
+                    onConfirm={value => this.setState({ showDatePicker: false }) && this.onChange(value)}
                     onCancel={() => this.setState({ showDatePicker: false })}
                   />
                 </View>
                 :
                 <Item style={StyleSheet.flatten(styles.item)} error={hasError}>
                   <Input
+                    ref={i => this.input = i}
                     value={model[field]}
-                    onChangeText={value => onChange(field, value)}
+                    onChangeText={value => this.onChange(value)}
                     keyboardType={keyboardTypes[type] || keyboardTypes.text}
-                    style={StyleSheet.flatten(styles.input)} />
+                    style={StyleSheet.flatten(styles.input)}
+                    returnKeyType={this.props.next ? 'next' : 'default'}
+                    onSubmitEditing={() => this.next()}
+                  />
                   {hasError && <Icon name='close-circle' />}
                 </Item>
             }
