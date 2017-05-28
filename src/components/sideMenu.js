@@ -32,7 +32,7 @@ export default class SideMenu extends BaseComponent {
   }
 
   componentWillMount() {
-    this.subscription = tokenService.getUser().debounceTime(500).subscribe(user => {
+    this.subscription = tokenService.getUser().subscribe(user => {
       const routes = this.filterRoutes(user);
       this.setState({ routes });
     });

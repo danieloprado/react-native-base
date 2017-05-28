@@ -15,7 +15,7 @@ class TokenService {
   }
 
   getUser() {
-    return this.authToken$.distinctUntilChanged().map(tokens => {
+    return this.getToken().map(tokens => {
       if (!tokens) return;
 
       try {

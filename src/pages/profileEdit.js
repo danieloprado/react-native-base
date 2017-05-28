@@ -28,6 +28,10 @@ export default class ProfileEditPage extends BaseComponent {
     };
   }
 
+  componentDidMount() {
+    console.log(this.refs);
+  }
+
   componentWillUnmount() {
     if (!this.subscription) return;
     this.subscription.unsubscribe();
@@ -97,20 +101,136 @@ export default class ProfileEditPage extends BaseComponent {
           <View style={StyleSheet.flatten(styles.container)}>
             <Form>
               <List>
-                <Field label="Nome" icon="person" model={profile} field="firstName" errors={validation} onChange={this.updateModel.bind(this)} />
-                <Field label="Sobrenome" icon="empty" model={profile} field="lastName" errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field
+                  label="Nome"
+                  icon="person"
+                  model={profile}
+                  ref="firstName"
+                  field="firstName"
+                  errors={validation}
+                  next={this.refs.lastName}
+                  onChange={this.updateModel.bind(this)}
+                />
+                <Field
+                  label="Sobrenome"
+                  icon="empty"
+                  model={profile}
+                  ref="lastName"
+                  field="lastName"
+                  errors={validation}
+                  next={this.refs.email}
+                  onChange={this.updateModel.bind(this)}
+                />
 
-                <Field label="Email" icon="mail" model={profile} field="email" type="email" errors={validation} onChange={this.updateModel.bind(this)} />
-                <Field label="Sexo" icon="male" model={profile} field="gender" type="dropdown" options={genderOptions} errors={validation} onChange={this.updateModel.bind(this)} />
-                <Field label="Aniversário" icon="calendar" model={profile} field="birthday" type="date" errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field
+                  label="Email"
+                  icon="mail"
+                  model={profile}
+                  ref="email"
+                  field="email"
+                  type="email"
+                  errors={validation}
+                  next={this.refs.gender}
+                  onChange={this.updateModel.bind(this)}
+                />
+                <Field
+                  label="Sexo"
+                  icon="male"
+                  model={profile}
+                  ref="gender"
+                  field="gender"
+                  type="dropdown"
+                  options={genderOptions}
+                  errors={validation}
+                  next={this.refs.birthday}
+                  onChange={this.updateModel.bind(this)}
+                />
+                <Field
+                  label="Aniversário"
+                  icon="calendar"
+                  model={profile}
+                  ref="birthday"
+                  field="birthday"
+                  type="date"
+                  errors={validation}
+                  next={this.refs.zipcode}
+                  onChange={this.updateModel.bind(this)}
+                />
 
-                <Field label="Cep" icon="pin" model={profile} field="zipcode" type="number" errors={validation} onChange={this.updateModel.bind(this)} />
-                <Field label="Endereço" icon="empty" model={profile} field="address" errors={validation} onChange={this.updateModel.bind(this)} />
-                <Field label="Número" icon="empty" model={profile} field="number" errors={validation} onChange={this.updateModel.bind(this)} />
-                <Field label="Complemento" icon="empty" model={profile} field="complement" errors={validation} onChange={this.updateModel.bind(this)} />
-                <Field label="Bairro" icon="empty" model={profile} field="neighborhood" errors={validation} onChange={this.updateModel.bind(this)} />
-                <Field label="Estado" icon="empty" model={profile} field="state" type="dialog" options={addressStates} errors={validation} onChange={this.updateModel.bind(this)} />
-                <Field label="Cidade" icon="empty" model={profile} field="city" type="dialog" options={addressCities} errors={validation} onChange={this.updateModel.bind(this)} />
+                <Field
+                  label="Cep"
+                  icon="pin"
+                  model={profile}
+                  ref="zipcode"
+                  field="zipcode"
+                  type="number"
+                  errors={validation}
+                  next={this.refs.address}
+                  onChange={this.updateModel.bind(this)}
+                />
+                <Field
+                  label="Endereço"
+                  icon="empty"
+                  model={profile}
+                  ref="address"
+                  field="address"
+                  errors={validation}
+                  next={this.refs.number}
+                  onChange={this.updateModel.bind(this)}
+                />
+                <Field
+                  label="Número"
+                  icon="empty"
+                  model={profile}
+                  ref="number"
+                  field="number"
+                  errors={validation}
+                  next={this.refs.complement}
+                  onChange={this.updateModel.bind(this)}
+                />
+                <Field
+                  label="Complemento"
+                  icon="empty"
+                  model={profile}
+                  ref="complement"
+                  field="complement"
+                  errors={validation}
+                  next={this.refs.neighborhood}
+                  onChange={this.updateModel.bind(this)}
+                />
+                <Field
+                  label="Bairro"
+                  icon="empty"
+                  model={profile}
+                  ref="neighborhood"
+                  field="neighborhood"
+                  errors={validation}
+                  next={this.refs.state}
+                  onChange={this.updateModel.bind(this)}
+                />
+                <Field
+                  label="Estado"
+                  icon="empty"
+                  model={profile}
+                  ref="state"
+                  field="state"
+                  type="dialog"
+                  options={addressStates}
+                  errors={validation}
+                  next={this.refs.city}
+                  onChange={this.updateModel.bind(this)}
+                />
+                <Field label="Cidade"
+                  icon="empty"
+                  model={profile}
+                  ref="city"
+                  field="city"
+                  type="dialog"
+                  options={addressCities}
+                  errors={validation}
+                  onChange={this.updateModel.bind(this)}
+                  onSubmit={() => this.save()}
+                />
               </List>
             </Form>
           </View>

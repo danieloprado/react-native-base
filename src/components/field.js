@@ -33,6 +33,14 @@ export default class Field extends BaseComponent {
     this.state = { showDatePicker: false };
   }
 
+  componentDidMount() {
+    // console.log(this.props.field, this.props.next);
+  }
+
+  componentWillReceiveProps(props) {
+    console.log('here******', props);
+  }
+
   focus() {
     if (this.props.type === 'date') {
       this.setState({ showDatePicker: true });
@@ -43,8 +51,6 @@ export default class Field extends BaseComponent {
       this.input._root.focus();
       return;
     }
-
-    console.log(this.picker);
   }
 
   next() {
@@ -66,7 +72,7 @@ export default class Field extends BaseComponent {
 
   render() {
     const { showDatePicker } = this.state;
-    const { label, model, errors, field, type, options, icon } = this.props;
+    const { label, model, errors, field, type, options, icon, next } = this.props;
     const error = (errors || {})[field] || [];
     const hasError = error.length > 0;
 
@@ -119,7 +125,7 @@ export default class Field extends BaseComponent {
                     onChangeText={value => this.onChange(value)}
                     keyboardType={keyboardTypes[type] || keyboardTypes.text}
                     style={StyleSheet.flatten(styles.input)}
-                    returnKeyType={this.props.next ? 'next' : 'default'}
+                    returnKeyType={next ? 'next' : 'default'}
                     onSubmitEditing={() => this.next()}
                   />
                   {hasError && <Icon name='close-circle' />}
