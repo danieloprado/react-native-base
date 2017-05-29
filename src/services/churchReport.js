@@ -4,6 +4,17 @@ import dateFormatter from '../formatters/date';
 
 class ChurchReportService {
 
+  list(refresh = false) {
+    const stream$ = api.get('church-report');
+    return cache.from('church-report', stream$, refresh).map(reports => {
+      return reports.map(r => {
+        console.log(r);
+        r.total = r.totalMembers + r.totalNewVisitors + r.totalFrequentVisitors + r.totalKids;
+        return dateFormatter.parseObj(r);
+      });
+    });
+  }
+
   types() {
     const stream$ = api.get('church-report/types');
     return cache.from('church-report-types', stream$, false);

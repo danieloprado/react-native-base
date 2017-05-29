@@ -39,6 +39,9 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-end'
   },
+  listItem: {
+    marginLeft: 0
+  },
   listIconWrapper: {
     maxWidth: 45,
     flexDirection: 'column',
@@ -54,6 +57,7 @@ export default StyleSheet.create({
   listIcon: {
     width: 40,
     fontSize: 30,
+    marginLeft: 10,
     textAlign: 'center'
   },
   iconLarge: {

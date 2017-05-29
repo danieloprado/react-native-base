@@ -117,7 +117,7 @@ export default class ChurchReportFormPage extends BaseComponent {
                       ref="description"
                       model={model}
                       field="title"
-                      next={this.refs.typeId}
+                      next={() => this.refs.typeId}
                       errors={validation}
                       onChange={this.updateModel.bind(this)}
                     />
@@ -127,7 +127,7 @@ export default class ChurchReportFormPage extends BaseComponent {
                       icon="empty"
                       model={model}
                       field="typeId"
-                      next={this.refs.date}
+                      next={() => this.refs.date}
                       type="dropdown"
                       options={types}
                       errors={validation}
@@ -139,7 +139,7 @@ export default class ChurchReportFormPage extends BaseComponent {
                       ref="date"
                       model={model}
                       field="date"
-                      next={this.refs.totalMembers}
+                      next={() => this.refs.totalMembers}
                       type="date"
                       errors={validation}
                       onChange={this.updateModel.bind(this)}
@@ -151,7 +151,7 @@ export default class ChurchReportFormPage extends BaseComponent {
                       ref="totalMembers"
                       model={model}
                       field="totalMembers"
-                      next={this.refs.totalNewVisitors}
+                      next={() => this.refs.totalNewVisitors}
                       type="number"
                       errors={validation}
                       onChange={this.updateModel.bind(this)}
@@ -162,7 +162,7 @@ export default class ChurchReportFormPage extends BaseComponent {
                       ref="totalNewVisitors"
                       model={model}
                       field="totalNewVisitors"
-                      next={this.refs.totalFrequentVisitors}
+                      next={() => this.refs.totalFrequentVisitors}
                       type="number"
                       errors={validation}
                       onChange={this.updateModel.bind(this)}
@@ -173,7 +173,7 @@ export default class ChurchReportFormPage extends BaseComponent {
                       ref="totalFrequentVisitors"
                       model={model}
                       field="totalFrequentVisitors"
-                      next={this.refs.totalKids}
+                      next={() => this.refs.totalKids}
                       type="number"
                       errors={validation}
                       onChange={this.updateModel.bind(this)}

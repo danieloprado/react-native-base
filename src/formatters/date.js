@@ -6,7 +6,7 @@ moment.locale('pt-BR');
 
 class DateFormatter {
 
-  constructor() {}
+  constructor() { }
 
   parseObj(obj, fields = null) {
     if (!obj || typeof obj !== 'object') {

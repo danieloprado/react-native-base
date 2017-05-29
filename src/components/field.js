@@ -2,6 +2,7 @@ import { Body, Icon, Input, Item, Left, ListItem, Picker, Text, View } from 'nat
 
 import BaseComponent from './base';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import dateFormatter from '../formatters/date';
@@ -16,29 +17,21 @@ const keyboardTypes = {
 
 export default class Field extends BaseComponent {
   static propTypes = {
-    label: React.PropTypes.string.isRequired,
-    next: React.PropTypes.any,
-    icon: React.PropTypes.string,
-    type: React.PropTypes.oneOf(['text', 'email', 'dropdown', 'dialog', 'date', 'number']),
-    options: React.PropTypes.any,
-    model: React.PropTypes.object.isRequired,
-    field: React.PropTypes.string.isRequired,
-    onChange: React.PropTypes.func.isRequired,
-    errors: React.PropTypes.object,
-    onSubmit: React.PropTypes.func
+    label: PropTypes.string.isRequired,
+    next: PropTypes.func,
+    icon: PropTypes.string,
+    type: PropTypes.oneOf(['text', 'email', 'dropdown', 'dialog', 'date', 'number']),
+    options: PropTypes.any,
+    model: PropTypes.object.isRequired,
+    field: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    errors: PropTypes.object,
+    onSubmit: PropTypes.func
   };
 
   constructor(props) {
     super(props);
     this.state = { showDatePicker: false };
-  }
-
-  componentDidMount() {
-    // console.log(this.props.field, this.props.next);
-  }
-
-  componentWillReceiveProps(props) {
-    console.log('here******', props);
   }
 
   focus() {
@@ -59,7 +52,7 @@ export default class Field extends BaseComponent {
       return;
     }
 
-    this.props.next && this.props.next.focus();
+    this.props.next && this.props.next().focus();
   }
 
   onChange(value) {
@@ -84,7 +77,7 @@ export default class Field extends BaseComponent {
           </Left>
         }
         <Body>
-          <View>
+          <View style={StyleSheet.flatten(styles.body)}>
             <Text note style={StyleSheet.flatten(hasError ? styles.errorLabel : null)}>{label}</Text>
             {type === 'dropdown' || type === 'dialog' ?
               <View style={StyleSheet.flatten(styles.picker)}>
@@ -146,12 +139,13 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     paddingBottom: 5
   },
-  item: {
-    marginLeft: 0
+  body: {
+    marginLeft: 12
   },
   input: {
     height: 40,
-    lineHeight: 20
+    lineHeight: 20,
+    paddingLeft: 0
   },
   picker: {
     borderWidth: variables.borderWidth * 2,

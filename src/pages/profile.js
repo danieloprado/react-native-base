@@ -107,9 +107,9 @@ export default class ProfilePage extends BaseComponent {
                     }
                     <H2 style={StyleSheet.flatten(styles.headerText)}>{profile.fullName}</H2>
                   </View>
-                  <List style={StyleSheet.flatten(styles.list)}>
+                  <List>
                     {!profile.email ? null :
-                      <ListItem style={StyleSheet.flatten(styles.listItem)}>
+                      <ListItem style={StyleSheet.flatten([theme.listItem, styles.listItem])}>
                         <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
                           <Icon name="mail" style={StyleSheet.flatten(theme.listIcon)} />
                         </Left>
@@ -118,7 +118,7 @@ export default class ProfilePage extends BaseComponent {
                         </Body>
                       </ListItem>
                     }
-                    <ListItem style={StyleSheet.flatten(styles.listItem)}>
+                    <ListItem style={StyleSheet.flatten([theme.listItem, styles.listItem])}>
                       <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
                         <Icon name={profile.gender === 'f' ? 'female' : 'male'} style={StyleSheet.flatten(theme.listIcon)} />
                       </Left>
@@ -127,7 +127,7 @@ export default class ProfilePage extends BaseComponent {
                       </Body>
                     </ListItem>
                     {!profile.birthday ? null :
-                      <ListItem style={StyleSheet.flatten(styles.listItem)}>
+                      <ListItem style={StyleSheet.flatten([theme.listItem, styles.listItem])}>
                         <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
                           <Icon name="calendar" style={StyleSheet.flatten(theme.listIcon)} />
                         </Left>
@@ -137,7 +137,7 @@ export default class ProfilePage extends BaseComponent {
                       </ListItem>
                     }
                     {!profile.fullAddress ? null :
-                      <ListItem style={StyleSheet.flatten(styles.listItem)}>
+                      <ListItem style={StyleSheet.flatten([theme.listItem, styles.listItem])}>
                         <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
                           <Icon name="pin" style={StyleSheet.flatten(theme.listIcon)} />
                         </Left>

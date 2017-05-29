@@ -19,7 +19,7 @@ export default class EventPage extends BaseComponent {
 
   constructor(props) {
     super(props);
-    this.state = { refreshing: true, eventGroup: [] };
+    this.state = { refreshing: true, error: false, eventGroup: [] };
   }
 
   componentDidMount() {
@@ -39,81 +39,89 @@ export default class EventPage extends BaseComponent {
 
     this.subscription = eventService.list(refresh).subscribe(events => {
       const eventGroup = eventListFormatter(events || []);
-      this.setState({ refreshing: false, eventGroup });
+      this.setState({ refreshing: false, error: false, eventGroup });
     }, () => {
-      this.setState({ refreshing: false });
+      this.setState({ refreshing: false, error: true });
     });
   }
 
   render() {
+    const { refreshing, error, eventGroup } = this.state;
+
     return (
       <Container>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
-                <Icon name='menu' />
+              <Icon name='menu' />
             </Button>
           </Left>
           <Body>
-              <Title>Agenda</Title>
+            <Title>Agenda</Title>
           </Body>
           <Right />
         </Header>
         <Content refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={() => this.load(true)}
-            />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => this.load(true)}
+          />
         }>
-          {!this.state.refreshing && !this.state.eventGroup.length && 
+          {!refreshing && error &&
             <View style={StyleSheet.flatten(theme.emptyMessage)}>
               <Text note>Não foi possível carregar</Text>
-            </View> 
-          }  
-          <List dataArray={this.state.eventGroup} renderRow={(data, sectionId, rowId) => this.renderRow(data, rowId)}/>
-        </Content>  
+            </View>
+          }
+          {!refreshing && !error && !eventGroup.length &&
+            <View style={StyleSheet.flatten(theme.emptyMessage)}>
+              <Text note>Nenhum evento próximo</Text>
+            </View>
+          }
+          <List dataArray={eventGroup} renderRow={(data, sectionId, rowId) => this.renderRow(data, rowId)} />
+        </Content>
       </Container>
     );
   }
 
   renderRow(data, rowId) {
+    console.log(rowId, data);
     return (
       <View key={data.divider ? data.beginDate : data.event.id}>
-        {
-          data.divider ?
-            <ListItem style={StyleSheet.flatten(rowId === '0' ? styles.listItemHeaderFirst :  styles.listItemHeader)}>
-              <Text style={StyleSheet.flatten(styles.listItemHeaderText)}>
-                {dateFormatter.format(data.date, 'MMMM').toUpperCase()}
-              </Text>
-            </ListItem>
-            :
-            <ListItem style={StyleSheet.flatten(styles.listItem)}>
-              {
-                data.firstOfDate ?
-                  <Left style={StyleSheet.flatten(styles.leftWrapper)}>
-                    <Text style={StyleSheet.flatten(styles.eventDay)}>
-                      {dateFormatter.format(data.beginDate, 'DD')}
-                    </Text>
-                    <Text style={StyleSheet.flatten(styles.eventWeekDay)}>
-                      {dateFormatter.format(data.beginDate, 'ddd')}
-                    </Text>
-                  </Left>
-                  :
-                  <Left style={StyleSheet.flatten(styles.leftWrapper)} />
-              }
-              <Body>
-                <Button
-                  block
-                  onPress={() => this.details(data)}
-                  style={StyleSheet.flatten(styles.buttonDetails)}>
-                  <Text style={StyleSheet.flatten(styles.eventTitle)}>{data.event.title}</Text>
-                  <Text style={StyleSheet.flatten(styles.eventHour)}>
-                    {dateFormatter.format(data.beginDate, 'HH:mm')}
-                    {data.endDate ? ' - ' + dateFormatter.format(data.endDate, 'HH:mm') : ''}
-                  </Text>
-                </Button>
-              </Body>
-            </ListItem>
+        {data.divider ?
+          <ListItem style={StyleSheet.flatten(rowId === '0' ? styles.listItemHeaderFirst : styles.listItemHeader)}>
+            <Text style={StyleSheet.flatten(styles.listItemHeaderText)}>
+              {dateFormatter.format(data.date, 'MMMM').toUpperCase()}
+            </Text>
+          </ListItem>
+          :
+          <ListItem style={StyleSheet.flatten(styles.listItem)}>
+            {data.firstOfDate ?
+              <Left style={StyleSheet.flatten(styles.leftWrapper)}>
+                <Text style={StyleSheet.flatten(styles.eventDay)}>
+                  {dateFormatter.format(data.beginDate, 'DD')}
+                </Text>
+                <Text style={StyleSheet.flatten(styles.eventWeekDay)}>
+                  {dateFormatter.format(data.beginDate, 'ddd')}
+                </Text>
+              </Left>
+              :
+              <Left style={StyleSheet.flatten(styles.leftWrapper)} />
+            }
+            <Body>
+              <Button
+                block
+                onPress={() => this.details(data)}
+                style={StyleSheet.flatten(styles.buttonDetails)}>
+                <Text style={StyleSheet.flatten(styles.eventTitle)}>{data.event.title}</Text>
+                <Text style={StyleSheet.flatten(styles.eventHour)}>
+                  {
+                    dateFormatter.format(data.beginDate, 'HH:mm') +
+                    (data.endDate ? ' - ' + dateFormatter.format(data.endDate, 'HH:mm') : '')
+                  }
+                </Text>
+              </Button>
+            </Body>
+          </ListItem>
         }
       </View>
     );

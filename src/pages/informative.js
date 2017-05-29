@@ -50,11 +50,11 @@ export default class InformativePage extends BaseComponent {
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
-                <Icon name='menu' />
+              <Icon name='menu' />
             </Button>
           </Left>
           <Body>
-              <Title>Informativos</Title>
+            <Title>Informativos</Title>
           </Body>
           <Right />
         </Header>
@@ -66,19 +66,19 @@ export default class InformativePage extends BaseComponent {
             />
           }
         >
-          {!this.state.refreshing && !this.state.informatives.length && 
+          {!this.state.refreshing && !this.state.informatives.length &&
             <View style={StyleSheet.flatten(theme.emptyMessage)}>
               <Text note>Não foi possível carregar</Text>
-            </View> 
-          }  
-          <List dataArray={this.state.informatives} renderRow={informative => 
+            </View>
+          }
+          <List dataArray={this.state.informatives} renderRow={informative =>
             <ListItem
               button
               key={informative.id}
-              style={StyleSheet.flatten(styles.listItem)}
+              style={StyleSheet.flatten(theme.listItem)}
               onPress={() => this.details(informative)}>
               <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
-                <Icon name={informative.icon} style={StyleSheet.flatten([theme.listIcon, styles.listIcon])} />
+                <Icon name={informative.icon} style={StyleSheet.flatten(theme.listIcon)} />
               </Left>
               <Body>
                 <Text>{informative.title}</Text>
@@ -88,19 +88,10 @@ export default class InformativePage extends BaseComponent {
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>
-            }
+          }
           />
-        </Content>  
+        </Content>
       </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  listItem: {
-    marginLeft: 0
-  },
-  listIcon: {
-    marginLeft: 10
-  }
-});
