@@ -1,11 +1,11 @@
 import { Body, Button, Container, Header, Icon, Left, Right, Spinner, Text, Title, View } from 'native-base';
 import { Share, StyleSheet, WebView } from 'react-native';
-import informativeService, { enInformativeType } from '../services/informative';
-import theme, { variables } from '../theme';
+import informativeService, { enInformativeType } from '../../services/informative';
+import theme, { variables } from '../../theme';
 
-import BaseComponent from '../components/base';
+import BaseComponent from '../../components/base';
 import React from 'react';
-import informativeRender from '../formatters/informativeRender';
+import informativeRender from '../../formatters/informativeRender';
 
 export default class InformativeDetailsPage extends BaseComponent {
   constructor(props) {
@@ -81,7 +81,7 @@ export default class InformativeDetailsPage extends BaseComponent {
           </View>
           : !informative ?
             <View style={StyleSheet.flatten(theme.emptyMessage)}>
-              <Text note>Não foi possível carregar</Text>
+              <Text note>Não conseguimos atualizar</Text>
             </View>
             :
             <View style={{ flex: 1 }}>

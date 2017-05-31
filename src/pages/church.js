@@ -72,7 +72,7 @@ export default class ChurchPage extends BaseComponent {
             </View>
             : !church ?
               <View style={StyleSheet.flatten(theme.emptyMessage)}>
-                <Text note>Não foi possível carregar</Text>
+                <Text note>Não conseguimos atualizar</Text>
               </View> 
             :  
             <View style={StyleSheet.flatten(styles.container)}>

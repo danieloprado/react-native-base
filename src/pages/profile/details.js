@@ -1,14 +1,14 @@
 import { Alert, Image, StyleSheet } from 'react-native';
 import { Body, Button, Container, Content, H2, Header, Icon, Left, List, ListItem, Right, Spinner, Text, Title, View } from 'native-base';
-import theme, { variables } from '../theme';
+import theme, { variables } from '../../theme';
 
-import BaseComponent from '../components/base';
+import BaseComponent from '../../components/base';
 import React from 'react';
-import dateFormatter from '../formatters/date';
-import profileService from '../services/profile';
-import tokenService from '../services/token';
+import dateFormatter from '../../formatters/date';
+import profileService from '../../services/profile';
+import tokenService from '../../services/token';
 
-export default class ProfilePage extends BaseComponent {
+export default class ProfileDetailsPage extends BaseComponent {
   static navigationOptions = {
     headerVisible: false,
     drawerLabel: 'Perfil',
@@ -87,7 +87,7 @@ export default class ProfilePage extends BaseComponent {
             </View>
             : !profile && error ?
               <View style={StyleSheet.flatten(theme.emptyMessage)}>
-                <Text note>Não foi possível carregar</Text>
+                <Text note>Não conseguimos atualizar</Text>
               </View>
               : !profile ?
                 <View style={StyleSheet.flatten([theme.emptyMessage, theme.alignCenter])}>

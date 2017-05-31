@@ -42,7 +42,7 @@ export default class EventCard extends BaseComponent {
           :
           !event ?
           <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
-            <Text note>Não foi possível carregar</Text>
+            <Text note>Não conseguimos atualizar</Text>
           </CardItem> 
           :
           <View>

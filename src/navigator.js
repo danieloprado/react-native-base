@@ -1,26 +1,26 @@
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
-import Church from './pages/church';
-import ChurchReport from './pages/churchReport';
-import ChurchReportForm from './pages/churchReportForm';
-import Event from './pages/event';
-import EventDetails from './pages/eventDetails';
-import Home from './pages/home';
-import Informative from './pages/informative';
-import InformativeDetails from './pages/informativeDetails';
-import Profile from './pages/profile';
-import ProfileEdit from './pages/profileEdit';
+import ChurchPage from './pages/church';
+import ChurchReportFormPage from './pages/church-report/form';
+import ChurchReportListPage from './pages/church-report/list';
+import EventDetailsPage from './pages/event/details';
+import EventListPage from './pages/event/list';
+import HomePage from './pages/home';
+import InformativeDetailsPage from './pages/informative/details';
+import InformativeListPage from './pages/informative/list';
+import ProfileDetails from './pages/profile/details';
+import ProfileEditPage from './pages/profile/form';
 import SideMenu from './components/sideMenu';
-import Welcome from './pages/welcome';
+import WelcomePage from './pages/welcome';
 import platform from '../native-base-theme/variables/platform';
 
 const appDrawer = DrawerNavigator({
-  Home: { screen: Home },
-  Profile: { screen: Profile },
-  Informative: { screen: Informative },
-  Event: { screen: Event },
-  ChurchReport: { screen: ChurchReport },
-  Church: { screen: Church }
+  Home: { screen: HomePage },
+  Profile: { screen: ProfileDetails },
+  Informative: { screen: InformativeListPage },
+  Event: { screen: EventListPage },
+  ChurchReport: { screen: ChurchReportListPage },
+  Church: { screen: ChurchPage }
 }, {
     contentComponent: SideMenu,
     contentOptions: {
@@ -30,15 +30,15 @@ const appDrawer = DrawerNavigator({
   });
 
 export default StackNavigator({
-  Welcome: { screen: Welcome },
+  Welcome: { screen: WelcomePage },
   Home: { screen: appDrawer },
   Profile: { screen: appDrawer },
-  ProfileEdit: { screen: ProfileEdit },
+  ProfileEdit: { screen: ProfileEditPage },
   Informative: { screen: appDrawer },
-  InformativeDetails: { screen: InformativeDetails },
+  InformativeDetails: { screen: InformativeDetailsPage },
   Event: { screen: appDrawer },
-  EventDetails: { screen: EventDetails },
+  EventDetails: { screen: EventDetailsPage },
   ChurchReport: { screen: appDrawer },
-  ChurchReportForm: { screen: ChurchReportForm },
+  ChurchReportForm: { screen: ChurchReportFormPage },
   Church: { screen: appDrawer },
 }, { headerMode: 'none' });

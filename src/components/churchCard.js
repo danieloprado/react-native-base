@@ -51,7 +51,7 @@ export default class ChurchCard extends BaseComponent {
           :
           !church ?
             <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
-              <Text note>Não foi possível carregar</Text>
+              <Text note>Não conseguimos atualizar</Text>
             </CardItem>
             :
             <View>

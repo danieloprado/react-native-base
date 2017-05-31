@@ -1,14 +1,14 @@
 import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title, View } from 'native-base';
 import { RefreshControl, StyleSheet } from 'react-native';
 
-import BaseComponent from '../components/base';
+import BaseComponent from '../../components/base';
 import React from 'react';
-import dateFormatter from '../formatters/date';
-import eventListFormatter from '../formatters/eventList';
-import eventService from '../services/event';
-import theme from '../theme';
+import dateFormatter from '../../formatters/date';
+import eventListFormatter from '../../formatters/eventList';
+import eventService from '../../services/event';
+import theme from '../../theme';
 
-export default class EventPage extends BaseComponent {
+export default class EventListPage extends BaseComponent {
   static navigationOptions = {
     headerVisible: false,
     drawerLabel: 'Agenda',
@@ -69,7 +69,7 @@ export default class EventPage extends BaseComponent {
         }>
           {!refreshing && error &&
             <View style={StyleSheet.flatten(theme.emptyMessage)}>
-              <Text note>Não foi possível carregar</Text>
+              <Text note>Não conseguimos atualizar</Text>
             </View>
           }
           {!refreshing && !error && !eventGroup.length &&

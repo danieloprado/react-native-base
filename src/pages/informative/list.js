@@ -1,13 +1,13 @@
 import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title, View } from 'native-base';
 import { RefreshControl, StyleSheet } from 'react-native';
 
-import BaseComponent from '../components/base';
+import BaseComponent from '../../components/base';
 import React from 'react';
-import dateFormatter from '../formatters/date';
-import informativeService from '../services/informative';
-import theme from '../theme';
+import dateFormatter from '../../formatters/date';
+import informativeService from '../../services/informative';
+import theme from '../../theme';
 
-export default class InformativePage extends BaseComponent {
+export default class InformativeListPage extends BaseComponent {
   static navigationOptions = {
     headerVisible: false,
     drawerLabel: 'Informativos',
@@ -68,7 +68,7 @@ export default class InformativePage extends BaseComponent {
         >
           {!this.state.refreshing && !this.state.informatives.length &&
             <View style={StyleSheet.flatten(theme.emptyMessage)}>
-              <Text note>Não foi possível carregar</Text>
+              <Text note>Não conseguimos atualizar</Text>
             </View>
           }
           <List dataArray={this.state.informatives} renderRow={informative =>

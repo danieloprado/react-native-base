@@ -1,14 +1,13 @@
 import { Body, Button, Container, Content, Fab, Header, Icon, Left, List, ListItem, Right, Text, Title, View } from 'native-base';
-import { Col, Grid } from 'react-native-easy-grid';
 import { RefreshControl, StyleSheet } from 'react-native';
 
-import BaseComponent from '../components/base';
+import BaseComponent from '../../components/base';
 import React from 'react';
-import churchReportService from '../services/churchReport';
-import dateFormatter from '../formatters/date';
-import theme from '../theme';
+import churchReportService from '../../services/churchReport';
+import dateFormatter from '../../formatters/date';
+import theme from '../../theme';
 
-export default class ChurchReportPage extends BaseComponent {
+export default class ChurchReportListPage extends BaseComponent {
   static navigationOptions = {
     headerVisible: false,
     drawerLabel: 'Relatório de Culto',
@@ -65,7 +64,7 @@ export default class ChurchReportPage extends BaseComponent {
           }>
           {!refreshing && error &&
             <View style={StyleSheet.flatten(theme.emptyMessage)}>
-              <Text note>Não foi possível carregar</Text>
+              <Text note>Não conseguimos atualizar</Text>
             </View>
           }
           {!refreshing && !error && !reports.length &&

@@ -1,15 +1,15 @@
 import { Body, Button, Container, Content, Form, Header, Icon, Left, List, Right, Spinner, Text, Title, View } from 'native-base';
-import theme, { variables } from '../theme';
+import theme, { variables } from '../../theme';
 
-import BaseComponent from '../components/base';
-import Field from '../components/field';
-import Loader from '../components/loader';
+import BaseComponent from '../../components/base';
+import Field from '../../components/field';
+import Loader from '../../components/loader';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import churchReportService from '../services/churchReport';
-import churchReportValidator from '../validators/churchReport';
-import dateFormatter from '../formatters/date';
-import toast from '../services/toast';
+import churchReportService from '../../services/churchReport';
+import churchReportValidator from '../../validators/churchReport';
+import dateFormatter from '../../formatters/date';
+import toast from '../../services/toast';
 
 export default class ChurchReportFormPage extends BaseComponent {
   constructor(props) {
@@ -104,7 +104,7 @@ export default class ChurchReportFormPage extends BaseComponent {
             </View>
             : error ?
               <View style={StyleSheet.flatten(theme.emptyMessage)}>
-                <Text note>Não foi possível carregar</Text>
+                <Text note>Não conseguimos atualizar</Text>
               </View>
               :
               <View style={StyleSheet.flatten(styles.container)}>

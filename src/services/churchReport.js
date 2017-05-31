@@ -8,7 +8,6 @@ class ChurchReportService {
     const stream$ = api.get('church-report');
     return cache.from('church-report', stream$, refresh).map(reports => {
       return reports.map(r => {
-        console.log(r);
         r.total = r.totalMembers + r.totalNewVisitors + r.totalFrequentVisitors + r.totalKids;
         return dateFormatter.parseObj(r);
       });
