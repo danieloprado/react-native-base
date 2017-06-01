@@ -1,4 +1,5 @@
 import { Body, Button, Card, CardItem, Container, Content, Fab, Header, Icon, Left, Right, Text, Title, View } from 'native-base';
+import { Col, Grid, Row } from 'react-native-easy-grid';
 import { RefreshControl, StyleSheet } from 'react-native';
 
 import BaseComponent from '../../components/base';
@@ -78,20 +79,42 @@ export default class ChurchReportListPage extends BaseComponent {
                 <Card key={report.id}>
                   <CardItem header>
                     <Left style={StyleSheet.flatten(styles.leftWrapper)}>
-                      <Text style={StyleSheet.flatten(styles.eventDay)}>
-                        {dateFormatter.format(report.date, 'DD')}
-                      </Text>
-                      <Text style={StyleSheet.flatten(styles.eventWeekDay)}>
-                        {dateFormatter.format(report.date, 'MMM')}
-                      </Text>
+                      <View style={StyleSheet.flatten(styles.leftView)}>
+                        <Text style={StyleSheet.flatten(styles.day)}>{dateFormatter.format(report.date, 'DD')}</Text>
+                        <Text style={StyleSheet.flatten(styles.month)}>{dateFormatter.format(report.date, 'MMM')}</Text>
+                      </View>
                     </Left>
                     <Body>
                       <Text>{report.title}</Text>
                       <Text note>{report.type.name}</Text>
                     </Body>
+                    <Right style={StyleSheet.flatten(styles.rightWrapper)}>
+                      <Button transparent accent>
+                        <Icon name="create" />
+                      </Button>
+                    </Right>
                   </CardItem>
                   <CardItem>
-                    <Text>Here</Text>
+                    <Body>
+                      <Grid>
+                        <Col style={StyleSheet.flatten(styles.row)}>
+                          <Text style={StyleSheet.flatten(styles.counter)}>{report.totalMembers}</Text>
+                          <Text style={StyleSheet.flatten(styles.label)}>Memb.</Text>
+                        </Col>
+                        <Col style={StyleSheet.flatten(styles.row)}>
+                          <Text style={StyleSheet.flatten(styles.counter)}>{report.totalNewVisitors}</Text>
+                          <Text style={StyleSheet.flatten(styles.label)}>Visit.</Text>
+                        </Col>
+                        <Col style={StyleSheet.flatten(styles.row)}>
+                          <Text style={StyleSheet.flatten(styles.counter)}>{report.totalFrequentVisitors}</Text>
+                          <Text style={StyleSheet.flatten(styles.label)}>Freq.</Text>
+                        </Col>
+                        <Col style={StyleSheet.flatten(styles.row)}>
+                          <Text style={StyleSheet.flatten(styles.counter)}>{report.totalKids}</Text>
+                          <Text style={StyleSheet.flatten(styles.label)}>Crian.</Text>
+                        </Col>
+                      </Grid>
+                    </Body>
                   </CardItem>
                 </Card>
               )}
@@ -113,12 +136,33 @@ const styles = StyleSheet.create({
   leftWrapper: {
     maxWidth: 50,
     opacity: 0.5,
-    paddingLeft: 0,
     flexDirection: 'column'
   },
-  eventDay: {
-    fontSize: 24,
+  rightWrapper: {
+    maxWidth: 50
   },
-  eventWeekDay: {
+  leftView: {
+    marginLeft: -5,
+    marginTop: -2
   },
+  day: {
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  month: {
+    marginTop: -5,
+    textAlign: 'center'
+  },
+  row: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  counter: {
+    fontSize: 20,
+  },
+  label: {
+    fontSize: 14,
+    opacity: 0.5
+  }
 });
