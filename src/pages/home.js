@@ -33,7 +33,7 @@ export default class HomePage extends BaseComponent {
           <Right />
         </Header>
         <Content>
-          <View style={StyleSheet.flatten(styles.container)}>
+          <View style={StyleSheet.flatten(theme.cardsPadding)}>
             <ChurchCard navigation={this.props.navigation}></ChurchCard>
             <InformativeCard navigation={this.props.navigation}></InformativeCard>
             <EventCard navigation={this.props.navigation}></EventCard>
@@ -43,9 +43,3 @@ export default class HomePage extends BaseComponent {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 8
-  }
-});

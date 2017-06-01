@@ -14,6 +14,9 @@ export default StyleSheet.create({
   cardsContainer: {
     backgroundColor: '#f4f4f7'
   },
+  cardsPadding: {
+    padding: 8
+  },
   cardItemMultiline: {
     width: Dimensions.get('screen').width - 120,
   },

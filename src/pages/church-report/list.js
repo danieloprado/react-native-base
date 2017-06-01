@@ -1,4 +1,4 @@
-import { Body, Button, Container, Content, Fab, Header, Icon, Left, List, ListItem, Right, Text, Title, View } from 'native-base';
+import { Body, Button, Card, CardItem, Container, Content, Fab, Header, Icon, Left, Right, Text, Title, View } from 'native-base';
 import { RefreshControl, StyleSheet } from 'react-native';
 
 import BaseComponent from '../../components/base';
@@ -43,7 +43,7 @@ export default class ChurchReportListPage extends BaseComponent {
     const { refreshing, reports, error } = this.state;
 
     return (
-      <Container>
+      <Container style={StyleSheet.flatten(theme.cardsContainer)}>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
@@ -72,30 +72,31 @@ export default class ChurchReportListPage extends BaseComponent {
               <Text note>Nenhum relatório criado</Text>
             </View>
           }
-          <List
-            dataArray={reports}
-            renderRow={report =>
-              <ListItem
-                button
-                key={report.id}
-                style={StyleSheet.flatten(theme.listItem)}
-                onPress={() => this.details(report)}>
-                <Left style={StyleSheet.flatten(styles.leftWrapper)}>
-                  <Text style={StyleSheet.flatten(styles.eventDay)}>
-                    {dateFormatter.format(report.date, 'DD')}
-                  </Text>
-                  <Text style={StyleSheet.flatten(styles.eventWeekDay)}>
-                    {dateFormatter.format(report.date, 'MMM')}
-                  </Text>
-                </Left>
-                <Body>
-                  <Text>{report.title}</Text>
-                  <Text note>{report.type.name}</Text>
-                  <Text note>{`Total: ${report.total}`}</Text>
-                </Body>
-              </ListItem>
-            }
-          />
+          {!refreshing && !error && reports.length &&
+            <View style={StyleSheet.flatten(theme.cardsPadding)}>
+              {reports.map(report =>
+                <Card key={report.id}>
+                  <CardItem header>
+                    <Left style={StyleSheet.flatten(styles.leftWrapper)}>
+                      <Text style={StyleSheet.flatten(styles.eventDay)}>
+                        {dateFormatter.format(report.date, 'DD')}
+                      </Text>
+                      <Text style={StyleSheet.flatten(styles.eventWeekDay)}>
+                        {dateFormatter.format(report.date, 'MMM')}
+                      </Text>
+                    </Left>
+                    <Body>
+                      <Text>{report.title}</Text>
+                      <Text note>{report.type.name}</Text>
+                    </Body>
+                  </CardItem>
+                  <CardItem>
+                    <Text>Here</Text>
+                  </CardItem>
+                </Card>
+              )}
+            </View>
+          }
         </Content>
         <Fab onPress={() => this.navigate('ChurchReportForm')}>
           <Icon name="add" />
@@ -112,13 +113,12 @@ const styles = StyleSheet.create({
   leftWrapper: {
     maxWidth: 50,
     opacity: 0.5,
+    paddingLeft: 0,
     flexDirection: 'column'
   },
   eventDay: {
     fontSize: 24,
-    textAlign: 'center'
   },
   eventWeekDay: {
-    textAlign: 'center'
   },
 });
