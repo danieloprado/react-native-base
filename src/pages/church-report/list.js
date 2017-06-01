@@ -89,7 +89,7 @@ export default class ChurchReportListPage extends BaseComponent {
                       <Text note>{report.type.name}</Text>
                     </Body>
                     <Right style={StyleSheet.flatten(styles.rightWrapper)}>
-                      <Button transparent accent>
+                      <Button transparent light>
                         <Icon name="create" />
                       </Button>
                     </Right>
