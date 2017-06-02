@@ -16,7 +16,7 @@ export default class ChurchReportFormPage extends BaseComponent {
     super(props);
     this.state = {
       loading: true,
-      model: {
+      model: this.params.report || {
         title: `Culto de ${dateFormatter.format(new Date, 'dddd')}`,
         date: new Date
       },
@@ -62,6 +62,7 @@ export default class ChurchReportFormPage extends BaseComponent {
   save() {
     churchReportValidator.validate(this.state.model).then(model => {
       this.setState({ validation: {}, submitted: true });
+
       this.subscription = this.refs.loader.fromObservable(churchReportService.save(model))
         .subscribe(() => {
           this.goBack();
@@ -69,6 +70,7 @@ export default class ChurchReportFormPage extends BaseComponent {
           toast('Não foi possível salvar');
           console.log(err);
         });
+
     }).catch(errors => {
       this.setState({ validation: errors, submitted: true }, true);
     });
@@ -87,7 +89,7 @@ export default class ChurchReportFormPage extends BaseComponent {
             </Button>
           </Left>
           <Body>
-            <Title>Criar Relatório</Title>
+            <Title>{model.id > 0 ? 'Editar' : 'Criar'} Relatório</Title>
           </Body>
           <Right>
             {!loading && !error &&

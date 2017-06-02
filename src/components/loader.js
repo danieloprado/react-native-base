@@ -13,25 +13,29 @@ export default class Loader extends BaseComponent {
   }
 
   fromObservable(stream$) {
-    return Observable.create(observer => {
+    return new Observable(observer => {
       this.show();
 
-      stream$.finally(() => {
+      const subscription = stream$.do(() => {
         this.hide();
       }).subscribe({
         next: data => observer.next(data),
         error: error => observer.error(error),
         complete: () => observer.complete()
       });
+
+      return () => {
+        subscription.unsubscribe();
+      };
     });
   }
 
   show() {
-    this.setState({ show: true });
+    this.setState({ show: true }, true);
   }
 
   hide() {
-    this.setState({ show: false });
+    this.setState({ show: false }, true);
   }
 
   render() {

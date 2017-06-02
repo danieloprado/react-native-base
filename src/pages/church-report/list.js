@@ -1,5 +1,5 @@
 import { Body, Button, Card, CardItem, Container, Content, Fab, Header, Icon, Left, Right, Text, Title, View } from 'native-base';
-import { Col, Grid, Row } from 'react-native-easy-grid';
+import { Col, Grid } from 'react-native-easy-grid';
 import { RefreshControl, StyleSheet } from 'react-native';
 
 import BaseComponent from '../../components/base';
@@ -74,7 +74,7 @@ export default class ChurchReportListPage extends BaseComponent {
             </View>
           }
           {!refreshing && !error && reports.length &&
-            <View style={StyleSheet.flatten(theme.cardsPadding)}>
+            <View style={StyleSheet.flatten([theme.cardsPadding, theme.fabPadding])}>
               {reports.map(report =>
                 <Card key={report.id}>
                   <CardItem header>
@@ -89,8 +89,8 @@ export default class ChurchReportListPage extends BaseComponent {
                       <Text note>{report.type.name}</Text>
                     </Body>
                     <Right style={StyleSheet.flatten(styles.rightWrapper)}>
-                      <Button transparent light>
-                        <Icon name="create" />
+                      <Button transparent dark onPress={() => this.navigate('ChurchReportForm', { report })}>
+                        <Icon name="create" style={StyleSheet.flatten(styles.buttonIcon)} />
                       </Button>
                     </Right>
                   </CardItem>
@@ -112,6 +112,10 @@ export default class ChurchReportListPage extends BaseComponent {
                         <Col style={StyleSheet.flatten(styles.row)}>
                           <Text style={StyleSheet.flatten(styles.counter)}>{report.totalKids}</Text>
                           <Text style={StyleSheet.flatten(styles.label)}>Crian.</Text>
+                        </Col>
+                        <Col style={StyleSheet.flatten(styles.row)}>
+                          <Text style={StyleSheet.flatten(styles.counterTotal)}>{report.total}</Text>
+                          <Text style={StyleSheet.flatten(styles.labelTotal)}>Total</Text>
                         </Col>
                       </Grid>
                     </Body>
@@ -160,9 +164,19 @@ const styles = StyleSheet.create({
   },
   counter: {
     fontSize: 20,
+    opacity: 0.5
+  },
+  counterTotal: {
+    fontSize: 20
   },
   label: {
     fontSize: 14,
     opacity: 0.5
+  },
+  labelTotal: {
+    fontSize: 14
+  },
+  buttonIcon: {
+    fontSize: 25
   }
 });

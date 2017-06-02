@@ -114,7 +114,7 @@ export default class Field extends BaseComponent {
                 <Item style={StyleSheet.flatten(styles.item)} error={hasError}>
                   <Input
                     ref={i => this.input = i}
-                    value={model[field]}
+                    value={(model[field] || '').toString()}
                     onChangeText={value => this.onChange(value)}
                     keyboardType={keyboardTypes[type] || keyboardTypes.text}
                     style={StyleSheet.flatten(styles.input)}

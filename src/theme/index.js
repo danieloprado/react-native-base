@@ -17,6 +17,9 @@ export default StyleSheet.create({
   cardsPadding: {
     padding: 8
   },
+  fabPadding: {
+    paddingBottom: 90
+  },
   cardItemMultiline: {
     width: Dimensions.get('screen').width - 120,
   },
