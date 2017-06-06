@@ -46,11 +46,11 @@ function addDivider(eventDates) {
 }
 
 function isSameMonth(date1, date2) {
-  return comparer(date1, date2, 'yyyy-MM');
+  return comparer(date1, date2, 'YYYY-MM');
 }
 
 function isSameDate(date1, date2) {
-  return comparer(date1, date2, 'yyyy-MM-dd');
+  return comparer(date1, date2, 'YYYY-MM-DD');
 }
 
 function comparer(date1, date2, format) {

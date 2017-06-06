@@ -84,7 +84,6 @@ export default class EventListPage extends BaseComponent {
   }
 
   renderRow(data, rowId) {
-    console.log(rowId, data);
     return (
       <View key={data.divider ? data.beginDate : data.event.id}>
         {data.divider ?
