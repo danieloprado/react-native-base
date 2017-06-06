@@ -46,6 +46,10 @@ class ProfileService {
     });
   }
 
+  appOpened() {
+    return api.post('profile/app-opened');
+  }
+
 }
 
 export default new ProfileService();

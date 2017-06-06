@@ -34,7 +34,6 @@ export default class ChurchReportListPage extends BaseComponent {
     this.setState({ refreshing: true }, true);
 
     this.subscription = churchReportService.list(refresh).subscribe(reports => {
-      console.log(reports);
       this.setState({ refreshing: false, error: false, reports: reports || [] });
     }, err => {
       this.setState({ refreshing: false, error: true });
