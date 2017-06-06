@@ -10,6 +10,7 @@
     "node_modules": false,
     "*.apk": true
   },
+  "sortImports.onSave": true,
   "files.associations": {
     "*.js": "javascriptreact"
   }

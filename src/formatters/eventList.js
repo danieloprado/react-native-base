@@ -1,10 +1,10 @@
 import dateFormatter from './date';
+import lodash from 'lodash';
 
 export default function eventListFormatter(events) {
   if (!events.length) return [];
-  return addDivider(sortByDate(reduceByDate(events)));
+  return addDivider(lodash.orderBy(reduceByDate(events), ['beginDate', 'event.title']));
 }
-
 
 function reduceByDate(events) {
   return events.reduce((acc, event) => {
@@ -14,14 +14,6 @@ function reduceByDate(events) {
     }));
     return acc;
   }, []);
-}
-
-function sortByDate(eventDates) {
-  return eventDates.sort((a, b) => {
-    if (a.beginDate === b.beginDate) return 0;
-    if (a.beginDate < b.beginDate) return -1;
-    return 1;
-  });
 }
 
 function addDivider(eventDates) {

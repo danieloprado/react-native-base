@@ -8,7 +8,7 @@ export default class BaseComponent extends Component {
 
     this.params = {};
     if (this.props.navigation) {
-      this.params = this.props.navigation.state.params;
+      this.params = this.props.navigation.state.params || {};
     }
   }
 

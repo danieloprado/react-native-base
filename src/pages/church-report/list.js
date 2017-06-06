@@ -34,9 +34,11 @@ export default class ChurchReportListPage extends BaseComponent {
     this.setState({ refreshing: true }, true);
 
     this.subscription = churchReportService.list(refresh).subscribe(reports => {
+      console.log(reports);
       this.setState({ refreshing: false, error: false, reports: reports || [] });
-    }, () => {
+    }, err => {
       this.setState({ refreshing: false, error: true });
+      console.error(err);
     });
   }
 
@@ -73,7 +75,7 @@ export default class ChurchReportListPage extends BaseComponent {
               <Text note>Nenhum relatório criado</Text>
             </View>
           }
-          {!refreshing && !error && reports.length &&
+          {!refreshing && !error && !!reports.length &&
             <View style={StyleSheet.flatten([theme.cardsPadding, theme.fabPadding])}>
               {reports.map(report =>
                 <Card key={report.id}>

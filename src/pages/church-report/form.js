@@ -106,7 +106,7 @@ export default class ChurchReportFormPage extends BaseComponent {
             </View>
             : error ?
               <View style={StyleSheet.flatten(theme.emptyMessage)}>
-                <Text note>Não conseguimos atualizar</Text>
+                <Text note>Não conseguimos carregar</Text>
               </View>
               :
               <View style={StyleSheet.flatten(styles.container)}>
