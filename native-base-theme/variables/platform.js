@@ -1,6 +1,6 @@
-import color from 'color';
+import { Dimensions, PixelRatio, Platform } from 'react-native';
 
-import { Platform, Dimensions, PixelRatio } from 'react-native';
+import color from 'color';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -176,7 +176,7 @@ export default {
   toolbarDefaultBorder: (platform === 'ios') ? '#a7a6ab' : primary,
   iosStatusbar: (platform === 'ios') ? 'dark-content' : 'light-content',
   get statusBarColor() {
-    return color(this.toolbarDefaultBg).darken(0.2).hexString();
+    return color(this.toolbarDefaultBg).darken(0.2).hex();
   },
 
 
@@ -249,7 +249,7 @@ export default {
   radioColor: '#7e7e7e',
 
   get radioSelectedColor() {
-    return color(this.radioColor).darken(0.2).hexString();
+    return color(this.radioColor).darken(0.2).hex();
   },
 
 
@@ -286,7 +286,7 @@ export default {
   contentPadding: 10,
 
   get darkenHeader() {
-    return color(this.tabBgColor).darken(0.03).hexString();
+    return color(this.tabBgColor).darken(0.03).hex();
   },
 
   dropdownBg: '#000',
