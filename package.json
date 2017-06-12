@@ -3,10 +3,13 @@
   "version": "2.1.0",
   "private": true,
   "scripts": {
+    "precommit": "yarn lint",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "dev-android": "node node_modules/react-native/local-cli/cli.js run-android && npm start",
     "release-android": "sh release.android.sh",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint --ext js src/**",
+    "eslint": "eslint"
   },
   "dependencies": {
     "lodash": "^4.17.4",
@@ -14,7 +17,7 @@
     "native-base": "2.1.5",
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",
-    "react-native": "0.45.0",
+    "react-native": "0.45.1",
     "react-native-busy-indicator": "1.1.0",
     "react-native-code-push": "^2.1.0-beta",
     "react-native-device-info": "0.10.2",
@@ -31,8 +34,9 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-preset-react-native": "1.9.2",
-    "eslint": "3.19.0",
+    "eslint": "4.0.0",
     "eslint-plugin-react": "7.0.1",
+    "husky": "^0.13.4",
     "jest": "20.0.4",
     "react-test-renderer": "16.0.0-alpha.6"
   },
