@@ -61,6 +61,15 @@ export default function informativeRender(informative) {
             margin-top: 0;
           }
 
+          ul, ol {
+            padding-left: 18px;
+          }
+
+          ul li, ol li {
+            padding-left: 0;
+            margin-left: 0;
+          }
+
           p {
             margin: 0;
           }

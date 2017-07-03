@@ -1391,11 +1391,11 @@ dateformat@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-2.0.0.tgz#2743e3abb5c3fc2462e527dca445e04e9f4dee17"
 
-debug@2, debug@^2.1.1, debug@^2.2.0, debug@^2.6.3:
-  version "2.6.6"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.6.tgz#a9fa6fbe9ca43cf1e79f73b75c0189cbb7d6db5a"
+debug@2, debug@^2.1.1, debug@^2.6.3, debug@^2.6.8:
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
   dependencies:
-    ms "0.7.3"
+    ms "2.0.0"
 
 debug@2.6.3:
   version "2.6.3"
@@ -1403,11 +1403,11 @@ debug@2.6.3:
   dependencies:
     ms "0.7.2"
 
-debug@^2.6.8:
-  version "2.6.8"
-  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
+debug@^2.2.0:
+  version "2.6.6"
+  resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.6.tgz#a9fa6fbe9ca43cf1e79f73b75c0189cbb7d6db5a"
   dependencies:
-    ms "2.0.0"
+    ms "0.7.3"
 
 debug@~2.2.0:
   version "2.2.0"
@@ -2015,18 +2015,7 @@ glob@^5.0.15:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@^7.0.3, glob@^7.0.5, glob@^7.1.1:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.1.tgz#805211df04faaf1c63a3600306cdf5ade50b2ec8"
-  dependencies:
-    fs.realpath "^1.0.0"
-    inflight "^1.0.4"
-    inherits "2"
-    minimatch "^3.0.2"
-    once "^1.3.0"
-    path-is-absolute "^1.0.0"
-
-glob@^7.1.2:
+glob@^7.0.3, glob@^7.0.5, glob@^7.1.2:
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.2.tgz#c19c9df9a028702d678612384a6552404c636d15"
   dependencies:
@@ -2034,6 +2023,17 @@ glob@^7.1.2:
     inflight "^1.0.4"
     inherits "2"
     minimatch "^3.0.4"
+    once "^1.3.0"
+    path-is-absolute "^1.0.0"
+
+glob@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.1.tgz#805211df04faaf1c63a3600306cdf5ade50b2ec8"
+  dependencies:
+    fs.realpath "^1.0.0"
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "^3.0.2"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
@@ -2218,9 +2218,9 @@ https-proxy-agent@1:
     debug "2"
     extend "3"
 
-husky@^0.14.1:
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/husky/-/husky-0.14.1.tgz#8edba33e728ceed75343e88bb8002e4cbd8d1b40"
+husky@^0.14.2:
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-0.14.2.tgz#6df06483965d2254db95dd143c445d6d8509b4b8"
   dependencies:
     is-ci "^1.0.10"
     normalize-path "^1.0.0"
@@ -3232,9 +3232,9 @@ native-base-shoutem-theme@0.1.7:
     lodash "^4.10.1"
     prop-types "^15.5.10"
 
-native-base@2.1.5:
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/native-base/-/native-base-2.1.5.tgz#763b42b05c239fc3e62a226eb8328ab8f5b248d2"
+native-base@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/native-base/-/native-base-2.2.0.tgz#63d1aadd72c3ef737076f0be9d9c2ff64608c609"
   dependencies:
     "@shoutem/animation" "^0.8.9"
     blueimp-md5 "^2.5.0"
@@ -3700,9 +3700,9 @@ react-native-busy-indicator@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-busy-indicator/-/react-native-busy-indicator-1.1.0.tgz#bdbd938980c81e6a5bba095c70228497e3011378"
 
-react-native-code-push@^2.1.0-beta:
-  version "2.1.0-beta"
-  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-2.1.0-beta.tgz#95cd5f4ca8588074dfd97db0caeb17103428d910"
+react-native-code-push@^3.0.0-beta:
+  version "3.0.0-beta"
+  resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-3.0.0-beta.tgz#9cd3afb719b66d9f08c5f093f15f902ec1da8845"
   dependencies:
     code-push "1.11.2-beta"
     glob "^5.0.15"
