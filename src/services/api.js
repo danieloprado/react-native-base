@@ -24,7 +24,8 @@ export class ApiService {
         .map(res => this.checkResponse(res))
         .do(res => this.checkNewToken(res))
         // .timeout(settings.apiTimeout)
-        .switchMap(res => Observable.fromPromise(res.json()))
+        .switchMap(res => Observable.fromPromise(res.text()))
+        .map(bodyText => bodyText ? JSON.parse(bodyText) : null)
         .catch(err => this.errorHandler(err));
     };
   }

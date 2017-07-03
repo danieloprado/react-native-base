@@ -6,6 +6,7 @@ import dateFormatter from '../formatters/date';
 import device from 'react-native-device-info';
 import notificationService from './notification';
 import settings from '../settings';
+import storageService from './storage';
 import tokenService from './token';
 
 class ProfileService {
@@ -20,9 +21,9 @@ class ProfileService {
     const notificationId = notificationService.getUserId();
     const name = `${device.getBrand()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`;
 
-    return api.post('register', { deviceId, name, application, provider, accessToken, notificationId }).switchMap(res => {
-      return tokenService.setToken(res);
-    });
+    return api.post('register', { deviceId, name, application, provider, accessToken, notificationId })
+      .do(() => storageService.set('notificationRegistred', true))
+      .switchMap(res => tokenService.setToken(res));
   }
 
   get(refresh = false) {
@@ -46,10 +47,20 @@ class ProfileService {
     });
   }
 
-  appOpened() {
-    return api.post('profile/app-opened');
+  logout() {
+    return storageService.set('notificationRegistred', false).switchMap(() => {
+      return tokenService.clearToken();
+    });
   }
 
+  appOpened() {
+    return storageService.get('notificationRegistred').switchMap(registered => {
+      const data = { notificationUserId: registered ? null : notificationService.getUserId() };
+      return api.post('profile/app-opened', data);
+    }).switchMap(() => {
+      return storageService.set('notificationRegistred', true);
+    });
+  }
 }
 
 export default new ProfileService();

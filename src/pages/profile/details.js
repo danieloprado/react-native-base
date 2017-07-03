@@ -6,7 +6,6 @@ import BaseComponent from '../../components/base';
 import React from 'react';
 import dateFormatter from '../../formatters/date';
 import profileService from '../../services/profile';
-import tokenService from '../../services/token';
 
 export default class ProfileDetailsPage extends BaseComponent {
   static navigationOptions = {
@@ -39,7 +38,7 @@ export default class ProfileDetailsPage extends BaseComponent {
       'Confirmar',
       'Deseja realmente sair?', [
         { text: 'Não', style: 'cancel' },
-        { text: 'Sim', onPress: () => tokenService.clearToken().subscribe() }
+        { text: 'Sim', onPress: () => profileService.logout().subscribe() }
       ], { cancelable: false }
     );
   }
