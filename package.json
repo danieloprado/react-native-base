@@ -12,14 +12,14 @@
     "eslint": "eslint"
   },
   "dependencies": {
-    "lodash": "^4.17.4",
+    "lodash": "4.17.4",
     "moment": "2.18.1",
     "native-base": "2.2.0",
-    "prop-types": "^15.5.10",
+    "prop-types": "15.5.10",
     "react": "16.0.0-alpha.12",
     "react-native": "0.45.1",
     "react-native-busy-indicator": "1.1.0",
-    "react-native-code-push": "^3.0.0-beta",
+    "react-native-code-push": "3.0.0-beta",
     "react-native-device-info": "0.10.2",
     "react-native-fbsdk": "0.6.1",
     "react-native-google-signin": "0.10.0",
@@ -36,7 +36,7 @@
     "babel-preset-react-native": "2.0.0",
     "eslint": "4.1.1",
     "eslint-plugin-react": "7.1.0",
-    "husky": "^0.14.2",
+    "husky": "0.14.2",
     "jest": "20.0.4",
     "react-test-renderer": "16.0.0-alpha.6"
   },

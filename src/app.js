@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import { Root, StyleProvider } from 'native-base';
 
 import { AppRegistry } from 'react-native';
 import Navigator from './navigator';
 import { Observable } from 'rxjs/Observable';
 import OneSignal from 'react-native-onesignal';
-import { StyleProvider } from 'native-base';
 import codePush from 'react-native-code-push';
 import getTheme from '../native-base-theme/components';
 import notificationService from './services/notification';
@@ -45,7 +45,9 @@ class App extends Component {
   render() {
     return (
       <StyleProvider style={getTheme(platform)}>
-        <Navigator ref={nav => { this.navigator = nav; }} onNavigationStateChange={null} />
+        <Root>
+          <Navigator ref={nav => { this.navigator = nav; }} onNavigationStateChange={null} />
+        </Root>
       </StyleProvider>
     );
   }

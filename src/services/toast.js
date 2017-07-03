@@ -1,9 +1,13 @@
-import { Platform, ToastAndroid } from 'react-native';
+import { InteractionManager } from 'react-native';
+import { Toast } from 'native-base';
 
-export default function show(message, duraction = ToastAndroid.LONG) {
-  if (Platform.OS === 'ios') {
-    return alert(message);
-  }
-
-  ToastAndroid.show(message, duraction);
+export default function show(text, duration = 3000) {
+  InteractionManager.runAfterInteractions(() => {
+    Toast.show({
+      text,
+      position: 'bottom',
+      buttonText: 'Ok',
+      duration
+    });
+  });
 }
