@@ -2,4 +2,5 @@
     <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">6r57M3nNWDwNe-XpdfLpRzfU0o_jVkO0tCQxm</string>
     <string name="app_name">ICB Sorocaba</string>
     <string name="facebook_app_id">1161262080594379</string>
+    <string name="bugsnag_appkey">7f394ec621690879be85bc0bef530ac9</string>
 </resources>

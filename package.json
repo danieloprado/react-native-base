@@ -1,6 +1,6 @@
 {
   "name": "churchReact",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "scripts": {
     "precommit": "yarn lint",
@@ -12,6 +12,8 @@
     "eslint": "eslint"
   },
   "dependencies": {
+    "base-64": "^0.1.0",
+    "bugsnag-react-native": "^2.2.3",
     "lodash": "4.17.4",
     "moment": "2.18.1",
     "native-base": "2.2.0",

@@ -5,6 +5,7 @@ import DrawerItems from './drawerItems';
 import React from 'react';
 import { Text } from 'native-base';
 import platform from '../../native-base-theme/variables/platform';
+import toast from '../services/toast';
 import tokenService from '../services/token';
 
 const ROUTES_ROLES = [
@@ -15,9 +16,7 @@ export default class SideMenu extends BaseComponent {
   constructor(props) {
     super(props);
 
-    this.state = {
-      routes: this.filterRoutes()
-    };
+    this.state = { routes: [] };
   }
 
   filterRoutes(user) {
@@ -31,10 +30,12 @@ export default class SideMenu extends BaseComponent {
     });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.subscription = tokenService.getUser().subscribe(user => {
       const routes = this.filterRoutes(user);
       this.setState({ routes });
+    }, () => {
+      toast('Um erro aconteceu...');
     });
   }
 

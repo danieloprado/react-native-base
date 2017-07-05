@@ -1,4 +1,5 @@
 import { BehaviorSubject } from 'rxjs/Rx';
+import base64 from 'base-64';
 import storage from './storage';
 
 class TokenService {
@@ -18,19 +19,15 @@ class TokenService {
     return this.getToken().map(tokens => {
       if (!tokens) return;
 
-      try {
-        const user = JSON.parse(atob(tokens.accessToken.split('.')[1]));
-        user.canAccess = roles => {
-          if (!roles || roles.length === 0) return true;
-          if (user.roles.includes('sysAdmin') || user.roles.includes('admin')) return true;
+      const user = JSON.parse(base64.decode(tokens.accessToken.split('.')[1]));
+      user.canAccess = roles => {
+        if (!roles || roles.length === 0) return true;
+        if (user.roles.includes('sysAdmin') || user.roles.includes('admin')) return true;
 
-          return roles.some(r => user.roles.includes(r));
-        };
+        return roles.some(r => user.roles.includes(r));
+      };
 
-        return user;
-      } catch (err) {
-        return null;
-      }
+      return user;
     });
   }
 
