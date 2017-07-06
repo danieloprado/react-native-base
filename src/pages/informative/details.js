@@ -6,6 +6,7 @@ import theme, { variables } from '../../theme';
 import BaseComponent from '../../components/base';
 import React from 'react';
 import informativeRender from '../../formatters/informativeRender';
+import logService from '../../services/log';
 
 export default class InformativeDetailsPage extends BaseComponent {
   constructor(props) {
@@ -28,6 +29,8 @@ export default class InformativeDetailsPage extends BaseComponent {
       const html = informative ? informativeRender(informative) : null;
 
       this.setState({ loading: false, informative, html });
+    }, err => {
+      logService.handleError(err);
     });
   }
 

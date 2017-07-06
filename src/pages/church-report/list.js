@@ -6,6 +6,7 @@ import BaseComponent from '../../components/base';
 import React from 'react';
 import churchReportService from '../../services/churchReport';
 import dateFormatter from '../../formatters/date';
+import logService from '../../services/log';
 import theme from '../../theme';
 
 export default class ChurchReportListPage extends BaseComponent {
@@ -37,7 +38,7 @@ export default class ChurchReportListPage extends BaseComponent {
       this.setState({ refreshing: false, error: false, reports: reports || [] });
     }, err => {
       this.setState({ refreshing: false, error: true });
-      console.error(err);
+      logService.handleError(err);
     });
   }
 

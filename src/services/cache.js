@@ -1,9 +1,9 @@
 import { NetInfo } from 'react-native';
 import { Observable } from 'rxjs/Observable';
+import { ServiceError } from '../errors/serviceError';
+import logService from './log';
 import settings from '../settings';
 import storage from './storage';
-
-export class EmptyCache extends Error { }
 
 export class Cache {
   constructor() {
@@ -19,7 +19,7 @@ export class Cache {
 
       this.getData(key).subscribe(cache => {
         if (!cache && !this.connected) {
-          observer.error(new EmptyCache('empty-cache'));
+          observer.error(new ServiceError('empty-cache'));
           observer.complete();
           return;
         }
@@ -33,7 +33,7 @@ export class Cache {
             next: data => this.saveData(key, data).subscribe(cache => {
               observer.next(cache.data);
               observer.complete();
-            }),
+            }, err => observer.error(err)),
             error: error => {
               if (refresh && cache && this.connected) {
                 observer.next(cache.data);
@@ -46,9 +46,11 @@ export class Cache {
         }
 
         observer.complete();
-      });
-
-    });
+      }, err => observer.error(err));
+    }).do(
+      data => logService.breadcrumb('Cache', 'manual', data),
+      err => logService.breadcrumb('Cache Error', 'manual', err)
+      );
   }
 
   isExpirated(cache) {

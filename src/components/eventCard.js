@@ -6,6 +6,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import dateFormatter from '../formatters/date';
 import eventService from '../services/event';
+import logService from '../services/log';
 
 export default class EventCard extends BaseComponent {
   constructor(props) {
@@ -16,8 +17,9 @@ export default class EventCard extends BaseComponent {
   componentDidMount() {
     this.subscription = eventService.next().subscribe(event => {
       this.setState({ loading: false, error: false, event });
-    }, () => {
+    }, err => {
       this.setState({ loading: false, error: true });
+      logService.handleError(err);
     });
   }
 

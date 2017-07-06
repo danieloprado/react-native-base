@@ -6,6 +6,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import dateFormatter from '../formatters/date';
 import informativeService from '../services/informative';
+import logService from '../services/log';
 
 export default class InformativeCard extends BaseComponent {
   constructor(props) {
@@ -16,8 +17,9 @@ export default class InformativeCard extends BaseComponent {
   componentDidMount() {
     this.subscription = informativeService.last().subscribe(informative => {
       this.setState({ loading: false, informative });
-    }, () => {
+    }, err => {
       this.setState({ loading: false });
+      logService.handleError(err);
     });
   }
 
@@ -33,7 +35,7 @@ export default class InformativeCard extends BaseComponent {
         <CardItem header>
           <Text>Último informativo</Text>
         </CardItem>
-        { this.state.loading ?
+        {this.state.loading ?
           <CardItem>
             <Body style={StyleSheet.flatten(theme.alignCenter)}>
               <Spinner color={variables.accent} />
@@ -41,29 +43,29 @@ export default class InformativeCard extends BaseComponent {
           </CardItem>
           :
           !informative ?
-          <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
-            <Text note>Não conseguimos atualizar</Text>
-          </CardItem> 
-          :
-          <View>
-            <CardItem button onPress={() => this.navigate('InformativeDetails', { informative })}>
-              <Icon name={informative.icon} />
-              <View>
-                <Text>{informative.title}</Text>
-                <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
-              </View>  
-              <Right>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>  
-            <CardItem footer style={StyleSheet.flatten(theme.alignRight)}>
-              <Button transparent onPress={() => this.navigate('Informative')}>
-                <Text>VER TODOS</Text>
-              </Button>  
+            <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
+              <Text note>Não conseguimos atualizar</Text>
             </CardItem>
-          </View>  
-        }  
-       
+            :
+            <View>
+              <CardItem button onPress={() => this.navigate('InformativeDetails', { informative })}>
+                <Icon name={informative.icon} />
+                <View>
+                  <Text>{informative.title}</Text>
+                  <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
+                </View>
+                <Right>
+                  <Icon name="arrow-forward" />
+                </Right>
+              </CardItem>
+              <CardItem footer style={StyleSheet.flatten(theme.alignRight)}>
+                <Button transparent onPress={() => this.navigate('Informative')}>
+                  <Text>VER TODOS</Text>
+                </Button>
+              </CardItem>
+            </View>
+        }
+
       </Card>
     );
   }

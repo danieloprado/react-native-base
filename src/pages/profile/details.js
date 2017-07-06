@@ -5,6 +5,7 @@ import theme, { variables } from '../../theme';
 import BaseComponent from '../../components/base';
 import React from 'react';
 import dateFormatter from '../../formatters/date';
+import logService from '../../services/log';
 import profileService from '../../services/profile';
 
 export default class ProfileDetailsPage extends BaseComponent {
@@ -24,8 +25,9 @@ export default class ProfileDetailsPage extends BaseComponent {
   componentDidMount() {
     this.subscription = profileService.get().subscribe(profile => {
       this.setState({ loading: false, profile });
-    }, () => {
+    }, err => {
       this.setState({ loading: false, error: true });
+      logService.handleError(err);
     });
   }
 

@@ -1,6 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 import { InteractionManager } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+import logService from './log';
 
 const ACTION_HANDLERS = {
   'open-informative': async (dispatch, data) => {
@@ -52,6 +53,8 @@ class NotificationService {
         this._hasNotification = false;
         SplashScreen.hide();
       });
+    }, err => {
+      logService.handleError(err);
     });
 
   }

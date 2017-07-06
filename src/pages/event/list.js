@@ -6,6 +6,7 @@ import React from 'react';
 import dateFormatter from '../../formatters/date';
 import eventListFormatter from '../../formatters/eventList';
 import eventService from '../../services/event';
+import logService from '../../services/log';
 import theme from '../../theme';
 
 export default class EventListPage extends BaseComponent {
@@ -40,8 +41,9 @@ export default class EventListPage extends BaseComponent {
     this.subscription = eventService.list(refresh).subscribe(events => {
       const eventGroup = eventListFormatter(events || []);
       this.setState({ refreshing: false, error: false, eventGroup });
-    }, () => {
+    }, err => {
       this.setState({ refreshing: false, error: true });
+      logService.handleError(err);
     });
   }
 

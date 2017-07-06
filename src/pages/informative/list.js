@@ -5,6 +5,7 @@ import BaseComponent from '../../components/base';
 import React from 'react';
 import dateFormatter from '../../formatters/date';
 import informativeService from '../../services/informative';
+import logService from '../../services/log';
 import theme from '../../theme';
 
 export default class InformativeListPage extends BaseComponent {
@@ -39,8 +40,9 @@ export default class InformativeListPage extends BaseComponent {
     this.subscription = informativeService.list(refresh).subscribe(informatives => {
       informatives = informatives || [];
       this.setState({ refreshing: false, informatives });
-    }, () => {
+    }, err => {
       this.setState({ refreshing: false });
+      logService.handleError(err);
     });
   }
 

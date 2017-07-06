@@ -4,6 +4,7 @@ import { Linking, StyleSheet } from 'react-native';
 import BaseComponent from './base';
 import React from 'react';
 import churchService from '../services/church';
+import logService from '../services/log';
 import phoneFormatter from '../formatters/phone';
 import theme from '../theme';
 import { variables } from '../theme';
@@ -17,8 +18,9 @@ export default class ChurchCard extends BaseComponent {
   componentDidMount() {
     this.subscription = churchService.info().subscribe(church => {
       this.setState({ loading: false, church });
-    }, () => {
+    }, err => {
       this.setState({ loading: false });
+      logService.handleError(err);
     });
   }
 

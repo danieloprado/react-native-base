@@ -4,8 +4,8 @@ import BaseComponent from './base';
 import DrawerItems from './drawerItems';
 import React from 'react';
 import { Text } from 'native-base';
+import logService from '../services/log';
 import platform from '../../native-base-theme/variables/platform';
-import toast from '../services/toast';
 import tokenService from '../services/token';
 
 const ROUTES_ROLES = [
@@ -34,8 +34,8 @@ export default class SideMenu extends BaseComponent {
     this.subscription = tokenService.getUser().subscribe(user => {
       const routes = this.filterRoutes(user);
       this.setState({ routes });
-    }, () => {
-      toast('Um erro aconteceu...');
+    }, err => {
+      logService.handleError(err);
     });
   }
 

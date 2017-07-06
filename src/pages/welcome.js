@@ -7,6 +7,7 @@ import { GoogleSignin } from 'react-native-google-signin';
 import Loader from '../components/loader';
 import React from 'react';
 import SplashScreen from 'react-native-splash-screen';
+import logService from '../services/log';
 import notificationService from '../services/notification';
 import profileService from '../services/profile';
 import settings from '../settings';
@@ -39,7 +40,7 @@ export default class WelcomPage extends BaseComponent {
         offlineAccess: true
       });
     } catch (err) {
-      toast('Um erro aconteceu...');
+      logService.handleError(err);
     }
   }
 
@@ -56,6 +57,8 @@ export default class WelcomPage extends BaseComponent {
   completed() {
     storage.set('welcomeCompleted', true).subscribe(() => {
       this.navigateToHome();
+    }, err => {
+      logService.handleError(err);
     });
   }
 

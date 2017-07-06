@@ -9,7 +9,7 @@ import { StyleSheet } from 'react-native';
 import churchReportService from '../../services/churchReport';
 import churchReportValidator from '../../validators/churchReport';
 import dateFormatter from '../../formatters/date';
-import toast from '../../services/toast';
+import logService from '../../services/log';
 
 export default class ChurchReportFormPage extends BaseComponent {
   constructor(props) {
@@ -34,7 +34,7 @@ export default class ChurchReportFormPage extends BaseComponent {
       });
     }, err => {
       this.setState({ loading: false, error: true });
-      console.log(err);
+      logService.handleError(err);
     });
   }
 
@@ -67,8 +67,7 @@ export default class ChurchReportFormPage extends BaseComponent {
         .subscribe(() => {
           this.goBack();
         }, err => {
-          toast('Não foi possível salvar');
-          console.log(err);
+          logService.handleError(err);
         });
 
     }).catch(errors => {

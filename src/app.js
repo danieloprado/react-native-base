@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Root, StyleProvider } from 'native-base';
 
 import { AppRegistry } from 'react-native';
-import { Client } from 'bugsnag-react-native';
 import Navigator from './navigator';
 import { Observable } from 'rxjs/Observable';
 import OneSignal from 'react-native-onesignal';
 import codePush from 'react-native-code-push';
 import getTheme from '../native-base-theme/components';
+import logService from './services/log';
 import notificationService from './services/notification';
 import platform from '../native-base-theme/variables/platform';
 import profileService from './services/profile';
@@ -18,7 +18,6 @@ console.ignoredYellowBox = ['Warning: BackAndroid'];
 class App extends Component {
   constructor(props) {
     super(props);
-    this.bugsnag = new Client();
   }
 
   componentWillMount() {
@@ -28,14 +27,14 @@ class App extends Component {
     OneSignal.addEventListener('ids', this.onNotificationRegistred.bind(this));
 
     this.subscription = tokenService.getUser().switchMap(user => {
+      logService.setUser(user);
+
       if (!user) {
-        this.bugsnag.clearUser();
         return Observable.of(null);
       }
 
-      this.bugsnag.setUser(user.id.toString(), user.fullName, user.email);
       return profileService.appOpened();
-    }).subscribe();
+    }).subscribe(() => { }, err => logService.handleError(err));
   }
 
   componentWillUnmount() {
@@ -55,8 +54,9 @@ class App extends Component {
   }
 
   onNavigationStateChange(data) {
+    console.log(data);
     if (!data || !data.routes || !data.routes.length) return;
-    this.bugsnag.leaveBreadcrumb(data.routes.pop().routeName, { type: 'navigation' });
+    logService.breadcrumb(data.routes.pop().routeName, 'navigation');
   }
 
   render() {

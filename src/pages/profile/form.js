@@ -5,9 +5,9 @@ import Field from '../../components/field';
 import Loader from '../../components/loader';
 import React from 'react';
 import addressService from '../../services/address';
+import logService from '../../services/log';
 import profileService from '../../services/profile';
 import profileValidator from '../../validators/profile';
-import toast from '../../services/toast';
 
 const genderOptions = [
   { value: null, display: 'Não informado' },
@@ -62,8 +62,7 @@ export default class ProfileEditPage extends BaseComponent {
       this.subscription = this.refs.loader.fromObservable(profileService.save(model)).subscribe(() => {
         this.goBack();
       }, err => {
-        toast('Não foi possível salvar');
-        console.log(err);
+        logService.handleError(err);
       });
     }).catch(errors => {
       this.setState({ validation: errors });

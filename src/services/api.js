@@ -1,12 +1,20 @@
 import 'rxjs/add/operator/map';
 
+import { NetInfo } from 'react-native';
 import { Observable } from 'rxjs/Observable';
+import { ServiceError } from '../errors/serviceError';
+import logService from './log';
 import settings from '../settings';
 import tokenService from './token';
 
 export class ApiService {
   constructor() {
     const headers = { 'Content-type': 'application/json' };
+
+    NetInfo.isConnected.addEventListener('change', isConnected => {
+      this.connected = isConnected;
+    });
+
     tokenService.getToken().subscribe(tokens => {
       delete headers['Authorization'];
       delete headers['RefreshToken'];
@@ -15,9 +23,17 @@ export class ApiService {
         headers['Authorization'] = `bearer ${tokens.accessToken}`;
         headers['RefreshToken'] = tokens.refreshToken;
       }
+    }, err => {
+      logService.handleError(err);
     });
 
     this.http = (method, url, data = null) => {
+      logService.breadcrumb('Api Request', 'manual', { method, url, data });
+
+      if (!this.connected) {
+        return Observable.throw(new ServiceError('no-internet'));
+      }
+
       const body = data ? JSON.stringify(data) : null;
       return Observable
         .fromPromise(fetch(`${settings.apiEndpoint}/${url}`, { method, headers, body }))
@@ -26,6 +42,7 @@ export class ApiService {
         // .timeout(settings.apiTimeout)
         .switchMap(res => Observable.fromPromise(res.text()))
         .map(bodyText => bodyText ? JSON.parse(bodyText) : null)
+        .do(res => logService.breadcrumb('Api Response', 'manual', res))
         .catch(err => this.errorHandler(err));
     };
   }
@@ -50,7 +67,8 @@ export class ApiService {
     const accessToken = response.headers.get('X-Token');
 
     if (accessToken) {
-      tokenService.setAccessToken(accessToken).subscribe();
+      logService.breadcrumb('Api New Token', 'manual', accessToken);
+      tokenService.setAccessToken(accessToken).subscribe(() => { }, err => logService.handleError(err));
     }
   }
 
@@ -60,6 +78,8 @@ export class ApiService {
       console.log(err);
       console.log(err.data);
     }
+
+    logService.breadcrumb('Api Error', 'error', err);
 
     if (err.status === 401) {
       return tokenService.clearToken().switchMap(() => {
