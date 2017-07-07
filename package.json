@@ -1,6 +1,6 @@
 {
   "name": "churchReact",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "private": true,
   "scripts": {
     "precommit": "yarn lint",

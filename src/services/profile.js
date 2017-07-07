@@ -50,11 +50,15 @@ class ProfileService {
   logout() {
     return storageService.set('notificationRegistred', false).switchMap(() => {
       return tokenService.clearToken();
+    }).switchMap(() => {
+      return cache.clear();
     });
   }
 
   appOpened() {
-    return storageService.get('notificationRegistred').switchMap(registered => {
+    return api.connection().filter(c => c).first().switchMap(() => {
+      return storageService.get('notificationRegistred');
+    }).switchMap(registered => {
       const data = { notificationUserId: registered ? null : notificationService.getUserId() };
       return api.post('profile/app-opened', data);
     }).switchMap(() => {

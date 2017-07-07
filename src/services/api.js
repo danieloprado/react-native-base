@@ -1,18 +1,21 @@
 import 'rxjs/add/operator/map';
 
+import { BehaviorSubject, Observable } from 'rxjs';
+
 import { NetInfo } from 'react-native';
-import { Observable } from 'rxjs/Observable';
 import { ServiceError } from '../errors/serviceError';
 import logService from './log';
+import profileService from './profile';
 import settings from '../settings';
 import tokenService from './token';
 
 export class ApiService {
   constructor() {
     const headers = { 'Content-type': 'application/json' };
+    this._connection$ = new BehaviorSubject(false);
 
     NetInfo.isConnected.addEventListener('change', isConnected => {
-      this.connected = isConnected;
+      this._connection$.next(isConnected);
     });
 
     tokenService.getToken().subscribe(tokens => {
@@ -30,7 +33,7 @@ export class ApiService {
     this.http = (method, url, data = null) => {
       logService.breadcrumb('Api Request', 'manual', { method, url, data });
 
-      if (!this.connected) {
+      if (!this._connection$.getValue()) {
         return Observable.throw(new ServiceError('no-internet'));
       }
 
@@ -66,10 +69,10 @@ export class ApiService {
   checkNewToken(response) {
     const accessToken = response.headers.get('X-Token');
 
-    if (accessToken) {
-      logService.breadcrumb('Api New Token', 'manual', accessToken);
-      tokenService.setAccessToken(accessToken).subscribe(() => { }, err => logService.handleError(err));
-    }
+    if (!accessToken) return;
+
+    logService.breadcrumb('Api New Token', 'manual', accessToken);
+    tokenService.setAccessToken(accessToken).subscribe(() => { }, err => logService.handleError(err));
   }
 
   errorHandler(err) {
@@ -82,12 +85,16 @@ export class ApiService {
     logService.breadcrumb('Api Error', 'error', err);
 
     if (err.status === 401) {
-      return tokenService.clearToken().switchMap(() => {
+      return profileService.logout().switchMap(() => {
         return Observable.throw(err);
       });
     }
 
     return Observable.throw(err);
+  }
+
+  connection() {
+    return this._connection$.asObservable();
   }
 
 }

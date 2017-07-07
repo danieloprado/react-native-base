@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 export class Storage {
 
   get(key) {
-    return Observable.fromPromise((async() => {
+    return Observable.fromPromise((async () => {
       const result = await AsyncStorage.getItem(key);
       return result ? JSON.parse(result) : null;
     })());
@@ -14,6 +14,18 @@ export class Storage {
     return Observable
       .fromPromise(AsyncStorage.setItem(key, JSON.stringify(value)))
       .map(() => value);
+  }
+
+  clear(regexp) {
+    return Observable
+      .fromPromise(AsyncStorage.getAllKeys())
+      .switchMap(keys => {
+        if (regexp) {
+          keys = keys.filter(k => regexp.test(k));
+        }
+
+        return Observable.fromPromise(AsyncStorage.multiRemove(keys));
+      });
   }
 
 }

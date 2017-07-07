@@ -27,8 +27,10 @@ export class Log {
   }
 
   breadcrumb(text, type = 'manual', extraData = {}) {
-    delete (extraData || {}).type;
-    this.bugsnag.leaveBreadcrumb(text, { type, ...extraData });
+    extraData = extraData || {};
+    delete extraData.type;
+
+    this.bugsnag.leaveBreadcrumb(text, { type, data: extraData });
   }
 
   handleError(err) {

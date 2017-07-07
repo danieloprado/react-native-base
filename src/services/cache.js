@@ -1,6 +1,6 @@
-import { NetInfo } from 'react-native';
 import { Observable } from 'rxjs/Observable';
 import { ServiceError } from '../errors/serviceError';
+import api from './api';
 import logService from './log';
 import settings from '../settings';
 import storage from './storage';
@@ -9,12 +9,16 @@ export class Cache {
   constructor() {
     this.connected = false;
 
-    NetInfo.isConnected.addEventListener('change', isConnected => {
-      this.connected = isConnected;
+    setTimeout(() => {
+      api.connection().subscribe(isConnected => {
+        this.connected = isConnected;
+      });
     });
   }
 
   from(key, stream$, refresh = false) {
+    key = 'church-cache-' + key;
+
     return new Observable(observer => {
 
       this.getData(key).subscribe(cache => {
@@ -66,6 +70,10 @@ export class Cache {
 
   saveData(key, data) {
     return storage.set(key, { createdAt: new Date(), data });
+  }
+
+  clear() {
+    return storage.clear(/^church-cache/gi);
   }
 
 }

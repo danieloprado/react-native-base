@@ -54,7 +54,6 @@ class App extends Component {
   }
 
   onNavigationStateChange(data) {
-    console.log(data);
     if (!data || !data.routes || !data.routes.length) return;
     logService.breadcrumb(data.routes.pop().routeName, 'navigation');
   }
