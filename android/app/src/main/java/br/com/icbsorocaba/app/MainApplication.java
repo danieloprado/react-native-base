@@ -4,8 +4,6 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.bugsnag.BugsnagReactNative;
-import com.microsoft.codepush.react.CodePush;
-import com.microsoft.codepush.react.ReactInstanceHolder;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -29,30 +27,18 @@ import java.util.List;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage; 
 
-abstract class CodePushReactNativeHost extends ReactNativeHost implements ReactInstanceHolder {
-  protected CodePushReactNativeHost(Application application) {
-    super(application);
-  }
-}
-
 public class MainApplication extends Application implements ReactApplication {
-  private final CodePushReactNativeHost mReactNativeHost = new CodePushReactNativeHost(this) {
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
 
     @Override
-    protected String getJSBundleFile() {
-        return CodePush.getJSBundleFile();
-    }
-
-    @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            BugsnagReactNative.getPackage(),
-          new CodePush(BuildConfig.CODEPUSH_KEY, getApplicationContext(), BuildConfig.DEBUG),
+          BugsnagReactNative.getPackage(),
           new ReactNativeOneSignalPackage(),
           new RNGoogleSigninPackage(),
           new RNDeviceInfo(),
@@ -73,7 +59,6 @@ public class MainApplication extends Application implements ReactApplication {
     SoLoader.init(this, /* native exopackage */ false);
     FacebookSdk.sdkInitialize(getApplicationContext());
     AppEventsLogger.activateApp(this);
-    CodePush.setReactInstanceHolder(mReactNativeHost);
   }
 
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
