@@ -12,7 +12,7 @@ const DEFAULT_MESSAGES = {
 export class Log {
   constructor() {
     const config = new Configuration();
-    // config.notifyReleaseStages = ['production'];
+    config.notifyReleaseStages = ['production'];
 
     this.bugsnag = new Client(config);
   }
