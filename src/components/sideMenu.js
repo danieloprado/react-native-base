@@ -9,7 +9,8 @@ import platform from '../../native-base-theme/variables/platform';
 import tokenService from '../services/token';
 
 const ROUTES_ROLES = [
-  { key: 'ChurchReport', roles: ['churchReport'] }
+  { key: 'ChurchReport', roles: ['churchReport'] },
+  { key: 'Dev', roles: ['sysAdmin'] }
 ];
 
 export default class SideMenu extends BaseComponent {

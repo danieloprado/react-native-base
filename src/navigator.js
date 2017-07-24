@@ -3,6 +3,7 @@ import { DrawerNavigator, StackNavigator } from 'react-navigation';
 import ChurchPage from './pages/church';
 import ChurchReportFormPage from './pages/church-report/form';
 import ChurchReportListPage from './pages/church-report/list';
+import DevPage from './pages/_dev';
 import EventDetailsPage from './pages/event/details';
 import EventListPage from './pages/event/list';
 import HomePage from './pages/home';
@@ -20,7 +21,8 @@ const appDrawer = DrawerNavigator({
   Informative: { screen: InformativeListPage },
   Event: { screen: EventListPage },
   ChurchReport: { screen: ChurchReportListPage },
-  Church: { screen: ChurchPage }
+  Church: { screen: ChurchPage },
+  Dev: { screen: DevPage },
 }, {
     contentComponent: SideMenu,
     contentOptions: {
@@ -41,4 +43,5 @@ export default StackNavigator({
   ChurchReport: { screen: appDrawer },
   ChurchReportForm: { screen: ChurchReportFormPage },
   Church: { screen: appDrawer },
+  Dev: { screen: appDrawer }
 }, { headerMode: 'none' });
