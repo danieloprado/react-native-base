@@ -52,16 +52,29 @@ class App extends Component {
     notificationService.setUserId(userId);
   }
 
-  onNavigationStateChange(data) {
-    if (!data || !data.routes || !data.routes.length) return;
-    logService.breadcrumb(data.routes.pop().routeName, 'navigation');
+  onNavigationStateChange(prevState, currentState) {
+    if (!currentState || !currentState.routes || !currentState.routes.length || prevState === currentState) return;
+    logService.breadcrumb(this.getCurrentRouteName(currentState), 'navigation');
+  }
+
+  getCurrentRouteName(navigationState) {
+    if (!navigationState) {
+      return null;
+    }
+
+    const route = navigationState.routes[navigationState.index];
+    if (route.routes) {
+      return this.getCurrentRouteName(route);
+    }
+
+    return route.routeName;
   }
 
   render() {
     return (
       <StyleProvider style={getTheme(platform)}>
         <Root>
-          <Navigator ref={nav => { this.navigator = nav; }} onNavigationStateChange={data => this.onNavigationStateChange(data)} />
+          <Navigator ref={nav => { this.navigator = nav; }} onNavigationStateChange={this.onNavigationStateChange.bind(this)} />
         </Root>
       </StyleProvider>
     );

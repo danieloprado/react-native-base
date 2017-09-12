@@ -24,6 +24,7 @@ const appDrawer = DrawerNavigator({
   Church: { screen: ChurchPage },
   Dev: { screen: DevPage },
 }, {
+    initialRouteName: 'Home',
     contentComponent: SideMenu,
     contentOptions: {
       inactiveTintColor: 'black',
@@ -44,4 +45,7 @@ export default StackNavigator({
   ChurchReportForm: { screen: ChurchReportFormPage },
   Church: { screen: appDrawer },
   Dev: { screen: appDrawer }
-}, { headerMode: 'none' });
+}, {
+    headerMode: 'none',
+    initialRouteName: 'Welcome',
+  });
