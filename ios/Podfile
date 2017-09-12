@@ -17,7 +17,8 @@ target 'churchReact' do
     'RCTSettings',
     'RCTText',
     'RCTVibration',
-    'RCTWebSocket'
+    'RCTWebSocket',
+    'BatchedBridge'
   ]
 
   # Pods for churchReact
