@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
-import api from './api';
-import cache from './cache';
+
 import dateFormatter from '../formatters/date';
 
 export const enInformativeType = {
@@ -8,12 +7,16 @@ export const enInformativeType = {
   cell: 2
 };
 
-class InformativeService {
+export class InformativeService {
+  constructor(apiService, cacheService) {
+    this.apiService = apiService;
+    this.cacheService = cacheService;
+  }
 
   list(refresh = false) {
-    const stream$ = api.get('informatives');
+    const stream$ = this.apiService.get('informatives');
 
-    return cache.from('service-informative-list', stream$, refresh).map(data => {
+    return this.cacheService.from('service-informative-list', stream$, refresh).map(data => {
       return (data || []).map(informative => {
         informative.icon = informative.typeId === enInformativeType.cell ? 'home' : 'paper';
         return dateFormatter.parseObj(informative);
@@ -54,5 +57,3 @@ class InformativeService {
   }
 
 }
-
-export default new InformativeService();

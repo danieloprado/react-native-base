@@ -1,5 +1,6 @@
-import dateFormatter from '../formatters/date';
 import lodash from 'lodash';
+
+import dateFormatter from '../formatters/date';
 
 export default function churchReportListFormatter(reports) {
   return lodash.orderBy(mapper(reports), ['date', 'id']);

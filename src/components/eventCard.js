@@ -1,12 +1,12 @@
 import { Body, Button, Card, CardItem, Icon, Right, Spinner, Text, View } from 'native-base';
-import theme, { variables } from '../theme';
-
-import BaseComponent from './base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
+
 import dateFormatter from '../formatters/date';
 import eventService from '../services/event';
 import logService from '../services/log';
+import { theme, variables } from '../theme';
+import BaseComponent from './base';
 
 export default class EventCard extends BaseComponent {
   constructor(props) {

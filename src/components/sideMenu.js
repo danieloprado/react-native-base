@@ -1,12 +1,12 @@
+import { Text } from 'native-base';
+import React from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
 
+import platform from '../../native-base-theme/variables/platform';
+import logService from '../services/log';
+import tokenService from '../services/token';
 import BaseComponent from './base';
 import DrawerItems from './drawerItems';
-import React from 'react';
-import { Text } from 'native-base';
-import logService from '../services/log';
-import platform from '../../native-base-theme/variables/platform';
-import tokenService from '../services/token';
 
 const ROUTES_ROLES = [
   { key: 'ChurchReport', roles: ['churchReport'] },

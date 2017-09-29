@@ -6,10 +6,16 @@ export default class BaseComponent extends Component {
   constructor(props) {
     super(props);
 
+    this.subscriptions = [];
     this.params = {};
+
     if (this.props.navigation) {
       this.params = this.props.navigation.state.params || {};
     }
+  }
+
+  componentWillUnmount() {
+    this.subscriptions.forEach(s => s.unsubscribe());
   }
 
   openDrawer() {
@@ -28,13 +34,21 @@ export default class BaseComponent extends Component {
 
     this.props.navigation.dispatch(NavigationActions.reset({
       index: 0,
+      key: null,
       actions: [NavigationActions.navigate({ routeName, params })]
+    }));
+  }
+
+  navigateBuild(routes) {
+    this.props.navigation.dispatch(NavigationActions.reset({
+      index: routes.length - 1,
+      key: null,
+      actions: routes.map(route => NavigationActions.navigate(route))
     }));
   }
 
   setState(value, skip) {
     return new Promise(resolve => {
-
       if (skip) {
         return super.setState(value, () => resolve());
       }
@@ -45,21 +59,26 @@ export default class BaseComponent extends Component {
     });
   }
 
-  // showToast(text, type = null) {
-  //   Toast.toastInstance = Toast.toastInstance || this.toastInstance;
+  updateModel(validator, key, value) {
+    if (arguments.length === 2) {
+      key = validator;
+      validator = null;
+    }
 
-  //   if (!Toast.toastInstance) {
-  //     return alert(text);
-  //   }
+    let { model } = this.state;
+    model[key] = value;
 
-  //   InteractionManager.runAfterInteractions(() => {
-  //     Toast.show({
-  //       text,
-  //       type,
-  //       duration: 3000,
-  //       position: 'bottom',
-  //       buttonText: 'OK'
-  //     });
-  //   });
-  // }
+    if (!validator) {
+      this.setState({ validation: {}, model }, true);
+      return;
+    }
+
+    validator.validate(model)
+      .logError()
+      .bindComponent(this)
+      .subscribe(({ model, errors }) => {
+        this.setState({ validation: errors, model }, true);
+      });
+  }
+
 }

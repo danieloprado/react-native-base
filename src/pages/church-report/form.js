@@ -1,15 +1,30 @@
-import { Body, Button, Container, Content, Form, Header, Icon, Left, List, Right, Spinner, Text, Title, View } from 'native-base';
-import theme, { variables } from '../../theme';
+import {
+  Body,
+  Button,
+  Container,
+  Content,
+  Form,
+  Header,
+  Icon,
+  Left,
+  List,
+  Right,
+  Spinner,
+  Text,
+  Title,
+  View,
+} from 'native-base';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 
 import BaseComponent from '../../components/base';
 import Field from '../../components/field';
 import Loader from '../../components/loader';
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import churchReportService from '../../services/churchReport';
-import churchReportValidator from '../../validators/churchReport';
 import dateFormatter from '../../formatters/date';
+import churchReportService from '../../services/churchReport';
 import logService from '../../services/log';
+import { theme, variables } from '../../theme';
+import churchReportValidator from '../../validators/churchReport';
 
 export default class ChurchReportFormPage extends BaseComponent {
   constructor(props) {

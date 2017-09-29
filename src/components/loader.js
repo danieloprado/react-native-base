@@ -1,10 +1,10 @@
-import { Modal, StyleSheet } from 'react-native';
 import { Spinner, View } from 'native-base';
-
-import BaseComponent from './base';
-import { Observable } from 'rxjs';
 import React from 'react';
+import { Modal, StyleSheet } from 'react-native';
+import { Observable } from 'rxjs';
+
 import { variables } from '../theme';
+import BaseComponent from './base';
 
 export default class Loader extends BaseComponent {
   constructor(props) {

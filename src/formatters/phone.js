@@ -1,8 +1,9 @@
 export default function phoneFormatter(value) {
-  const dividerPosition = value.length === 11 ? 5 : 4;
-  const ddd = value.substr(0, 2);
-  const firstPart = value.substr(2, dividerPosition);
-  const lastPart = value.substr(dividerPosition, 4);
+  if (!value) return value;
 
-  return `(${ddd}) ${firstPart}-${lastPart}`;
+  const regexp = value.length > 10 ?
+    /^(\d{0,2})(\d{0,5})(\d{0,4}).*/ :
+    /^(\d{0,2})(\d{0,4})(\d{0,4}).*/;
+
+  return value.replace(regexp, '($1) $2-$3');
 }

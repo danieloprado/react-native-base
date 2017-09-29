@@ -1,6 +1,6 @@
 import BaseValidator from './base';
 
-class ProfileValidator extends BaseValidator {
+export class ProfileValidator extends BaseValidator {
   rules = {
     id: 'integer|required|min:1',
     firstName: 'string|required|min:3|max:50',
@@ -17,5 +17,3 @@ class ProfileValidator extends BaseValidator {
     complement: 'string|max:10',
   };
 }
-
-export default new ProfileValidator();

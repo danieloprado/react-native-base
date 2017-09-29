@@ -1,13 +1,13 @@
 import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title, View } from 'native-base';
+import React from 'react';
 import { RefreshControl, StyleSheet } from 'react-native';
 
 import BaseComponent from '../../components/base';
-import React from 'react';
 import dateFormatter from '../../formatters/date';
 import eventListFormatter from '../../formatters/eventList';
 import eventService from '../../services/event';
 import logService from '../../services/log';
-import theme from '../../theme';
+import { theme } from '../../theme';
 
 export default class EventListPage extends BaseComponent {
   static navigationOptions = {

@@ -1,13 +1,13 @@
 import { Body, Button, Card, CardItem, Icon, Spinner, Text, View } from 'native-base';
+import React from 'react';
 import { Linking, StyleSheet } from 'react-native';
 
-import BaseComponent from './base';
-import React from 'react';
+import phoneFormatter from '../formatters/phone';
 import churchService from '../services/church';
 import logService from '../services/log';
-import phoneFormatter from '../formatters/phone';
-import theme from '../theme';
+import { theme } from '../theme';
 import { variables } from '../theme';
+import BaseComponent from './base';
 
 export default class ChurchCard extends BaseComponent {
   constructor(props) {

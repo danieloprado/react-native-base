@@ -1,16 +1,18 @@
 import { Observable } from 'rxjs/Observable';
+
 import { ServiceError } from '../errors/serviceError';
-import api from './api';
-import logService from './log';
-import settings from '../settings';
-import storage from './storage';
 
 export class Cache {
-  constructor() {
+  constructor(settings, apiService, logService, storageService) {
     this.connected = false;
 
+    this.settings = settings;
+    this.apiService = apiService;
+    this.logService = logService;
+    this.storageService = storageService;
+
     setTimeout(() => {
-      api.connection().subscribe(isConnected => {
+      this.api.connection().subscribe(isConnected => {
         this.connected = isConnected;
       });
     });
@@ -52,30 +54,28 @@ export class Cache {
         observer.complete();
       }, err => observer.error(err));
     }).do(
-      data => logService.breadcrumb('Cache', 'manual', data),
-      err => logService.breadcrumb('Cache Error', 'manual', err)
+      data => this.logService.breadcrumb('Cache', 'manual', data),
+      err => this.logService.breadcrumb('Cache Error', 'manual', err)
       );
   }
 
   isExpirated(cache) {
-    if (settings.isDevelopment) return true;
+    if (this.settings.isDevelopment) return true;
 
     const difference = Date.now() - new Date(cache.createdAt).getTime();
     return (difference / 1000 / 60) > 5; //5 minutes
   }
 
   getData(key) {
-    return storage.get(key);
+    return this.storageService.get(key);
   }
 
   saveData(key, data) {
-    return storage.set(key, { createdAt: new Date(), data });
+    return this.storageService.set(key, { createdAt: new Date(), data });
   }
 
   clear() {
-    return storage.clear(/^church-cache/gi);
+    return this.storageService.clear(/^church-cache/gi);
   }
 
 }
-
-export default new Cache();

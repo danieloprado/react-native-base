@@ -1,13 +1,28 @@
-import { Body, Button, Card, CardItem, Container, Content, Fab, Header, Icon, Left, Right, Text, Title, View } from 'native-base';
-import { Col, Grid } from 'react-native-easy-grid';
+import {
+  Body,
+  Button,
+  Card,
+  CardItem,
+  Container,
+  Content,
+  Fab,
+  Header,
+  Icon,
+  Left,
+  Right,
+  Text,
+  Title,
+  View,
+} from 'native-base';
+import React from 'react';
 import { RefreshControl, StyleSheet } from 'react-native';
+import { Col, Grid } from 'react-native-easy-grid';
 
 import BaseComponent from '../../components/base';
-import React from 'react';
-import churchReportService from '../../services/churchReport';
 import dateFormatter from '../../formatters/date';
+import churchReportService from '../../services/churchReport';
 import logService from '../../services/log';
-import theme from '../../theme';
+import { theme } from '../../theme';
 
 export default class ChurchReportListPage extends BaseComponent {
   static navigationOptions = {

@@ -1,6 +1,6 @@
 import BaseValidator from './base';
 
-class ChurchReportValidator extends BaseValidator {
+export class ChurchReportValidator extends BaseValidator {
   rules = {
     id: 'integer|min:1',
     title: 'string|required|min:3|max:100',
@@ -12,5 +12,3 @@ class ChurchReportValidator extends BaseValidator {
     totalKids: 'integer|required|min:0'
   };
 }
-
-export default new ChurchReportValidator();

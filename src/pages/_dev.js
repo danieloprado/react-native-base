@@ -1,9 +1,9 @@
 import { Body, Button, Container, Content, Header, Icon, Left, Right, Text, Title, View } from 'native-base';
-
-import BaseComponent from '../components/base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import theme from '../theme';
+
+import BaseComponent from '../components/base';
+import { theme } from '../theme';
 
 export default class DevPage extends BaseComponent {
   static navigationOptions = {
@@ -20,7 +20,7 @@ export default class DevPage extends BaseComponent {
 
   render() {
     return (
-      <Container style={StyleSheet.flatten(theme.cardsContainer)}>
+      <Container style={theme.cardsContainer}>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>

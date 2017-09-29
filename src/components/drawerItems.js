@@ -1,6 +1,5 @@
-import { Platform, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
-
 import React from 'react';
+import { Platform, StyleSheet, Text, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
 
 const Button = props => {
   if (Platform.OS === 'ios') {

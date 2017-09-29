@@ -1,7 +1,7 @@
-import settings from '../settings';
+export default class AddressService {
+  constructor(settings) {
+    this.settings = settings;
 
-class AddressService {
-  constructor() {
     this._states = [
       { value: null, display: 'Não informado' },
       STATES.filter(s => s.code === settings.defaultAddress.state).map(state => {
@@ -22,10 +22,10 @@ class AddressService {
       { value: null, display: stateCode ? 'Não informado' : 'Selecione o estado' },
       ...(STATES.filter(state => state.code === stateCode).map(state => {
         return [
-          ...state.cities.filter(c => c === settings.defaultAddress.city).map(city => {
+          ...state.cities.filter(c => c === this.settings.defaultAddress.city).map(city => {
             return { value: city, display: city };
           }),
-          ...state.cities.filter(c => c !== settings.defaultAddress.city).map(city => {
+          ...state.cities.filter(c => c !== this.settings.defaultAddress.city).map(city => {
             return { value: city, display: city };
           })
         ];
@@ -5731,5 +5731,3 @@ const STATES = [{
     'Xambioá'
   ]
 }];
-
-export default new AddressService();

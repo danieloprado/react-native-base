@@ -1,13 +1,13 @@
 import { AsyncStorage } from 'react-native';
 import { Observable } from 'rxjs/Rx';
 
-export class Storage {
+import dateFormatter from '../../formatters/date';
+
+export class StorageService {
 
   get(key) {
-    return Observable.fromPromise((async () => {
-      const result = await AsyncStorage.getItem(key);
-      return result ? JSON.parse(result) : null;
-    })());
+    return Observable.fromPromise(AsyncStorage.getItem(key))
+      .map(data => data ? dateFormatter.parseObj(JSON.parse(data)) : null);
   }
 
   set(key, value) {
@@ -24,10 +24,9 @@ export class Storage {
           keys = keys.filter(k => regexp.test(k));
         }
 
+        if (!keys.length) return Observable.of(null);
         return Observable.fromPromise(AsyncStorage.multiRemove(keys));
       });
   }
 
 }
-
-export default new Storage();

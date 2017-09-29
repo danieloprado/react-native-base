@@ -1,37 +1,80 @@
 import { Body, Icon, Input, Item, Left, ListItem, Picker, Text, View } from 'native-base';
-
-import BaseComponent from './base';
-import DateTimePicker from 'react-native-modal-datetime-picker';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+
 import dateFormatter from '../formatters/date';
 import theme from '../theme';
 import { variables } from '../theme';
+import BaseComponent from './base';
 
 const keyboardTypes = {
   'text': 'default',
   'email': 'email-address',
-  'number': 'numeric'
+  'number': 'numeric',
+  'phone': 'phone-pad'
+};
+
+const masks = {
+  'zipcode': {
+    maxlength: 9,
+    apply: value => value.replace(/^(\d{0,5})(\d{0,3}).*/, '$1-$2').replace(/-$/, ''),
+    clean: value => value.replace(/\D/gi, '').substr(0, 8)
+  },
+  'phone': {
+    maxlength: 15,
+    apply: value => {
+      if (!value) return;
+
+      const regexp = value.length > 10 ?
+        /^(\d{0,2})(\d{0,5})(\d{0,4}).*/ :
+        /^(\d{0,2})(\d{0,4})(\d{0,4}).*/;
+
+      const result = value.length > 2 ?
+        '($1) $2-$3' : '($1$2$3';
+
+      return value.replace(regexp, result).replace(/-$/, '');
+    },
+    clean: value => value.replace(/\D/gi, '').substr(0, 11)
+  }
 };
 
 export default class Field extends BaseComponent {
   static propTypes = {
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     next: PropTypes.func,
     icon: PropTypes.string,
-    type: PropTypes.oneOf(['text', 'email', 'dropdown', 'dialog', 'date', 'number']),
+    mask: PropTypes.oneOf(['zipcode', 'phone']),
+    type: PropTypes.oneOf(['text', 'email', 'dropdown', 'dialog', 'date', 'datetime', 'number', 'password', 'phone']),
     options: PropTypes.any,
     model: PropTypes.object.isRequired,
     field: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     errors: PropTypes.object,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    style: PropTypes.object
   };
 
   constructor(props) {
     super(props);
     this.state = { showDatePicker: false };
+  }
+
+  componentDidMount() {
+    const model = this.props.model;
+    if (!model) return;
+
+    const value = this.maskValue(model[this.props.field] || '');
+    this.setState({ value }, true);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.showDatePicker && nextState.showDatePicker) {
+      return false;
+    }
+
+    return true;
   }
 
   focus() {
@@ -56,75 +99,105 @@ export default class Field extends BaseComponent {
   }
 
   onChange(value) {
+    value = this.cleanValue(value);
+
+    this.setState({ value: this.maskValue(value) }, true);
     this.props.onChange(this.props.field, value);
 
-    if (this.props.type === 'date' || this.props.type === 'dropdown') {
-      this.next();
-    }
+    // if (['date', 'datetime', 'dropdown'].includes(this.props.type)) {
+    //   this.next();
+    // }
+  }
+
+  maskValue(value) {
+    const mask = masks[this.props.mask];
+    return mask ? mask.apply(value) : value;
+  }
+
+  cleanValue(value) {
+    const mask = masks[this.props.mask];
+    return mask ? mask.clean(value) : value;
   }
 
   render() {
-    const { showDatePicker } = this.state;
-    const { label, model, errors, field, type, options, icon, next } = this.props;
-    const error = (errors || {})[field] || [];
+    let { label, errors, field, type, options, icon, next, style } = this.props;
+    const { showDatePicker, value } = this.state;
+
+    const error = (errors || [])[field] || [];
     const hasError = error.length > 0;
 
+    const mask = masks[this.props.mask];
+    const maxlength = mask ? mask.maxlength : null;
+
+    style = style || {};
+    if (type === 'datetime') console.log(value, dateFormatter.parse(value || new Date));
+
     return (
-      <ListItem style={StyleSheet.flatten(styles.container)}>
+      <ListItem style={styles.container}>
         {icon &&
-          <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
-            {icon !== 'empty' && <Icon name={icon} style={StyleSheet.flatten(theme.listIcon)} />}
+          <Left style={theme.listIconWrapper}>
+            {icon !== 'empty' && <Icon name={icon} style={theme.listIcon} />}
           </Left>
         }
         <Body>
-          <View style={StyleSheet.flatten(styles.body)}>
-            <Text note style={StyleSheet.flatten(hasError ? styles.errorLabel : null)}>{label}</Text>
+          <View style={styles.body}>
+            {!!label &&
+              <Text note style={StyleSheet.flatten([style.label, hasError ? styles.errorLabel : null])}>{label}</Text>
+            }
             {type === 'dropdown' || type === 'dialog' ?
-              <View style={StyleSheet.flatten(styles.picker)}>
+              <View style={styles.picker}>
                 <Picker
                   iosHeader={label}
                   mode={type}
                   prompt={label}
                   ref={p => this.picker = p}
-                  selectedValue={model[field]}
+                  selectedValue={value}
                   onValueChange={value => this.onChange(value)}>
                   {options.map(option =>
                     <Item key={option.value} label={option.display} value={option.value} />
                   )}
                 </Picker>
               </View>
-              : type === 'date' ?
+              : ['date', 'datetime'].includes(type) ?
                 <View onTouchStart={() => this.setState({ showDatePicker: true })}>
-                  <Item style={StyleSheet.flatten(styles.item)} error={hasError}>
+                  <Item error={hasError}>
                     <Input
                       disabled
-                      value={model[field] ? dateFormatter.format(model[field], 'DD [de] MMMM [de] YYYY') : null}
-                      style={StyleSheet.flatten(styles.input)}
+                      value={value ? dateFormatter.format(value, `DD/MMM/YYYY${type === 'datetime' ? ' [às] HH:mm' : ''}`) : null}
+                      style={styles.input}
                     />
                     {hasError && <Icon name='close-circle' />}
                   </Item>
                   <DateTimePicker
-                    date={model[field]}
+                    {...this.props}
+                    mode={type}
+                    date={dateFormatter.parse(value || new Date())}
                     isVisible={showDatePicker}
+                    titleIOS="Selecione uma data"
+                    confirmTextIOS="Confirmar"
+                    cancelTextIOS="Cancelar"
                     onConfirm={value => this.setState({ showDatePicker: false }) && this.onChange(value)}
                     onCancel={() => this.setState({ showDatePicker: false })}
                   />
                 </View>
                 :
-                <Item style={StyleSheet.flatten(styles.item)} error={hasError}>
+                <Item style={StyleSheet.flatten([style.item, hasError ? { borderColor: variables.inputErrorBorderColor } : null])} error={hasError}>
                   <Input
+                    placeholder={this.props.placeholder}
                     ref={i => this.input = i}
-                    value={(model[field] || '').toString()}
+                    value={(value || '').toString()}
                     onChangeText={value => this.onChange(value)}
                     keyboardType={keyboardTypes[type] || keyboardTypes.text}
-                    style={StyleSheet.flatten(styles.input)}
+                    secureTextEntry={type === 'password' ? true : false}
+                    style={styles.input}
                     returnKeyType={next ? 'next' : 'default'}
+                    maxLength={maxlength}
                     onSubmitEditing={() => this.next()}
                   />
                   {hasError && <Icon name='close-circle' />}
                 </Item>
             }
-            <Text note style={StyleSheet.flatten(styles.errorMessage)}>{error[0]}</Text>
+            <Text note style={styles.errorMessage}>{error[0]}</Text>
           </View>
         </Body>
       </ListItem>
@@ -136,7 +209,8 @@ export default class Field extends BaseComponent {
 const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 0,
-    marginLeft: 0,
+    marginLeft: -10,
+    marginRight: -20,
     paddingBottom: 5
   },
   body: {

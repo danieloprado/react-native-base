@@ -4,7 +4,7 @@ import variablesTheme from '../../native-base-theme/variables/platform';
 
 export const variables = variablesTheme;
 
-export default StyleSheet.create({
+export const theme = StyleSheet.create({
   buttonFacebook: {
     backgroundColor: '#3b5998'
   },

@@ -1,12 +1,28 @@
-import { Alert, Image, StyleSheet } from 'react-native';
-import { Body, Button, Container, Content, H2, Header, Icon, Left, List, ListItem, Right, Spinner, Text, Title, View } from 'native-base';
-import theme, { variables } from '../../theme';
+import {
+  Body,
+  Button,
+  Container,
+  Content,
+  H2,
+  Header,
+  Icon,
+  Left,
+  List,
+  ListItem,
+  Right,
+  Spinner,
+  Text,
+  Title,
+  View,
+} from 'native-base';
+import React from 'react';
+import { Image, StyleSheet } from 'react-native';
 
 import BaseComponent from '../../components/base';
-import React from 'react';
 import dateFormatter from '../../formatters/date';
-import logService from '../../services/log';
-import profileService from '../../services/profile';
+import confirm from '../../providers/confirm';
+import services from '../../services';
+import { theme, variables } from '../../theme';
 
 export default class ProfileDetailsPage extends BaseComponent {
   static navigationOptions = {
@@ -19,30 +35,26 @@ export default class ProfileDetailsPage extends BaseComponent {
 
   constructor(props) {
     super(props);
+
+    this.profileService = services.get('profileService');
     this.state = { loading: true };
   }
 
   componentDidMount() {
-    this.subscription = profileService.get().subscribe(profile => {
-      this.setState({ loading: false, profile });
-    }, err => {
-      this.setState({ loading: false, error: true });
-      logService.handleError(err);
-    });
-  }
-
-  componentWillUnmount() {
-    this.subscription.unsubscribe();
+    this.profileService.get()
+      .logError()
+      .bindComponent(this)
+      .subscribe(profile => {
+        this.setState({ loading: false, profile, error: false });
+      }, () => this.setState({ loading: false, error: true }));
   }
 
   logout() {
-    Alert.alert(
-      'Confirmar',
-      'Deseja realmente sair?', [
-        { text: 'Não', style: 'cancel' },
-        { text: 'Sim', onPress: () => profileService.logout().subscribe() }
-      ], { cancelable: false }
-    );
+    confirm('Confirmar', 'Deseja realmente sair?', 'Sim', 'Não')
+      .filter(ok => ok)
+      .switchMap(() => this.profileService.logout().loader())
+      .bindComponent(this)
+      .subscribe();
   }
 
   render() {

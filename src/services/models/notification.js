@@ -1,7 +1,6 @@
-import { BehaviorSubject } from 'rxjs';
 import { InteractionManager } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import logService from './log';
+import { BehaviorSubject } from 'rxjs';
 
 const ACTION_HANDLERS = {
   'open-informative': async (dispatch, data) => {
@@ -13,7 +12,7 @@ const ACTION_HANDLERS = {
   }
 };
 
-class NotificationService {
+export class NotificationService {
 
   constructor() {
     this._userId = null;
@@ -44,18 +43,18 @@ class NotificationService {
     const data = notification.payload.additionalData;
     if (!data || !ACTION_HANDLERS[data.action]) return Promise.resolve();
 
-    this._appDidOpen$.subscribe(opened => {
-      if (!opened) return;
+    this._appDidOpen$
+      .logError()
+      .subscribe(opened => {
+        if (!opened) return;
 
-      return InteractionManager.runAfterInteractions(() => {
-        return ACTION_HANDLERS[data.action](dispatch, data);
-      }).then(() => {
-        this._hasNotification = false;
-        SplashScreen.hide();
+        return InteractionManager.runAfterInteractions(() => {
+          return ACTION_HANDLERS[data.action](dispatch, data);
+        }).then(() => {
+          this._hasNotification = false;
+          SplashScreen.hide();
+        });
       });
-    }, err => {
-      logService.handleError(err);
-    });
 
   }
 

@@ -1,16 +1,14 @@
-import { BehaviorSubject } from 'rxjs/Rx';
 import base64 from 'base-64';
-import logService from './log';
-import storage from './storage';
+import { BehaviorSubject } from 'rxjs/Rx';
 
-class TokenService {
-  constructor() {
+export class TokenService {
+  constructor(storageService) {
+    this.storageService = storageService;
     this.authToken$ = new BehaviorSubject(null);
-    storage.get('authToken').subscribe(token => {
+
+    this.storageService.get('authToken').logError().subscribe(token => {
       this.token = token;
       this.authToken$.next(token);
-    }, err => {
-      logService.handleError(err);
     });
   }
 
@@ -36,7 +34,7 @@ class TokenService {
   }
 
   setToken(token) {
-    return storage.set('authToken', token).do(() => {
+    return this.storageService.set('authToken', token).do(() => {
       this.token = token;
       this.authToken$.next(token);
     });
@@ -48,7 +46,7 @@ class TokenService {
 
   setAccessToken(accessToken) {
     this.token.accessToken = accessToken;
-    return storage.set('authToken', this.token).do(() => {
+    return this.storageService.set('authToken', this.token).do(() => {
       this.authToken$.next(this.token);
     });
   }
@@ -57,5 +55,3 @@ class TokenService {
     return this.getToken().map(token => !!token);
   }
 }
-
-export default new TokenService();

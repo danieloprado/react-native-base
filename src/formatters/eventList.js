@@ -1,5 +1,6 @@
-import dateFormatter from './date';
 import lodash from 'lodash';
+
+import dateFormatter from './date';
 
 export default function eventListFormatter(events) {
   if (!events.length) return [];

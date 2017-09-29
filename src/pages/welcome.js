@@ -1,19 +1,11 @@
-import { AccessToken, LoginManager } from 'react-native-fbsdk';
-import { Animated, Image, InteractionManager, StatusBar, StyleSheet } from 'react-native';
 import { Button, Container, Icon, Text, View } from 'native-base';
+import React from 'react';
+import { Animated, Image, ImageBackground, InteractionManager, StatusBar, StyleSheet } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 import BaseComponent from '../components/base';
-import { GoogleSignin } from 'react-native-google-signin';
-import Loader from '../components/loader';
-import React from 'react';
-import SplashScreen from 'react-native-splash-screen';
-import logService from '../services/log';
-import notificationService from '../services/notification';
-import profileService from '../services/profile';
-import settings from '../settings';
-import storage from '../services/storage';
-import theme from '../theme';
-import toast from '../services/toast';
+import services from '../services';
+import { theme } from '../theme';
 
 export default class WelcomPage extends BaseComponent {
   static navigationOptions = {
@@ -23,6 +15,13 @@ export default class WelcomPage extends BaseComponent {
   constructor(props) {
     super(props);
 
+    this.settings = services.get('settings');
+    this.storage = services.get('storage');
+    this.notificationService = services.get('notificationService');
+    this.profileService = services.get('profileService');
+    this.facebookService = services.get('facebookService');
+    this.googleService = services.get('googleService');
+
     this.state = {
       animationHeight: new Animated.Value(0),
       animationFade: new Animated.Value(0),
@@ -31,35 +30,21 @@ export default class WelcomPage extends BaseComponent {
     };
   }
 
-  async componentDidMount() {
-    try {
-      await GoogleSignin.hasPlayServices({ autoResolve: true });
-      await GoogleSignin.configure({
-        iosClientId: settings.googleApi.iosClientid,
-        webClientId: settings.googleApi.webClientId,
-        offlineAccess: true
-      });
-    } catch (err) {
-      logService.handleError(err);
-    }
-  }
-
   navigateToHome() {
     if (this.state.force) {
       this.goBack();
       return;
     }
 
-    if (settings.isDevelopment) return this.navigate('Profile', null, true);
+    if (this.settings.isDevelopment) return this.navigate('Profile', null, true);
     this.navigate('Home', null, true);
   }
 
   completed() {
-    storage.set('welcomeCompleted', true).subscribe(() => {
-      this.navigateToHome();
-    }, err => {
-      logService.handleError(err);
-    });
+    this.storage.set('welcomeCompleted', true)
+      .logError()
+      .bindComponent(this)
+      .subscribe(() => this.navigateToHome());
   }
 
   viewLoaded(event) {
@@ -70,22 +55,25 @@ export default class WelcomPage extends BaseComponent {
     const finalHeight = event.nativeEvent.layout.height;
 
     this.setState({ loaded: true });
-    storage.get('welcomeCompleted').subscribe(completed => {
-      notificationService.appDidOpen();
+    this.storage.get('welcomeCompleted')
+      .logError()
+      .bindComponent(this)
+      .subscribe(completed => {
+        this.notificationService.appDidOpen();
 
-      if (completed) {
-        this.navigateToHome();
+        if (completed) {
+          this.navigateToHome();
 
-        if (!notificationService.hasNotification()) {
-          InteractionManager.runAfterInteractions(() => SplashScreen.hide());
+          if (!this.notificationService.hasNotification()) {
+            InteractionManager.runAfterInteractions(() => SplashScreen.hide());
+          }
+          return;
         }
-        return;
-      }
 
-      if (!notificationService.hasNotification()) {
-        this.animate(finalHeight);
-      }
-    });
+        if (!this.notificationService.hasNotification()) {
+          this.animate(finalHeight);
+        }
+      });
   }
 
   animate(finalHeight) {
@@ -103,63 +91,54 @@ export default class WelcomPage extends BaseComponent {
     });
   }
 
-  async loginFacebook() {
-    const { isCancelled } = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
-    if (isCancelled) return;
+  loginSocial(provider) {
+    const providers = {
+      'facebook': this.facebookService,
+      'google': this.googleService
+    };
 
-    const { accessToken } = await AccessToken.getCurrentAccessToken();
-    this.register('facebook', accessToken);
-  }
-
-  async loginGoogle() {
-    const { accessToken } = await GoogleSignin.signIn();
-    this.register('google', accessToken);
-  }
-
-  register(provider, accessToken) {
-    this.refs.loader.fromObservable(
-      profileService.register(provider, accessToken)
-    ).subscribe(() => {
-      this.completed();
-    }, () => {
-      toast('Um erro aconteceu...');
-    });
+    providers[provider].login()
+      .filter(accessToken => accessToken)
+      .switchMap(accessToken => this.profileService.register(provider, accessToken))
+      .loader()
+      .logError()
+      .bindComponent(this)
+      .subscribe(() => this.completed());
   }
 
   render() {
     return (
       <Container>
-        <Loader ref="loader" />
-        <View style={StyleSheet.flatten(styles.container)}>
+        <View style={styles.container}>
           <StatusBar backgroundColor="#000000"></StatusBar>
-          <Image source={require('../images/background.png')} style={styles.background}>
+          <ImageBackground source={require('../images/background.png')} style={styles.background}>
             <Image source={require('../images/logo.png')} style={styles.logo} />
             <Animated.View
               onLayout={event => this.viewLoaded(event)}
               style={this.state.animationClass}>
-              <Text style={StyleSheet.flatten(styles.welcome)}>
+              <Text style={styles.welcome}>
                 Olá!
               </Text>
-              <Text style={StyleSheet.flatten(styles.instructions)}>
+              <Text style={styles.instructions}>
                 Gostaríamos de te conhecer
               </Text>
-              <View style={StyleSheet.flatten(styles.buttons)}>
-                <Button onPress={() => this.loginFacebook()} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
+              <View style={styles.buttons}>
+                <Button onPress={() => this.loginSocial('faceobok')} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
                   <Icon name='logo-facebook' />
                   <Text>FACEBOOK</Text>
                 </Button>
-                <Button onPress={() => this.loginGoogle()} iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
+                <Button onPress={() => this.loginSocial('faceobok')} iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
                   <Icon name='logo-google' />
                   <Text>GOOGLE</Text>
                 </Button>
               </View>
-              <View style={StyleSheet.flatten(styles.skipWrapper)}>
+              <View style={styles.skipWrapper}>
                 <Button block transparent onPress={() => this.completed()}>
-                  <Text style={StyleSheet.flatten(styles.skipText)}>PULAR</Text>
+                  <Text style={styles.skipText}>PULAR</Text>
                 </Button>
               </View>
             </Animated.View>
-          </Image>
+          </ImageBackground>
         </View>
       </Container>
     );

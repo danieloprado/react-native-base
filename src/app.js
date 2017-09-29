@@ -1,39 +1,47 @@
-import React, { Component } from 'react';
-import { Root, StyleProvider } from 'native-base';
+import './operators/bindComponent';
+import './operators/logError';
+import 'rxjs/add/operator/map';
 
-import { AppRegistry } from 'react-native';
-import Navigator from './navigator';
-import { Observable } from 'rxjs/Observable';
+import { Root, StyleProvider } from 'native-base';
+import { Component } from 'react';
+import { AppRegistry, Keyboard } from 'react-native';
 import OneSignal from 'react-native-onesignal';
+import { Observable } from 'rxjs/Observable';
+
 import getTheme from '../native-base-theme/components';
-import logService from './services/log';
-import notificationService from './services/notification';
 import platform from '../native-base-theme/variables/platform';
-import profileService from './services/profile';
-import tokenService from './services/token';
+import Navigator from './navigator';
+import services from './services';
 
 console.ignoredYellowBox = ['Warning: BackAndroid'];
 
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this.settings = services.get('settings');
+    this.tokenService = services.get('tokenService');
+    this.notificationService = services.get('notificationService');
+    this.profileService = services.get('profileService');
+    this.logService = services.get('logService');
+
+    this.state = { loading: true };
   }
 
   componentWillMount() {
-
     OneSignal.inFocusDisplaying(2);
     OneSignal.addEventListener('opened', this.onNotificationOpened.bind(this));
     OneSignal.addEventListener('ids', this.onNotificationRegistred.bind(this));
 
-    this.subscription = tokenService.getUser().switchMap(user => {
-      logService.setUser(user);
+    this.subscription = this.tokenService.getUser().switchMap(user => {
+      this.logService.setUser(user);
 
       if (!user) {
         return Observable.of(null);
       }
 
-      return profileService.appOpened();
-    }).subscribe(() => { }, err => logService.handleError(err));
+      return this.profileService.appOpened();
+    }).subscribe(() => { }, err => this.logService.handleError(err));
   }
 
   componentWillUnmount() {
@@ -45,16 +53,18 @@ class App extends Component {
   }
 
   onNotificationOpened(result) {
-    notificationService.resolve(this.navigator, result.notification);
+    this.notificationService.resolve(this.navigator, result.notification);
   }
 
   onNotificationRegistred({ userId }) {
-    notificationService.setUserId(userId);
+    this.notificationService.setUserId(userId);
   }
 
   onNavigationStateChange(prevState, currentState) {
+    Keyboard.dismiss();
+
     if (!currentState || !currentState.routes || !currentState.routes.length || prevState === currentState) return;
-    logService.breadcrumb(this.getCurrentRouteName(currentState), 'navigation');
+    this.logService.breadcrumb(this.getCurrentRouteName(currentState), 'navigation');
   }
 
   getCurrentRouteName(navigationState) {
@@ -71,10 +81,15 @@ class App extends Component {
   }
 
   render() {
+    const { loading } = this.state;
+
     return (
       <StyleProvider style={getTheme(platform)}>
         <Root>
-          <Navigator ref={nav => { this.navigator = nav; }} onNavigationStateChange={this.onNavigationStateChange.bind(this)} />
+          <Loader ref="loader" />
+          {!loading &&
+            <Navigator ref={nav => { this.navigator = nav; }} onNavigationStateChange={this.onNavigationStateChange.bind(this)} />
+          }
         </Root>
       </StyleProvider>
     );

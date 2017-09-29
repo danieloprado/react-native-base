@@ -1,12 +1,28 @@
-import { Body, Button, Container, Content, H2, Header, Icon, Left, List, ListItem, Right, Spinner, Text, Title, View } from 'native-base';
+import {
+  Body,
+  Button,
+  Container,
+  Content,
+  H2,
+  Header,
+  Icon,
+  Left,
+  List,
+  ListItem,
+  Right,
+  Spinner,
+  Text,
+  Title,
+  View,
+} from 'native-base';
+import React from 'react';
 import { Image, Linking, StyleSheet } from 'react-native';
-import theme, { variables } from '../theme';
 
 import BaseComponent from '../components/base';
-import React from 'react';
-import churchService from '../services/church';
-import logService from '../services/log';
+import EmptyMessage from '../components/emptyMessage.js';
 import phoneFormatter from '../formatters/phone';
+import services from '../services';
+import { theme, variables } from '../theme';
 
 export default class ChurchPage extends BaseComponent {
   static navigationOptions = {
@@ -19,20 +35,16 @@ export default class ChurchPage extends BaseComponent {
 
   constructor(props) {
     super(props);
+
+    this.churchService = services.get('churchService');
     this.state = { loading: true };
   }
 
   componentDidMount() {
-    this.subscription = churchService.info().subscribe(church => {
-      this.setState({ loading: false, church });
-    }, err => {
-      this.setState({ loading: false });
-      logService.handleError(err);
-    });
-  }
-
-  componentWillUnmount() {
-    this.subscription.unsubscribe();
+    this.churchService.info()
+      .logError()
+      .bindComponent(this)
+      .subscribe(church => this.setState({ loading: false, church }));
   }
 
   openPhone() {
@@ -69,27 +81,25 @@ export default class ChurchPage extends BaseComponent {
         </Header>
         <Content>
           {this.state.loading ?
-            <View style={StyleSheet.flatten(theme.alignCenter)}>
+            <View style={theme.alignCenter}>
               <Spinner color={variables.accent} />
             </View>
             : !church ?
-              <View style={StyleSheet.flatten(theme.emptyMessage)}>
-                <Text note>Não conseguimos atualizar</Text>
-              </View>
+              <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
               :
-              <View style={StyleSheet.flatten(styles.container)}>
-                <View style={StyleSheet.flatten(theme.alignCenter)}>
+              <View style={styles.container}>
+                <View style={theme.alignCenter}>
                   <Image source={require('../images/logo.png')} style={styles.logo} />
-                  <H2 style={StyleSheet.flatten(styles.headerText)}>{church.name}</H2>
+                  <H2 style={styles.headerText}>{church.name}</H2>
                 </View>
-                <List style={StyleSheet.flatten(styles.list)}>
+                <List style={styles.list}>
                   {!church.phone ? null :
                     <ListItem
                       button
                       onPress={() => this.openPhone()}
-                      style={StyleSheet.flatten(styles.listItem)}>
-                      <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
-                        <Icon name="call" style={StyleSheet.flatten(theme.listIcon)} />
+                      style={styles.listItem}>
+                      <Left style={theme.listIconWrapper}>
+                        <Icon name="call" style={theme.listIcon} />
                       </Left>
                       <Body>
                         <Text>{phoneFormatter(church.phone)}</Text>
@@ -100,9 +110,9 @@ export default class ChurchPage extends BaseComponent {
                     <ListItem
                       button
                       onPress={() => this.openEmail()}
-                      style={StyleSheet.flatten(styles.listItem)}>
-                      <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
-                        <Icon name="mail" style={StyleSheet.flatten(theme.listIcon)} />
+                      style={styles.listItem}>
+                      <Left style={theme.listIconWrapper}>
+                        <Icon name="mail" style={theme.listIcon} />
                       </Left>
                       <Body>
                         <Text>{church.email}</Text>
@@ -113,9 +123,9 @@ export default class ChurchPage extends BaseComponent {
                     <ListItem
                       button
                       onPress={() => this.openAddress()}
-                      style={StyleSheet.flatten(styles.listItem)}>
-                      <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
-                        <Icon name="pin" style={StyleSheet.flatten(theme.listIcon)} />
+                      style={styles.listItem}>
+                      <Left style={theme.listIconWrapper}>
+                        <Icon name="pin" style={theme.listIcon} />
                       </Left>
                       <Body>
                         <Text>{church.address}</Text>
@@ -131,9 +141,9 @@ export default class ChurchPage extends BaseComponent {
                         key={social.name}
                         button
                         onPress={() => this.openUrl(social.url)}
-                        style={StyleSheet.flatten(styles.listItem)}>
-                        <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
-                          <Icon name={icon} style={StyleSheet.flatten(theme.listIcon)} />
+                        style={styles.listItem}>
+                        <Left style={theme.listIconWrapper}>
+                          <Icon name={icon} style={theme.listIcon} />
                         </Left>
                         <Body>
                           <Text>{social.name === 'website' ? social.url : social.name.toUpperCase()}</Text>
