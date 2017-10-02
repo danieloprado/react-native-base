@@ -1,7 +1,7 @@
 import device from 'react-native-device-info';
 import { Observable, Subject } from 'rxjs';
 
-import dateFormatter from '../formatters/date';
+import dateFormatter from '../../formatters/date';
 
 export class ProfileService {
 
@@ -33,10 +33,11 @@ export class ProfileService {
         return Observable.of(null);
       }
 
-      const stream$ = this.apiService.get('profile');
-      return this.cacheService.from('service-profile', stream$, refresh).map(profile => {
-        return dateFormatter.parseObj(profile);
-      }).concat(this.profileUpdate$);
+      return this.apiService.get('profile')
+        .cache('service-profile', refresh)
+        .map(profile => {
+          return dateFormatter.parseObj(profile);
+        }).concat(this.profileUpdate$);
     });
   }
 

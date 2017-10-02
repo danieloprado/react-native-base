@@ -5,8 +5,7 @@ import { StyleSheet } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
 import dateFormatter from '../formatters/date';
-import theme from '../theme';
-import { variables } from '../theme';
+import { theme, variables } from '../theme';
 import BaseComponent from './base';
 
 const keyboardTypes = {
@@ -130,7 +129,6 @@ export default class Field extends BaseComponent {
     const maxlength = mask ? mask.maxlength : null;
 
     style = style || {};
-    if (type === 'datetime') console.log(value, dateFormatter.parse(value || new Date));
 
     return (
       <ListItem style={styles.container}>

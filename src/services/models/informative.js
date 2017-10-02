@@ -1,27 +1,22 @@
 import { Observable } from 'rxjs';
 
-import dateFormatter from '../formatters/date';
-
-export const enInformativeType = {
-  church: 1,
-  cell: 2
-};
+import dateFormatter from '../../formatters/date';
+import { enInformativeType } from '../enums/informativeType';
 
 export class InformativeService {
-  constructor(apiService, cacheService) {
+  constructor(apiService) {
     this.apiService = apiService;
-    this.cacheService = cacheService;
   }
 
   list(refresh = false) {
-    const stream$ = this.apiService.get('informatives');
-
-    return this.cacheService.from('service-informative-list', stream$, refresh).map(data => {
-      return (data || []).map(informative => {
-        informative.icon = informative.typeId === enInformativeType.cell ? 'home' : 'paper';
-        return dateFormatter.parseObj(informative);
+    return this.apiService.get('informatives')
+      .cache('service-informative-list', refresh)
+      .map(data => {
+        return (data || []).map(informative => {
+          informative.icon = informative.typeId === enInformativeType.cell ? 'home' : 'paper';
+          return dateFormatter.parseObj(informative);
+        });
       });
-    });
   }
 
   get(id, refresh = false) {

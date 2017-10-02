@@ -24,7 +24,7 @@ import com.facebook.appevents.AppEventsLogger;
 import java.util.Arrays;
 import java.util.List;
 
-import com.cboy.rn.splashscreen.SplashScreenReactPackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage; 
 
 public class MainApplication extends Application implements ReactApplication {

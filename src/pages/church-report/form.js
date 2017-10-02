@@ -1,34 +1,22 @@
-import {
-  Body,
-  Button,
-  Container,
-  Content,
-  Form,
-  Header,
-  Icon,
-  Left,
-  List,
-  Right,
-  Spinner,
-  Text,
-  Title,
-  View,
-} from 'native-base';
+import { Body, Button, Container, Content, Form, Header, Icon, Left, List, Right, Spinner, Title, View } from 'native-base';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import BaseComponent from '../../components/base';
+import EmptyMessage from '../../components/emptyMessage';
 import Field from '../../components/field';
-import Loader from '../../components/loader';
 import dateFormatter from '../../formatters/date';
-import churchReportService from '../../services/churchReport';
-import logService from '../../services/log';
-import { theme, variables } from '../../theme';
-import churchReportValidator from '../../validators/churchReport';
+import toast from '../../providers/toast';
+import services from '../../services';
+import { ChurchReportValidator } from '../../validators/churchReport';
 
 export default class ChurchReportFormPage extends BaseComponent {
   constructor(props) {
     super(props);
+
+    this.churchReportValidator = new ChurchReportValidator();
+    this.churchReportService = services.get('churchReportService');
+
     this.state = {
       loading: true,
       model: this.params.report || {
@@ -40,62 +28,37 @@ export default class ChurchReportFormPage extends BaseComponent {
   }
 
   componentDidMount() {
-    this.subscription = churchReportService.types().subscribe(types => {
-      this.setState({
-        loading: false, types: [
-          { value: null, display: 'Selecione...' },
-          ...types.map(type => ({ value: type.id, display: type.name }))
-        ]
-      });
-    }, err => {
-      this.setState({ loading: false, error: true });
-      logService.handleError(err);
-    });
-  }
-
-  componentWillUnmount() {
-    if (!this.subscription) return;
-    this.subscription.unsubscribe();
-  }
-
-  updateModel(key, value) {
-    let { model, submitted } = this.state;
-    model[key] = value;
-
-    if (!submitted) {
-      this.setState({ model }, true);
-      return;
-    }
-
-    churchReportValidator.validate(model).then(() => {
-      this.setState({ validation: {}, model }, true);
-    }).catch(errors => {
-      this.setState({ validation: errors, model }, true);
-    });
+    this.churchReportService.types()
+      .logError()
+      .bindComponent(this)
+      .subscribe(types => {
+        this.setState({
+          loading: false,
+          types: [
+            { value: null, display: 'Selecione...' },
+            ...types.map(type => ({ value: type.id, display: type.name }))
+          ]
+        });
+      }, () => this.setState({ loading: false, error: true }));
   }
 
   save() {
-    churchReportValidator.validate(this.state.model).then(model => {
-      this.setState({ validation: {}, submitted: true });
-
-      this.subscription = this.refs.loader.fromObservable(churchReportService.save(model))
-        .subscribe(() => {
-          this.goBack();
-        }, err => {
-          logService.handleError(err);
-        });
-
-    }).catch(errors => {
-      this.setState({ validation: errors, submitted: true }, true);
-    });
+    this.churchReportValidator.validate(this.state.model)
+      .do(({ model, errors }) => this.setState({ validation: errors, model, submitted: true }, true))
+      .filter(({ valid }) => valid)
+      .switchMap(({ model }) => this.churchReportService.save(model).loader())
+      .logError()
+      .bindComponent(this)
+      .subscribe(() => {
+        this.goBack();
+      }, () => toast.genericError());
   }
 
   render() {
-    const { model, validation, loading, error, types } = this.state;
+    const { model, validation, loading, error, types, submitted } = this.state;
 
     return (
       <Container>
-        <Loader ref="loader" />
         <Header>
           <Left>
             <Button transparent onPress={() => this.goBack()}>
@@ -113,101 +76,97 @@ export default class ChurchReportFormPage extends BaseComponent {
             }
           </Right>
         </Header>
-        <Content>
-          {loading ?
-            <View style={StyleSheet.flatten(theme.alignCenter)}>
-              <Spinner color={variables.accent} />
+        <Content keyboardShouldPersistTaps="handled">
+          {loading && <Spinner />}
+          {!loading && error &&
+            <EmptyMessage icon="sad" message="Não conseguimos carregar" />
+          }
+          {!loading && !error &&
+            <View style={styles.container}>
+              <Form>
+                <List>
+
+                  <Field
+                    label="Descrição"
+                    icon="paper"
+                    ref="description"
+                    model={model}
+                    field="title"
+                    next={() => this.refs.typeId}
+                    errors={validation}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                  />
+                  <Field
+                    label="Tipo"
+                    ref="typeId"
+                    icon="empty"
+                    model={model}
+                    field="typeId"
+                    next={() => this.refs.date}
+                    type="dropdown"
+                    options={types}
+                    errors={validation}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                  />
+                  <Field
+                    label="Data"
+                    icon="calendar"
+                    ref="date"
+                    model={model}
+                    field="date"
+                    next={() => this.refs.totalMembers}
+                    type="date"
+                    errors={validation}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                  />
+
+                  <Field
+                    label="Total de Membros"
+                    icon="contacts"
+                    ref="totalMembers"
+                    model={model}
+                    field="totalMembers"
+                    next={() => this.refs.totalNewVisitors}
+                    type="number"
+                    errors={validation}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                  />
+                  <Field
+                    label="Total de Visitantes"
+                    icon="empty"
+                    ref="totalNewVisitors"
+                    model={model}
+                    field="totalNewVisitors"
+                    next={() => this.refs.totalFrequentVisitors}
+                    type="number"
+                    errors={validation}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                  />
+                  <Field
+                    label="Total de Frequentadores"
+                    icon="empty"
+                    ref="totalFrequentVisitors"
+                    model={model}
+                    field="totalFrequentVisitors"
+                    next={() => this.refs.totalKids}
+                    type="number"
+                    errors={validation}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                  />
+                  <Field
+                    label="Total de Crianças"
+                    icon="empty"
+                    ref="totalKids"
+                    model={model}
+                    field="totalKids"
+                    type="number"
+                    errors={validation}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                    onSubmit={() => this.save()}
+                  />
+                </List>
+              </Form>
             </View>
-            : error ?
-              <View style={StyleSheet.flatten(theme.emptyMessage)}>
-                <Text note>Não conseguimos carregar</Text>
-              </View>
-              :
-              <View style={StyleSheet.flatten(styles.container)}>
-                <Form>
-                  <List>
-
-                    <Field
-                      label="Descrição"
-                      icon="paper"
-                      ref="description"
-                      model={model}
-                      field="title"
-                      next={() => this.refs.typeId}
-                      errors={validation}
-                      onChange={this.updateModel.bind(this)}
-                    />
-                    <Field
-                      label="Tipo"
-                      ref="typeId"
-                      icon="empty"
-                      model={model}
-                      field="typeId"
-                      next={() => this.refs.date}
-                      type="dropdown"
-                      options={types}
-                      errors={validation}
-                      onChange={this.updateModel.bind(this)}
-                    />
-                    <Field
-                      label="Data"
-                      icon="calendar"
-                      ref="date"
-                      model={model}
-                      field="date"
-                      next={() => this.refs.totalMembers}
-                      type="date"
-                      errors={validation}
-                      onChange={this.updateModel.bind(this)}
-                    />
-
-                    <Field
-                      label="Total de Membros"
-                      icon="contacts"
-                      ref="totalMembers"
-                      model={model}
-                      field="totalMembers"
-                      next={() => this.refs.totalNewVisitors}
-                      type="number"
-                      errors={validation}
-                      onChange={this.updateModel.bind(this)}
-                    />
-                    <Field
-                      label="Total de Visitantes"
-                      icon="empty"
-                      ref="totalNewVisitors"
-                      model={model}
-                      field="totalNewVisitors"
-                      next={() => this.refs.totalFrequentVisitors}
-                      type="number"
-                      errors={validation}
-                      onChange={this.updateModel.bind(this)}
-                    />
-                    <Field
-                      label="Total de Frequentadores"
-                      icon="empty"
-                      ref="totalFrequentVisitors"
-                      model={model}
-                      field="totalFrequentVisitors"
-                      next={() => this.refs.totalKids}
-                      type="number"
-                      errors={validation}
-                      onChange={this.updateModel.bind(this)}
-                    />
-                    <Field
-                      label="Total de Crianças"
-                      icon="empty"
-                      ref="totalKids"
-                      model={model}
-                      field="totalKids"
-                      type="number"
-                      errors={validation}
-                      onChange={this.updateModel.bind(this)}
-                      onSubmit={() => this.save()}
-                    />
-                  </List>
-                </Form>
-              </View>
           }
         </Content>
       </Container>

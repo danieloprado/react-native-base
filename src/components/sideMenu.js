@@ -3,8 +3,7 @@ import React from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
 
 import platform from '../../native-base-theme/variables/platform';
-import logService from '../services/log';
-import tokenService from '../services/token';
+import services from '../services';
 import BaseComponent from './base';
 import DrawerItems from './drawerItems';
 
@@ -17,6 +16,7 @@ export default class SideMenu extends BaseComponent {
   constructor(props) {
     super(props);
 
+    this.tokenService = services.get('tokenService');
     this.state = { routes: [] };
   }
 
@@ -32,26 +32,23 @@ export default class SideMenu extends BaseComponent {
   }
 
   componentDidMount() {
-    this.subscription = tokenService.getUser().subscribe(user => {
-      const routes = this.filterRoutes(user);
-      this.setState({ routes });
-    }, err => {
-      logService.handleError(err);
-    });
-  }
-
-  componentWillUnmount() {
-    this.subscription.unsubscribe();
+    this.tokenService.getUser()
+      .logError()
+      .bindComponent(this)
+      .subscribe(user => {
+        const routes = this.filterRoutes(user);
+        this.setState({ routes });
+      });
   }
 
   render() {
     const { routes } = this.state;
 
     return (
-      <View style={StyleSheet.flatten(styles.container)}>
-        <View style={StyleSheet.flatten(styles.header)}>
-          <Image source={require('../images/logo.png')} style={StyleSheet.flatten(styles.logo)} />
-          <Text style={StyleSheet.flatten(styles.headerText)}>ICB Sorocaba</Text>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Image source={require('../images/logo.png')} style={styles.logo} />
+          <Text style={styles.headerText}>ICB Sorocaba</Text>
         </View>
         <ScrollView>
           <DrawerItems {...this.props} routes={routes} />

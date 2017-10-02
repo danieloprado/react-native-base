@@ -19,9 +19,10 @@ import { RefreshControl, StyleSheet } from 'react-native';
 import { Col, Grid } from 'react-native-easy-grid';
 
 import BaseComponent from '../../components/base';
+import EmptyMessage from '../../components/emptyMessage';
 import dateFormatter from '../../formatters/date';
-import churchReportService from '../../services/churchReport';
-import logService from '../../services/log';
+import toast from '../../providers/toast';
+import services from '../../services';
 import { theme } from '../../theme';
 
 export default class ChurchReportListPage extends BaseComponent {
@@ -35,6 +36,8 @@ export default class ChurchReportListPage extends BaseComponent {
 
   constructor(props) {
     super(props);
+
+    this.churchReportService = services.get('churchReportService');
     this.state = { refreshing: true, error: false, reports: [] };
   }
 
@@ -42,26 +45,25 @@ export default class ChurchReportListPage extends BaseComponent {
     this.load();
   }
 
-  componentWillUnmount() {
-    this.subscription && this.subscription.unsubscribe();
-  }
-
   load(refresh = false) {
     this.setState({ refreshing: true }, true);
 
-    this.subscription = churchReportService.list(refresh).subscribe(reports => {
-      this.setState({ refreshing: false, error: false, reports: reports || [] });
-    }, err => {
-      this.setState({ refreshing: false, error: true });
-      logService.handleError(err);
-    });
+    this.churchReportService.list(refresh)
+      .logError()
+      .bindComponent(this)
+      .subscribe(reports => {
+        this.setState({ refreshing: false, error: false, reports: reports || [] });
+      }, () => {
+        if (refresh) toast('Não conseguimos atualizar');
+        this.setState({ refreshing: false, error: true });
+      });
   }
 
   render() {
     const { refreshing, reports, error } = this.state;
 
     return (
-      <Container style={StyleSheet.flatten(theme.cardsContainer)}>
+      <Container style={theme.cardsContainer}>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
@@ -80,59 +82,55 @@ export default class ChurchReportListPage extends BaseComponent {
               onRefresh={() => this.load(true)}
             />
           }>
-          {!refreshing && error &&
-            <View style={StyleSheet.flatten(theme.emptyMessage)}>
-              <Text note>Não conseguimos atualizar</Text>
-            </View>
+          {error && !reports.length &&
+            <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
           }
           {!refreshing && !error && !reports.length &&
-            <View style={StyleSheet.flatten(theme.emptyMessage)}>
-              <Text note>Nenhum relatório criado</Text>
-            </View>
+            <EmptyMessage icon="list" message="Nenhum relatório criado" />
           }
-          {!refreshing && !error && !!reports.length &&
+          {!!reports.length &&
             <View style={StyleSheet.flatten([theme.cardsPadding, theme.fabPadding])}>
               {reports.map(report =>
                 <Card key={report.id}>
                   <CardItem header>
-                    <Left style={StyleSheet.flatten(styles.leftWrapper)}>
-                      <View style={StyleSheet.flatten(styles.leftView)}>
-                        <Text style={StyleSheet.flatten(styles.day)}>{dateFormatter.format(report.date, 'DD')}</Text>
-                        <Text style={StyleSheet.flatten(styles.month)}>{dateFormatter.format(report.date, 'MMM')}</Text>
+                    <Left style={styles.leftWrapper}>
+                      <View style={styles.leftView}>
+                        <Text style={styles.day}>{dateFormatter.format(report.date, 'DD')}</Text>
+                        <Text style={styles.month}>{dateFormatter.format(report.date, 'MMM')}</Text>
                       </View>
                     </Left>
                     <Body>
                       <Text>{report.title}</Text>
                       <Text note>{report.type.name}</Text>
                     </Body>
-                    <Right style={StyleSheet.flatten(styles.rightWrapper)}>
+                    <Right style={styles.rightWrapper}>
                       <Button transparent dark onPress={() => this.navigate('ChurchReportForm', { report })}>
-                        <Icon name="create" style={StyleSheet.flatten(styles.buttonIcon)} />
+                        <Icon name="create" style={styles.buttonIcon} />
                       </Button>
                     </Right>
                   </CardItem>
                   <CardItem>
                     <Body>
                       <Grid>
-                        <Col style={StyleSheet.flatten(styles.row)}>
-                          <Text style={StyleSheet.flatten(styles.counter)}>{report.totalMembers}</Text>
-                          <Text style={StyleSheet.flatten(styles.label)}>Memb.</Text>
+                        <Col style={styles.row}>
+                          <Text style={styles.counter}>{report.totalMembers}</Text>
+                          <Text style={styles.label}>Memb.</Text>
                         </Col>
-                        <Col style={StyleSheet.flatten(styles.row)}>
-                          <Text style={StyleSheet.flatten(styles.counter)}>{report.totalNewVisitors}</Text>
-                          <Text style={StyleSheet.flatten(styles.label)}>Visit.</Text>
+                        <Col style={styles.row}>
+                          <Text style={styles.counter}>{report.totalNewVisitors}</Text>
+                          <Text style={styles.label}>Visit.</Text>
                         </Col>
-                        <Col style={StyleSheet.flatten(styles.row)}>
-                          <Text style={StyleSheet.flatten(styles.counter)}>{report.totalFrequentVisitors}</Text>
-                          <Text style={StyleSheet.flatten(styles.label)}>Freq.</Text>
+                        <Col style={styles.row}>
+                          <Text style={styles.counter}>{report.totalFrequentVisitors}</Text>
+                          <Text style={styles.label}>Freq.</Text>
                         </Col>
-                        <Col style={StyleSheet.flatten(styles.row)}>
-                          <Text style={StyleSheet.flatten(styles.counter)}>{report.totalKids}</Text>
-                          <Text style={StyleSheet.flatten(styles.label)}>Crian.</Text>
+                        <Col style={styles.row}>
+                          <Text style={styles.counter}>{report.totalKids}</Text>
+                          <Text style={styles.label}>Crian.</Text>
                         </Col>
-                        <Col style={StyleSheet.flatten(styles.row)}>
-                          <Text style={StyleSheet.flatten(styles.counterTotal)}>{report.total}</Text>
-                          <Text style={StyleSheet.flatten(styles.labelTotal)}>Total</Text>
+                        <Col style={styles.row}>
+                          <Text style={styles.counterTotal}>{report.total}</Text>
+                          <Text style={styles.labelTotal}>Total</Text>
                         </Col>
                       </Grid>
                     </Body>

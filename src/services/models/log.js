@@ -1,7 +1,5 @@
 import { Client, Configuration } from 'bugsnag-react-native';
 
-import toast from '../../providers/toast';
-
 export class LogService {
   constructor(settings) {
     this.settings = settings;
@@ -41,7 +39,6 @@ export class LogService {
       return;
     }
 
-    toast('Erro inesperado...', 10000);
     if (this.settings.isDevelopment) {
       console.error(err);
       return;

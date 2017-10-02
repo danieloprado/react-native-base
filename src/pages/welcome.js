@@ -4,8 +4,9 @@ import { Animated, Image, ImageBackground, InteractionManager, StatusBar, StyleS
 import SplashScreen from 'react-native-splash-screen';
 
 import BaseComponent from '../components/base';
+import toast from '../providers/toast';
 import services from '../services';
-import { theme } from '../theme';
+import { theme, variables } from '../theme';
 
 export default class WelcomPage extends BaseComponent {
   static navigationOptions = {
@@ -16,7 +17,7 @@ export default class WelcomPage extends BaseComponent {
     super(props);
 
     this.settings = services.get('settings');
-    this.storage = services.get('storage');
+    this.storageService = services.get('storageService');
     this.notificationService = services.get('notificationService');
     this.profileService = services.get('profileService');
     this.facebookService = services.get('facebookService');
@@ -36,12 +37,12 @@ export default class WelcomPage extends BaseComponent {
       return;
     }
 
-    if (this.settings.isDevelopment) return this.navigate('Profile', null, true);
+    if (this.settings.isDevelopment) return this.navigate('Informative', null, true);
     this.navigate('Home', null, true);
   }
 
   completed() {
-    this.storage.set('welcomeCompleted', true)
+    this.storageService.set('welcomeCompleted', true)
       .logError()
       .bindComponent(this)
       .subscribe(() => this.navigateToHome());
@@ -55,7 +56,7 @@ export default class WelcomPage extends BaseComponent {
     const finalHeight = event.nativeEvent.layout.height;
 
     this.setState({ loaded: true });
-    this.storage.get('welcomeCompleted')
+    this.storageService.get('welcomeCompleted')
       .logError()
       .bindComponent(this)
       .subscribe(completed => {
@@ -103,7 +104,7 @@ export default class WelcomPage extends BaseComponent {
       .loader()
       .logError()
       .bindComponent(this)
-      .subscribe(() => this.completed());
+      .subscribe(() => this.completed(), () => toast.genericError());
   }
 
   render() {
@@ -123,11 +124,11 @@ export default class WelcomPage extends BaseComponent {
                 Gostaríamos de te conhecer
               </Text>
               <View style={styles.buttons}>
-                <Button onPress={() => this.loginSocial('faceobok')} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
+                <Button onPress={() => this.loginSocial('facebook')} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
                   <Icon name='logo-facebook' />
                   <Text>FACEBOOK</Text>
                 </Button>
-                <Button onPress={() => this.loginSocial('faceobok')} iconLeft style={StyleSheet.flatten(theme.buttonGoogle)}>
+                <Button onPress={() => this.loginSocial('google')} iconLeft style={theme.buttonGoogle}>
                   <Icon name='logo-google' />
                   <Text>GOOGLE</Text>
                 </Button>
@@ -168,7 +169,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    resizeMode: Image.resizeMode.contain
+    height: variables.deviceHeight,
+    width: variables.deviceWidth
   },
   logo: {
     height: 120,

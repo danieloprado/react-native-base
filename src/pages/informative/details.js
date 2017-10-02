@@ -1,22 +1,23 @@
-import { Body, Button, Container, Header, Icon, Left, Right, Spinner, Text, Title, View } from 'native-base';
+import { Body, Button, Container, Content, Header, Icon, Left, Right, Spinner, Title, View } from 'native-base';
 import React from 'react';
-import { Share, StyleSheet, WebView } from 'react-native';
+import { Share, WebView } from 'react-native';
 
 import BaseComponent from '../../components/base';
+import EmptyMessage from '../../components/emptyMessage';
 import informativeRender from '../../formatters/informativeRender';
-import { enInformativeType } from '../../services/informative';
-import logService from '../../services/log';
-import { theme, variables } from '../../theme';
+import services from '../../services';
+import { enInformativeType } from '../../services/enums/informativeType';
 
 export default class InformativeDetailsPage extends BaseComponent {
   constructor(props) {
     super(props);
 
+    this.informativeService = services.get('informativeService');
     const { informative } = this.params;
 
     this.state = {
       loading: informative ? false : true,
-      informative,
+      informative: informative,
       html: informative ? informativeRender(informative) : null
     };
   }
@@ -24,19 +25,13 @@ export default class InformativeDetailsPage extends BaseComponent {
   componentDidMount() {
     if (this.state.informative) return;
 
-    this.subscription = informativeService.get(this.params.id).subscribe(informatives => {
-      const informative = informatives;
-      const html = informative ? informativeRender(informative) : null;
-
-      this.setState({ loading: false, informative, html });
-    }, err => {
-      logService.handleError(err);
-    });
-  }
-
-  componentWillUnmount() {
-    if (!this.subscription) return;
-    this.subscription.unsubscribe();
+    this.informativeService.get(this.params.id)
+      .logError()
+      .bindComponent(this)
+      .subscribe(informative => {
+        const html = informative ? informativeRender(informative) : null;
+        this.setState({ loading: false, informative, html, error: !informative });
+      }, () => this.setState({ loading: false, error: true }));
   }
 
   share() {
@@ -52,7 +47,7 @@ export default class InformativeDetailsPage extends BaseComponent {
   }
 
   render() {
-    const { loading, html, informative } = this.state;
+    const { loading, html, informative, error } = this.state;
     let title = 'Informativo';
 
     if (informative) {
@@ -78,21 +73,23 @@ export default class InformativeDetailsPage extends BaseComponent {
             }
           </Right>
         </Header>
-        {loading ?
-          <View style={StyleSheet.flatten(theme.alignCenter)}>
-            <Spinner color={variables.accent} />
+        {loading &&
+          <Content>
+            <Spinner />
+          </Content>
+        }
+        {!loading && error &&
+          <Content>
+            <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
+          </Content>
+        }
+        {!loading && !error &&
+          <View style={{ flex: 1 }}>
+            <WebView
+              source={{ html }}
+              onMessage={event => this.setText(event.nativeEvent.data)}
+              style={{ flex: 1 }} />
           </View>
-          : !informative ?
-            <View style={StyleSheet.flatten(theme.emptyMessage)}>
-              <Text note>Não conseguimos atualizar</Text>
-            </View>
-            :
-            <View style={{ flex: 1 }}>
-              <WebView
-                source={{ html }}
-                onMessage={event => this.setText(event.nativeEvent.data)}
-                style={{ flex: 1 }} />
-            </View>
         }
       </Container>
     );

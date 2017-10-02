@@ -44,13 +44,14 @@ export class ApiService {
 
     const body = data ? JSON.stringify(data) : null;
     return Observable
-      .fromPromise(fetch(`${this.settings.apiEndpoint}/${url}`, { method, headers: this.headers, body }))
+      .of(null)
+      .switchMap(() => Observable.fromPromise(fetch(`${this.settings.apiEndpoint}/${url}`, { method, headers: this.headers, body })))
       .map(res => this.checkResponse(res))
       .do(res => this.checkNewToken(res))
       .switchMap(res => Observable.fromPromise(res.text()))
       .map(bodyText => bodyText ? JSON.parse(bodyText) : null)
       .do(res => this.logService.breadcrumb('Api Response', 'manual', res))
-      .catch(err => this.errorHandler(err));
+      .catch(err => this.errorHandler({ method, url, data }, err));
   }
 
   checkResponse(response) {
@@ -70,9 +71,12 @@ export class ApiService {
     this.tokenService.setAccessToken(accessToken).logError().subscribe();
   }
 
-  errorHandler(err) {
+  errorHandler(request, err) {
+    err.request = request;
+
     if (this.settings.env === 'development') {
       console.log('******* API ERROR ********');
+      console.log(request);
       console.log(err);
       console.log(err.data);
     }

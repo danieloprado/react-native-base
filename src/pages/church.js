@@ -22,7 +22,7 @@ import BaseComponent from '../components/base';
 import EmptyMessage from '../components/emptyMessage.js';
 import phoneFormatter from '../formatters/phone';
 import services from '../services';
-import { theme, variables } from '../theme';
+import { theme } from '../theme';
 
 export default class ChurchPage extends BaseComponent {
   static navigationOptions = {
@@ -44,7 +44,9 @@ export default class ChurchPage extends BaseComponent {
     this.churchService.info()
       .logError()
       .bindComponent(this)
-      .subscribe(church => this.setState({ loading: false, church }));
+      .subscribe(church => {
+        this.setState({ loading: false, church });
+      }, () => this.setState({ loading: false, error: true }));
   }
 
   openPhone() {
@@ -64,7 +66,7 @@ export default class ChurchPage extends BaseComponent {
   }
 
   render() {
-    const church = this.state.church;
+    const { church, loading, error } = this.state;
 
     return (
       <Container>
@@ -80,79 +82,77 @@ export default class ChurchPage extends BaseComponent {
           <Right />
         </Header>
         <Content>
-          {this.state.loading ?
-            <View style={theme.alignCenter}>
-              <Spinner color={variables.accent} />
-            </View>
-            : !church ?
-              <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
-              :
-              <View style={styles.container}>
-                <View style={theme.alignCenter}>
-                  <Image source={require('../images/logo.png')} style={styles.logo} />
-                  <H2 style={styles.headerText}>{church.name}</H2>
-                </View>
-                <List style={styles.list}>
-                  {!church.phone ? null :
-                    <ListItem
-                      button
-                      onPress={() => this.openPhone()}
-                      style={styles.listItem}>
-                      <Left style={theme.listIconWrapper}>
-                        <Icon name="call" style={theme.listIcon} />
-                      </Left>
-                      <Body>
-                        <Text>{phoneFormatter(church.phone)}</Text>
-                      </Body>
-                    </ListItem>
-                  }
-                  {!church.email ? null :
-                    <ListItem
-                      button
-                      onPress={() => this.openEmail()}
-                      style={styles.listItem}>
-                      <Left style={theme.listIconWrapper}>
-                        <Icon name="mail" style={theme.listIcon} />
-                      </Left>
-                      <Body>
-                        <Text>{church.email}</Text>
-                      </Body>
-                    </ListItem>
-                  }
-                  {!church.address ? null :
-                    <ListItem
-                      button
-                      onPress={() => this.openAddress()}
-                      style={styles.listItem}>
-                      <Left style={theme.listIconWrapper}>
-                        <Icon name="pin" style={theme.listIcon} />
-                      </Left>
-                      <Body>
-                        <Text>{church.address}</Text>
-                      </Body>
-                    </ListItem>
-                  }
-                  {church.social.map(social => {
-                    const icons = { facebook: 'logo-facebook', youtube: 'logo-youtube' };
-                    const icon = icons[social.name] || 'globe';
-
-                    return (
-                      <ListItem
-                        key={social.name}
-                        button
-                        onPress={() => this.openUrl(social.url)}
-                        style={styles.listItem}>
-                        <Left style={theme.listIconWrapper}>
-                          <Icon name={icon} style={theme.listIcon} />
-                        </Left>
-                        <Body>
-                          <Text>{social.name === 'website' ? social.url : social.name.toUpperCase()}</Text>
-                        </Body>
-                      </ListItem>
-                    );
-                  })}
-                </List>
+          {loading && <Spinner />}
+          {!loading && error && !church &&
+            <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
+          }
+          {!loading && church &&
+            <View style={styles.container}>
+              <View style={theme.alignCenter}>
+                <Image source={require('../images/logo.png')} style={styles.logo} />
+                <H2 style={styles.headerText}>{church.name}</H2>
               </View>
+              <List style={styles.list}>
+                {!!church.phone &&
+                  <ListItem
+                    button
+                    onPress={() => this.openPhone()}
+                    style={styles.listItem}>
+                    <Left style={theme.listIconWrapper}>
+                      <Icon name="call" style={theme.listIcon} />
+                    </Left>
+                    <Body>
+                      <Text>{phoneFormatter(church.phone)}</Text>
+                    </Body>
+                  </ListItem>
+                }
+                {!!church.email &&
+                  <ListItem
+                    button
+                    onPress={() => this.openEmail()}
+                    style={styles.listItem}>
+                    <Left style={theme.listIconWrapper}>
+                      <Icon name="mail" style={theme.listIcon} />
+                    </Left>
+                    <Body>
+                      <Text>{church.email}</Text>
+                    </Body>
+                  </ListItem>
+                }
+                {!!church.address &&
+                  <ListItem
+                    button
+                    onPress={() => this.openAddress()}
+                    style={styles.listItem}>
+                    <Left style={theme.listIconWrapper}>
+                      <Icon name="pin" style={theme.listIcon} />
+                    </Left>
+                    <Body>
+                      <Text>{church.address}</Text>
+                    </Body>
+                  </ListItem>
+                }
+                {church.social.map(social => {
+                  const icons = { facebook: 'logo-facebook', youtube: 'logo-youtube' };
+                  const icon = icons[social.name] || 'globe';
+
+                  return (
+                    <ListItem
+                      key={social.name}
+                      button
+                      onPress={() => this.openUrl(social.url)}
+                      style={styles.listItem}>
+                      <Left style={theme.listIconWrapper}>
+                        <Icon name={icon} style={theme.listIcon} />
+                      </Left>
+                      <Body>
+                        <Text>{social.name === 'website' ? social.url : social.name.toUpperCase()}</Text>
+                      </Body>
+                    </ListItem>
+                  );
+                })}
+              </List>
+            </View>
           }
         </Content>
       </Container>

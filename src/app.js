@@ -1,16 +1,20 @@
 import './operators/bindComponent';
+import './operators/cache';
 import './operators/logError';
 import 'rxjs/add/operator/map';
 
 import { Root, StyleProvider } from 'native-base';
 import { Component } from 'react';
+import React from 'react';
 import { AppRegistry, Keyboard } from 'react-native';
 import OneSignal from 'react-native-onesignal';
 import { Observable } from 'rxjs/Observable';
 
 import getTheme from '../native-base-theme/components';
 import platform from '../native-base-theme/variables/platform';
+import Loader from './components/loader';
 import Navigator from './navigator';
+import loaderOperador from './operators/loader';
 import services from './services';
 
 console.ignoredYellowBox = ['Warning: BackAndroid'];
@@ -36,12 +40,17 @@ class App extends Component {
     this.subscription = this.tokenService.getUser().switchMap(user => {
       this.logService.setUser(user);
 
-      if (!user) {
-        return Observable.of(null);
-      }
+      // if (!user) {
+      return Observable.of(null);
+      // }
 
-      return this.profileService.appOpened();
+      // return this.profileService.appOpened();
     }).subscribe(() => { }, err => this.logService.handleError(err));
+  }
+
+  componentDidMount() {
+    loaderOperador(this.refs.loader);
+    this.setState({ loading: false });
   }
 
   componentWillUnmount() {

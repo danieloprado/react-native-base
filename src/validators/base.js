@@ -52,7 +52,7 @@ export default class BaseValidator {
         value = value.trim();
       }
 
-      if (typeof value === 'object' && !Array.isArray(!value) && !(value instanceof Date)) {
+      if (value && typeof value === 'object' && !Array.isArray(!value) && !(value instanceof Date)) {
         value = this.cleanModel(value, rules[key]);
       }
 

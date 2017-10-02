@@ -1,31 +1,27 @@
 import { Body, Button, Card, CardItem, Icon, Spinner, Text, View } from 'native-base';
 import React from 'react';
-import { Linking, StyleSheet } from 'react-native';
+import { Linking } from 'react-native';
 
 import phoneFormatter from '../formatters/phone';
-import churchService from '../services/church';
-import logService from '../services/log';
+import services from '../services';
 import { theme } from '../theme';
-import { variables } from '../theme';
 import BaseComponent from './base';
 
 export default class ChurchCard extends BaseComponent {
   constructor(props) {
     super(props);
+
+    this.churchService = services.get('churchService');
     this.state = { loading: true };
   }
 
   componentDidMount() {
-    this.subscription = churchService.info().subscribe(church => {
-      this.setState({ loading: false, church });
-    }, err => {
-      this.setState({ loading: false });
-      logService.handleError(err);
-    });
-  }
-
-  componentWillUnmount() {
-    this.subscription.unsubscribe();
+    this.churchService.info()
+      .logError()
+      .bindComponent(this)
+      .subscribe(church => {
+        this.setState({ loading: false, church });
+      }, () => this.setState({ loading: false }));
   }
 
   openPhone() {
@@ -33,50 +29,52 @@ export default class ChurchCard extends BaseComponent {
   }
 
   openAddress() {
-    Linking.openURL(`geo:${this.state.church.latitude},${this.state.church.longitude}?q=${this.state.church.address}`);
+    const church = this.state.church;
+    Linking.openURL(`geo:${church.latitude},${church.longitude}?q=${church.address}`);
   }
 
   render() {
-    const church = this.state.church;
+    const { church, loading } = this.state;
 
     return (
       <Card>
         <CardItem header>
           <Text>Igreja</Text>
         </CardItem>
-        {this.state.loading ?
+        {loading &&
           <CardItem>
-            <Body style={StyleSheet.flatten(theme.alignCenter)}>
-              <Spinner color={variables.accent} />
+            <Body style={theme.alignCenter}>
+              <Spinner />
             </Body>
           </CardItem>
-          :
-          !church ?
-            <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
-              <Text note>Não conseguimos atualizar</Text>
-            </CardItem>
-            :
-            <View>
-              {!church.phone ? null :
-                <CardItem button onPress={() => this.openPhone()}>
-                  <Icon name="call" />
-                  <Text>{phoneFormatter(church.phone)}</Text>
-                </CardItem>
-              }
-              {!church.address ? null :
-                <CardItem button onPress={() => this.openAddress()}>
-                  <Icon name="pin" />
-                  <Text style={StyleSheet.flatten(theme.cardItemMultiline)}>
-                    {church.address}
-                  </Text>
-                </CardItem>
-              }
-              <CardItem footer style={StyleSheet.flatten(theme.alignRight)}>
-                <Button transparent onPress={() => this.navigate('Church')}>
-                  <Text>DETALHES</Text>
-                </Button>
+        }
+        {!loading && !church &&
+          <CardItem style={theme.alignCenter}>
+            <Text note>Não conseguimos atualizar</Text>
+          </CardItem>
+        }
+        {!loading && church &&
+          <View>
+            {!!church.phone &&
+              <CardItem button onPress={() => this.openPhone()}>
+                <Icon name="call" />
+                <Text>{phoneFormatter(church.phone)}</Text>
               </CardItem>
-            </View>
+            }
+            {!!church.address &&
+              <CardItem button onPress={() => this.openAddress()}>
+                <Icon name="pin" />
+                <Text style={theme.cardItemMultiline}>
+                  {church.address}
+                </Text>
+              </CardItem>
+            }
+            <CardItem footer style={theme.alignRight}>
+              <Button transparent onPress={() => this.navigate('Church')}>
+                <Text>DETALHES</Text>
+              </Button>
+            </CardItem>
+          </View>
         }
 
       </Card>

@@ -1,11 +1,12 @@
-import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title, View } from 'native-base';
+import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title } from 'native-base';
 import React from 'react';
-import { RefreshControl, StyleSheet } from 'react-native';
+import { RefreshControl } from 'react-native';
 
 import BaseComponent from '../../components/base';
+import EmptyMessage from '../../components/emptyMessage';
 import dateFormatter from '../../formatters/date';
-import informativeService from '../../services/informative';
-import logService from '../../services/log';
+import toast from '../../providers/toast';
+import services from '../../services';
 import { theme } from '../../theme';
 
 export default class InformativeListPage extends BaseComponent {
@@ -19,15 +20,13 @@ export default class InformativeListPage extends BaseComponent {
 
   constructor(props) {
     super(props);
+
+    this.informativeService = services.get('informativeService');
     this.state = { refreshing: true, informatives: [] };
   }
 
   componentDidMount() {
     this.load();
-  }
-
-  componentWillUnmount() {
-    this.subscription.unsubscribe();
   }
 
   details(informative) {
@@ -37,16 +36,21 @@ export default class InformativeListPage extends BaseComponent {
   load(refresh = false) {
     this.setState({ refreshing: true }, true);
 
-    this.subscription = informativeService.list(refresh).subscribe(informatives => {
-      informatives = informatives || [];
-      this.setState({ refreshing: false, informatives });
-    }, err => {
-      this.setState({ refreshing: false });
-      logService.handleError(err);
-    });
+    this.informativeService.list(refresh)
+      .logError()
+      .bindComponent(this)
+      .subscribe(informatives => {
+        informatives = informatives || [];
+        this.setState({ refreshing: false, informatives, error: false });
+      }, () => {
+        if (refresh) toast('Não conseguimos atualizar');
+        this.setState({ refreshing: false, error: true });
+      });
   }
 
   render() {
+    const { refreshing, informatives, error } = this.state;
+
     return (
       <Container>
         <Header>
@@ -62,31 +66,22 @@ export default class InformativeListPage extends BaseComponent {
         </Header>
         <Content
           refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={() => this.load(true)}
-            />
+            <RefreshControl refreshing={refreshing} onRefresh={() => this.load(true)} />
           }
         >
-          {!this.state.refreshing && !this.state.informatives.length &&
-            <View style={StyleSheet.flatten(theme.emptyMessage)}>
-              <Text note>Não conseguimos atualizar</Text>
-            </View>
+          {!refreshing && error && !informatives.length &&
+            <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
           }
-          <List dataArray={this.state.informatives} renderRow={informative =>
-            <ListItem
-              button
-              key={informative.id}
-              style={StyleSheet.flatten(theme.listItem)}
-              onPress={() => this.details(informative)}>
-              <Left style={StyleSheet.flatten(theme.listIconWrapper)}>
-                <Icon name={informative.icon} style={StyleSheet.flatten(theme.listIcon)} />
+          <List dataArray={informatives} renderRow={informative =>
+            <ListItem button key={informative.id} style={theme.listItem} onPress={() => this.details(informative)}>
+              <Left style={theme.listIconWrapper}>
+                <Icon name={informative.icon} style={theme.listIcon} />
               </Left>
               <Body>
                 <Text>{informative.title}</Text>
                 <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
               </Body>
-              <Right style={StyleSheet.flatten(theme.listIconWrapperSmall)}>
+              <Right style={theme.listIconWrapperSmall}>
                 <Icon name="arrow-forward" />
               </Right>
             </ListItem>

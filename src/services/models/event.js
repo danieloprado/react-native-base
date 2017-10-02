@@ -1,20 +1,19 @@
-import dateFormatter from '../formatters/date';
+import dateFormatter from '../../formatters/date';
 
 export class EventService {
-  constructor(apiService, cacheService) {
+  constructor(apiService) {
     this.apiService = apiService;
-    this.cacheService = cacheService;
   }
 
   list(refresh = false) {
-    const stream$ = this.apiService.get('events');
-
-    return this.cacheService.from('service-event-list', stream$, refresh).map(data => {
-      return (data || []).map(event => {
-        event.dates = event.dates.map(d => dateFormatter.parseObj(d));
-        return event;
-      }).sort((a, b) => this.sortByFirstDate(a, b));
-    });
+    return this.apiService.get('events')
+      .cache('service-event-list', refresh)
+      .map(data => {
+        return (data || []).map(event => {
+          event.dates = event.dates.map(d => dateFormatter.parseObj(d));
+          return event;
+        }).sort((a, b) => this.sortByFirstDate(a, b));
+      });
   }
 
   next(refresh = false) {

@@ -2,7 +2,6 @@ import { ChurchReportService } from '../models/churchReport';
 
 export default function churchReportFactory(container) {
   return new ChurchReportService(
-    container.get('apiService'),
-    container.get('cacheService')
+    container.get('apiService')
   );
 }

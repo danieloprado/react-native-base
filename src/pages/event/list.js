@@ -3,11 +3,11 @@ import React from 'react';
 import { RefreshControl, StyleSheet } from 'react-native';
 
 import BaseComponent from '../../components/base';
+import EmptyMessage from '../../components/emptyMessage';
 import dateFormatter from '../../formatters/date';
 import eventListFormatter from '../../formatters/eventList';
-import eventService from '../../services/event';
-import logService from '../../services/log';
-import { theme } from '../../theme';
+import toast from '../../providers/toast';
+import services from '../../services';
 
 export default class EventListPage extends BaseComponent {
   static navigationOptions = {
@@ -20,15 +20,13 @@ export default class EventListPage extends BaseComponent {
 
   constructor(props) {
     super(props);
+
+    this.eventService = services.get('eventService');
     this.state = { refreshing: true, error: false, eventGroup: [] };
   }
 
   componentDidMount() {
     this.load();
-  }
-
-  componentWillUnmount() {
-    this.subscription.unsubscribe();
   }
 
   details(eventData) {
@@ -38,13 +36,16 @@ export default class EventListPage extends BaseComponent {
   load(refresh = false) {
     this.setState({ refreshing: true }, true);
 
-    this.subscription = eventService.list(refresh).subscribe(events => {
-      const eventGroup = eventListFormatter(events || []);
-      this.setState({ refreshing: false, error: false, eventGroup });
-    }, err => {
-      this.setState({ refreshing: false, error: true });
-      logService.handleError(err);
-    });
+    this.eventService.list(refresh)
+      .logError()
+      .bindComponent(this)
+      .subscribe(events => {
+        const eventGroup = eventListFormatter(events || []);
+        this.setState({ refreshing: false, error: false, eventGroup });
+      }, () => {
+        if (refresh) toast('Não conseguimos atualizar');
+        this.setState({ refreshing: false, error: true });
+      });
   }
 
   render() {
@@ -64,20 +65,13 @@ export default class EventListPage extends BaseComponent {
           <Right />
         </Header>
         <Content refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => this.load(true)}
-          />
+          <RefreshControl refreshing={refreshing} onRefresh={() => this.load(true)} />
         }>
-          {!refreshing && error &&
-            <View style={StyleSheet.flatten(theme.emptyMessage)}>
-              <Text note>Não conseguimos atualizar</Text>
-            </View>
+          {!refreshing && error && !eventGroup.length &&
+            <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
           }
           {!refreshing && !error && !eventGroup.length &&
-            <View style={StyleSheet.flatten(theme.emptyMessage)}>
-              <Text note>Nenhum evento próximo</Text>
-            </View>
+            <EmptyMessage icon="calendar" message="Nenhum evento próximo" />
           }
           <List dataArray={eventGroup} renderRow={(data, sectionId, rowId) => this.renderRow(data, rowId)} />
         </Content>
@@ -89,32 +83,32 @@ export default class EventListPage extends BaseComponent {
     return (
       <View key={data.divider ? data.beginDate : data.event.id}>
         {data.divider ?
-          <ListItem style={StyleSheet.flatten(rowId === '0' ? styles.listItemHeaderFirst : styles.listItemHeader)}>
-            <Text style={StyleSheet.flatten(styles.listItemHeaderText)}>
+          <ListItem style={rowId === '0' ? styles.listItemHeaderFirst : styles.listItemHeader}>
+            <Text style={styles.listItemHeaderText}>
               {dateFormatter.format(data.date, 'MMMM').toUpperCase()}
             </Text>
           </ListItem>
           :
-          <ListItem style={StyleSheet.flatten(styles.listItem)}>
+          <ListItem style={styles.listItem}>
             {data.firstOfDate ?
-              <Left style={StyleSheet.flatten(styles.leftWrapper)}>
-                <Text style={StyleSheet.flatten(styles.eventDay)}>
+              <Left style={styles.leftWrapper}>
+                <Text style={styles.eventDay}>
                   {dateFormatter.format(data.beginDate, 'DD')}
                 </Text>
-                <Text style={StyleSheet.flatten(styles.eventWeekDay)}>
+                <Text style={styles.eventWeekDay}>
                   {dateFormatter.format(data.beginDate, 'ddd')}
                 </Text>
               </Left>
               :
-              <Left style={StyleSheet.flatten(styles.leftWrapper)} />
+              <Left style={styles.leftWrapper} />
             }
             <Body>
               <Button
                 block
                 onPress={() => this.details(data)}
-                style={StyleSheet.flatten(styles.buttonDetails)}>
-                <Text style={StyleSheet.flatten(styles.eventTitle)}>{data.event.title}</Text>
-                <Text style={StyleSheet.flatten(styles.eventHour)}>
+                style={styles.buttonDetails}>
+                <Text style={styles.eventTitle}>{data.event.title}</Text>
+                <Text style={styles.eventHour}>
                   {
                     dateFormatter.format(data.beginDate, 'HH:mm') +
                     (data.endDate ? ' - ' + dateFormatter.format(data.endDate, 'HH:mm') : '')

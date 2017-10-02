@@ -1,7 +1,6 @@
 import { Spinner, View } from 'native-base';
 import React from 'react';
 import { Modal, StyleSheet } from 'react-native';
-import { Observable } from 'rxjs';
 
 import { variables } from '../theme';
 import BaseComponent from './base';
@@ -9,33 +8,32 @@ import BaseComponent from './base';
 export default class Loader extends BaseComponent {
   constructor(props) {
     super(props);
-    this.state = { show: false };
+    this.state = { refs: [] };
   }
 
-  fromObservable(stream$) {
-    return new Observable(observer => {
-      this.show();
+  show(ref) {
+    if (typeof ref !== 'string') {
+      throw new Error('Loader.show needs a ref string value');
+    }
 
-      const subscription = stream$.do(() => {
-        this.hide();
-      }).subscribe({
-        next: data => observer.next(data),
-        error: error => observer.error(error),
-        complete: () => observer.complete()
-      });
+    const { refs } = this.state;
+    if (refs.includes(ref)) return;
 
-      return () => {
-        subscription.unsubscribe();
-      };
-    });
+    refs.push(ref);
+    this.setState({ refs }, true);
   }
 
-  show() {
-    this.setState({ show: true }, true);
-  }
+  hide(ref) {
+    if (typeof ref !== 'string') {
+      throw new Error('Loader.hide needs a ref string value');
+    }
 
-  hide() {
-    this.setState({ show: false }, true);
+    const { refs } = this.state;
+    const index = refs.indexOf(ref);
+    if (index === -1) return;
+
+    refs.splice(index, 1);
+    this.setState({ show: false, counter: 0 }, true);
   }
 
   render() {
@@ -43,7 +41,7 @@ export default class Loader extends BaseComponent {
       <Modal
         animationType='fade'
         transparent={true}
-        visible={this.state.show}
+        visible={!!this.state.refs.length}
         onRequestClose={() => { }}
       >
         <View style={StyleSheet.flatten(styles.container)}>

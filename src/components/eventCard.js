@@ -1,30 +1,26 @@
 import { Body, Button, Card, CardItem, Icon, Right, Spinner, Text, View } from 'native-base';
 import React from 'react';
-import { StyleSheet } from 'react-native';
 
 import dateFormatter from '../formatters/date';
-import eventService from '../services/event';
-import logService from '../services/log';
-import { theme, variables } from '../theme';
+import serivces from '../services';
+import { theme } from '../theme';
 import BaseComponent from './base';
 
 export default class EventCard extends BaseComponent {
   constructor(props) {
     super(props);
+
+    this.eventService = serivces.get('eventService');
     this.state = { loading: true };
   }
 
   componentDidMount() {
-    this.subscription = eventService.next().subscribe(event => {
-      this.setState({ loading: false, error: false, event });
-    }, err => {
-      this.setState({ loading: false, error: true });
-      logService.handleError(err);
-    });
-  }
-
-  componentWillUnmount() {
-    this.subscription.unsubscribe();
+    this.eventService.next()
+      .logError()
+      .bindComponent(this)
+      .subscribe(event => {
+        this.setState({ loading: false, error: false, event });
+      }, () => this.setState({ loading: false, error: true }));
   }
 
   render() {
@@ -35,46 +31,47 @@ export default class EventCard extends BaseComponent {
         <CardItem header>
           <Text>Próximo Evento</Text>
         </CardItem>
-        {loading ?
+        {loading &&
           <CardItem>
-            <Body style={StyleSheet.flatten(theme.alignCenter)}>
-              <Spinner color={variables.accent} />
+            <Body style={theme.alignCenter}>
+              <Spinner />
             </Body>
           </CardItem>
-          :
-          error ?
-            <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
-              <Text note>Não conseguimos atualizar</Text>
-            </CardItem>
-            :
-            !event ?
-              <CardItem style={StyleSheet.flatten(theme.alignCenter)}>
-                <Text note>Nenhum evento próximo</Text>
-              </CardItem>
-              :
+        }
+        {!loading && error &&
+          <CardItem style={theme.alignCenter}>
+            <Text note>Não conseguimos atualizar</Text>
+          </CardItem>
+        }
+        {!loading && !error && !event &&
+          <CardItem style={theme.alignCenter}>
+            <Text note>Nenhum evento próximo</Text>
+          </CardItem>
+        }
+        {!loading && !error && event &&
+          <View>
+            <CardItem button onPress={() => this.navigate('EventDetails', { event, date: event.dates[0] })}>
+              <Icon name="calendar" />
               <View>
-                <CardItem button onPress={() => this.navigate('EventDetails', { event, date: event.dates[0] })}>
-                  <Icon name="calendar" />
-                  <View>
-                    <Text>{event.title}</Text>
-                    <Text note>
-                      {dateFormatter.format(event.dates[0].beginDate, 'dddd, DD [de] MMMM [de] YYYY')}
-                    </Text>
-                    <Text note>
-                      {dateFormatter.format(event.dates[0].beginDate, 'HH:mm')}
-                      {event.dates[0].endDate ? ' - ' + dateFormatter.format(event.dates[0].endDate, 'HH:mm') : ''}
-                    </Text>
-                  </View>
-                  <Right>
-                    <Icon name="arrow-forward" />
-                  </Right>
-                </CardItem>
-                <CardItem footer style={StyleSheet.flatten(theme.alignRight)}>
-                  <Button transparent onPress={() => this.navigate('Event')}>
-                    <Text>VER TODOS</Text>
-                  </Button>
-                </CardItem>
+                <Text>{event.title}</Text>
+                <Text note>
+                  {dateFormatter.format(event.dates[0].beginDate, 'dddd, DD [de] MMMM [de] YYYY')}
+                </Text>
+                <Text note>
+                  {dateFormatter.format(event.dates[0].beginDate, 'HH:mm')}
+                  {event.dates[0].endDate ? ' - ' + dateFormatter.format(event.dates[0].endDate, 'HH:mm') : ''}
+                </Text>
               </View>
+              <Right>
+                <Icon name="arrow-forward" />
+              </Right>
+            </CardItem>
+            <CardItem footer style={theme.alignRight}>
+              <Button transparent onPress={() => this.navigate('Event')}>
+                <Text>VER TODOS</Text>
+              </Button>
+            </CardItem>
+          </View>
         }
 
       </Card>
