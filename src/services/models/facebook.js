@@ -9,7 +9,9 @@ export class FacebookService {
 
   login() {
     return Observable
-      .fromPromise(LoginManager.logInWithReadPermissions(['public_profile', 'email']))
+      .of(true)
+      .do(() => LoginManager.logOut())
+      .switchMap(() => Observable.fromPromise(LoginManager.logInWithReadPermissions(['public_profile', 'email'])))
       .switchMap(({ isCancelled }) => {
         if (isCancelled) {
           return Observable.of({});
