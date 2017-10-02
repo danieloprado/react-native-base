@@ -38,7 +38,7 @@ export default class EventCard extends BaseComponent {
             </Body>
           </CardItem>
         }
-        {!loading && error &&
+        {!loading && error && !event &&
           <CardItem style={theme.alignCenter}>
             <Text note>Não conseguimos atualizar</Text>
           </CardItem>
@@ -48,7 +48,7 @@ export default class EventCard extends BaseComponent {
             <Text note>Nenhum evento próximo</Text>
           </CardItem>
         }
-        {!loading && !error && event &&
+        {!loading && event &&
           <View>
             <CardItem button onPress={() => this.navigate('EventDetails', { event, date: event.dates[0] })}>
               <Icon name="calendar" />

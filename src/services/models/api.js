@@ -39,7 +39,7 @@ export class ApiService {
     this.logService.breadcrumb('Api Request', 'manual', { method, url, data });
 
     if (!this.connection$.getValue()) {
-      return Observable.throw(new Error('no-internet'));
+      return Observable.throw(new Error('NETWORK_ERROR'));
     }
 
     const body = data ? JSON.stringify(data) : null;

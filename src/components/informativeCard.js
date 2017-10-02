@@ -38,12 +38,17 @@ export default class InformativeCard extends BaseComponent {
             </Body>
           </CardItem>
         }
-        {!loading && error &&
+        {!loading && error && !informative &&
           <CardItem style={theme.alignCenter}>
             <Text note>Não conseguimos atualizar</Text>
           </CardItem>
         }
-        {!loading && !error &&
+        {!loading && !error && !informative &&
+          <CardItem style={theme.alignCenter}>
+            <Text note>Nenhum informativo criado</Text>
+          </CardItem>
+        }
+        {!loading && informative &&
           <View>
             <CardItem button onPress={() => this.navigate('InformativeDetails', { informative })}>
               <Icon name={informative.icon} />

@@ -1,6 +1,6 @@
 {
   "name": "churchReact",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "private": true,
   "scripts": {
     "precommit": "yarn lint",
@@ -9,7 +9,9 @@
     "release-android": "sh release.android.sh",
     "test": "jest",
     "lint": "eslint --ext js src/**",
-    "eslint": "eslint"
+    "eslint": "eslint",
+    "react-native": "node node_modules/react-native/local-cli/cli.js",
+    "bugsnag-sourcemaps": "node ./node_modules/bugsnag-sourcemaps/cli.js"
   },
   "dependencies": {
     "base-64": "0.1.0",
@@ -35,6 +37,7 @@
     "babel-eslint": "8.0.1",
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",
+    "bugsnag-sourcemaps": "^1.0.1",
     "eslint": "4.8.0",
     "eslint-plugin-react": "7.4.0",
     "husky": "0.14.3",

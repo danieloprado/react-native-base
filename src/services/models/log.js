@@ -35,6 +35,10 @@ export class LogService {
       err = new Error(err);
     }
 
+    if (['NETWORK_ERROR'].includes(err.message)) {
+      return;
+    }
+
     if (err.ignoreLog && !force) {
       return;
     }

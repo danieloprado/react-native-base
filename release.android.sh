@@ -1,24 +1,40 @@
-VERSION=2.2.2
+VERSION=2.2.3
 echo "version $VERSION"
 
 rm ICBSorocaba.apk
-rm ICBSorocaba-signed.apk
 (cd android && ./gradlew assembleRelease)
 mv android/app/build/outputs/apk/app-release.apk ICBSorocaba.apk
 
-echo "Bundle source map"
-react-native bundle \
+echo "Bundle source map ANDROID"
+npm run react-native bundle -- \
   --platform android \
   --dev false \
   --entry-file index.android.js \
-  --bundle-output /tmp/icbsorocaba.bundle \
-  --sourcemap-output /tmp/icbsorocaba.sourcemap
+  --bundle-output /tmp/fitfood.android.bundle \
+  --sourcemap-output /tmp/fitfood.android.sourcemap
 
-bugsnag-sourcemaps upload \
+npm run bugsnag-sourcemaps upload -- \
      --api-key 7f394ec621690879be85bc0bef530ac9 \
-     --source-map /tmp/icbsorocaba.sourcemap \
      --app-version $VERSION \
-     --strip-project-root \
-     --minified-file /tmp/icbsorocaba.bundle \
-     --minified-url main.jsbundle \
-     --upload-sources
+     --minified-file /tmp/fitfood.android.bundle \
+     --source-map /tmp/fitfood.android.sourcemap \
+     --minified-url index.android.bundle \
+     --upload-sources \
+     --overwrite
+
+echo "Bundle source map IOS"
+npm run react-native bundle -- \
+  --platform ios \
+  --dev false \
+  --entry-file index.ios.js \
+  --bundle-output /tmp/fitfood.ios.bundle \
+  --sourcemap-output /tmp/fitfood.ios.sourcemap
+
+npm run bugsnag-sourcemaps upload -- \
+     --api-key 7f394ec621690879be85bc0bef530ac9 \
+     --app-version $VERSION \
+     --minified-file /tmp/fitfood.ios.bundle \
+     --source-map /tmp/fitfood.ios.sourcemap \
+     --minified-url index.ios.bundle \
+     --upload-sources \
+     --overwrite
