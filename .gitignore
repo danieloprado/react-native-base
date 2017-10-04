@@ -1,6 +1,7 @@
 *.apk
 *.zip
 *.log
+.directory
 # OSX
 #
 .DS_Store
