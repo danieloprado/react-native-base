@@ -3,16 +3,20 @@ import { Observable } from 'rxjs/Rx';
 
 import dateFormatter from '../../formatters/date';
 
+
 export class StorageService {
 
   get(key) {
-    return Observable.fromPromise(AsyncStorage.getItem(key))
+    return Observable
+      .of(true)
+      .switchMap(() => Observable.fromPromise(AsyncStorage.getItem(key)))
       .map(data => data ? dateFormatter.parseObj(JSON.parse(data)) : null);
   }
 
   set(key, value) {
     return Observable
-      .fromPromise(AsyncStorage.setItem(key, JSON.stringify(value)))
+      .of(true)
+      .switchMap(() => Observable.fromPromise(AsyncStorage.setItem(key, JSON.stringify(value))))
       .map(() => value);
   }
 
