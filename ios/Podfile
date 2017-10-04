@@ -6,20 +6,6 @@ target 'churchReact' do
   # use_frameworks!
   react_native_path = "../node_modules/react-native"
   pod "Yoga", :path => "#{react_native_path}/ReactCommon/yoga"
-  pod "React", :path => react_native_path, :subspecs => [
-    'Core',
-    'RCTActionSheet',
-    'RCTAnimation',
-    'RCTGeolocation',
-    'RCTImage',
-    'RCTLinkingIOS',
-    'RCTNetwork',
-    'RCTSettings',
-    'RCTText',
-    'RCTVibration',
-    'RCTWebSocket',
-    'BatchedBridge'
-  ]
 
   # Pods for churchReact
   pod 'Google/SignIn'
