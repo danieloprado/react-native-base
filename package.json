@@ -6,6 +6,7 @@
     "precommit": "yarn lint",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "dev-android": "node node_modules/react-native/local-cli/cli.js run-android && npm start",
+    "dev-ios": "yarn run react-native run-ios --device",
     "release-android": "sh release.android.sh",
     "test": "jest",
     "lint": "eslint --ext js src/**",
