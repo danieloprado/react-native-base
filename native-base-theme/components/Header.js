@@ -1,6 +1,5 @@
-import { PixelRatio, Platform } from 'react-native';
+import { PixelRatio } from 'react-native';
 
-import _ from 'lodash';
 import variable from './../variables/platform';
 
 export default (variables = variable) => {
@@ -59,7 +58,7 @@ export default (variables = variable) => {
       shadowOffset: null,
       shadowRadius: null,
       shadowOpacity: null,
-      borderBottomWidth: null,
+      borderBottomWidth: null
     },
     'NativeBase.Button': {
       justifyContent: 'center',

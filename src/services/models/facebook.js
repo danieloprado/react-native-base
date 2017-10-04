@@ -13,12 +13,12 @@ export class FacebookService {
       .do(() => LoginManager.logOut())
       .switchMap(() => Observable.fromPromise(LoginManager.logInWithReadPermissions(['public_profile', 'email'])))
       .switchMap(({ isCancelled }) => {
-        if (isCancelled) {
-          return Observable.of({});
-        }
-
-        return Observable.fromPromise(AccessToken.getCurrentAccessToken());
-      }).map(({ accessToken }) => accessToken);
+        return isCancelled ?
+          Observable.of({}) :
+          Observable.fromPromise(AccessToken.getCurrentAccessToken());
+      })
+      .catch(err => err.message === 'Login Failed' ? Observable.of({ accessToken: null }) : Observable.throw(err))
+      .map(({ accessToken }) => accessToken);
   }
 
 }

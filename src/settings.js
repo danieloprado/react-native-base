@@ -1,5 +1,5 @@
-// const env = 'development';
-const env = 'production';
+const env = 'development';
+// const env = 'production';
 const isDevelopment = env === 'development';
 
 const churchSlug = 'icb-sorocaba';

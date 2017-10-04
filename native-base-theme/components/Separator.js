@@ -1,6 +1,5 @@
 import { Platform } from 'react-native';
 import _ from 'lodash';
-
 import variable from './../variables/platform';
 
 export default (variables = variable) => {
@@ -28,7 +27,7 @@ export default (variables = variable) => {
       borderBottomWidth: 0,
     },
     height: 38,
-    backgroundColor: '#F0EFF5',
+    backgroundColor: variable.gray,
     flex: 1,
     justifyContent: 'center',
     paddingLeft: variables.listItemPadding + 5

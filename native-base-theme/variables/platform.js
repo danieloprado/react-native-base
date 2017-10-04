@@ -1,6 +1,5 @@
-import { Dimensions, PixelRatio, Platform } from 'react-native';
-
 import color from 'color';
+import { Dimensions, PixelRatio, Platform } from 'react-native';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -15,6 +14,12 @@ export default {
   platform,
   primary,
   accent,
+
+  //Custom
+  gray: '#f4f4f7',
+  darkGray: '#cdcdce',
+  facebookColor: '#3b5998',
+  googleColor: '#de5245',
 
   // AndroidRipple
   androidRipple: true,
@@ -41,16 +46,16 @@ export default {
   CheckboxIconMarginTop: (platform === 'ios') ? undefined : 1,
   CheckboxFontSize: (platform === 'ios') ? (23 / 0.9) : 18,
   DefaultFontSize: 17,
-  checkboxBgColor: '#039BE5',
+  checkboxBgColor: accent,
   checkboxSize: 20,
   checkboxTickColor: '#fff',
 
   // Segment
   segmentBackgroundColor: (platform === 'ios') ? '#F8F8F8' : primary,
-  segmentActiveBackgroundColor: (platform === 'ios') ? '#007aff' : '#fff',
-  segmentTextColor: (platform === 'ios') ? '#007aff' : '#fff',
+  segmentActiveBackgroundColor: (platform === 'ios') ? primary : '#fff',
+  segmentTextColor: (platform === 'ios') ? primary : '#fff',
   segmentActiveTextColor: (platform === 'ios') ? '#fff' : primary,
-  segmentBorderColor: (platform === 'ios') ? '#007aff' : '#fff',
+  segmentBorderColor: (platform === 'ios') ? primary : '#fff',
   segmentBorderColorMain: (platform === 'ios') ? '#a7a6ab' : primary,
 
   // New Variable
@@ -63,6 +68,9 @@ export default {
     return this.accent;
   },
   get btnPrimaryColor() {
+    return this.inverseTextColor;
+  },
+  get btnAccentColor() {
     return this.inverseTextColor;
   },
   get btnInfoBg() {
@@ -149,31 +157,31 @@ export default {
   // FooterTab
   tabBarTextColor: (platform === 'ios') ? '#6b6b6b' : '#b3c7f9',
   tabBarTextSize: (platform === 'ios') ? 14 : 11,
-  activeTab: (platform === 'ios') ? '#007aff' : '#fff',
-  sTabBarActiveTextColor: '#007aff',
-  tabBarActiveTextColor: (platform === 'ios') ? '#007aff' : '#fff',
+  activeTab: (platform === 'ios') ? primary : '#fff',
+  sTabBarActiveTextColor: primary,
+  tabBarActiveTextColor: (platform === 'ios') ? primary : '#fff',
   tabActiveBgColor: (platform === 'ios') ? '#cde1f9' : primary,
 
   // Tab
   tabDefaultBg: (platform === 'ios') ? '#F8F8F8' : primary,
   topTabBarTextColor: (platform === 'ios') ? '#6b6b6b' : '#b3c7f9',
-  topTabBarActiveTextColor: (platform === 'ios') ? '#007aff' : '#fff',
+  topTabBarActiveTextColor: (platform === 'ios') ? primary : '#fff',
   topTabActiveBgColor: (platform === 'ios') ? '#cde1f9' : undefined,
   topTabBarBorderColor: (platform === 'ios') ? '#a7a6ab' : '#fff',
-  topTabBarActiveBorderColor: (platform === 'ios') ? '#007aff' : '#fff',
+  topTabBarActiveBorderColor: (platform === 'ios') ? primary : '#fff',
 
 
   // Header
-  toolbarBtnColor: (platform === 'ios') ? '#007aff' : '#fff',
-  toolbarDefaultBg: (platform === 'ios') ? '#F8F8F8' : primary,
+  toolbarBtnColor: (platform === 'ios') ? accent : '#fff',
+  toolbarDefaultBg: (platform === 'ios') ? '#F8F8F8' : accent,
   toolbarHeight: (platform === 'ios') ? 64 : 56,
   toolbarIconSize: (platform === 'ios') ? 20 : 22,
   toolbarSearchIconSize: (platform === 'ios') ? 20 : 23,
   toolbarInputColor: (platform === 'ios') ? '#CECDD2' : '#fff',
   searchBarHeight: (platform === 'ios') ? 30 : 40,
   toolbarInverseBg: '#222',
-  toolbarTextColor: (platform === 'ios') ? '#000' : '#fff',
-  toolbarDefaultBorder: (platform === 'ios') ? '#a7a6ab' : primary,
+  toolbarTextColor: (platform === 'ios') ? accent : '#fff',
+  toolbarDefaultBorder: (platform === 'ios') ? '#cdcdce' : accent,
   iosStatusbar: (platform === 'ios') ? 'dark-content' : 'light-content',
   get statusBarColor() {
     return color(this.toolbarDefaultBg).darken(0.2).hex();
@@ -241,7 +249,7 @@ export default {
 
   // Radio Button
   radioBtnSize: (platform === 'ios') ? 25 : 23,
-  radioSelectedColorAndroid: primary,
+  radioSelectedColorAndroid: accent,
 
   // New Variable
   radioBtnLineHeight: (platform === 'ios') ? 29 : 24,
@@ -277,7 +285,7 @@ export default {
   subtitleColor: (platform === 'ios') ? '#8e8e93' : '#FFF',
 
   // New Variable
-  titleFontColor: (platform === 'ios') ? '#000' : '#FFF',
+  titleFontColor: (platform === 'ios') ? primary : '#fff',
 
 
   // Other
@@ -296,6 +304,7 @@ export default {
   jumbotronPadding: 30,
   deviceWidth,
   deviceHeight,
+  deviceHeightWithTabs: deviceHeight - 70,
 
   // New Variable
   inputGroupRoundedBorderRadius: 30,

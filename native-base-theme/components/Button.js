@@ -1,5 +1,3 @@
-import { Platform } from 'react-native';
-
 import variable from './../variables/platform';
 
 export default (variables = variable) => {
@@ -51,6 +49,20 @@ export default (variables = variable) => {
         },
         backgroundColor: 'transparent',
         borderColor: variables.btnPrimaryBg,
+        borderWidth: variables.borderWidth * 2,
+      },
+      '.accent': {
+        'NativeBase.Text': {
+          color: variables.btnAccentBg,
+        },
+        'NativeBase.Icon': {
+          color: variables.btnAccentBg,
+        },
+        'NativeBase.IconNB': {
+          color: variables.btnAccentBg,
+        },
+        backgroundColor: 'transparent',
+        borderColor: variables.btnAccentBg,
         borderWidth: variables.borderWidth * 2,
       },
       '.success': {
@@ -198,6 +210,21 @@ export default (variables = variable) => {
         },
       },
       backgroundColor: variables.btnPrimaryBg,
+    },
+
+    '.accent': {
+      '.bordered': {
+        'NativeBase.Text': {
+          color: variables.btnAccentBg,
+        },
+        'NativeBase.Icon': {
+          color: variables.btnAccentBg,
+        },
+        'NativeBase.IconNB': {
+          color: variables.btnAccentBg,
+        },
+      },
+      backgroundColor: variables.btnAccentBg,
     },
 
     '.success': {
@@ -381,7 +408,13 @@ export default (variables = variable) => {
 
 
     },
-
+    '.formButton': {
+      marginTop: 20
+    },
+    '.footer': {
+      height: variable.toolbarHeight,
+      borderRadius: 0
+    },
     '.small': {
       height: 30,
       'NativeBase.Text': {

@@ -104,7 +104,10 @@ export default class WelcomPage extends BaseComponent {
       .loader()
       .logError()
       .bindComponent(this)
-      .subscribe(() => this.completed(), () => toast.genericError());
+      .subscribe(() => this.completed(), err => {
+        console.log(err);
+        toast.genericError();
+      });
   }
 
   render() {

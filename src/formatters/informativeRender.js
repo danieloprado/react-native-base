@@ -4,6 +4,9 @@ export default function informativeRender(informative) {
   return `
     <html>
       <head>
+        <meta name="viewport" content="initial-scale=1">
+        <meta charset="UTF-8">
+
         <style>
           html, body {
             padding: 0 0 20px 0;

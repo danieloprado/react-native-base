@@ -1,8 +1,7 @@
-import { Platform, PixelRatio } from 'react-native';
-import _ from 'lodash';
+import { PixelRatio, Platform } from 'react-native';
 
-import pickerTheme from './Picker';
 import variable from './../variables/platform';
+import pickerTheme from './Picker';
 
 export default (variables = variable) => {
   const platformStyle = variables.platformStyle;

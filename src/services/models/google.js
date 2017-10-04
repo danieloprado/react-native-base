@@ -25,7 +25,7 @@ export class GoogleService {
   login() {
     return Observable
       .fromPromise(GoogleSignin.signIn())
-      .catch(err => err.code === 12501 ? Observable.of({ accessToken: null }) : Observable.throw(err))
+      .catch(err => [-5, 12501].includes(err.code) ? Observable.of({ accessToken: null }) : Observable.throw(err))
       .map(({ accessToken }) => accessToken);
   }
 
