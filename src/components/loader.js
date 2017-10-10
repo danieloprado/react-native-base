@@ -33,7 +33,7 @@ export default class Loader extends BaseComponent {
     if (index === -1) return;
 
     refs.splice(index, 1);
-    this.setState({ show: false, counter: 0 }, true);
+    this.setState({ refs });
   }
 
   render() {
