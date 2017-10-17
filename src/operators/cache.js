@@ -32,14 +32,14 @@ class CacheOperator {
 
         return !cache ? source : source.startWith(cache.data);
       })
-      .do(data => {
+      .switchMap(data => {
         if (currentCache && currentCache.data === data) {
           this.logService.breadcrumb('Cache', 'manual', data);
-          return;
+          return Observable.of(data);
         }
 
         this.logService.breadcrumb('Cache Set', 'manual', data);
-        this.cacheService.saveData(this.key, data).map(() => data);
+        return this.cacheService.saveData(this.key, data).map(() => data);
       })
       .subscribe(subscriber);
   }
