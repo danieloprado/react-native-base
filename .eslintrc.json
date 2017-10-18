@@ -12,6 +12,9 @@
       "jsx": true
     }
   },
+  "globals": {
+    "__DEV__": true
+  },
   "env": {
     "browser": true,
     "commonjs": true,
