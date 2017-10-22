@@ -1,12 +1,14 @@
 import { Body, Button, Card, CardItem, Icon, Right, Spinner, Text, View } from 'native-base';
 import React from 'react';
+import { StyleSheet } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
-import dateFormatter from '../formatters/date';
-import serivces from '../services';
-import { theme } from '../theme';
-import BaseComponent from './base';
+import BaseComponent from '../../../components/base';
+import dateFormatter from '../../../formatters/date';
+import serivces from '../../../services';
+import { theme, variables } from '../../../theme';
 
-export default class EventCard extends BaseComponent {
+class EventCard extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -52,8 +54,8 @@ export default class EventCard extends BaseComponent {
           <View>
             <CardItem button onPress={() => this.navigate('EventDetails', { event, date: event.dates[0] })}>
               <Icon name="calendar" />
-              <View>
-                <Text>{event.title}</Text>
+              <View style={styles.viewContent}>
+                <Text numberOfLines={1}>{event.title}</Text>
                 <Text note>
                   {dateFormatter.format(event.dates[0].beginDate, 'dddd, DD [de] MMMM [de] YYYY')}
                 </Text>
@@ -78,3 +80,11 @@ export default class EventCard extends BaseComponent {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  viewContent: {
+    width: variables.deviceWidth - 120
+  }
+});
+
+export default withNavigation(EventCard);

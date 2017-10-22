@@ -3,16 +3,38 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 import BaseComponent from '../../components/base';
+import QuizFormModal from '../../components/quizFormModal';
 import dateFormatter from '../../formatters/date';
+import toast from '../../providers/toast';
+import services from '../../services';
 import { variables } from '../../theme';
 
 export default class EventDetailsPage extends BaseComponent {
   constructor(props) {
     super(props);
+
+    this.quizService = services.get('quizService');
+
     this.state = {
       event: this.params.event,
       date: this.params.date
     };
+  }
+
+  form() {
+    const { event } = this.state;
+
+    this.refs.quizForm.show('Inscrição', event.quiz, this.saveForm.bind(this))
+      .logError()
+      .bindComponent(this)
+      .subscribe(result => {
+        if (!result) return;
+        toast('Inscrição efetuada com sucesso!');
+      });
+  }
+
+  saveForm(model) {
+    return this.quizService.saveAnswer(model).loader();
   }
 
   render() {
@@ -20,6 +42,7 @@ export default class EventDetailsPage extends BaseComponent {
 
     return (
       <Container>
+        <QuizFormModal ref="quizForm" />
         <Header>
           <Left>
             <Button transparent onPress={() => this.goBack()}>
@@ -42,6 +65,13 @@ export default class EventDetailsPage extends BaseComponent {
           <Text style={styles.content}>
             {event.description || 'Sem descrição'}
           </Text>
+          {!!event.quiz &&
+            <View padder>
+              <Button block onPress={() => this.form()}>
+                <Text>Fazer inscrição</Text>
+              </Button>
+            </View>
+          }
         </Content>
       </Container>
     );

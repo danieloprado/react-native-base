@@ -1,11 +1,12 @@
 import { Body, Button, Container, Content, Header, Icon, Left, Right, Title, View } from 'native-base';
 import React from 'react';
 
-import BaseComponent from '../components/base';
-import ChurchCard from '../components/churchCard';
-import EventCard from '../components/eventCard';
-import InformativeCard from '../components/informativeCard';
-import { theme } from '../theme';
+import BaseComponent from '../../components/base';
+import { theme } from '../../theme';
+import ChurchCard from './components/churchCard';
+import EventCard from './components/eventCard';
+import EventFeaturedCard from './components/eventFeaturedCard';
+import InformativeCard from './components/informativeCard';
 
 export default class HomePage extends BaseComponent {
   static navigationOptions = {
@@ -33,9 +34,10 @@ export default class HomePage extends BaseComponent {
         </Header>
         <Content>
           <View style={theme.cardsPadding}>
-            <ChurchCard navigation={this.props.navigation}></ChurchCard>
-            <InformativeCard navigation={this.props.navigation}></InformativeCard>
-            <EventCard navigation={this.props.navigation}></EventCard>
+            <EventFeaturedCard></EventFeaturedCard>
+            <ChurchCard></ChurchCard>
+            <InformativeCard></InformativeCard>
+            <EventCard></EventCard>
           </View>
         </Content>
       </Container>

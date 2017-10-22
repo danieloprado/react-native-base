@@ -11,6 +11,7 @@ import informativeFactory from './factories/informative';
 import logFactory from './factories/log';
 import notificationFactory from './factories/notification';
 import profileFactory from './factories/profile';
+import quizFactory from './factories/quiz';
 import settingsFactory from './factories/settings';
 import storageFactory from './factories/storage';
 import tokenFactory from './factories/token';
@@ -33,6 +34,7 @@ container.register('profileService', profileFactory);
 container.register('settings', settingsFactory);
 container.register('storageService', storageFactory);
 container.register('tokenService', tokenFactory);
+container.register('quizService', quizFactory);
 
 export default {
   get(key) {

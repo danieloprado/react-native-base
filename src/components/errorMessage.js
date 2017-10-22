@@ -2,12 +2,24 @@ import React from 'react';
 
 import EmptyMessage from './emptyMessage';
 
+export default function errorMessage(props) {
+  let icon, message;
 
-export default function errorMessage() {
+  switch ((props.error || {}).message) {
+    case 'no-internet':
+    case 'NETWORK_ERROR':
+      icon = 'ios-wifi';
+      message = 'Sem conexão com a internet';
+      break;
+    default:
+      icon = 'bug';
+      message = 'Algo deu errado...';
+  }
+
   return (
     <EmptyMessage
-      icon="sad"
-      message="Um erro inexperado aconteceu..."
+      icon={icon}
+      message={message}
     />
   );
 }

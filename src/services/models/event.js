@@ -16,8 +16,14 @@ export class EventService {
       });
   }
 
-  next(refresh = false) {
-    return this.list(refresh).map(events => events[0]);
+  next(featured) {
+    return this.list().map(events => {
+      if (featured === undefined) {
+        return events[0];
+      }
+
+      return events.find(e => e.featured === featured);
+    });
   }
 
   sortByFirstDate(a, b) {

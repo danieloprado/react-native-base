@@ -1,12 +1,14 @@
 import { Body, Button, Card, CardItem, Icon, Right, Spinner, Text, View } from 'native-base';
 import React from 'react';
+import { StyleSheet } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
-import dateFormatter from '../formatters/date';
-import services from '../services';
-import { theme } from '../theme';
-import BaseComponent from './base';
+import BaseComponent from '../../../components/base';
+import dateFormatter from '../../../formatters/date';
+import services from '../../../services';
+import { theme, variables } from '../../../theme';
 
-export default class InformativeCard extends BaseComponent {
+class InformativeCard extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -52,8 +54,8 @@ export default class InformativeCard extends BaseComponent {
           <View>
             <CardItem button onPress={() => this.navigate('InformativeDetails', { informative })}>
               <Icon name={informative.icon} />
-              <View>
-                <Text>{informative.title}</Text>
+              <View style={styles.viewContent}>
+                <Text numberOfLines={1}>{informative.title}</Text>
                 <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
               </View>
               <Right>
@@ -71,3 +73,11 @@ export default class InformativeCard extends BaseComponent {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  viewContent: {
+    width: variables.deviceWidth - 120
+  }
+});
+
+export default withNavigation(InformativeCard);

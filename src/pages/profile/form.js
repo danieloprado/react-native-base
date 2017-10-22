@@ -133,8 +133,7 @@ export default class ProfileEditPage extends BaseComponent {
                 model={model}
                 ref="zipcode"
                 field="zipcode"
-                mask="zipcode"
-                type="number"
+                type="zipcode"
                 errors={validation}
                 next={() => this.refs.address}
                 onChange={this.updateModel.bind(this, this.profileValidator)}

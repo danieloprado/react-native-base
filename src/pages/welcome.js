@@ -37,7 +37,7 @@ export default class WelcomPage extends BaseComponent {
       return;
     }
 
-    if (this.settings.isDevelopment) return this.navigate('Informative', null, true);
+    if (this.settings.isDevelopment) return this.navigate('Home', null, true);
     this.navigate('Home', null, true);
   }
 

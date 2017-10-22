@@ -1,13 +1,14 @@
 import { Body, Button, Card, CardItem, Icon, Spinner, Text, View } from 'native-base';
 import React from 'react';
 import { Linking } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
-import phoneFormatter from '../formatters/phone';
-import services from '../services';
-import { theme } from '../theme';
-import BaseComponent from './base';
+import BaseComponent from '../../../components/base';
+import phoneFormatter from '../../../formatters/phone';
+import services from '../../../services';
+import { theme } from '../../../theme';
 
-export default class ChurchCard extends BaseComponent {
+class ChurchCard extends BaseComponent {
   constructor(props) {
     super(props);
 
@@ -81,3 +82,5 @@ export default class ChurchCard extends BaseComponent {
     );
   }
 }
+
+export default withNavigation(ChurchCard);

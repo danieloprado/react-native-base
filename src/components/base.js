@@ -8,6 +8,7 @@ export default class BaseComponent extends Component {
 
     this.subscriptions = [];
     this.params = {};
+    this.unmonted = false;
 
     if (this.props.navigation) {
       this.params = this.props.navigation.state.params || {};
@@ -16,6 +17,7 @@ export default class BaseComponent extends Component {
 
   componentWillUnmount() {
     this.subscriptions.forEach(s => s.unsubscribe());
+    this.unmonted = true;
   }
 
   openDrawer() {
@@ -48,12 +50,15 @@ export default class BaseComponent extends Component {
   }
 
   setState(value, skip) {
+    if (this.unmonted) return Promise.resolve();
+
     return new Promise(resolve => {
       if (skip) {
         return super.setState(value, () => resolve());
       }
 
       return InteractionManager.runAfterInteractions(() => {
+        if (this.unmonted) return;
         super.setState(value, () => resolve());
       });
     });
