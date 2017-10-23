@@ -1,15 +1,15 @@
-VERSION=2.2.3
+VERSION=2.3.0
 echo "version $VERSION"
 
-rm ICBSorocaba.apk
-(cd android && ./gradlew assembleRelease)
-mv android/app/build/outputs/apk/app-release.apk ICBSorocaba.apk
+# rm ICBSorocaba.apk
+# (cd android && ./gradlew assembleRelease)
+# mv android/app/build/outputs/apk/app-release.apk ICBSorocaba.apk
 
 echo "Bundle source map ANDROID"
 npm run react-native bundle -- \
   --platform android \
   --dev false \
-  --entry-file index.android.js \
+  --entry-file index.js \
   --bundle-output /tmp/fitfood.android.bundle \
   --sourcemap-output /tmp/fitfood.android.sourcemap
 
