@@ -22,11 +22,11 @@ import { BaseComponent } from '../../components/base';
 import EmptyMessage from '../../components/emptyMessage';
 import { dateFormatter } from '../../formatters/date';
 import toast from '../../providers/toast';
-import services from '../../services';
+import * as services from '../../services';
 import { theme } from '../../theme';
 
 export default class ChurchReportListPage extends BaseComponent {
-  static navigationOptions = {
+  public static navigationOptions: NavigationDrawerScreenOptions = {
     headerVisible: false,
     drawerLabel: 'Relatório de Culto',
     drawerIcon: ({ tintColor }) => (

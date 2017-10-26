@@ -5,7 +5,7 @@ import { withNavigation } from 'react-navigation';
 
 import { BaseComponent } from '../../../components/base';
 import { dateFormatter } from '../../../formatters/date';
-import services from '../../../services';
+import * as services from '../../../services';
 import { theme, variables } from '../../../theme';
 
 class InformativeCard extends BaseComponent {

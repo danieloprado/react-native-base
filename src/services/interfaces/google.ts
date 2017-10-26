@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
 
-export interface IGooglekService {
+export interface IGoogleService {
   login(): Observable<string>;
 }

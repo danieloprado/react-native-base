@@ -21,7 +21,7 @@ import { IChurchReportService } from './interfaces/chuchReport';
 import { IChurchSevice } from './interfaces/church';
 import { IEventService } from './interfaces/event';
 import { IFacebookService } from './interfaces/facebook';
-import { IGooglekService } from './interfaces/google';
+import { IGoogleService } from './interfaces/google';
 import { IInformativeService } from './interfaces/informative';
 import { ILogService } from './interfaces/log';
 import { INotificationService } from './interfaces/notification';
@@ -39,7 +39,7 @@ container.register<IChurchReportService>('churchReportService', churchReportFact
 container.register<IChurchSevice>('churchService', churchFactory);
 container.register<IEventService>('eventService', eventFactory);
 container.register<IFacebookService>('facebookService', facebookFactory);
-container.register<IGooglekService>('googleService', googleFactory);
+container.register<IGoogleService>('googleService', googleFactory);
 container.register<IInformativeService>('informativeService', informativeFactory);
 container.register<ILogService>('logService', logFactory);
 container.register<INotificationService>('notificationService', notificationFactory);

@@ -6,7 +6,7 @@ import { BaseComponent } from '../../components/base';
 import QuizFormModal from '../../components/quizFormModal';
 import { dateFormatter } from '../../formatters/date';
 import toast from '../../providers/toast';
-import services from '../../services';
+import * as services from '../../services';
 import { variables } from '../../theme';
 
 export default class EventDetailsPage extends BaseComponent {

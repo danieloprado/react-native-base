@@ -7,10 +7,10 @@ import EmptyMessage from '../../components/emptyMessage';
 import { dateFormatter } from '../../formatters/date';
 import eventListFormatter from '../../formatters/eventList';
 import toast from '../../providers/toast';
-import services from '../../services';
+import * as services from '../../services';
 
 export default class EventListPage extends BaseComponent {
-  static navigationOptions = {
+  public static navigationOptions: NavigationDrawerScreenOptions = {
     headerVisible: false,
     drawerLabel: 'Agenda',
     drawerIcon: ({ tintColor }) => (

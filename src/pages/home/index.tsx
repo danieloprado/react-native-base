@@ -9,7 +9,7 @@ import EventFeaturedCard from './components/eventFeaturedCard';
 import InformativeCard from './components/informativeCard';
 
 export default class HomePage extends BaseComponent {
-  static navigationOptions = {
+  public static navigationOptions: NavigationDrawerScreenOptions = {
     headerVisible: false,
     drawerLabel: 'Início',
     drawerIcon: ({ tintColor }) => (

@@ -4,8 +4,8 @@ import { Linking } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 import { BaseComponent } from '../../../components/base';
-import phoneFormatter from '../../../formatters/phone';
-import services from '../../../services';
+import { phoneFormatter } from '../../../formatters/phone';
+import * as services from '../../../services';
 import { theme } from '../../../theme';
 
 class ChurchCard extends BaseComponent {

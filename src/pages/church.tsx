@@ -17,21 +17,31 @@ import {
 } from 'native-base';
 import * as React from 'react';
 import { Image, Linking, StyleSheet } from 'react-native';
+import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent } from '../components/base';
-import EmptyMessage from '../components/emptyMessage.js';
-import phoneFormatter from '../formatters/phone';
-import services from '../services';
+import { BaseComponent, IStateBase } from '../components/base';
+import { ErrorMessage } from '../components/errorMessage';
+import { phoneFormatter } from '../formatters/phone';
+import { IChurch } from '../interfaces/church';
+import * as services from '../services';
+import { IChurchSevice } from '../services/interfaces/church';
 import { theme } from '../theme';
 
-export default class ChurchPage extends BaseComponent {
-  static navigationOptions = {
-    headerVisible: false,
-    drawerLabel: 'Igreja',
+interface IState extends IStateBase {
+  loading: boolean;
+  church?: IChurch;
+  error?: any;
+}
+
+export class ChurchPage extends BaseComponent<IState> {
+  public static navigationOptions: NavigationDrawerScreenOptions = {
+    drawerLabel: 'Igreja' as any,
     drawerIcon: ({ tintColor }) => (
-      <Icon name="information-circle" style={{ color: tintColor }} />
+      <Icon name='information-circle' style={{ color: tintColor }} />
     )
   };
+
+  private churchService: IChurchSevice;
 
   constructor(props: any) {
     super(props);
@@ -40,28 +50,28 @@ export default class ChurchPage extends BaseComponent {
     this.state = { loading: true };
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.churchService.info()
       .logError()
       .bindComponent(this)
       .subscribe(church => {
-        this.setState({ loading: false, church });
-      }, () => this.setState({ loading: false, error: true }));
+        this.setState({ loading: false, church, error: null });
+      }, error => this.setState({ loading: false, error }));
   }
 
-  openPhone() {
+  public openPhone(): void {
     Linking.openURL(`tel:${this.state.church.phone}`);
   }
 
-  openAddress() {
+  public openAddress(): void {
     Linking.openURL(`geo:${this.state.church.latitude},${this.state.church.longitude}?q=${this.state.church.address}`);
   }
 
-  openEmail() {
+  public openEmail(): void {
     Linking.openURL(`mailto:${this.state.church.email}`);
   }
 
-  openUrl(url) {
+  public openUrl(url: string): void {
     Linking.openURL(url);
   }
 
@@ -83,10 +93,10 @@ export default class ChurchPage extends BaseComponent {
         </Header>
         <Content>
           {loading && <Spinner />}
-          {!loading && error && !church &&
-            <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
+          {!loading && !!error &&
+            <ErrorMessage error={error} />
           }
-          {!loading && church &&
+          {!loading && !error && church &&
             <View style={styles.container}>
               <View style={theme.alignCenter}>
                 <Image source={require('../images/logo.png')} style={styles.logo} />
@@ -99,7 +109,7 @@ export default class ChurchPage extends BaseComponent {
                     onPress={() => this.openPhone()}
                     style={styles.listItem}>
                     <Left style={theme.listIconWrapper}>
-                      <Icon name="call" style={theme.listIcon} />
+                      <Icon name='call' style={theme.listIcon} />
                     </Left>
                     <Body>
                       <Text>{phoneFormatter(church.phone)}</Text>
@@ -112,7 +122,7 @@ export default class ChurchPage extends BaseComponent {
                     onPress={() => this.openEmail()}
                     style={styles.listItem}>
                     <Left style={theme.listIconWrapper}>
-                      <Icon name="mail" style={theme.listIcon} />
+                      <Icon name='mail' style={theme.listIcon} />
                     </Left>
                     <Body>
                       <Text>{church.email}</Text>
@@ -125,7 +135,7 @@ export default class ChurchPage extends BaseComponent {
                     onPress={() => this.openAddress()}
                     style={styles.listItem}>
                     <Left style={theme.listIconWrapper}>
-                      <Icon name="pin" style={theme.listIcon} />
+                      <Icon name='pin' style={theme.listIcon} />
                     </Left>
                     <Body>
                       <Text>{church.address}</Text>
@@ -133,7 +143,7 @@ export default class ChurchPage extends BaseComponent {
                   </ListItem>
                 }
                 {church.social.map(social => {
-                  const icons = { facebook: 'logo-facebook', youtube: 'logo-youtube' };
+                  const icons: any = { facebook: 'logo-facebook', youtube: 'logo-youtube' };
                   const icon = icons[social.name] || 'globe';
 
                   return (

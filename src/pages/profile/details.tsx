@@ -22,11 +22,11 @@ import { BaseComponent } from '../../components/base';
 import EmptyMessage from '../../components/emptyMessage';
 import { dateFormatter } from '../../formatters/date';
 import confirm from '../../providers/confirm';
-import services from '../../services';
+import * as services from '../../services';
 import { theme, variables } from '../../theme';
 
 export default class ProfileDetailsPage extends BaseComponent {
-  static navigationOptions = {
+  public static navigationOptions: NavigationDrawerScreenOptions = {
     headerVisible: false,
     drawerLabel: 'Perfil',
     drawerIcon: ({ tintColor }) => (

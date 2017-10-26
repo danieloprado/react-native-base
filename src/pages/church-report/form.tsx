@@ -7,7 +7,7 @@ import EmptyMessage from '../../components/emptyMessage';
 import { Field } from '../../components/field';
 import { dateFormatter } from '../../formatters/date';
 import toast from '../../providers/toast';
-import services from '../../services';
+import * as services from '../../services';
 import { ChurchReportValidator } from '../../validators/churchReport';
 
 export default class ChurchReportFormPage extends BaseComponent {

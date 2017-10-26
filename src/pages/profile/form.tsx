@@ -4,7 +4,7 @@ import * as React from 'react';
 import { BaseComponent } from '../../components/base';
 import { Field } from '../../components/field';
 import toast from '../../providers/toast';
-import services from '../../services';
+import * as services from '../../services';
 import { ProfileValidator } from '../../validators/profile';
 
 const genderOptions = [

@@ -5,7 +5,7 @@ import { Share, WebView } from 'react-native';
 import { BaseComponent } from '../../components/base';
 import EmptyMessage from '../../components/emptyMessage';
 import informativeRender from '../../formatters/informativeRender';
-import services from '../../services';
+import * as services from '../../services';
 import { enInformativeType } from '../../services/enums/informativeType';
 
 export default class InformativeDetailsPage extends BaseComponent {

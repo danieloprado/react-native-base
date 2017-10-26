@@ -1,10 +1,10 @@
 import { GoogleSignin } from 'react-native-google-signin';
 import { Observable } from 'rxjs';
 
-import { IGooglekService } from '../interfaces/google';
+import { IGoogleService } from '../interfaces/google';
 import { ILogService } from '../interfaces/log';
 
-export class GoogleService implements IGooglekService {
+export class GoogleService implements IGoogleService {
   constructor(
     private logService: ILogService,
     googleApi: { iosClientid: string, webClientId: string }

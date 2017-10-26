@@ -1,9 +1,9 @@
 import { googleApi } from '../../settings';
 import { Container } from '../container';
-import { IGooglekService } from '../interfaces/google';
+import { IGoogleService } from '../interfaces/google';
 import { GoogleService } from '../models/google';
 
-export function googleFactory(container: Container): IGooglekService {
+export function googleFactory(container: Container): IGoogleService {
   return new GoogleService(
     container.get('logService'),
     googleApi

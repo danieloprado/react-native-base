@@ -1,17 +1,33 @@
 import { Button, Container, Icon, Text, View } from 'native-base';
 import * as React from 'react';
-import { Animated, Image, ImageBackground, InteractionManager, StatusBar, StyleSheet } from 'react-native';
+import { Animated, Image, ImageBackground, StatusBar, StyleSheet } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
-import { BaseComponent } from '../components/base';
-import toast from '../providers/toast';
-import services from '../services';
+import { BaseComponent, IStateBase } from '../components/base';
+import { alertError } from '../providers/alert';
+import * as services from '../services';
+import { IFacebookService } from '../services/interfaces/facebook';
+import { IGoogleService } from '../services/interfaces/google';
+import { INotificationService } from '../services/interfaces/notification';
+import { IProfileService } from '../services/interfaces/profile';
+import { IStorageService } from '../services/interfaces/storage';
+import { isDevelopment } from '../settings';
 import { theme, variables } from '../theme';
 
-export default class WelcomPage extends BaseComponent {
-  static navigationOptions = {
-    headerVisible: false
-  };
+interface IState extends IStateBase {
+  loaded: boolean;
+  animationHeight: Animated.Value;
+  animationFade: Animated.Value;
+  animationClass: any;
+  force: boolean;
+}
+
+export default class WelcomPage extends BaseComponent<IState> {
+  private storageService: IStorageService;
+  private notificationService: INotificationService;
+  private profileService: IProfileService;
+  private facebookService: IFacebookService;
+  private googleService: IGoogleService;
 
   constructor(props: any) {
     super(props);
@@ -23,6 +39,7 @@ export default class WelcomPage extends BaseComponent {
     this.googleService = services.get('googleService');
 
     this.state = {
+      loaded: false,
       animationHeight: new Animated.Value(0),
       animationFade: new Animated.Value(0),
       animationClass: {},
@@ -30,53 +47,52 @@ export default class WelcomPage extends BaseComponent {
     };
   }
 
-  navigateToHome() {
+  public navigateToHome(): void {
     if (this.state.force) {
       this.goBack();
       return;
     }
 
-    if (this.settings.isDevelopment) return this.navigate('Home', null, true);
+    if (isDevelopment) return this.navigate('Home', null, true);
     this.navigate('Home', null, true);
   }
 
-  completed() {
+  public completed(): void {
     this.storageService.set('welcomeCompleted', true)
       .logError()
       .bindComponent(this)
       .subscribe(() => this.navigateToHome());
   }
 
-  viewLoaded(event) {
+  public viewLoaded(event: any): void {
     if (this.state.loaded || this.state.force) {
       return;
     }
 
     const finalHeight = event.nativeEvent.layout.height;
+    this.notificationService.appDidOpen();
 
-    this.setState({ loaded: true });
-    this.storageService.get('welcomeCompleted')
-      .logError()
-      .bindComponent(this)
-      .subscribe(completed => {
-        this.notificationService.appDidOpen();
+    this.storageService.get<boolean>('welcomeCompleted')
+      .combineLatest(this.notificationService.hasInitialNotification())
+      .map(([welcomeCompleted, hasNotification]) => {
 
-        if (completed) {
-          this.navigateToHome();
-
-          if (!this.notificationService.hasNotification()) {
-            InteractionManager.runAfterInteractions(() => SplashScreen.hide());
-          }
+        if (hasNotification) {
           return;
         }
 
-        if (!this.notificationService.hasNotification()) {
-          this.animate(finalHeight);
+        if (welcomeCompleted) {
+          this.navigate('Home', null, true);
+          return;
         }
-      });
+
+        this.animate(finalHeight);
+      })
+      .logError()
+      .bindComponent(this)
+      .subscribe();
   }
 
-  animate(finalHeight) {
+  public animate(finalHeight: number): void {
     this.setState({
       animationClass: {
         height: this.state.animationHeight,
@@ -91,33 +107,30 @@ export default class WelcomPage extends BaseComponent {
     });
   }
 
-  loginSocial(provider) {
+  public loginSocial(provider: 'google' | 'facebook'): void {
     const providers = {
       'facebook': this.facebookService,
       'google': this.googleService
     };
 
     providers[provider].login()
-      .filter(accessToken => accessToken)
+      .filter(accessToken => !!accessToken)
       .switchMap(accessToken => this.profileService.register(provider, accessToken))
       .loader()
       .logError()
       .bindComponent(this)
-      .subscribe(() => this.completed(), err => {
-        console.log(err);
-        toast.genericError();
-      });
+      .subscribe(() => this.completed(), err => alertError(err).subscribe());
   }
 
   public render(): JSX.Element {
     return (
       <Container>
         <View style={styles.container}>
-          <StatusBar backgroundColor="#000000"></StatusBar>
+          <StatusBar backgroundColor='#000000'></StatusBar>
           <ImageBackground source={require('../images/background.png')} style={styles.background}>
             <Image source={require('../images/logo.png')} style={styles.logo} />
             <Animated.View
-              onLayout={event => this.viewLoaded(event)}
+              onLayout={(event: any) => this.viewLoaded(event)}
               style={this.state.animationClass}>
               <Text style={styles.welcome}>
                 Olá!

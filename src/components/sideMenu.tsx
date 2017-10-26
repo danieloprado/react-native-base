@@ -5,7 +5,7 @@ import { NavigationScreenProps } from 'react-navigation';
 
 import platform from '../../native-base-theme/variables/platform';
 import { IUserToken } from '../interfaces/userToken';
-import services from '../services';
+import * as services from '../services';
 import { ITokenService } from '../services/interfaces/token';
 import { BaseComponent, IStateBase } from './base';
 import { DrawerNavigatorItems as DrawerItems } from './drawerItems';
