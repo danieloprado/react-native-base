@@ -15,7 +15,6 @@ interface IProps {
   placeholder?: string;
   next?: () => any;
   icon?: string;
-  mask?: 'zipcode' | 'phone' | 'document';
   type: 'text'
   | 'email'
   | 'dropdown'
@@ -68,14 +67,10 @@ export class Field extends BaseComponent<any, IProps> {
 
   constructor(props: any) {
     super(props);
-  }
 
-  public componentDidMount(): void {
     const model = this.props.model;
-    if (!model) return;
-
     const value = model[this.props.field];
-    this.setState({ value }, true);
+    this.state = { value };
   }
 
   public onChange(value: any): void {
