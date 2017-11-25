@@ -33,7 +33,7 @@ interface IState extends IStateBase {
   error?: any;
 }
 
-export class ChurchPage extends BaseComponent<IState> {
+export default class ChurchPage extends BaseComponent<IState> {
   public static navigationOptions: NavigationDrawerScreenOptions = {
     drawerLabel: 'Igreja' as any,
     drawerIcon: ({ tintColor }) => (

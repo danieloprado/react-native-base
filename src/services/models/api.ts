@@ -64,6 +64,7 @@ export class ApiService implements IApiService {
       .switchMap(res => this.checkNewToken(res))
       .map(response => response.data)
       .catch(err => {
+        console.log(err.response.data);
         return err.message === 'no-internet' ?
           Observable.throw(err) :
           Observable.throw(new ApiError(err.config, err.response, err));

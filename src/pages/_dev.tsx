@@ -6,7 +6,7 @@ import { NavigationDrawerScreenOptions } from 'react-navigation';
 import { BaseComponent } from '../components/base';
 import { theme } from '../theme';
 
-export class DevPage extends BaseComponent {
+export default class DevPage extends BaseComponent {
   public static navigationOptions: NavigationDrawerScreenOptions = {
     drawerLabel: 'Dev' as any,
     drawerIcon: ({ tintColor }) => (

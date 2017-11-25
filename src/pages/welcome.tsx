@@ -69,11 +69,12 @@ export default class WelcomPage extends BaseComponent<IState> {
       return;
     }
 
+    this.setState({ loaded: true });
     const finalHeight = event.nativeEvent.layout.height;
     this.notificationService.appDidOpen();
 
     this.storageService.get<boolean>('welcomeCompleted')
-      .combineLatest(this.notificationService.hasInitialNotification())
+      .combineLatest(this.notificationService.hasInitialNotification().first())
       .map(([welcomeCompleted, hasNotification]) => {
 
         if (hasNotification) {
@@ -82,6 +83,7 @@ export default class WelcomPage extends BaseComponent<IState> {
 
         if (welcomeCompleted) {
           this.navigate('Home', null, true);
+          SplashScreen.hide();
           return;
         }
 

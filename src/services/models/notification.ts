@@ -102,6 +102,7 @@ export class NotificationService implements INotificationService {
 
     this.token$
       .distinctUntilChanged()
+      .do(t => console.log(t))
       .filter(t => !!t)
       .logError()
       .switchMap(t => storageService.set('notification-token', t))

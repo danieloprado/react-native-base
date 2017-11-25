@@ -6,7 +6,7 @@ import { withNavigation } from 'react-navigation';
 import { BaseComponent, IStateBase } from '../../../components/base';
 import { dateFormatter } from '../../../formatters/date';
 import { IEvent } from '../../../interfaces/event';
-import serivces from '../../../services';
+import * as services from '../../../services';
 import { IEventService } from '../../../services/interfaces/event';
 import { theme, variables } from '../../../theme';
 
@@ -22,7 +22,7 @@ class EventCard extends BaseComponent<IState> {
   constructor(props: any) {
     super(props);
 
-    this.eventService = serivces.get('eventService');
+    this.eventService = services.get('eventService');
     this.state = { loading: true };
   }
 

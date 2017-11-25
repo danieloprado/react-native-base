@@ -104,8 +104,6 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-        manifestPlaceholders = [onesignal_app_id: "282dfe49-12d9-48a2-9d5e-131e6ccedaeb",
-                                onesignal_google_project_number: "REMOTE"]
     }
     signingConfigs {
         debug {
@@ -163,9 +161,12 @@ dependencies {
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"
     compile project(':react-native-fbsdk')
-    compile project(':bugsnag-react-native')
-    compile (project(':react-native-onesignal'))  {
+    compile (project(':bugsnag-react-native')) {
+        exclude group: "com.android.support"         
+    }
+    compile (project(':react-native-fcm')) {
        exclude group: "com.google.android.gms" 
+        exclude group: "com.google.firebase" 
     }
     compile (project(':react-native-device-info')) {
        exclude group: "com.google.android.gms" 
@@ -174,8 +175,16 @@ dependencies {
     compile(project(":react-native-google-signin")) {
         exclude group: "com.google.android.gms" // very important
     }
-    compile 'com.google.android.gms:play-services-gcm:9.2.1'
-    compile 'com.google.android.gms:play-services-auth:9.2.1'
+    compile ('com.google.android.gms:play-services-gcm:10.0.1') {
+        force = true;
+    }
+    compile ('com.google.firebase:firebase-core:10.0.1') {
+        force = true;
+    }
+     compile ('com.google.firebase:firebase-messaging:10.0.1') {
+        force = true;
+    }
+    compile 'com.google.android.gms:play-services-auth:10.0.1'
 }
 
 // Run this once to be able to run the application with BUCK
