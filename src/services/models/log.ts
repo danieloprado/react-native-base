@@ -39,17 +39,17 @@ export class LogService implements ILogService {
       err = new Error(err);
     }
 
+    if (this.isDevelopment) {
+      console.error(err);
+      console.log(err.metadata);
+      return;
+    }
+
     if (['NETWORK_ERROR'].includes(err.message)) {
       return;
     }
 
     if (err.ignoreLog && !force) {
-      return;
-    }
-
-    if (this.isDevelopment) {
-      console.error(err);
-      console.log(err.metadata);
       return;
     }
 

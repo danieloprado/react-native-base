@@ -38,7 +38,18 @@ export class ProfileService implements IProfileService {
   }
 
   public register(provider: string, accessToken: string): Observable<void> {
-    return this.apiService.post('register', { provider, accessToken })
+    return this.notificationService.getToken()
+      .first()
+      .switchMap(notificationId => {
+        return this.apiService.post('register', {
+          deviceId: device.getUniqueID(),
+          name: `${device.getBrand()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`,
+          application: this.churchSlug,
+          provider,
+          accessToken,
+          notificationId
+        });
+      })
       .switchMap(res => this.tokenService.setToken(res));
   }
 
@@ -80,12 +91,12 @@ export class ProfileService implements IProfileService {
       .switchMap(() => this.cacheService.clear());
   }
 
-  private updateNotificationToken(token: string): Observable<void> {
+  private updateNotificationToken(notificationUserId: string): Observable<void> {
     const deviceId = device.getUniqueID();
     const deviceName = `${device.getBrand()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`;
     const application = this.churchSlug;
 
-    return this.apiService.post('profile/notification-token', { deviceId, application, token, deviceName });
+    return this.apiService.post('profile/notification-token', { deviceId, application, notificationUserId, deviceName });
   }
 
 }
