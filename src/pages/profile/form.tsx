@@ -51,13 +51,16 @@ export default class ProfileEditPage extends BaseComponent<IState> {
   }
 
   public save(): void {
+    console.log(this.state.model);
     this.profileValidator.validate(this.state.model)
       .do(({ model, errors }) => this.setState({ validation: errors, model }, true))
       .filter(({ valid }) => valid)
       .switchMap(({ model }) => this.profileService.save(model).loader())
       .logError()
       .bindComponent(this)
-      .subscribe(() => this.goBack(), err => alertError(err).subscribe());
+      .subscribe(() => {
+        this.goBack();
+      }, err => alertError(err).subscribe());
   }
 
   public render(): JSX.Element {
@@ -92,7 +95,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 value={model.firstName}
                 error={validation.firstName}
                 next={() => this.refs.lastName}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'firstName')}
               />
               <Field
                 label='Sobrenome'
@@ -102,7 +105,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 value={model.lastName}
                 error={validation.lastName}
                 next={() => this.refs.email}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'lastName')}
               />
 
               <Field
@@ -113,7 +116,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 value={model.email}
                 error={validation.email}
                 next={() => this.refs.gender}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'email')}
               />
               <Field
                 label='Sexo'
@@ -124,7 +127,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 options={genderOptions}
                 error={validation.gender}
                 next={() => this.refs.birthday}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'gender')}
               />
               <Field
                 label='Aniversário'
@@ -134,7 +137,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 value={model.birthday}
                 error={validation.birthday}
                 next={() => this.refs.zipcode}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'birthday')}
               />
 
               <Field
@@ -145,7 +148,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 value={model.zipcode}
                 error={validation.zipcode}
                 next={() => this.refs.address}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'zipcode')}
               />
               <Field
                 label='Endereço'
@@ -155,7 +158,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 value={model.address}
                 error={validation.address}
                 next={() => this.refs.number}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'address')}
               />
               <Field
                 label='Número'
@@ -165,7 +168,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 value={model.number}
                 error={validation.number}
                 next={() => this.refs.complement}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'number')}
               />
               <Field
                 label='Complemento'
@@ -175,7 +178,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 value={model.complement}
                 error={validation.complement}
                 next={() => this.refs.neighborhood}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'complement')}
               />
               <Field
                 label='Bairro'
@@ -185,7 +188,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 value={model.neighborhood}
                 error={validation.neighborhood}
                 next={() => this.refs.state}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'neighborhood')}
               />
               <Field
                 label='Estado'
@@ -196,7 +199,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 options={states}
                 error={validation.state}
                 next={() => this.refs.city}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'state')}
               />
               <Field label='Cidade'
                 icon='empty'
@@ -205,7 +208,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
                 type='dialog'
                 options={cities}
                 error={validation.city}
-                onChange={this.updateModel.bind(this, this.profileValidator)}
+                onChange={this.updateModel.bind(this, this.profileValidator, 'city')}
                 onSubmit={() => this.save()}
               />
             </List>

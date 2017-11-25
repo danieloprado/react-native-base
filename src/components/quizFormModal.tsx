@@ -80,7 +80,7 @@ export class QuizFormModal extends BaseComponent<IState> {
                       type={types[question.type] || question.type}
                       options={this.getOptions(question)}
                       error={validation[`question-${index}`]}
-                      onChange={this.updateModel.bind(this, submitted ? this.validator : null)}
+                      onChange={this.updateModel.bind(this, submitted ? this.validator : null, `question-${index}`)}
                       onSubmit={index === (quiz.questions.length - 1) ? () => this.submit() : undefined}
                     />
                   } />

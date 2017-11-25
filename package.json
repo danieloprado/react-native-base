@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "dev": "concurrently --prefix \"[{name}]\" --names \"TSC,REACT\" -c \"bgBlue.bold,bgMagenta.bold\" \"tsc -w --noEmit --pretty\" \"yarn start\"",
+    "dev": "concurrently --raw --prefix \"[{name}]\" --names \"TSC,REACT\" -c \"bgBlue.bold,bgMagenta.bold\" \"tsc -w --noEmit --pretty\" \"yarn start\"",
     "dev-android": "yarn run react-native run-android",
     "dev-ios": "yarn run react-native run-ios --device",
     "release-android": "sh release.android.sh"

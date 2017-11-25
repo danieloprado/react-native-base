@@ -53,7 +53,7 @@ export default class WelcomPage extends BaseComponent<IState> {
       return;
     }
 
-    if (isDevelopment) return this.navigate('Home', null, true);
+    if (isDevelopment) return this.navigate('Profile', null, true);
     this.navigate('Home', null, true);
   }
 
@@ -82,7 +82,7 @@ export default class WelcomPage extends BaseComponent<IState> {
         }
 
         if (welcomeCompleted) {
-          this.navigate('Home', null, true);
+          this.navigateToHome();
           SplashScreen.hide();
           return;
         }

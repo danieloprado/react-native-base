@@ -107,7 +107,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
                     value={model.title}
                     error={validation.title}
                     next={() => this.refs.typeId}
-                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null, 'description')}
                   />
                   <Field
                     label='Tipo'
@@ -118,7 +118,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
                     value={model.typeId}
                     error={validation.typeId}
                     next={() => this.refs.date}
-                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null, 'typeId')}
                   />
                   <Field
                     label='Data'
@@ -128,7 +128,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
                     value={model.date}
                     error={validation.date}
                     next={() => this.refs.totalMembers}
-                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null, 'date')}
                   />
 
                   <Field
@@ -139,7 +139,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
                     value={model.totalMembers}
                     error={validation.totalMembers}
                     next={() => this.refs.totalNewVisitors}
-                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null, 'totalMembers')}
                   />
                   <Field
                     label='Total de Visitantes'
@@ -149,7 +149,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
                     value={model.totalNewVisitors}
                     error={validation.totalNewVisitors}
                     next={() => this.refs.totalFrequentVisitors}
-                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null, 'totalNewVisitors')}
                   />
                   <Field
                     label='Total de Frequentadores'
@@ -159,7 +159,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
                     value={model.totalFrequentVisitors}
                     error={validation.totalFrequentVisitors}
                     next={() => this.refs.totalKids}
-                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null, 'totalFrequentVisitors')}
                   />
                   <Field
                     label='Total de Crianças'
@@ -168,7 +168,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
                     type='number'
                     value={model.totalKids}
                     error={validation.totalKids}
-                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null, 'totalKids')}
                     onSubmit={() => this.save()}
                   />
                 </List>
