@@ -3,12 +3,22 @@ import * as React from 'react';
 import { Linking } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
-import { BaseComponent } from '../../../components/base';
+import { BaseComponent, IStateBase } from '../../../components/base';
 import { phoneFormatter } from '../../../formatters/phone';
+import { IChurch } from '../../../interfaces/church';
 import * as services from '../../../services';
+import { IChurchSevice } from '../../../services/interfaces/church';
 import { theme } from '../../../theme';
 
-class ChurchCard extends BaseComponent {
+interface IState extends IStateBase {
+  loading: boolean;
+  church?: IChurch;
+  error?: any;
+}
+
+class ChurchCard extends BaseComponent<IState> {
+  private churchService: IChurchSevice;
+
   constructor(props: any) {
     super(props);
 
@@ -16,7 +26,7 @@ class ChurchCard extends BaseComponent {
     this.state = { loading: true };
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.churchService.info()
       .logError()
       .bindComponent(this)
@@ -25,11 +35,11 @@ class ChurchCard extends BaseComponent {
       }, () => this.setState({ loading: false }));
   }
 
-  openPhone() {
+  public openPhone(): void {
     Linking.openURL(`tel:${this.state.church.phone}`);
   }
 
-  openAddress() {
+  public openAddress(): void {
     const church = this.state.church;
     Linking.openURL(`geo:${church.latitude},${church.longitude}?q=${church.address}`);
   }
@@ -58,13 +68,13 @@ class ChurchCard extends BaseComponent {
           <View>
             {!!church.phone &&
               <CardItem button onPress={() => this.openPhone()}>
-                <Icon name="call" />
+                <Icon name='call' />
                 <Text>{phoneFormatter(church.phone)}</Text>
               </CardItem>
             }
             {!!church.address &&
               <CardItem button onPress={() => this.openAddress()}>
-                <Icon name="pin" />
+                <Icon name='pin' />
                 <Text style={theme.cardItemMultiline}>
                   {church.address}
                 </Text>

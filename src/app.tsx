@@ -49,16 +49,16 @@ class App extends Component<any, IState> {
       .subscribe();
   }
 
+  public componentWillUnmount(): void {
+    if (!this.subscription) return;
+    this.subscription.unsubscribe();
+  }
+
   public componentDidMount(): void {
     loaderOperador.setup(this.refs.loader as Loader);
     this.setState({ loading: false }, () => {
       this.notificationService.setup(this.navigator);
     });
-  }
-
-  public componentWillUnmount(): void {
-    if (!this.subscription) return;
-    this.subscription.unsubscribe();
   }
 
   public render(): JSX.Element {
@@ -95,6 +95,7 @@ class App extends Component<any, IState> {
 
     return route.routeName;
   }
+
 }
 
 AppRegistry.registerComponent('churchReact', () => App);

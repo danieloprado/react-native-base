@@ -23,7 +23,7 @@ export class ApiError extends ServiceError<IApiErrorMeta> {
   public readonly data: any;
 
   constructor(request: AxiosRequestConfig, axiosResponse: AxiosResponse, err: any) {
-    const response = !axiosResponse ? { status: -1, data: '' } : { status: axiosResponse.status, data: axiosResponse.data }
+    const response = !axiosResponse ? { status: -1, data: '' } : { status: axiosResponse.status, data: axiosResponse.data };
 
     super('api-error', {
       request: {

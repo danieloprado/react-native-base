@@ -10,7 +10,7 @@ export class EventService implements IEventService {
 
   public list(refresh?: boolean): Observable<IEvent[]> {
     return this.apiService.get<IEvent[]>('events')
-      .cache('service-event-list', refresh)
+      .cache('service-event-list', { refresh })
       .map(data => {
         return (data || []).map(event => {
           event.dates = event.dates.map(d => dateFormatter.parseObj(d));

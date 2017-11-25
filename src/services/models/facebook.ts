@@ -20,6 +20,10 @@ export class FacebookService implements IFacebookService {
 
         return Observable.fromPromise(AccessToken.getCurrentAccessToken());
       })
+      .catch(err => {
+        if (err.message === 'Login Failed') return Observable.empty();
+        return Observable.throw(err);
+      })
       .map(({ accessToken }) => accessToken)
       .do(a => this.logService.breadcrumb(`Facebook Login ${a ? 'Completed' : 'Cancelled'}`));
   }

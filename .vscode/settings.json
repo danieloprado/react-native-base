@@ -1,5 +1,6 @@
 {
-  "editor.formatOnType": false,
+  "editor.formatOnType": true,
+  "eslint.enable": false,
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
@@ -8,10 +9,16 @@
     "**/.DS_Store": true,
     "*.zip": true,
     "node_modules": false,
-    "*.apk": true
+    "*.apk": true,
+    "**/.directory": true
   },
-  "sortImports.onSave": true,
   "files.associations": {
     "*.js": "javascriptreact"
-  }
+  },
+  "typescriptHero.resolver.ignorePatterns": [
+    "build",
+    "out",
+    "dist"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

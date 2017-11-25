@@ -1,10 +1,14 @@
 import { Body, Button, Container, Content, Form, Header, Icon, Left, List, Right, Title } from 'native-base';
 import * as React from 'react';
 
-import { BaseComponent } from '../../components/base';
+import { BaseComponent, IStateBase } from '../../components/base';
 import { Field } from '../../components/field';
-import toast from '../../providers/toast';
+import { ISelectItem } from '../../interfaces/selectItem';
+import { IUser } from '../../interfaces/user';
+import { alertError } from '../../providers/alert';
 import * as services from '../../services';
+import { IAddressService } from '../../services/interfaces/address';
+import { IProfileService } from '../../services/interfaces/profile';
 import { ProfileValidator } from '../../validators/profile';
 
 const genderOptions = [
@@ -13,7 +17,16 @@ const genderOptions = [
   { value: 'f', display: 'Feminino' },
 ];
 
-export default class ProfileEditPage extends BaseComponent {
+interface IState extends IStateBase<IUser> {
+  states: ISelectItem[];
+  cities: ISelectItem[];
+}
+
+export default class ProfileEditPage extends BaseComponent<IState> {
+  private profileValidator: ProfileValidator;
+  private addressService: IAddressService;
+  private profileService: IProfileService;
+
   constructor(props: any) {
     super(props);
 
@@ -23,32 +36,32 @@ export default class ProfileEditPage extends BaseComponent {
 
     this.state = {
       model: this.params.profile,
-      addressStates: this.addressService.states(),
-      addressCities: this.addressService.citites(this.params.profile.state)
+      states: this.addressService.getStates(),
+      cities: this.addressService.getCities(this.params.profile.state)
     };
   }
 
-  updateModel(validator, key, value) {
+  public updateModel(validator: any, key: string, value?: string): void {
     if (key === 'state') {
-      const addressCities = this.addressService.citites(value);
-      this.setState({ addressCities }, true);
+      const cities = this.addressService.getCities(value);
+      this.setState({ cities }, true);
     }
 
     super.updateModel(validator, key, value);
   }
 
-  save() {
+  public save(): void {
     this.profileValidator.validate(this.state.model)
       .do(({ model, errors }) => this.setState({ validation: errors, model }, true))
       .filter(({ valid }) => valid)
       .switchMap(({ model }) => this.profileService.save(model).loader())
       .logError()
       .bindComponent(this)
-      .subscribe(() => this.goBack(), () => toast.genericError());
+      .subscribe(() => this.goBack(), err => alertError(err).subscribe());
   }
 
   public render(): JSX.Element {
-    let { model, validation, addressStates, addressCities } = this.state;
+    let { model, validation, states, cities } = this.state;
     validation = validation || {};
 
     return (
@@ -64,140 +77,134 @@ export default class ProfileEditPage extends BaseComponent {
           </Body>
           <Right>
             <Button transparent onPress={() => this.save()}>
-              <Icon name="checkmark" />
+              <Icon name='checkmark' />
             </Button>
           </Right>
         </Header>
-        <Content padder keyboardShouldPersistTaps="handled">
+        <Content padder keyboardShouldPersistTaps='handled'>
           <Form>
             <List>
               <Field
-                label="Nome"
-                icon="person"
-                model={model}
-                ref="firstName"
-                field="firstName"
-                errors={validation}
+                label='Nome'
+                icon='person'
+                ref='firstName'
+                type='text'
+                value={model.firstName}
+                error={validation.firstName}
                 next={() => this.refs.lastName}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
               />
               <Field
-                label="Sobrenome"
-                icon="empty"
-                model={model}
-                ref="lastName"
-                field="lastName"
-                errors={validation}
+                label='Sobrenome'
+                icon='empty'
+                ref='lastName'
+                type='text'
+                value={model.lastName}
+                error={validation.lastName}
                 next={() => this.refs.email}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
               />
 
               <Field
-                label="Email"
-                icon="mail"
-                model={model}
-                ref="email"
-                field="email"
-                type="email"
-                errors={validation}
+                label='Email'
+                icon='mail'
+                ref='email'
+                type='email'
+                value={model.email}
+                error={validation.email}
                 next={() => this.refs.gender}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
               />
               <Field
-                label="Sexo"
-                icon="male"
-                model={model}
-                ref="gender"
-                field="gender"
-                type="dropdown"
+                label='Sexo'
+                icon='male'
+                ref='gender'
+                type='dropdown'
+                value={model.gender}
                 options={genderOptions}
-                errors={validation}
+                error={validation.gender}
                 next={() => this.refs.birthday}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
               />
               <Field
-                label="Aniversário"
-                icon="calendar"
-                model={model}
-                ref="birthday"
-                field="birthday"
-                type="date"
-                errors={validation}
+                label='Aniversário'
+                icon='calendar'
+                ref='birthday'
+                type='date'
+                value={model.birthday}
+                error={validation.birthday}
                 next={() => this.refs.zipcode}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
               />
 
               <Field
-                label="Cep"
-                icon="pin"
-                model={model}
-                ref="zipcode"
-                field="zipcode"
-                type="zipcode"
-                errors={validation}
+                label='Cep'
+                icon='pin'
+                ref='zipcode'
+                type='zipcode'
+                value={model.zipcode}
+                error={validation.zipcode}
                 next={() => this.refs.address}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
               />
               <Field
-                label="Endereço"
-                icon="empty"
-                model={model}
-                ref="address"
-                field="address"
-                errors={validation}
+                label='Endereço'
+                icon='empty'
+                ref='address'
+                type='text'
+                value={model.address}
+                error={validation.address}
                 next={() => this.refs.number}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
               />
               <Field
-                label="Número"
-                icon="empty"
-                model={model}
-                ref="number"
-                field="number"
-                errors={validation}
+                label='Número'
+                icon='empty'
+                ref='number'
+                type='text'
+                value={model.number}
+                error={validation.number}
                 next={() => this.refs.complement}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
               />
               <Field
-                label="Complemento"
-                icon="empty"
-                model={model}
-                ref="complement"
-                field="complement"
-                errors={validation}
+                label='Complemento'
+                icon='empty'
+                ref='complement'
+                type='text'
+                value={model.complement}
+                error={validation.complement}
                 next={() => this.refs.neighborhood}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
               />
               <Field
-                label="Bairro"
-                icon="empty"
-                model={model}
-                ref="neighborhood"
-                field="neighborhood"
-                errors={validation}
+                label='Bairro'
+                icon='empty'
+                ref='neighborhood'
+                type='text'
+                value={model.neighborhood}
+                error={validation.neighborhood}
                 next={() => this.refs.state}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
               />
               <Field
-                label="Estado"
-                icon="empty"
-                model={model}
-                ref="state"
-                field="state"
-                type="dialog"
-                options={addressStates}
-                errors={validation}
+                label='Estado'
+                icon='empty'
+                value={model.state}
+                ref='state'
+                type='dialog'
+                options={states}
+                error={validation.state}
                 next={() => this.refs.city}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
               />
-              <Field label="Cidade"
-                icon="empty"
-                model={model}
-                ref="city"
-                field="city"
-                type="dialog"
-                options={addressCities}
-                errors={validation}
+              <Field label='Cidade'
+                icon='empty'
+                value={model.city}
+                ref='city'
+                type='dialog'
+                options={cities}
+                error={validation.city}
                 onChange={this.updateModel.bind(this, this.profileValidator)}
                 onSubmit={() => this.save()}
               />

@@ -20,7 +20,7 @@ export class LogService implements ILogService {
       return;
     }
 
-    this.bugsnag.setUser(user.id.toString(), user.firstName);
+    this.bugsnag.setUser(user.id.toString(), user.fullName);
   }
 
   public breadcrumb(text: string, type: string = 'manual', extraData: any = {}): void {

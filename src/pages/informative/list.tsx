@@ -1,22 +1,32 @@
 import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title } from 'native-base';
 import * as React from 'react';
 import { RefreshControl } from 'react-native';
+import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent } from '../../components/base';
-import EmptyMessage from '../../components/emptyMessage';
+import { BaseComponent, IStateBase } from '../../components/base';
+import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
-import toast from '../../providers/toast';
+import { IInformative } from '../../interfaces/informative';
+import { toast } from '../../providers/toast';
 import * as services from '../../services';
+import { IInformativeService } from '../../services/interfaces/informative';
 import { theme } from '../../theme';
 
-export default class InformativeListPage extends BaseComponent {
+interface IState extends IStateBase {
+  refreshing: boolean;
+  informatives: IInformative[];
+  error?: any;
+}
+
+export default class InformativeListPage extends BaseComponent<IState> {
   public static navigationOptions: NavigationDrawerScreenOptions = {
-    headerVisible: false,
-    drawerLabel: 'Informativos',
+    drawerLabel: 'Informativos' as any,
     drawerIcon: ({ tintColor }) => (
-      <Icon name="paper" style={{ color: tintColor }} />
+      <Icon name='paper' style={{ color: tintColor }} />
     )
   };
+
+  private informativeService: IInformativeService;
 
   constructor(props: any) {
     super(props);
@@ -25,15 +35,15 @@ export default class InformativeListPage extends BaseComponent {
     this.state = { refreshing: true, informatives: [] };
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.load();
   }
 
-  details(informative) {
+  public details(informative: IInformative): void {
     this.navigate('InformativeDetails', { informative });
   }
 
-  load(refresh = false) {
+  public load(refresh: boolean = false): void {
     this.setState({ refreshing: true }, true);
 
     this.informativeService.list(refresh)
@@ -42,9 +52,9 @@ export default class InformativeListPage extends BaseComponent {
       .subscribe(informatives => {
         informatives = informatives || [];
         this.setState({ refreshing: false, informatives, error: false });
-      }, () => {
+      }, error => {
         if (refresh) toast('Não conseguimos atualizar');
-        this.setState({ refreshing: false, error: true });
+        this.setState({ refreshing: false, error });
       });
   }
 
@@ -70,7 +80,7 @@ export default class InformativeListPage extends BaseComponent {
           }
         >
           {!refreshing && error && !informatives.length &&
-            <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
+            <ErrorMessage error={error} />
           }
           <List dataArray={informatives} renderRow={informative =>
             <ListItem button key={informative.id} style={theme.listItem} onPress={() => this.details(informative)}>
@@ -82,7 +92,7 @@ export default class InformativeListPage extends BaseComponent {
                 <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
               </Body>
               <Right style={theme.listIconWrapperSmall}>
-                <Icon name="arrow-forward" />
+                <Icon name='arrow-forward' />
               </Right>
             </ListItem>
           }

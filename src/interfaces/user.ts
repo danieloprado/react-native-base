@@ -2,6 +2,7 @@ export interface IUser {
   id?: number;
   firstName: string;
   lastName?: string;
+  fullName: string;
   email: string;
   password?: string;
   avatar?: string;
@@ -14,6 +15,7 @@ export interface IUser {
   state?: string;
   number?: string;
   complement?: string;
+  fullAddress: string;
 
   createdDate?: Date;
   updatedDate?: Date;

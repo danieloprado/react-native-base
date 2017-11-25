@@ -1,22 +1,32 @@
 import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title, View } from 'native-base';
 import * as React from 'react';
 import { RefreshControl, StyleSheet } from 'react-native';
+import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent } from '../../components/base';
-import EmptyMessage from '../../components/emptyMessage';
+import { BaseComponent, IStateBase } from '../../components/base';
+import { EmptyMessage } from '../../components/emptyMessage';
+import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
-import eventListFormatter from '../../formatters/eventList';
-import toast from '../../providers/toast';
+import { eventListFormatter, IEventListFormatted } from '../../formatters/eventList';
+import { toast } from '../../providers/toast';
 import * as services from '../../services';
+import { IEventService } from '../../services/interfaces/event';
 
-export default class EventListPage extends BaseComponent {
+interface IState extends IStateBase {
+  refreshing: boolean;
+  eventGroup: IEventListFormatted[];
+  error?: any;
+}
+
+export default class EventListPage extends BaseComponent<IState> {
   public static navigationOptions: NavigationDrawerScreenOptions = {
-    headerVisible: false,
-    drawerLabel: 'Agenda',
+    drawerLabel: 'Agenda' as any,
     drawerIcon: ({ tintColor }) => (
-      <Icon name="calendar" style={{ color: tintColor }} />
+      <Icon name='calendar' style={{ color: tintColor }} />
     )
   };
+
+  private eventService: IEventService;
 
   constructor(props: any) {
     super(props);
@@ -25,15 +35,15 @@ export default class EventListPage extends BaseComponent {
     this.state = { refreshing: true, error: false, eventGroup: [] };
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.load();
   }
 
-  details(eventData) {
-    this.navigate('EventDetails', { event: eventData.event, date: eventData });
+  public details(eventDate: IEventListFormatted): void {
+    this.navigate('EventDetails', { event: eventDate.event, date: eventDate });
   }
 
-  load(refresh = false) {
+  public load(refresh: boolean = false): void {
     this.setState({ refreshing: true }, true);
 
     this.eventService.list(refresh)
@@ -42,9 +52,9 @@ export default class EventListPage extends BaseComponent {
       .subscribe(events => {
         const eventGroup = eventListFormatter(events || []);
         this.setState({ refreshing: false, error: false, eventGroup });
-      }, () => {
+      }, error => {
         if (refresh) toast('Não conseguimos atualizar');
-        this.setState({ refreshing: false, error: true });
+        this.setState({ refreshing: false, error });
       });
   }
 
@@ -68,10 +78,10 @@ export default class EventListPage extends BaseComponent {
           <RefreshControl refreshing={refreshing} onRefresh={() => this.load(true)} />
         }>
           {!refreshing && error && !eventGroup.length &&
-            <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
+            <ErrorMessage error={error} />
           }
           {!refreshing && !error && !eventGroup.length &&
-            <EmptyMessage icon="calendar" message="Nenhum evento próximo" />
+            <EmptyMessage icon='calendar' message='Nenhum evento próximo' />
           }
           <List dataArray={eventGroup} renderRow={(data, sectionId, rowId) => this.renderRow(data, rowId)} />
         </Content>
@@ -79,9 +89,9 @@ export default class EventListPage extends BaseComponent {
     );
   }
 
-  renderRow(data, rowId) {
+  public renderRow(data: IEventListFormatted, rowId: any): JSX.Element {
     return (
-      <View key={data.divider ? data.beginDate : data.event.id}>
+      <View key={(data.divider ? data.beginDate : data.event.id) as any}>
         {data.divider ?
           <ListItem style={rowId === '0' ? styles.listItemHeaderFirst : styles.listItemHeader}>
             <Text style={styles.listItemHeaderText}>

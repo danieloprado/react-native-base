@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { Observable } from 'rxjs';
 
 import { ICache } from '../../interfaces/cache';
@@ -5,17 +6,19 @@ import { ICacheService } from '../interfaces/cache';
 import { IStorageService } from '../interfaces/storage';
 
 export class CacheService implements ICacheService {
-  private connected: Boolean;
   private memory: { [key: string]: ICache };
 
   constructor(
     private storageService: IStorageService
   ) {
-    this.connected = false;
     this.memory = {};
   }
 
   public isExpirated(cache: ICache): boolean {
+    if (cache.expirationDate) {
+      return moment(cache.expirationDate).isBefore(moment());
+    }
+
     const difference = Date.now() - new Date(cache.createdAt).getTime();
     return (difference / 1000 / 60) > 5; //5 minutes
   }
@@ -25,10 +28,14 @@ export class CacheService implements ICacheService {
     return this.storageService.get('church-cache-' + key);
   }
 
-  public saveData<T>(key: string, data: T, persist: boolean): Observable<ICache<T>> {
-    const cache: ICache<T> = { createdAt: new Date(), data };
+  public saveData<T>(key: string, data: T, options: { persist: boolean, expirationMinutes: number }): Observable<ICache<T>> {
+    const cache: ICache<T> = {
+      createdAt: new Date(),
+      expirationDate: moment().add(options.expirationMinutes, 'minutes').toDate(),
+      data
+    };
 
-    if (persist) {
+    if (options.persist) {
       return this.storageService.set('church-cache-' + key, cache);
     }
 

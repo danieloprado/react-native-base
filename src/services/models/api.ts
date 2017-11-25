@@ -52,6 +52,7 @@ export class ApiService implements IApiService {
           baseURL: this.apiEndpoint,
           url,
           method,
+          timeout: 30000,
           headers: {
             'Content-type': 'application/json',
             ...headers
@@ -62,7 +63,11 @@ export class ApiService implements IApiService {
       })
       .switchMap(res => this.checkNewToken(res))
       .map(response => response.data)
-      .catch(err => Observable.throw(new ApiError(err.config, err.response, err)));
+      .catch(err => {
+        return err.message === 'no-internet' ?
+          Observable.throw(err) :
+          Observable.throw(new ApiError(err.config, err.response, err));
+      });
   }
 
   private checkNewToken(response: AxiosResponse): Observable<AxiosResponse> {

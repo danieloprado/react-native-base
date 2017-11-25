@@ -64,6 +64,7 @@ interface IProps {
   value: any;
   placeholder: string;
   onChange: (value: any) => void;
+  style?: any;
 }
 
 export class FieldText extends React.Component<IProps> {
@@ -85,20 +86,20 @@ export class FieldText extends React.Component<IProps> {
 
   public focus(): void {
     if (this.input) {
-      (this.input as any).focus();
+      (this.input as any)._root.focus();
       return;
     }
   }
 
   public render(): JSX.Element {
-    const { type, next, hasError, value, placeholder } = this.props;
+    const { type, next, hasError, value, placeholder, style } = this.props;
 
     const mask = masks[this.props.type];
     const maxlength = mask ? mask.maxlength : null;
     const maskedValue = mask ? mask.apply(value || '') : value;
 
     return (
-      <Item style={StyleSheet.flatten([hasError ? { borderColor: variables.inputErrorBorderColor } : null])} error={hasError}>
+      <Item style={StyleSheet.flatten([(style || {}).item, hasError ? { borderColor: variables.inputErrorBorderColor } : null])} error={hasError}>
         <Input
           placeholder={placeholder}
           ref={i => this.input = i}

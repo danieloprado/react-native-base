@@ -1,4 +1,4 @@
-import { InteractionManager, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import FCM, { FCMEvent, Notification } from 'react-native-fcm';
 import SplashScreen from 'react-native-splash-screen';
 import {
@@ -11,6 +11,7 @@ import {
 import { Observable, ReplaySubject } from 'rxjs';
 import { Subject } from 'rxjs/Rx';
 
+import { InteractionManager } from '../../providers/interactionManager';
 import { INotificationService } from '../interfaces/notification';
 import { IStorageService } from '../interfaces/storage';
 import { ITokenService } from '../interfaces/token';
@@ -49,10 +50,10 @@ export class NotificationService implements INotificationService {
   private newNotification$: Subject<INotificationInfo>;
 
   private handlers: IActionHandlers = {
-    'open-informative': async (dispatch, info, appStarted) => {
+    'open-order': async (dispatch, info, appStarted) => {
 
       if (!appStarted) {
-        dispatch({ type: 'Navigation/NAVIGATE', routeName: 'InformativeDetails', params: { id: Number(info.data.id) } });
+        dispatch({ type: 'Navigation/NAVIGATE', routeName: 'OrderDetails', params: { id: info.data.id } });
         return;
       }
 
@@ -60,8 +61,8 @@ export class NotificationService implements INotificationService {
         index: 1,
         key: null,
         actions: [
-          NavigationActions.navigate({ routeName: 'Home' }),
-          NavigationActions.navigate({ routeName: 'InformativeDetails', params: { id: info.data.id } })
+          NavigationActions.navigate({ routeName: 'Orders' }),
+          NavigationActions.navigate({ routeName: 'OrderDetails', params: { id: info.data.id } })
         ]
       }));
 
@@ -201,6 +202,7 @@ export class NotificationService implements INotificationService {
       title: data.title,
       body: data.body,
       icon: data.icon,
+      color: data.color,
       action: notification.action,
       data: notification.data,
       show_in_foreground: true

@@ -18,14 +18,16 @@ export class ChurchReportService {
 
   public list(refresh: boolean = false): Observable<IChurchReport[]> {
     return this.apiService.get<IChurchReport[]>('church-report')
-      .cache('church-report', refresh)
+      .cache('church-report', { refresh })
       .concat(this.reportUpdate$)
       .do(reports => this.reports = reports || [])
       .map(reports => churchReportListFormatter(reports));
   }
 
   public types(): Observable<IChurchReportType[]> {
-    return this.apiService.get<IChurchReportType[]>('church-report/types').cache('church-report-types', false);
+    return this.apiService
+      .get<IChurchReportType[]>('church-report/types')
+      .cache('church-report-types');
   }
 
   public save(model: IChurchReport): Observable<IChurchReport> {

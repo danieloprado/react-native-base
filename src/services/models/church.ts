@@ -8,6 +8,6 @@ export class ChurchService implements IChurchSevice {
   constructor(private apiService: IApiService) { }
 
   public info(refresh: boolean = false): Observable<IChurch> {
-    return this.apiService.get<IChurch>('info').cache('service-church-info', refresh);
+    return this.apiService.get<IChurch>('info').cache('service-church-info', { refresh });
   }
 }

@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { InteractionManager } from 'react-native';
 import {
   NavigationAction,
   NavigationActions,
@@ -9,12 +8,14 @@ import {
 } from 'react-navigation';
 import { Subscription } from 'rxjs';
 
+import { alertError } from '../providers/alert';
+import { InteractionManager } from '../providers/interactionManager';
 import { BaseValidator } from '../validators/base';
 
 export interface IStateBase<T = any> {
   model?: Partial<T>;
   validation?: {
-    [key: string]: any
+    [key: string]: string;
   };
 }
 
@@ -44,19 +45,20 @@ export abstract class BaseComponent<S extends IStateBase = IStateBase, P = any> 
     this.unmonted = true;
   }
 
-  public setState<K extends keyof S>(value: Pick<S, K>, skip: boolean): Promise<void>;
+  public setState<K extends keyof S>(f: (prevState: S, props: P) => Pick<S, K>, callback?: () => any): Promise<void>;
+  public setState<K extends keyof S>(state: Pick<S, K>, skip: boolean): Promise<void>;
   public setState<K extends keyof S>(state: Pick<S, K>, skip?: any): Promise<void>;
-  public setState<K extends keyof S>(value: Pick<S, K>, skip: any): Promise<void> {
+  public setState(state: any, skip: any): Promise<void> {
     if (this.unmonted) return Promise.resolve();
 
     return new Promise(resolve => {
       if (skip) {
-        return super.setState(value as any, () => resolve());
+        return super.setState(state as any, () => resolve());
       }
 
       return InteractionManager.runAfterInteractions(() => {
         if (this.unmonted) return;
-        super.setState(value as any, () => resolve());
+        super.setState(state as any, () => resolve());
       });
     });
   }
@@ -111,7 +113,7 @@ export abstract class BaseComponent<S extends IStateBase = IStateBase, P = any> 
       .bindComponent(this)
       .subscribe(({ model, errors }: any) => {
         this.setState({ validation: errors, model }, true);
-      });
+      }, (err: any) => alertError(err).subscribe());
   }
 
 }

@@ -47,10 +47,14 @@ export abstract class BaseValidator<T> {
     const result = new validator(model || {}, this.rules, this.messages);
 
     if (result.passes()) {
-      return Observable.of({ valid: true, model: this.cleanModel(model) });
+      return Observable.of({ valid: true, model: this.cleanModel(model), errors: {} });
     }
 
-    const errors = result.errors.all();
+    const allErrors = result.errors.all();
+    const errors = Object.keys(allErrors).reduce<any>((acc, key) => {
+      acc[key] = allErrors[key][0];
+      return acc;
+    }, {});
     return Observable.of({ valid: false, errors, model });
   }
 

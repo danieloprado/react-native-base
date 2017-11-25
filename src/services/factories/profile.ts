@@ -3,7 +3,7 @@ import { Container } from '../container';
 import { IProfileService } from '../interfaces/profile';
 import { ProfileService } from '../models/profile';
 
-export function profileServiceFactory(container: Container): IProfileService {
+export function profileFactory(container: Container): IProfileService {
   return new ProfileService(
     churchSlug,
     container.get('apiService'),

@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { dateFormatter } from '../../formatters/date';
 import { IUser } from '../../interfaces/user';
+import { IUserToken } from '../../interfaces/userToken';
 import { IApiService } from '../interfaces/api';
 import { ICacheService } from '../interfaces/cache';
 import { INotificationService } from '../interfaces/notification';
@@ -48,7 +49,7 @@ export class ProfileService implements IProfileService {
       }
 
       return this.apiService.get<IUser>('profile')
-        .cache('service-profile', refresh)
+        .cache('service-profile', { refresh })
         .map(profile => {
           return dateFormatter.parseObj(profile);
         }).concat(this.profileUpdate$);
@@ -67,7 +68,7 @@ export class ProfileService implements IProfileService {
     return this.userChanged().map(t => !!t);
   }
 
-  public userChanged(): Observable<IUser> {
+  public userChanged(): Observable<IUserToken> {
     return this.tokenService.getUser()
       .distinctUntilChanged((n, o) => (n || { id: null }).id === (o || { id: null }).id);
   }

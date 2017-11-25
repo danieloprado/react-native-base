@@ -3,12 +3,22 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
-import { BaseComponent } from '../../../components/base';
+import { BaseComponent, IStateBase } from '../../../components/base';
 import { dateFormatter } from '../../../formatters/date';
+import { IEvent } from '../../../interfaces/event';
 import serivces from '../../../services';
+import { IEventService } from '../../../services/interfaces/event';
 import { theme, variables } from '../../../theme';
 
-class EventCard extends BaseComponent {
+interface IState extends IStateBase {
+  loading: boolean;
+  event?: IEvent;
+  error?: any;
+}
+
+class EventCard extends BaseComponent<IState> {
+  private eventService: IEventService;
+
   constructor(props: any) {
     super(props);
 
@@ -16,8 +26,8 @@ class EventCard extends BaseComponent {
     this.state = { loading: true };
   }
 
-  componentDidMount() {
-    this.eventService.next()
+  public componentDidMount(): void {
+    this.eventService.next(false)
       .logError()
       .bindComponent(this)
       .subscribe(event => {
@@ -53,7 +63,7 @@ class EventCard extends BaseComponent {
         {!loading && event &&
           <View>
             <CardItem button onPress={() => this.navigate('EventDetails', { event, date: event.dates[0] })}>
-              <Icon name="calendar" />
+              <Icon name='calendar' />
               <View style={styles.viewContent}>
                 <Text numberOfLines={1}>{event.title}</Text>
                 <Text note>
@@ -65,7 +75,7 @@ class EventCard extends BaseComponent {
                 </Text>
               </View>
               <Right>
-                <Icon name="arrow-forward" />
+                <Icon name='arrow-forward' />
               </Right>
             </CardItem>
             <CardItem footer style={theme.alignRight}>

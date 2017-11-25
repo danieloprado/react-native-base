@@ -1,5 +1,5 @@
+import { ISelectItem } from '../../interfaces/selectItem';
 import { IAddressService } from '../interfaces/address';
-import { ISelectItem } from '../interfaces/selectItem';
 
 export class AddressService implements IAddressService {
   private states: ISelectItem[];

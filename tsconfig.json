@@ -8,6 +8,7 @@
     "importHelpers": true,
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "jsx": "react-native",
     "allowJs": true
   },

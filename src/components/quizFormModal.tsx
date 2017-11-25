@@ -75,12 +75,11 @@ export class QuizFormModal extends BaseComponent<IState> {
                     <Field
                       key={question.id}
                       label={question.title}
-                      model={model}
                       icon={icons[question.title] || 'empty'}
-                      field={`question-${index}`}
+                      value={model[`question-${index}`]}
                       type={types[question.type] || question.type}
                       options={this.getOptions(question)}
-                      errors={validation}
+                      error={validation[`question-${index}`]}
                       onChange={this.updateModel.bind(this, submitted ? this.validator : null)}
                       onSubmit={index === (quiz.questions.length - 1) ? () => this.submit() : undefined}
                     />

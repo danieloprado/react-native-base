@@ -3,12 +3,22 @@ import * as React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
-import { BaseComponent } from '../../../components/base';
+import { BaseComponent, IStateBase } from '../../../components/base';
 import { dateFormatter } from '../../../formatters/date';
+import { IEvent } from '../../../interfaces/event';
 import serivces from '../../../services';
+import { IEventService } from '../../../services/interfaces/event';
 import { theme, variables } from '../../../theme';
 
-class EventFeaturedCard extends BaseComponent {
+interface IState extends IStateBase {
+  loading: boolean;
+  event?: IEvent;
+  error?: any;
+}
+
+class EventFeaturedCard extends BaseComponent<IState> {
+  private eventService: IEventService;
+
   constructor(props: any) {
     super(props);
 
@@ -16,7 +26,7 @@ class EventFeaturedCard extends BaseComponent {
     this.state = { loading: true };
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.eventService.next(true)
       .logError()
       .bindComponent(this)
@@ -26,7 +36,7 @@ class EventFeaturedCard extends BaseComponent {
       }, () => this.setState({ loading: false }));
   }
 
-  details() {
+  public details(): void {
     const { event } = this.state;
     this.navigate('EventDetails', { event, date: event.dates[0] });
   }
@@ -38,7 +48,10 @@ class EventFeaturedCard extends BaseComponent {
       <View>
         {!loading && !!event &&
           <Card>
-            <Image style={styles.image} source={{ uri: 'http://icbnews.com.br/wp-content/uploads/2015/09/encontro-com-o-amor-de-deus-1024x639.jpg' }} />
+            <Image
+              style={styles.image}
+              source={{ uri: 'http://icbnews.com.br/wp-content/uploads/2015/09/encontro-com-o-amor-de-deus-1024x639.jpg' }}
+            />
             <CardItem header style={styles.header}>
               <View>
                 <H2>{event.title}</H2>

@@ -1,3 +1,5 @@
+import { IChurchReportType } from './churchReportType';
+
 export interface IChurchReport {
   id?: number;
   title: string;
@@ -10,4 +12,6 @@ export interface IChurchReport {
   creatorId?: number;
   churchId?: number;
   typeId: number;
+
+  type?: IChurchReportType;
 }

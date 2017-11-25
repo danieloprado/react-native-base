@@ -3,6 +3,7 @@ import * as propTypes from 'prop-types';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
+import { ISelectItem } from '../../interfaces/selectItem';
 import { theme, variables } from '../../theme';
 import { BaseComponent } from './../base';
 import { FieldCheckbox } from './checkbox';
@@ -21,20 +22,22 @@ interface IProps {
   | 'dialog'
   | 'date'
   | 'datetime'
+  | 'time'
   | 'number'
   | 'password'
   | 'phone'
   | 'zipcode'
   | 'document'
   | 'boolean';
-  options?: { value: string, display: string }[];
-  model: any;
-  field: string;
+  options?: ISelectItem<any>[];
+  value: any;
   onChange: Function;
-  errors?: Validator.ErrorMessages;
+  error?: string;
   onSubmit?: Function;
-  style?: Object;
-  [key: string]: any;
+  style?: any;
+
+  minuteInterval?: number;
+  minimumDate?: Date;
 }
 
 export class Field extends BaseComponent<any, IProps> {
@@ -49,6 +52,7 @@ export class Field extends BaseComponent<any, IProps> {
       'dialog',
       'date',
       'datetime',
+      'time',
       'number',
       'password',
       'phone',
@@ -57,25 +61,31 @@ export class Field extends BaseComponent<any, IProps> {
       'boolean'
     ]),
     options: propTypes.any,
-    model: propTypes.object.isRequired,
-    field: propTypes.string.isRequired,
+    value: propTypes.any,
     onChange: propTypes.func.isRequired,
     errors: propTypes.object,
     onSubmit: propTypes.func,
-    style: propTypes.object
+    style: propTypes.object,
+    minuteInterval: propTypes.number,
+    minimumDate: propTypes.instanceOf(Date)
   };
 
-  constructor(props: any) {
+  constructor(props: IProps) {
     super(props);
 
-    const model = this.props.model;
-    const value = model[this.props.field];
+    const value = this.props.value;
     this.state = { value };
+  }
+
+  public componentWillReceiveProps({ value }: IProps): void {
+    if (value !== this.state.value) {
+      this.setState({ value }, true);
+    }
   }
 
   public onChange(value: any): void {
     this.setState({ value }, true);
-    this.props.onChange(this.props.field, value);
+    this.props.onChange(value);
   }
 
   public focus(): void {
@@ -93,11 +103,10 @@ export class Field extends BaseComponent<any, IProps> {
   }
 
   public render(): JSX.Element {
-    let { label, errors, field, type, icon } = this.props;
+    let { label, error, type, icon, style } = this.props;
     const { value } = this.state;
 
-    const error: any = (errors || {})[field] || [];
-    const hasError = error.length > 0;
+    const hasError = !!error;
 
     const props = {
       ...this.props,
@@ -119,6 +128,7 @@ export class Field extends BaseComponent<any, IProps> {
         break;
       case 'date':
       case 'datetime':
+      case 'time':
         content = <FieldDatepicker ref='field' {...props as any} />;
         break;
       default:
@@ -135,13 +145,13 @@ export class Field extends BaseComponent<any, IProps> {
         <Body>
           <View style={styles.body}>
             {!!label && type !== 'boolean' &&
-              <Text note style={StyleSheet.flatten(hasError ? styles.errorLabel : null)}>{label}</Text>
+              <Text note style={StyleSheet.flatten([(style || {}).label, hasError ? styles.errorLabel : null])}>{label}</Text>
             }
             {content}
-            <Text note style={styles.errorMessage}>{error[0]}</Text>
+            <Text note style={styles.errorMessage}>{error}</Text>
           </View>
         </Body>
-      </ListItem>
+      </ListItem >
     );
   }
 

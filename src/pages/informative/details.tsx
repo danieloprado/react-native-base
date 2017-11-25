@@ -2,13 +2,25 @@ import { Body, Button, Container, Content, Header, Icon, Left, Right, Spinner, T
 import * as React from 'react';
 import { Share, WebView } from 'react-native';
 
-import { BaseComponent } from '../../components/base';
-import EmptyMessage from '../../components/emptyMessage';
-import informativeRender from '../../formatters/informativeRender';
+import { BaseComponent, IStateBase } from '../../components/base';
+import { ErrorMessage } from '../../components/errorMessage';
+import { informativeRender } from '../../formatters/informativeRender';
+import { IInformative } from '../../interfaces/informative';
 import * as services from '../../services';
 import { enInformativeType } from '../../services/enums/informativeType';
+import { IInformativeService } from '../../services/interfaces/informative';
 
-export default class InformativeDetailsPage extends BaseComponent {
+interface IState extends IStateBase {
+  loading: boolean;
+  informative?: IInformative;
+  html: string;
+  text?: string;
+  error?: any;
+}
+
+export default class InformativeDetailsPage extends BaseComponent<IState> {
+  private informativeService: IInformativeService;
+
   constructor(props: any) {
     super(props);
 
@@ -17,12 +29,12 @@ export default class InformativeDetailsPage extends BaseComponent {
 
     this.state = {
       loading: informative ? false : true,
-      informative: informative,
+      informative,
       html: informative ? informativeRender(informative) : null
     };
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     if (this.state.informative) return;
 
     this.informativeService.get(this.params.id)
@@ -31,19 +43,18 @@ export default class InformativeDetailsPage extends BaseComponent {
       .subscribe(informative => {
         const html = informative ? informativeRender(informative) : null;
         this.setState({ loading: false, informative, html, error: !informative });
-      }, () => this.setState({ loading: false, error: true }));
+      }, error => this.setState({ loading: false, error }));
   }
 
-  share() {
+  public share(): void {
     Share.share({
       title: this.state.informative.title,
       message: this.state.text
     });
   }
 
-  setText(text) {
-    this.state.text = text;
-    this.setState(this.state);
+  public setText(text: string): void {
+    this.setState({ text });
   }
 
   public render(): JSX.Element {
@@ -80,7 +91,7 @@ export default class InformativeDetailsPage extends BaseComponent {
         }
         {!loading && error &&
           <Content>
-            <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
+            <ErrorMessage error={error} />
           </Content>
         }
         {!loading && !error &&

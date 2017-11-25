@@ -3,10 +3,10 @@ import * as React from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
-import platform from '../../native-base-theme/variables/platform';
 import { IUserToken } from '../interfaces/userToken';
 import * as services from '../services';
 import { ITokenService } from '../services/interfaces/token';
+import platform from '../theme/native-base/variables/platform';
 import { BaseComponent, IStateBase } from './base';
 import { DrawerNavigatorItems as DrawerItems } from './drawerItems';
 

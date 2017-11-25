@@ -31,7 +31,6 @@ export function alertError(err: any): Observable<boolean> {
       message = 'Sem conexão com a internet';
       break;
     case 'api-error':
-      console.log(err);
       if (err.status == -1) {
         message = 'Não conseguimos se comunicar com o servidor';
         break;

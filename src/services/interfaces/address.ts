@@ -1,4 +1,4 @@
-import { ISelectItem } from '../interfaces/selectItem';
+import { ISelectItem } from '../../interfaces/selectItem';
 
 export interface IAddressService {
   getStates(): ISelectItem[];

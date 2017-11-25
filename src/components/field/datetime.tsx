@@ -10,6 +10,9 @@ interface IProps {
   value: any;
   hasError: boolean;
   onChange: (value: any) => void;
+
+  minimumDate?: Date;
+  minuteInterval?: number;
 }
 
 interface IState {
@@ -51,28 +54,34 @@ export class FieldDatepicker extends React.Component<IProps, IState> {
 
   public render(): JSX.Element {
     const { showDatePicker } = this.state;
-    const { type, value, hasError } = this.props;
+    const { type, value, hasError, minuteInterval, minimumDate } = this.props;
+
+    const formats = { date: 'DD/MMM/YYYY', time: 'HH:mm', datetime: 'DD/MMM/YYYY [às] HH:mm' };
+    const format = formats[type];
+
+    const dateValue = dateFormatter.parse(value || this.props.minimumDate);
 
     return (
       <View onTouchStart={() => this.show()}>
         <Item error={hasError}>
           <Input
             disabled
-            value={value ? dateFormatter.format(value, `DD/MMM/YYYY${type === 'datetime' ? ' [às] HH:mm' : ''}`) : null}
+            value={value ? dateFormatter.format(dateValue, format) : null}
             style={styles.input}
           />
           {hasError && <Icon name='close-circle' />}
         </Item>
         <DateTimePicker
-          {...this.props}
           mode={type}
-          date={dateFormatter.parse(value || new Date())}
+          date={dateValue || new Date()}
           isVisible={showDatePicker}
-          titleIOS='Selecione uma data'
+          titleIOS={`Selecione a ${type === 'time' ? 'hora' : 'data'}`}
           confirmTextIOS='Confirmar'
           cancelTextIOS='Cancelar'
           onConfirm={value => this.onChange(value)}
           onCancel={() => this.hide()}
+          minimumDate={minimumDate}
+          minuteInterval={minuteInterval}
         />
       </View>
     );

@@ -17,22 +17,33 @@ import {
 import * as React from 'react';
 import { RefreshControl, StyleSheet } from 'react-native';
 import { Col, Grid } from 'react-native-easy-grid';
+import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent } from '../../components/base';
-import EmptyMessage from '../../components/emptyMessage';
+import { BaseComponent, IStateBase } from '../../components/base';
+import { EmptyMessage } from '../../components/emptyMessage';
+import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
-import toast from '../../providers/toast';
+import { IChurchReport } from '../../interfaces/churchReport';
+import { toast } from '../../providers/toast';
 import * as services from '../../services';
+import { IChurchReportService } from '../../services/interfaces/chuchReport';
 import { theme } from '../../theme';
 
-export default class ChurchReportListPage extends BaseComponent {
+interface IState extends IStateBase {
+  refreshing: boolean;
+  reports: IChurchReport[];
+  error?: any;
+}
+
+export default class ChurchReportListPage extends BaseComponent<IState> {
   public static navigationOptions: NavigationDrawerScreenOptions = {
-    headerVisible: false,
-    drawerLabel: 'Relatório de Culto',
+    drawerLabel: 'Relatório de Culto' as any,
     drawerIcon: ({ tintColor }) => (
-      <Icon name="list-box" style={{ color: tintColor }} />
+      <Icon name='list-box' style={{ color: tintColor }} />
     )
   };
+
+  private churchReportService: IChurchReportService;
 
   constructor(props: any) {
     super(props);
@@ -41,11 +52,11 @@ export default class ChurchReportListPage extends BaseComponent {
     this.state = { refreshing: true, error: false, reports: [] };
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.load();
   }
 
-  load(refresh = false) {
+  public load(refresh: boolean = false): void {
     this.setState({ refreshing: true }, true);
 
     this.churchReportService.list(refresh)
@@ -53,9 +64,9 @@ export default class ChurchReportListPage extends BaseComponent {
       .bindComponent(this)
       .subscribe(reports => {
         this.setState({ refreshing: false, error: false, reports: reports || [] });
-      }, () => {
+      }, error => {
         if (refresh) toast('Não conseguimos atualizar');
-        this.setState({ refreshing: false, error: true });
+        this.setState({ refreshing: false, error });
       });
   }
 
@@ -83,10 +94,10 @@ export default class ChurchReportListPage extends BaseComponent {
             />
           }>
           {error && !reports.length &&
-            <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
+            <ErrorMessage error={error} />
           }
           {!refreshing && !error && !reports.length &&
-            <EmptyMessage icon="list" message="Nenhum relatório criado" />
+            <EmptyMessage icon='list' message='Nenhum relatório criado' />
           }
           {!!reports.length &&
             <View style={StyleSheet.flatten([theme.cardsPadding, theme.fabPadding])}>
@@ -105,7 +116,7 @@ export default class ChurchReportListPage extends BaseComponent {
                     </Body>
                     <Right style={styles.rightWrapper}>
                       <Button transparent dark onPress={() => this.navigate('ChurchReportForm', { report })}>
-                        <Icon name="create" style={styles.buttonIcon} />
+                        <Icon name='create' style={styles.buttonIcon} />
                       </Button>
                     </Right>
                   </CardItem>
@@ -141,7 +152,7 @@ export default class ChurchReportListPage extends BaseComponent {
           }
         </Content>
         <Fab onPress={() => this.navigate('ChurchReportForm')}>
-          <Icon name="add" />
+          <Icon name='add' />
         </Fab>
       </Container>
     );

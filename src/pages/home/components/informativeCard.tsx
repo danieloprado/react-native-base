@@ -3,12 +3,22 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
-import { BaseComponent } from '../../../components/base';
+import { BaseComponent, IStateBase } from '../../../components/base';
 import { dateFormatter } from '../../../formatters/date';
+import { IInformative } from '../../../interfaces/informative';
 import * as services from '../../../services';
+import { IInformativeService } from '../../../services/interfaces/informative';
 import { theme, variables } from '../../../theme';
 
-class InformativeCard extends BaseComponent {
+interface IState extends IStateBase {
+  loading: boolean;
+  informative?: IInformative;
+  error?: any;
+}
+
+class InformativeCard extends BaseComponent<IState> {
+  private informativeService: IInformativeService;
+
   constructor(props: any) {
     super(props);
 
@@ -16,7 +26,7 @@ class InformativeCard extends BaseComponent {
     this.state = { loading: true };
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.informativeService.last()
       .logError()
       .bindComponent(this)
@@ -59,7 +69,7 @@ class InformativeCard extends BaseComponent {
                 <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
               </View>
               <Right>
-                <Icon name="arrow-forward" />
+                <Icon name='arrow-forward' />
               </Right>
             </CardItem>
             <CardItem footer style={theme.alignRight}>

@@ -1,5 +1,6 @@
 import { Body, Button, Container, Content, Header, Icon, Left, Right, Title, View } from 'native-base';
 import * as React from 'react';
+import { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { BaseComponent } from '../../components/base';
 import { theme } from '../../theme';
@@ -10,10 +11,9 @@ import InformativeCard from './components/informativeCard';
 
 export default class HomePage extends BaseComponent {
   public static navigationOptions: NavigationDrawerScreenOptions = {
-    headerVisible: false,
-    drawerLabel: 'Início',
+    drawerLabel: 'Início' as any,
     drawerIcon: ({ tintColor }) => (
-      <Icon name="home" style={{ color: tintColor }} />
+      <Icon name='home' style={{ color: tintColor }} />
     )
   };
 

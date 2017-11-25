@@ -5,13 +5,13 @@ import { Subscription } from 'rxjs/Rx';
 
 import { Loader } from '../components/loader';
 
-let loaderComponent: Loader;
+let globalLoaderComponent: Loader;
 
 export function setup(loader: Loader): void {
-  loaderComponent = loader;
+  globalLoaderComponent = loader;
 }
 
-function loader<T>(this: Observable<T>): Observable<T> {
+function loader<T>(this: Observable<T>, loaderComponent: Loader = globalLoaderComponent): Observable<T> {
   return this.lift(new LoaderOperator(loaderComponent));
 }
 
@@ -27,7 +27,9 @@ class LoaderOperator {
   }
 
   public call(subscriber: Subscriber<any>, source: Observable<any>): Subscription {
-    return source.subscribe(new LoaderSubscriber(subscriber, this.loaderComponent));
+    return source
+      .delay(500)
+      .subscribe(new LoaderSubscriber(subscriber, this.loaderComponent));
   }
 }
 

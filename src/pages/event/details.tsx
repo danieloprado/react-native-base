@@ -1,15 +1,27 @@
 import { Body, Button, Container, Content, H2, Header, Icon, Left, Right, Text, Title, View } from 'native-base';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
+import { Observable } from 'rxjs/Rx';
 
-import { BaseComponent } from '../../components/base';
-import QuizFormModal from '../../components/quizFormModal';
+import { BaseComponent, IStateBase } from '../../components/base';
+import { QuizFormModal } from '../../components/quizFormModal';
 import { dateFormatter } from '../../formatters/date';
-import toast from '../../providers/toast';
+import { IEvent, IEventDate } from '../../interfaces/event';
+import { IQuizAnswer } from '../../interfaces/quizAnswer';
+import { toast } from '../../providers/toast';
 import * as services from '../../services';
+import { IQuizService } from '../../services/interfaces/quiz';
 import { variables } from '../../theme';
 
-export default class EventDetailsPage extends BaseComponent {
+interface IState extends IStateBase {
+  event: IEvent;
+  date: IEventDate;
+  error?: any;
+}
+
+export default class EventDetailsPage extends BaseComponent<IState> {
+  private quizService: IQuizService;
+
   constructor(props: any) {
     super(props);
 
@@ -21,10 +33,11 @@ export default class EventDetailsPage extends BaseComponent {
     };
   }
 
-  form() {
+  public form(): void {
     const { event } = this.state;
 
-    this.refs.quizForm.show('Inscrição', event.quiz, this.saveForm.bind(this))
+    (this.refs.quizForm as QuizFormModal)
+      .show('Inscrição', event.quiz, this.saveForm.bind(this))
       .logError()
       .bindComponent(this)
       .subscribe(result => {
@@ -33,7 +46,7 @@ export default class EventDetailsPage extends BaseComponent {
       });
   }
 
-  saveForm(model) {
+  public saveForm(model: IQuizAnswer): Observable<void> {
     return this.quizService.saveAnswer(model).loader();
   }
 
@@ -42,7 +55,7 @@ export default class EventDetailsPage extends BaseComponent {
 
     return (
       <Container>
-        <QuizFormModal ref="quizForm" />
+        <QuizFormModal ref='quizForm' />
         <Header>
           <Left>
             <Button transparent onPress={() => this.goBack()}>

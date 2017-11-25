@@ -11,7 +11,7 @@ export class InformativeService implements IInformativeService {
 
   public list(refresh?: boolean): Observable<IInformative[]> {
     return this.apiService.get<IInformative[]>('informatives')
-      .cache('service-informative-list', refresh)
+      .cache('service-informative-list', { refresh })
       .map(data => {
         return (data || []).map(informative => {
           informative.icon = informative.typeId === enInformativeType.cell ? 'home' : 'paper';

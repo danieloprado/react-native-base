@@ -24,6 +24,7 @@ declare module "native-base" {
     interface Tabs {
       prerenderingSiblingsNumber?: number;
       tabBarUnderlineStyle?: any;
+      contentProps?: any;
     }
 
     interface TabHeading {
@@ -32,6 +33,10 @@ declare module "native-base" {
 
     interface Header {
       hasSegment?: boolean;
+    }
+
+    interface Picker {
+      renderHeader?: any;
     }
 
   }

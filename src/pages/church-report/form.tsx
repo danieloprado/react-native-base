@@ -2,15 +2,28 @@ import { Body, Button, Container, Content, Form, Header, Icon, Left, List, Right
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { BaseComponent } from '../../components/base';
-import EmptyMessage from '../../components/emptyMessage';
+import { BaseComponent, IStateBase } from '../../components/base';
+import { ErrorMessage } from '../../components/errorMessage';
 import { Field } from '../../components/field';
 import { dateFormatter } from '../../formatters/date';
-import toast from '../../providers/toast';
+import { IChurchReport } from '../../interfaces/churchReport';
+import { ISelectItem } from '../../interfaces/selectItem';
+import { alertError } from '../../providers/alert';
 import * as services from '../../services';
+import { IChurchReportService } from '../../services/interfaces/chuchReport';
 import { ChurchReportValidator } from '../../validators/churchReport';
 
-export default class ChurchReportFormPage extends BaseComponent {
+interface IState extends IStateBase<IChurchReport> {
+  loading: boolean;
+  submitted: boolean;
+  types?: ISelectItem<number>[];
+  error?: any;
+}
+
+export default class ChurchReportFormPage extends BaseComponent<IState> {
+  private churchReportValidator: ChurchReportValidator;
+  private churchReportService: IChurchReportService;
+
   constructor(props: any) {
     super(props);
 
@@ -19,15 +32,15 @@ export default class ChurchReportFormPage extends BaseComponent {
 
     this.state = {
       loading: true,
+      submitted: false,
       model: this.params.report || {
         title: `Culto de ${dateFormatter.format(new Date, 'dddd')}`,
         date: new Date
-      },
-      validation: {}
+      }
     };
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.churchReportService.types()
       .logError()
       .bindComponent(this)
@@ -39,10 +52,10 @@ export default class ChurchReportFormPage extends BaseComponent {
             ...types.map(type => ({ value: type.id, display: type.name }))
           ]
         });
-      }, () => this.setState({ loading: false, error: true }));
+      }, error => this.setState({ loading: false, error }));
   }
 
-  save() {
+  public save(): void {
     this.churchReportValidator.validate(this.state.model)
       .do(({ model, errors }) => this.setState({ validation: errors, model, submitted: true }, true))
       .filter(({ valid }) => valid)
@@ -51,7 +64,7 @@ export default class ChurchReportFormPage extends BaseComponent {
       .bindComponent(this)
       .subscribe(() => {
         this.goBack();
-      }, () => toast.genericError());
+      }, err => alertError(err).subscribe());
   }
 
   public render(): JSX.Element {
@@ -71,15 +84,15 @@ export default class ChurchReportFormPage extends BaseComponent {
           <Right>
             {!loading && !error &&
               <Button transparent onPress={() => this.save()}>
-                <Icon name="checkmark" />
+                <Icon name='checkmark' />
               </Button>
             }
           </Right>
         </Header>
-        <Content keyboardShouldPersistTaps="handled">
+        <Content keyboardShouldPersistTaps='handled'>
           {loading && <Spinner />}
           {!loading && error &&
-            <EmptyMessage icon="sad" message="Não conseguimos carregar" />
+            <ErrorMessage error={error} />
           }
           {!loading && !error &&
             <View style={styles.container}>
@@ -87,80 +100,74 @@ export default class ChurchReportFormPage extends BaseComponent {
                 <List>
 
                   <Field
-                    label="Descrição"
-                    icon="paper"
-                    ref="description"
-                    model={model}
-                    field="title"
+                    label='Descrição'
+                    icon='paper'
+                    ref='description'
+                    type='text'
+                    value={model.title}
+                    error={validation.title}
                     next={() => this.refs.typeId}
-                    errors={validation}
                     onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
                   />
                   <Field
-                    label="Tipo"
-                    ref="typeId"
-                    icon="empty"
-                    model={model}
-                    field="typeId"
-                    next={() => this.refs.date}
-                    type="dropdown"
+                    label='Tipo'
+                    ref='typeId'
+                    icon='empty'
+                    type='dropdown'
                     options={types}
-                    errors={validation}
+                    value={model.typeId}
+                    error={validation.typeId}
+                    next={() => this.refs.date}
                     onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
                   />
                   <Field
-                    label="Data"
-                    icon="calendar"
-                    ref="date"
-                    model={model}
-                    field="date"
+                    label='Data'
+                    icon='calendar'
+                    ref='date'
+                    type='date'
+                    value={model.date}
+                    error={validation.date}
                     next={() => this.refs.totalMembers}
-                    type="date"
-                    errors={validation}
                     onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
                   />
 
                   <Field
-                    label="Total de Membros"
-                    icon="contacts"
-                    ref="totalMembers"
-                    model={model}
-                    field="totalMembers"
+                    label='Total de Membros'
+                    icon='contacts'
+                    ref='totalMembers'
+                    type='number'
+                    value={model.totalMembers}
+                    error={validation.totalMembers}
                     next={() => this.refs.totalNewVisitors}
-                    type="number"
-                    errors={validation}
                     onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
                   />
                   <Field
-                    label="Total de Visitantes"
-                    icon="empty"
-                    ref="totalNewVisitors"
-                    model={model}
-                    field="totalNewVisitors"
+                    label='Total de Visitantes'
+                    icon='empty'
+                    ref='totalNewVisitors'
+                    type='number'
+                    value={model.totalNewVisitors}
+                    error={validation.totalNewVisitors}
                     next={() => this.refs.totalFrequentVisitors}
-                    type="number"
-                    errors={validation}
                     onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
                   />
                   <Field
-                    label="Total de Frequentadores"
-                    icon="empty"
-                    ref="totalFrequentVisitors"
-                    model={model}
-                    field="totalFrequentVisitors"
+                    label='Total de Frequentadores'
+                    icon='empty'
+                    ref='totalFrequentVisitors'
+                    type='number'
+                    value={model.totalFrequentVisitors}
+                    error={validation.totalFrequentVisitors}
                     next={() => this.refs.totalKids}
-                    type="number"
-                    errors={validation}
                     onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
                   />
                   <Field
-                    label="Total de Crianças"
-                    icon="empty"
-                    ref="totalKids"
-                    model={model}
-                    field="totalKids"
-                    type="number"
-                    errors={validation}
+                    label='Total de Crianças'
+                    icon='empty'
+                    ref='totalKids'
+                    type='number'
+                    value={model.totalKids}
+                    error={validation.totalKids}
                     onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null)}
                     onSubmit={() => this.save()}
                   />

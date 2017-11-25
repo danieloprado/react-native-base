@@ -41,6 +41,13 @@ class DateFormatter {
     return moment(date).format(format).replace('-feira', '');
   }
 
+  public formatBirthday(value: Date): string {
+    if (!value || !(value instanceof Date) || isNaN(value.getTime())) return;
+
+    const format = value.getFullYear() === 1900 ? 'DD [de] MMMM' : 'DD [de] MMMM [de] YYYY';
+    return this.format(value, format);
+  }
+
   public humanize(date: any): string {
     const now = moment();
     date = moment(date);

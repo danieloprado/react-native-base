@@ -51,7 +51,7 @@ export class Loader extends BaseComponent<IState, IProps> {
         onRequestClose={() => { }}
       >
         <View style={StyleSheet.flatten(styles.container)}>
-          <Spinner size='large' color={variables.accent} />
+          <Spinner size='large' color={variables.platform === 'android' ? variables.accent : undefined} />
         </View>
       </Modal>
     );

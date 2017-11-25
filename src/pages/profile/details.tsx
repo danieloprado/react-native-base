@@ -17,22 +17,32 @@ import {
 } from 'native-base';
 import * as React from 'react';
 import { Image, StyleSheet } from 'react-native';
+import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent } from '../../components/base';
-import EmptyMessage from '../../components/emptyMessage';
+import { BaseComponent, IStateBase } from '../../components/base';
+import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
-import confirm from '../../providers/confirm';
+import { IUser } from '../../interfaces/user';
+import { confirm } from '../../providers/confirm';
 import * as services from '../../services';
+import { IProfileService } from '../../services/interfaces/profile';
 import { theme, variables } from '../../theme';
 
-export default class ProfileDetailsPage extends BaseComponent {
+interface IState extends IStateBase {
+  loading: boolean;
+  profile?: IUser;
+  error?: any;
+}
+
+export default class ProfileDetailsPage extends BaseComponent<IState> {
   public static navigationOptions: NavigationDrawerScreenOptions = {
-    headerVisible: false,
-    drawerLabel: 'Perfil',
+    drawerLabel: 'Perfil' as any,
     drawerIcon: ({ tintColor }) => (
-      <Icon name="contact" style={{ color: tintColor }} />
+      <Icon name='contact' style={{ color: tintColor }} />
     )
   };
+
+  private profileService: IProfileService;
 
   constructor(props: any) {
     super(props);
@@ -41,16 +51,16 @@ export default class ProfileDetailsPage extends BaseComponent {
     this.state = { loading: true };
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.profileService.get()
       .logError()
       .bindComponent(this)
       .subscribe(profile => {
         this.setState({ loading: false, profile, error: false });
-      }, () => this.setState({ loading: false, error: true }));
+      }, error => this.setState({ loading: false, error }));
   }
 
-  logout() {
+  public logout(): void {
     confirm('Confirmar', 'Deseja realmente sair?', 'Sim', 'Não')
       .filter(ok => ok)
       .switchMap(() => this.profileService.logout().loader())
@@ -98,11 +108,11 @@ export default class ProfileDetailsPage extends BaseComponent {
         <Content>
           {loading && <Spinner />}
           {!loading && !profile && error &&
-            <EmptyMessage icon="sad" message="Não conseguimos atualizar" />
+            <ErrorMessage error={error} />
           }
           {!loading && !profile && !error &&
             <View style={StyleSheet.flatten([theme.emptyMessage, theme.alignCenter])}>
-              <Icon name="contact" style={StyleSheet.flatten([styles.loginIcon, theme.iconLarge])} />
+              <Icon name='contact' style={StyleSheet.flatten([styles.loginIcon, theme.iconLarge])} />
               <Text style={styles.loginText}>Ainda não te conhecemos, mas gostaríamos de saber mais sobre você!</Text>
               <Button block onPress={() => this.navigate('Welcome', { force: true })}>
                 <Text>ENTRAR</Text>
@@ -115,7 +125,7 @@ export default class ProfileDetailsPage extends BaseComponent {
                 {profile.avatar ?
                   <Image style={styles.avatarImg} source={{ uri: profile.avatar }} />
                   :
-                  <Icon name="contact" style={styles.avatarIcon} />
+                  <Icon name='contact' style={styles.avatarIcon} />
                 }
                 <H2 style={styles.headerText}>{profile.fullName}</H2>
               </View>
@@ -123,7 +133,7 @@ export default class ProfileDetailsPage extends BaseComponent {
                 {!!profile.email &&
                   <ListItem style={StyleSheet.flatten([theme.listItem, styles.listItem])}>
                     <Left style={theme.listIconWrapper}>
-                      <Icon name="mail" style={theme.listIcon} />
+                      <Icon name='mail' style={theme.listIcon} />
                     </Left>
                     <Body>
                       <Text>{profile.email}</Text>
@@ -141,7 +151,7 @@ export default class ProfileDetailsPage extends BaseComponent {
                 {!!profile.birthday &&
                   <ListItem style={StyleSheet.flatten([theme.listItem, styles.listItem])}>
                     <Left style={theme.listIconWrapper}>
-                      <Icon name="calendar" style={theme.listIcon} />
+                      <Icon name='calendar' style={theme.listIcon} />
                     </Left>
                     <Body>
                       <Text>{dateFormatter.formatBirthday(profile.birthday)}</Text>
@@ -151,7 +161,7 @@ export default class ProfileDetailsPage extends BaseComponent {
                 {!!profile.fullAddress &&
                   <ListItem style={StyleSheet.flatten([theme.listItem, styles.listItem])}>
                     <Left style={theme.listIconWrapper}>
-                      <Icon name="pin" style={theme.listIcon} />
+                      <Icon name='pin' style={theme.listIcon} />
                     </Left>
                     <Body>
                       <Text>{profile.fullAddress}</Text>
