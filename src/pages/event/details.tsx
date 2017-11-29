@@ -78,7 +78,7 @@ export default class EventDetailsPage extends BaseComponent<IState> {
           <Text style={styles.content}>
             {event.description || 'Sem descrição'}
           </Text>
-          {!!event.quiz &&
+          {!!event.quiz && !!event.quiz.questions.length &&
             <View padder>
               <Button block onPress={() => this.form()}>
                 <Text>Fazer inscrição</Text>

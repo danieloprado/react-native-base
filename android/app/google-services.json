@@ -13,18 +13,9 @@
       }
     },
     "oauth_client": [{
-        "client_id": "808003968903-5gfhu1jej9ht7qo5n1aphahon4o96cft.apps.googleusercontent.com",
-        "client_type": 1,
-        "android_info": {
-          "package_name": "br.com.icbsorocaba.app",
-          "certificate_hash": "a0c6348353c30fa8110da1501aad310130373566"
-        }
-      },
-      {
-        "client_id": "808003968903-apaspmu2kabjhpdv88ki1brmtgqv4o6r.apps.googleusercontent.com",
-        "client_type": 3
-      }
-    ],
+      "client_id": "808003968903-apaspmu2kabjhpdv88ki1brmtgqv4o6r.apps.googleusercontent.com",
+      "client_type": 3
+    }],
     "api_key": [{
       "current_key": "AIzaSyBMuqY-MooNwhhTclRzTgbemA3a88QB97Q"
     }],
@@ -33,19 +24,8 @@
         "status": 1
       },
       "appinvite_service": {
-        "status": 2,
-        "other_platform_oauth_client": [{
-            "client_id": "808003968903-apaspmu2kabjhpdv88ki1brmtgqv4o6r.apps.googleusercontent.com",
-            "client_type": 3
-          },
-          {
-            "client_id": "808003968903-f53sinpkpe1sjc8jtaauho5ouemo1ere.apps.googleusercontent.com",
-            "client_type": 2,
-            "ios_info": {
-              "bundle_id": "br.com.icbsorocaba.app"
-            }
-          }
-        ]
+        "status": 1,
+        "other_platform_oauth_client": []
       },
       "ads_service": {
         "status": 2
