@@ -58,9 +58,9 @@
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@types/base-64/-/base-64-0.1.2.tgz#63ac318302cdabb5f04e8ae2a56e54d4832107e2"
 
-"@types/lodash@4.14.85":
-  version "4.14.85"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.85.tgz#a16fbf942422f6eca5622b6910492c496c35069b"
+"@types/lodash@4.14.86":
+  version "4.14.86"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.86.tgz#6788d3d75032c46322ff1c144c948cf8117c405b"
 
 "@types/moment@2.13.0":
   version "2.13.0"
@@ -98,9 +98,9 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-navigation@1.0.23":
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-1.0.23.tgz#338e04c0f7381176899a379efbd651ddda8a2e97"
+"@types/react-navigation@1.0.25":
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-1.0.25.tgz#20bde2411dfb9c5731abcdecf3c915add902e074"
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
@@ -964,9 +964,9 @@ buffer-shims@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/buffer-shims/-/buffer-shims-1.0.0.tgz#9978ce317388c649ad8793028c3477ef044a8b51"
 
-bugsnag-react-native@2.7.3:
-  version "2.7.3"
-  resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.7.3.tgz#d4ebec4732e8854ee68bc3b80c09f7b3c0e47f19"
+bugsnag-react-native@2.7.5:
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.7.5.tgz#a9c6474faba0c65d50951cbe335908a3f83cc71a"
   dependencies:
     promise "^7"
     prop-types "^15.6.0"
@@ -2718,9 +2718,9 @@ moment@*, moment@^2.19.0:
   version "2.19.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.1.tgz#56da1a2d1cbf01d38b7e1afc31c10bcfa1929167"
 
-moment@2.19.2:
-  version "2.19.2"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.2.tgz#8a7f774c95a64550b4c7ebd496683908f9419dbe"
+moment@2.19.3:
+  version "2.19.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.3.tgz#bdb99d270d6d7fda78cc0fbace855e27fe7da69f"
 
 morgan@~1.6.1:
   version "1.6.1"
@@ -3280,9 +3280,9 @@ react-native-cli@2.0.1:
     prompt "^0.2.14"
     semver "^5.0.3"
 
-react-native-device-info@0.12.1:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.12.1.tgz#659ed145caa5a86a4815904381b25e9ebe0c24f6"
+react-native-device-info@0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.13.0.tgz#81051eebd3db6959e4f1d2cb0ae8df74105040cf"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
@@ -3468,9 +3468,9 @@ react-tween-state@^0.1.5:
     raf "^3.1.0"
     tween-functions "^1.0.1"
 
-react@16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.0.0.tgz#ce7df8f1941b036f02b2cca9dbd0cb1f0e855e2d"
+react@16.2.0:
+  version "16.2.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.2.0.tgz#a31bd2dab89bff65d42134fa187f24d054c273ba"
   dependencies:
     fbjs "^0.8.16"
     loose-envify "^1.1.0"
@@ -4219,9 +4219,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.1.tgz#ef39cdea27abac0b500242d6726ab90e0c846631"
+typescript@2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
 
 ua-parser-js@^0.7.9:
   version "0.7.12"

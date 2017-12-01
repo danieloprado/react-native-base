@@ -12,15 +12,15 @@
   "dependencies": {
     "axios": "0.17.1",
     "base-64": "0.1.0",
-    "bugsnag-react-native": "2.7.3",
+    "bugsnag-react-native": "2.7.5",
     "lodash": "4.17.4",
-    "moment": "2.19.2",
+    "moment": "2.19.3",
     "native-base": "2.3.3",
     "prop-types": "15.6.0",
-    "react": "16.0.0",
+    "react": "16.2.0",
     "react-native": "0.50.4",
     "react-native-busy-indicator": "1.1.0",
-    "react-native-device-info": "0.12.1",
+    "react-native-device-info": "0.13.0",
     "react-native-fbsdk": "git+https://github.com/facebook/react-native-fbsdk#23ae582dd8ebc48592e1cfa1b0e4bc35e98a4ab0",
     "react-native-fcm": "10.0.3",
     "react-native-google-signin": "0.12.0",
@@ -32,14 +32,14 @@
   },
   "devDependencies": {
     "@types/base-64": "0.1.2",
-    "@types/lodash": "4.14.85",
+    "@types/lodash": "4.14.86",
     "@types/moment": "2.13.0",
     "@types/prop-types": "15.5.2",
     "@types/react": "16.0.15",
     "@types/react-native": "0.50.7",
     "@types/react-native-fbsdk": "0.6.0",
     "@types/react-native-google-signin": "0.12.0",
-    "@types/react-navigation": "1.0.23",
+    "@types/react-navigation": "1.0.25",
     "@types/validatorjs": "3.7.1",
     "babel-eslint": "8.0.2",
     "babel-preset-react-native": "4.0.0",
@@ -51,6 +51,6 @@
     "rimraf": "2.6.2",
     "tslint": "5.8.0",
     "tslint-eslint-rules": "4.1.1",
-    "typescript": "2.6.1"
+    "typescript": "2.6.2"
   }
 }

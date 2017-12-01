@@ -5,13 +5,14 @@ target 'churchReact' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
   react_native_path = "../node_modules/react-native"
-  pod "Yoga", :path => "#{react_native_path}/ReactCommon/yoga"
+  pod "yoga", :path => "#{react_native_path}/ReactCommon/yoga"
 
   # Pods for churchReact
+  pod 'FirebaseMessaging', '2.0.7'
   pod 'Google/SignIn'
-  pod 'FBSDKCoreKit'
-  pod 'FBSDKShareKit'
-  pod 'FBSDKLoginKit'
+  pod 'FBSDKCoreKit', '4.28'
+  pod 'FBSDKShareKit', '4.28'
+  pod 'FBSDKLoginKit', '4.28'
 
   target 'churchReact-tvOSTests' do
     inherit! :search_paths
