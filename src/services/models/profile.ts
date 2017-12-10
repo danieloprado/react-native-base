@@ -39,14 +39,14 @@ export class ProfileService {
   public register(provider: string, accessToken: string): Observable<void> {
     return this.notificationService.getToken()
       .first()
-      .switchMap(notificationId => {
+      .switchMap(notificationToken => {
         return this.apiService.post('register', {
           deviceId: device.getUniqueID(),
           name: `${device.getBrand()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`,
           application: this.churchSlug,
           provider,
           accessToken,
-          notificationId
+          notificationToken
         });
       })
       .switchMap(res => this.tokenService.setToken(res));
@@ -85,17 +85,17 @@ export class ProfileService {
 
   public logout(): Observable<void> {
     return this.apiService
-      .post('/auth/logout', { deviceId: device.getUniqueID() })
+      .post('profile/logout', { deviceId: device.getUniqueID(), application: this.churchSlug })
       .switchMap(() => this.tokenService.clearToken())
       .switchMap(() => this.cacheService.clear());
   }
 
-  private updateNotificationToken(notificationUserId: string): Observable<void> {
+  private updateNotificationToken(notificationToken: string): Observable<void> {
     const deviceId = device.getUniqueID();
     const deviceName = `${device.getBrand()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`;
     const application = this.churchSlug;
 
-    return this.apiService.post('profile/notification-token', { deviceId, application, notificationUserId, deviceName });
+    return this.apiService.post('profile/notification-token', { deviceId, application, notificationToken, deviceName });
   }
 
 }
