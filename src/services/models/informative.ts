@@ -20,31 +20,19 @@ export class InformativeService {
   }
 
   public get(id: number, refresh?: boolean): Observable<IInformative> {
-    return new Observable(observer => {
-      this.list(refresh).first().subscribe(informatives => {
-        const informative = informatives.filter(i => i.id === id)[0];
+    return this.list(refresh)
+      .first()
+      .switchMap(informatives => {
+        const informative = informatives.find(i => i.id === id);
 
         if (informative) {
-          observer.next(informative);
-          observer.complete();
-          return;
+          return Observable.of(informative);
         }
 
-        if (!refresh) {
-          this.list(true).first().subscribe(informatives => {
-            const informative = informatives.filter(i => i.id === id)[0];
-            observer.next(informative);
-            observer.complete();
-          });
-          return;
-        }
-
-        observer.next(null);
-        observer.complete();
-      }, error => observer.error(error), () => {
-        observer.next(null);
+        return this.apiService
+          .get<IInformative>(`informatives/${id}`)
+          .map(i => dateFormatter.parseObj(i));
       });
-    });
   }
 
   public last(refresh?: boolean): Observable<IInformative> {
