@@ -18,6 +18,7 @@ export interface IEvent {
 
   featured: boolean;
   featuredText?: string;
+  featuredImage?: string;
   image?: string;
   quizId?: number;
 

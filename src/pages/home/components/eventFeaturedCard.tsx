@@ -48,10 +48,12 @@ class EventFeaturedCard extends BaseComponent<IState> {
       <View>
         {!loading && !!event &&
           <Card>
-            <Image
-              style={styles.image}
-              source={{ uri: 'http://icbnews.com.br/wp-content/uploads/2015/09/encontro-com-o-amor-de-deus-1024x639.jpg' }}
-            />
+            {!!event.featuredImage &&
+              <Image
+                style={styles.image}
+                source={{ uri: event.featuredImage }}
+              />
+            }
             <CardItem header style={styles.header}>
               <View>
                 <H2>{event.title}</H2>
