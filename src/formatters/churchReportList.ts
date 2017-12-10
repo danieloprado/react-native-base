@@ -4,7 +4,7 @@ import { dateFormatter } from '../formatters/date';
 import { IChurchReport } from '../interfaces/churchReport';
 
 export function churchReportListFormatter(reports: IChurchReport[]): IChurchReport[] {
-  return lodash.orderBy(mapper(reports), ['date', 'id']);
+  return lodash.orderBy(mapper(reports), ['date', 'id'], ['desc', 'asc']);
 }
 
 function mapper(reports: IChurchReport[]): IChurchReport[] {

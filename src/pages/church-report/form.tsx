@@ -33,6 +33,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
     this.state = {
       loading: true,
       submitted: false,
+      validation: {},
       model: this.params.report || {
         title: `Culto de ${dateFormatter.format(new Date, 'dddd')}`,
         date: new Date
@@ -102,12 +103,12 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
                   <Field
                     label='Descrição'
                     icon='paper'
-                    ref='description'
+                    ref='title'
                     type='text'
                     value={model.title}
                     error={validation.title}
                     next={() => this.refs.typeId}
-                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null, 'description')}
+                    onChange={this.updateModel.bind(this, submitted ? this.churchReportValidator : null, 'title')}
                   />
                   <Field
                     label='Tipo'
