@@ -1,11 +1,10 @@
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { Observable } from 'rxjs';
 
-import { IFacebookService } from '../interfaces/facebook';
-import { ILogService } from '../interfaces/log';
+import { LogService } from './log';
 
-export class FacebookService implements IFacebookService {
-  constructor(private logService: ILogService) { }
+export class FacebookService {
+  constructor(private logService: LogService) { }
 
   public login(): Observable<string> {
     return Observable

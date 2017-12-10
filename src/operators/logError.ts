@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Rx';
 
 import * as services from '../services';
-import { ILogService } from '../services/interfaces/log';
+import { LogService } from '../services/models/log';
 
 interface IIgnoreParam {
   (err: any): boolean;
@@ -29,7 +29,7 @@ class LogErrorOperator {
 }
 
 class LogErrorSubscriber extends Subscriber<any> {
-  private logService: ILogService;
+  private logService: LogService;
 
   constructor(
     protected destination: Subscriber<any>,

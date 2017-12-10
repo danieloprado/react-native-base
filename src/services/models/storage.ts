@@ -2,9 +2,8 @@ import { AsyncStorage } from 'react-native';
 import { Observable } from 'rxjs';
 
 import { dateFormatter } from '../../formatters/date';
-import { IStorageService } from '../interfaces/storage';
 
-export class StorageService implements IStorageService {
+export class StorageService {
 
   public get<T = any>(key: string): Observable<T> {
     return Observable

@@ -1,9 +1,8 @@
 import { Client, Configuration } from 'bugsnag-react-native';
 
 import { IUserToken } from '../../interfaces/userToken';
-import { ILogService } from '../interfaces/log';
 
-export class LogService implements ILogService {
+export class LogService {
   private bugsnag: any;
 
   constructor(private isDevelopment: boolean) {

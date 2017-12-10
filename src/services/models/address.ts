@@ -1,7 +1,6 @@
 import { ISelectItem } from '../../interfaces/selectItem';
-import { IAddressService } from '../interfaces/address';
 
-export class AddressService implements IAddressService {
+export class AddressService {
   private states: ISelectItem[];
 
   constructor(defaultState: string, private defaultCity: string) {

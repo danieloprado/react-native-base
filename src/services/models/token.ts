@@ -3,14 +3,13 @@ import { Observable, ReplaySubject } from 'rxjs';
 
 import { IAuthToken } from '../../interfaces/authToken';
 import { IUserToken } from '../../interfaces/userToken';
-import { IStorageService } from '../interfaces/storage';
-import { ITokenService } from '../interfaces/token';
+import { StorageService } from './storage';
 
-export class TokenService implements ITokenService {
+export class TokenService {
   private tokens: IAuthToken;
   private authToken$: ReplaySubject<IAuthToken>;
 
-  constructor(private storageService: IStorageService) {
+  constructor(private storageService: StorageService) {
     this.authToken$ = new ReplaySubject(1);
 
     this.storageService.get('authToken').logError().subscribe(tokens => {

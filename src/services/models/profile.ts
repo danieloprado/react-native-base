@@ -4,21 +4,20 @@ import { Observable, Subject } from 'rxjs';
 import { dateFormatter } from '../../formatters/date';
 import { IUser } from '../../interfaces/user';
 import { IUserToken } from '../../interfaces/userToken';
-import { IApiService } from '../interfaces/api';
-import { ICacheService } from '../interfaces/cache';
-import { INotificationService } from '../interfaces/notification';
-import { IProfileService } from '../interfaces/profile';
-import { ITokenService } from '../interfaces/token';
+import { ApiService } from './api';
+import { CacheService } from './cache';
+import { NotificationService } from './notification';
+import { TokenService } from './token';
 
-export class ProfileService implements IProfileService {
+export class ProfileService {
   private profileUpdate$: Subject<IUser>;
 
   constructor(
     private churchSlug: string,
-    private apiService: IApiService,
-    private cacheService: ICacheService,
-    private notificationService: INotificationService,
-    private tokenService: ITokenService
+    private apiService: ApiService,
+    private cacheService: CacheService,
+    private notificationService: NotificationService,
+    private tokenService: TokenService
   ) {
     this.profileUpdate$ = new Subject();
 

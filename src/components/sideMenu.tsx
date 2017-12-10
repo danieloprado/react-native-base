@@ -5,7 +5,7 @@ import { NavigationScreenProps } from 'react-navigation';
 
 import { IUserToken } from '../interfaces/userToken';
 import * as services from '../services';
-import { ITokenService } from '../services/interfaces/token';
+import { TokenService } from '../services/models/token';
 import platform from '../theme/native-base/variables/platform';
 import { BaseComponent, IStateBase } from './base';
 import { DrawerNavigatorItems as DrawerItems } from './drawerItems';
@@ -20,7 +20,7 @@ interface IState extends IStateBase {
 }
 
 export class SideMenu extends BaseComponent<IState, NavigationScreenProps<any>> {
-  private tokenService: ITokenService;
+  private tokenService: TokenService;
 
   constructor(props: any) {
     super(props);

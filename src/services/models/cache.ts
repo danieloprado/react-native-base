@@ -2,14 +2,13 @@ import moment from 'moment';
 import { Observable } from 'rxjs';
 
 import { ICache } from '../../interfaces/cache';
-import { ICacheService } from '../interfaces/cache';
-import { IStorageService } from '../interfaces/storage';
+import { StorageService } from './storage';
 
-export class CacheService implements ICacheService {
+export class CacheService {
   private memory: { [key: string]: ICache };
 
   constructor(
-    private storageService: IStorageService
+    private storageService: StorageService
   ) {
     this.memory = {};
   }

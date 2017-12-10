@@ -1,11 +1,10 @@
 import { Observable } from 'rxjs/Rx';
 
 import { IQuizAnswer } from '../../interfaces/quizAnswer';
-import { IApiService } from '../interfaces/api';
-import { IQuizService } from '../interfaces/quiz';
+import { ApiService } from './api';
 
-export class QuizService implements IQuizService {
-  constructor(private apiService: IApiService) { }
+export class QuizService {
+  constructor(private apiService: ApiService) { }
 
   public saveAnswer(model: IQuizAnswer): Observable<void> {
     return this.apiService.post('quiz', model);

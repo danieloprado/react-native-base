@@ -1,7 +1,6 @@
 import { Container } from '../container';
-import { IStorageService } from '../interfaces/storage';
 import { StorageService } from '../models/storage';
 
-export function storageFactory(container: Container): IStorageService {
+export function storageFactory(container: Container): StorageService {
   return new StorageService();
 }

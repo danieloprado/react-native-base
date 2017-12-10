@@ -1,13 +1,12 @@
 import { GoogleSignin } from 'react-native-google-signin';
 import { Observable } from 'rxjs';
 
-import { IGoogleService } from '../interfaces/google';
-import { ILogService } from '../interfaces/log';
+import { LogService } from './log';
 
-export class GoogleService implements IGoogleService {
+export class GoogleService {
   constructor(
-    private logService: ILogService,
-    googleApi: { iosClientid: string, webClientId: string }
+    private logService: LogService,
+    googleApi: { iosClientId: string, webClientId: string }
   ) {
     const options = { ...googleApi, offlineAccess: true };
 

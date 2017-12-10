@@ -5,12 +5,12 @@ import { NavigationAction, NavigationRoute, NavigationScreenProp } from 'react-n
 import { Observable, ReplaySubject } from 'rxjs';
 import { Subject } from 'rxjs/Rx';
 
+import { INotificationHandler, INotificationInfo } from '../../interfaces/notification';
 import { InteractionManager } from '../../providers/interactionManager';
-import { INotificationHandler, INotificationInfo, INotificationService } from '../interfaces/notification';
-import { IStorageService } from '../interfaces/storage';
-import { ITokenService } from '../interfaces/token';
+import { StorageService } from './storage';
+import { TokenService } from './token';
 
-export class NotificationService implements INotificationService {
+export class NotificationService {
   private navigator: NavigationScreenProp<NavigationRoute<any>, NavigationAction>;
 
   private appDidOpen$: ReplaySubject<void>;
@@ -22,8 +22,8 @@ export class NotificationService implements INotificationService {
   private handlers: { [key: string]: INotificationHandler } = {};
 
   constructor(
-    private storageService: IStorageService,
-    private tokenService: ITokenService
+    private storageService: StorageService,
+    private tokenService: TokenService
   ) {
     this.appDidOpen$ = new ReplaySubject(1);
     this.setup$ = new ReplaySubject(1);

@@ -10,7 +10,7 @@ import { dateFormatter } from '../../formatters/date';
 import { eventListFormatter, IEventListFormatted } from '../../formatters/eventList';
 import { toast } from '../../providers/toast';
 import * as services from '../../services';
-import { IEventService } from '../../services/interfaces/event';
+import { EventService } from '../../services/models/event';
 
 interface IState extends IStateBase {
   refreshing: boolean;
@@ -26,7 +26,7 @@ export default class EventListPage extends BaseComponent<IState> {
     )
   };
 
-  private eventService: IEventService;
+  private eventService: EventService;
 
   constructor(props: any) {
     super(props);

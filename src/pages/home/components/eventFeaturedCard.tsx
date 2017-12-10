@@ -7,7 +7,7 @@ import { BaseComponent, IStateBase } from '../../../components/base';
 import { dateFormatter } from '../../../formatters/date';
 import { IEvent } from '../../../interfaces/event';
 import * as services from '../../../services';
-import { IEventService } from '../../../services/interfaces/event';
+import { EventService } from '../../../services/models/event';
 import { theme, variables } from '../../../theme';
 
 interface IState extends IStateBase {
@@ -17,7 +17,7 @@ interface IState extends IStateBase {
 }
 
 class EventFeaturedCard extends BaseComponent<IState> {
-  private eventService: IEventService;
+  private eventService: EventService;
 
   constructor(props: any) {
     super(props);

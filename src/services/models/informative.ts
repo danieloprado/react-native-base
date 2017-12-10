@@ -3,11 +3,10 @@ import { Observable } from 'rxjs';
 import { dateFormatter } from '../../formatters/date';
 import { IInformative } from '../../interfaces/informative';
 import { enInformativeType } from '../enums/informativeType';
-import { IApiService } from '../interfaces/api';
-import { IInformativeService } from '../interfaces/informative';
+import { ApiService } from './api';
 
-export class InformativeService implements IInformativeService {
-  constructor(private apiService: IApiService) { }
+export class InformativeService {
+  constructor(private apiService: ApiService) { }
 
   public list(refresh?: boolean): Observable<IInformative[]> {
     return this.apiService.get<IInformative[]>('informatives')

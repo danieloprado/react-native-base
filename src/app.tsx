@@ -4,8 +4,8 @@ import './operators/logError';
 import 'rxjs/add/operator/map';
 
 import { Root, StyleProvider } from 'native-base';
-import { Component } from 'react';
 import * as React from 'react';
+import { Component } from 'react';
 import { AppRegistry, Keyboard } from 'react-native';
 import { NavigationState } from 'react-navigation';
 import { Subscription } from 'rxjs';
@@ -14,9 +14,9 @@ import { Loader } from './components/loader';
 import { Navigator } from './navigator';
 import * as loaderOperador from './operators/loader';
 import * as services from './services';
-import { ILogService } from './services/interfaces/log';
-import { INotificationService } from './services/interfaces/notification';
-import { ITokenService } from './services/interfaces/token';
+import { LogService } from './services/models/log';
+import { NotificationService } from './services/models/notification';
+import { TokenService } from './services/models/token';
 import getTheme from './theme/native-base/components';
 import platform from './theme/native-base/variables/platform';
 
@@ -25,9 +25,9 @@ interface IState {
 }
 
 class App extends Component<any, IState> {
-  private tokenService: ITokenService;
-  private notificationService: INotificationService;
-  private logService: ILogService;
+  private tokenService: TokenService;
+  private notificationService: NotificationService;
+  private logService: LogService;
 
   private subscription: Subscription;
   private navigator: any;

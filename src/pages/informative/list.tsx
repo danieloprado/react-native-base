@@ -9,7 +9,7 @@ import { dateFormatter } from '../../formatters/date';
 import { IInformative } from '../../interfaces/informative';
 import { toast } from '../../providers/toast';
 import * as services from '../../services';
-import { IInformativeService } from '../../services/interfaces/informative';
+import { InformativeService } from '../../services/models/informative';
 import { theme } from '../../theme';
 
 interface IState extends IStateBase {
@@ -26,7 +26,7 @@ export default class InformativeListPage extends BaseComponent<IState> {
     )
   };
 
-  private informativeService: IInformativeService;
+  private informativeService: InformativeService;
 
   constructor(props: any) {
     super(props);

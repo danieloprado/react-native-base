@@ -1,7 +1,6 @@
 import { Container } from '../container';
-import { ICacheService } from '../interfaces/cache';
 import { CacheService } from '../models/cache';
 
-export function cacheFactory(container: Container): ICacheService {
+export function cacheFactory(container: Container): CacheService {
   return new CacheService(container.get('storageService'));
 }

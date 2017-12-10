@@ -1,6 +1,6 @@
 import { NavigationActions } from 'react-navigation';
 
-import { INotificationHandler } from '../interfaces/notification';
+import { INotificationHandler } from '../../interfaces/notification';
 
 export const handle: INotificationHandler<{ id: string }> = async (dispatch, info, appStarted) => {
   const id = Number(info.data.id);

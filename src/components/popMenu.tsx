@@ -4,7 +4,7 @@ import * as React from 'react';
 import { findNodeHandle, Platform, UIManager } from 'react-native';
 
 import * as services from '../services';
-import { ILogService } from '../services/interfaces/log';
+import { LogService } from '../services/models/log';
 
 interface IProps {
   actions: {
@@ -17,7 +17,7 @@ interface IProps {
 export class PopupMenu extends React.Component<IProps> {
   public static propTypes: any = { actions: propTypes.array.isRequired };
 
-  private logService: ILogService;
+  private logService: LogService;
 
   constructor(props: any) {
     super(props);

@@ -24,7 +24,7 @@ import { ErrorMessage } from '../components/errorMessage';
 import { phoneFormatter } from '../formatters/phone';
 import { IChurch } from '../interfaces/church';
 import * as services from '../services';
-import { IChurchSevice } from '../services/interfaces/church';
+import { ChurchService } from '../services/models/church';
 import { theme } from '../theme';
 
 interface IState extends IStateBase {
@@ -41,7 +41,7 @@ export default class ChurchPage extends BaseComponent<IState> {
     )
   };
 
-  private churchService: IChurchSevice;
+  private churchService: ChurchService;
 
   constructor(props: any) {
     super(props);

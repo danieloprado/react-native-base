@@ -4,17 +4,16 @@ import { Observable, ReplaySubject } from 'rxjs';
 
 import { ApiError } from '../../errors/api';
 import { NoInternetError } from '../../errors/noInternet';
-import { IApiService } from '../interfaces/api';
-import { ILogService } from '../interfaces/log';
-import { ITokenService } from '../interfaces/token';
+import { LogService } from './log';
+import { TokenService } from './token';
 
-export class ApiService implements IApiService {
+export class ApiService {
   private connection$: ReplaySubject<boolean>;
 
   constructor(
     private apiEndpoint: string,
-    private logService: ILogService,
-    private tokenService: ITokenService
+    private logService: LogService,
+    private tokenService: TokenService
   ) {
     this.connection$ = new ReplaySubject(1);
     this.watchNetwork();

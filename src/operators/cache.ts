@@ -3,8 +3,8 @@ import { Subscriber, Subscription } from 'rxjs/Rx';
 
 import { ICache } from '../interfaces/cache';
 import * as services from '../services';
-import { ICacheService } from '../services/interfaces/cache';
-import { ILogService } from '../services/interfaces/log';
+import { CacheService } from '../services/models/cache';
+import { LogService } from '../services/models/log';
 
 interface IOptions {
   refresh: boolean;
@@ -30,8 +30,8 @@ declare module 'rxjs/Observable' {
 }
 
 class CacheOperator {
-  private cacheService: ICacheService;
-  private logService: ILogService;
+  private cacheService: CacheService;
+  private logService: LogService;
 
   constructor(
     private key: string,

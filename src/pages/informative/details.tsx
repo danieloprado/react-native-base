@@ -9,7 +9,7 @@ import { informativeRender } from '../../formatters/informativeRender';
 import { IInformative } from '../../interfaces/informative';
 import * as services from '../../services';
 import { enInformativeType } from '../../services/enums/informativeType';
-import { IInformativeService } from '../../services/interfaces/informative';
+import { InformativeService } from '../../services/models/informative';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -20,7 +20,7 @@ interface IState extends IStateBase {
 }
 
 export default class InformativeDetailsPage extends BaseComponent<IState> {
-  private informativeService: IInformativeService;
+  private informativeService: InformativeService;
 
   constructor(props: any) {
     super(props);

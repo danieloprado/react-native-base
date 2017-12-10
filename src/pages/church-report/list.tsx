@@ -26,7 +26,7 @@ import { dateFormatter } from '../../formatters/date';
 import { IChurchReport } from '../../interfaces/churchReport';
 import { toast } from '../../providers/toast';
 import * as services from '../../services';
-import { IChurchReportService } from '../../services/interfaces/chuchReport';
+import { ChurchReportService } from '../../services/models/churchReport';
 import { theme } from '../../theme';
 
 interface IState extends IStateBase {
@@ -43,7 +43,7 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
     )
   };
 
-  private churchReportService: IChurchReportService;
+  private churchReportService: ChurchReportService;
 
   constructor(props: any) {
     super(props);

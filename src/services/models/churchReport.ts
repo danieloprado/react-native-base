@@ -5,13 +5,13 @@ import { churchReportListFormatter } from '../../formatters/churchReportList';
 import { dateFormatter } from '../../formatters/date';
 import { IChurchReport } from '../../interfaces/churchReport';
 import { IChurchReportType } from '../../interfaces/churchReportType';
-import { IApiService } from '../interfaces/api';
+import { ApiService } from './api';
 
 export class ChurchReportService {
   private reports: IChurchReport[];
   private reportUpdate$: Subject<IChurchReport[]>;
 
-  constructor(private apiService: IApiService) {
+  constructor(private apiService: ApiService) {
     this.reports = [];
     this.reportUpdate$ = new Subject();
   }

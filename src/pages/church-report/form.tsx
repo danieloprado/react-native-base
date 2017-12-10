@@ -10,7 +10,7 @@ import { IChurchReport } from '../../interfaces/churchReport';
 import { ISelectItem } from '../../interfaces/selectItem';
 import { alertError } from '../../providers/alert';
 import * as services from '../../services';
-import { IChurchReportService } from '../../services/interfaces/chuchReport';
+import { ChurchReportService } from '../../services/models/churchReport';
 import { ChurchReportValidator } from '../../validators/churchReport';
 
 interface IState extends IStateBase<IChurchReport> {
@@ -22,7 +22,7 @@ interface IState extends IStateBase<IChurchReport> {
 
 export default class ChurchReportFormPage extends BaseComponent<IState> {
   private churchReportValidator: ChurchReportValidator;
-  private churchReportService: IChurchReportService;
+  private churchReportService: ChurchReportService;
 
   constructor(props: any) {
     super(props);

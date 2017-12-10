@@ -6,11 +6,11 @@ import SplashScreen from 'react-native-splash-screen';
 import { BaseComponent, IStateBase } from '../components/base';
 import { alertError } from '../providers/alert';
 import * as services from '../services';
-import { IFacebookService } from '../services/interfaces/facebook';
-import { IGoogleService } from '../services/interfaces/google';
-import { INotificationService } from '../services/interfaces/notification';
-import { IProfileService } from '../services/interfaces/profile';
-import { IStorageService } from '../services/interfaces/storage';
+import { FacebookService } from '../services/models/facebook';
+import { GoogleService } from '../services/models/google';
+import { NotificationService } from '../services/models/notification';
+import { ProfileService } from '../services/models/profile';
+import { StorageService } from '../services/models/storage';
 import { isDevelopment } from '../settings';
 import { theme, variables } from '../theme';
 
@@ -23,11 +23,11 @@ interface IState extends IStateBase {
 }
 
 export default class WelcomPage extends BaseComponent<IState> {
-  private storageService: IStorageService;
-  private notificationService: INotificationService;
-  private profileService: IProfileService;
-  private facebookService: IFacebookService;
-  private googleService: IGoogleService;
+  private storageService: StorageService;
+  private notificationService: NotificationService;
+  private profileService: ProfileService;
+  private facebookService: FacebookService;
+  private googleService: GoogleService;
 
   constructor(props: any) {
     super(props);

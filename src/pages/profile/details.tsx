@@ -25,7 +25,7 @@ import { dateFormatter } from '../../formatters/date';
 import { IUser } from '../../interfaces/user';
 import { confirm } from '../../providers/confirm';
 import * as services from '../../services';
-import { IProfileService } from '../../services/interfaces/profile';
+import { ProfileService } from '../../services/models/profile';
 import { theme, variables } from '../../theme';
 
 interface IState extends IStateBase {
@@ -42,7 +42,7 @@ export default class ProfileDetailsPage extends BaseComponent<IState> {
     )
   };
 
-  private profileService: IProfileService;
+  private profileService: ProfileService;
 
   constructor(props: any) {
     super(props);

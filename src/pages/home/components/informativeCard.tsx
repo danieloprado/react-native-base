@@ -7,7 +7,7 @@ import { BaseComponent, IStateBase } from '../../../components/base';
 import { dateFormatter } from '../../../formatters/date';
 import { IInformative } from '../../../interfaces/informative';
 import * as services from '../../../services';
-import { IInformativeService } from '../../../services/interfaces/informative';
+import { InformativeService } from '../../../services/models/informative';
 import { theme, variables } from '../../../theme';
 
 interface IState extends IStateBase {
@@ -17,7 +17,7 @@ interface IState extends IStateBase {
 }
 
 class InformativeCard extends BaseComponent<IState> {
-  private informativeService: IInformativeService;
+  private informativeService: InformativeService;
 
   constructor(props: any) {
     super(props);

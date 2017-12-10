@@ -7,8 +7,8 @@ import { ISelectItem } from '../../interfaces/selectItem';
 import { IUser } from '../../interfaces/user';
 import { alertError } from '../../providers/alert';
 import * as services from '../../services';
-import { IAddressService } from '../../services/interfaces/address';
-import { IProfileService } from '../../services/interfaces/profile';
+import { AddressService } from '../../services/models/address';
+import { ProfileService } from '../../services/models/profile';
 import { ProfileValidator } from '../../validators/profile';
 
 const genderOptions = [
@@ -24,8 +24,8 @@ interface IState extends IStateBase<IUser> {
 
 export default class ProfileEditPage extends BaseComponent<IState> {
   private profileValidator: ProfileValidator;
-  private addressService: IAddressService;
-  private profileService: IProfileService;
+  private addressService: AddressService;
+  private profileService: ProfileService;
 
   constructor(props: any) {
     super(props);

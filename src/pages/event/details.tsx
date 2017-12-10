@@ -10,7 +10,7 @@ import { IEvent, IEventDate } from '../../interfaces/event';
 import { IQuizAnswer } from '../../interfaces/quizAnswer';
 import { toast } from '../../providers/toast';
 import * as services from '../../services';
-import { IQuizService } from '../../services/interfaces/quiz';
+import { QuizService } from '../../services/models/quiz';
 import { variables } from '../../theme';
 
 interface IState extends IStateBase {
@@ -20,7 +20,7 @@ interface IState extends IStateBase {
 }
 
 export default class EventDetailsPage extends BaseComponent<IState> {
-  private quizService: IQuizService;
+  private quizService: QuizService;
 
   constructor(props: any) {
     super(props);

@@ -2,11 +2,10 @@ import { Observable } from 'rxjs/Rx';
 
 import { dateFormatter } from '../../formatters/date';
 import { IEvent } from '../../interfaces/event';
-import { IApiService } from '../interfaces/api';
-import { IEventService } from '../interfaces/event';
+import { ApiService } from './api';
 
-export class EventService implements IEventService {
-  constructor(private apiService: IApiService) { }
+export class EventService {
+  constructor(private apiService: ApiService) { }
 
   public list(refresh?: boolean): Observable<IEvent[]> {
     return this.apiService.get<IEvent[]>('events')
