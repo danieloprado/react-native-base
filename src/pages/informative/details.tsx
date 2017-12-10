@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Share, WebView } from 'react-native';
 
 import { BaseComponent, IStateBase } from '../../components/base';
+import { EmptyMessage } from '../../components/emptyMessage';
 import { ErrorMessage } from '../../components/errorMessage';
 import { informativeRender } from '../../formatters/informativeRender';
 import { IInformative } from '../../interfaces/informative';
@@ -42,7 +43,7 @@ export default class InformativeDetailsPage extends BaseComponent<IState> {
       .bindComponent(this)
       .subscribe(informative => {
         const html = informative ? informativeRender(informative) : null;
-        this.setState({ loading: false, informative, html, error: !informative });
+        this.setState({ loading: false, informative, html });
       }, error => this.setState({ loading: false, error }));
   }
 
@@ -94,7 +95,12 @@ export default class InformativeDetailsPage extends BaseComponent<IState> {
             <ErrorMessage error={error} />
           </Content>
         }
-        {!loading && !error &&
+        {!loading && !error && !informative &&
+          <Content>
+            <EmptyMessage icon='sad' message='Não encontramos' />
+          </Content>
+        }
+        {!loading && !error && !!informative &&
           <View style={{ flex: 1 }}>
             <WebView
               source={{ html }}

@@ -10,8 +10,8 @@ export const defaultAddress = {
 export const apiTimeout = 15 * 1000;
 export const apiEndpoint = env === 'production' ?
   `https://app.icbsorocaba.com.br/api/app/${churchSlug}` :
-  `http://10.84.77.206:3001/api/app/${churchSlug}`;
-// `http://192.168.25.3:3001/api/app/${churchSlug}`;
+  // `http://10.84.77.206:3001/api/app/${churchSlug}`;
+  `http://192.168.25.5:3001/api/app/${churchSlug}`;
 // `https://app.icbsorocaba.com.br/api/app/${churchSlug}`;
 
 export const googleApi = {

@@ -29,24 +29,31 @@ import { IProfileService } from './interfaces/profile';
 import { IQuizService } from './interfaces/quiz';
 import { IStorageService } from './interfaces/storage';
 import { ITokenService } from './interfaces/token';
+import { register as notificationHandlersRegister } from './notification-handlers';
 
-const container = new Container();
+let container: Container;
 
-container.register<IAddressService>('addressService', addressFactory);
-container.register<IApiService>('apiService', apiFactory);
-container.register<ICacheService>('cacheService', cacheFactory);
-container.register<IChurchReportService>('churchReportService', churchReportFactory);
-container.register<IChurchSevice>('churchService', churchFactory);
-container.register<IEventService>('eventService', eventFactory);
-container.register<IFacebookService>('facebookService', facebookFactory);
-container.register<IGoogleService>('googleService', googleFactory);
-container.register<IInformativeService>('informativeService', informativeFactory);
-container.register<ILogService>('logService', logFactory);
-container.register<INotificationService>('notificationService', notificationFactory);
-container.register<IProfileService>('profileService', profileFactory);
-container.register<IQuizService>('quizService', quizFactory);
-container.register<IStorageService>('storageService', storageFactory);
-container.register<ITokenService>('tokenService', tokenFactory);
+export function init(): void {
+  container = new Container();
+
+  container.register<IAddressService>('addressService', addressFactory);
+  container.register<IApiService>('apiService', apiFactory);
+  container.register<ICacheService>('cacheService', cacheFactory);
+  container.register<IChurchReportService>('churchReportService', churchReportFactory);
+  container.register<IChurchSevice>('churchService', churchFactory);
+  container.register<IEventService>('eventService', eventFactory);
+  container.register<IFacebookService>('facebookService', facebookFactory);
+  container.register<IGoogleService>('googleService', googleFactory);
+  container.register<IInformativeService>('informativeService', informativeFactory);
+  container.register<ILogService>('logService', logFactory);
+  container.register<INotificationService>('notificationService', notificationFactory);
+  container.register<IProfileService>('profileService', profileFactory);
+  container.register<IQuizService>('quizService', quizFactory);
+  container.register<IStorageService>('storageService', storageFactory);
+  container.register<ITokenService>('tokenService', tokenFactory);
+
+  notificationHandlersRegister(container);
+}
 
 export function get<IAddressService>(key: 'addressService'): IAddressService;
 export function get<IApiService>(key: 'apiService'): IApiService;
@@ -64,5 +71,6 @@ export function get<IQuizService>(key: 'quizService'): IQuizService;
 export function get<IStorageService>(key: 'storageService'): IStorageService;
 export function get<ITokenService>(key: 'tokenService'): ITokenService;
 export function get<T>(key: string): T {
+  if (!container) throw new Error('services not initialized');
   return container.get(key);
 }

@@ -1,44 +1,14 @@
 import { Platform } from 'react-native';
 import FCM, { FCMEvent, Notification } from 'react-native-fcm';
 import SplashScreen from 'react-native-splash-screen';
-import {
-  NavigationAction,
-  NavigationActions,
-  NavigationDispatch,
-  NavigationRoute,
-  NavigationScreenProp,
-} from 'react-navigation';
+import { NavigationAction, NavigationRoute, NavigationScreenProp } from 'react-navigation';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Subject } from 'rxjs/Rx';
 
 import { InteractionManager } from '../../providers/interactionManager';
-import { INotificationService } from '../interfaces/notification';
+import { INotificationHandler, INotificationInfo, INotificationService } from '../interfaces/notification';
 import { IStorageService } from '../interfaces/storage';
 import { ITokenService } from '../interfaces/token';
-
-// import SplashScreen from 'react-native-splash-screen';
-interface INotificationInfo<T = any> extends Notification {
-  action?: string;
-  userId?: string;
-  data?: T;
-  fcm?: {
-    action?: string;
-    tag?: string;
-    icon?: string;
-    color?: string;
-    body: string;
-    title?: string;
-  };
-  aps?: {
-    alert: string | { title: string; body: string; }
-  };
-
-  [key: string]: any;
-}
-
-interface IActionHandlers {
-  [key: string]: (dispatch: NavigationDispatch<any>, info: INotificationInfo, appStarted: boolean) => Promise<any>;
-}
 
 export class NotificationService implements INotificationService {
   private navigator: NavigationScreenProp<NavigationRoute<any>, NavigationAction>;
@@ -49,25 +19,7 @@ export class NotificationService implements INotificationService {
   private hasInitialNotification$: ReplaySubject<boolean>;
   private newNotification$: Subject<INotificationInfo>;
 
-  private handlers: IActionHandlers = {
-    'open-order': async (dispatch, info, appStarted) => {
-
-      if (!appStarted) {
-        dispatch({ type: 'Navigation/NAVIGATE', routeName: 'OrderDetails', params: { id: info.data.id } });
-        return;
-      }
-
-      dispatch(NavigationActions.reset({
-        index: 1,
-        key: null,
-        actions: [
-          NavigationActions.navigate({ routeName: 'Orders' }),
-          NavigationActions.navigate({ routeName: 'OrderDetails', params: { id: info.data.id } })
-        ]
-      }));
-
-    }
-  };
+  private handlers: { [key: string]: INotificationHandler } = {};
 
   constructor(
     private storageService: IStorageService,
@@ -83,7 +35,7 @@ export class NotificationService implements INotificationService {
 
     let lastId: string;
     const notificationCallback = (initial: boolean) => {
-      return (notif: INotificationInfo) => {
+      return (notif: INotificationInfoRemote) => {
         if (notif) {
           const id: string = notif['gcm.message_id'] || notif['google.message_id'];
           if (id && lastId === id) return;
@@ -142,11 +94,15 @@ export class NotificationService implements INotificationService {
     return this.newNotification$.asObservable();
   }
 
+  public registerHandler(action: string, handler: INotificationHandler): void {
+    this.handlers[action] = handler;
+  }
+
   private setToken(token: string): void {
     this.token$.next(token);
   }
 
-  private received(notification: INotificationInfo<any>, appStarted: boolean = false): Observable<boolean> {
+  private received(notification: INotificationInfoRemote, appStarted: boolean = false): Observable<boolean> {
     return this.checkNotification(notification)
       .do(valid => {
         if (!appStarted) return;
@@ -180,7 +136,7 @@ export class NotificationService implements INotificationService {
       });
   }
 
-  private buildLocalNotification(notification: INotificationInfo): Observable<boolean> {
+  private buildLocalNotification(notification: INotificationInfoRemote): Observable<boolean> {
     let data: any = {};
 
     switch (Platform.OS) {
@@ -236,4 +192,20 @@ export class NotificationService implements INotificationService {
       });
   }
 
+}
+
+export interface INotificationInfoRemote extends Notification, INotificationInfo {
+  fcm?: {
+    action?: string;
+    tag?: string;
+    icon?: string;
+    color?: string;
+    body: string;
+    title?: string;
+  };
+  aps?: {
+    alert: string | { title: string; body: string; }
+  };
+
+  [key: string]: any;
 }

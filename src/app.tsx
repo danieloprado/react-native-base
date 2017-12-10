@@ -35,6 +35,7 @@ class App extends Component<any, IState> {
   constructor(props: any) {
     super(props);
 
+    services.init();
     this.tokenService = services.get('tokenService');
     this.notificationService = services.get('notificationService');
     this.logService = services.get('logService');

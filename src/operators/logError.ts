@@ -50,7 +50,7 @@ class LogErrorSubscriber extends Subscriber<any> {
   }
 
   public _error(err: any): void {
-    if (!this.ignore || !this.ignore(err)) {
+    if (!this.ignore(err)) {
       this.logService.handleError(err);
     }
 
