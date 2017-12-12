@@ -7,6 +7,8 @@ import { BaseComponent, IStateBase } from '../../components/base';
 import { EmptyMessage } from '../../components/emptyMessage';
 import { ErrorMessage } from '../../components/errorMessage';
 import { IChurchReport } from '../../interfaces/churchReport';
+import { alertError } from '../../providers/alert';
+import { confirm } from '../../providers/confirm';
 import { toast } from '../../providers/toast';
 import * as services from '../../services';
 import { ChurchReportService } from '../../services/models/churchReport';
@@ -54,6 +56,22 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
       });
   }
 
+  public onPressEdit(report: IChurchReport): void {
+    this.navigate('ChurchReportForm', { report });
+  }
+
+  public onPressRemove(report: IChurchReport, index: number): void {
+    confirm('Excluir', 'Deseja realmente apagar o relatório?', 'Sim', 'Não')
+      .filter(ok => ok)
+      .switchMap(() => this.churchReportService.remove(report.id).loader())
+      .logError()
+      .bindComponent(this)
+      .subscribe(() => {
+        this.state.reports.splice(index, 1);
+        this.setState({ reports: this.state.reports });
+      }, err => alertError(err).subscribe());
+  }
+
   public render(): JSX.Element {
     const { refreshing, reports, error } = this.state;
 
@@ -90,7 +108,8 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
             <View style={StyleSheet.flatten([theme.fabPadding])}>
               <ChurchReportListComponent
                 reports={reports}
-                onPressEdit={report => this.navigate('ChurchReportForm', { report })}
+                onPressEdit={this.onPressEdit.bind(this)}
+                onPressRemove={this.onPressRemove.bind(this)}
               />
             </View>
           }

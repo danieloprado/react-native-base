@@ -27,6 +27,10 @@ export class ApiService {
     return this.request('POST', url, body);
   }
 
+  public delete<T = any>(url: string, params?: any): Observable<T> {
+    return this.request('DELETE', url, params);
+  }
+
   public connection(): Observable<boolean> {
     return this.connection$.distinctUntilChanged();
   }

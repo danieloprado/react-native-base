@@ -1,20 +1,22 @@
-import { Body, Button, Icon, ListItem, Text, View } from 'native-base';
+import { Body, ListItem, Text, View } from 'native-base';
 import * as propTypes from 'prop-types';
 import * as React from 'react';
 import { ListView, StyleSheet } from 'react-native';
 import { Col, Grid, Row } from 'react-native-easy-grid';
 
+import { PopupMenu } from '../../../components/popupMenu';
 import { dateFormatter } from '../../../formatters/date';
 import { IChurchReport } from '../../../interfaces/churchReport';
 
 interface IProps {
   reports: IChurchReport[];
   onPressEdit(report: IChurchReport): void;
+  onPressRemove(report: IChurchReport, index: number): void;
 }
 
 export function ChurchReportListComponent(props: IProps): JSX.Element {
   const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-  const { reports, onPressEdit } = props;
+  const { reports, onPressEdit, onPressRemove } = props;
 
   return (
     <ListView
@@ -22,7 +24,7 @@ export function ChurchReportListComponent(props: IProps): JSX.Element {
       initialListSize={10}
       enableEmptySections={true}
       dataSource={dataSource.cloneWithRows(reports)}
-      renderRow={(report: IChurchReport) =>
+      renderRow={(report: IChurchReport, sectionId: number, index: number) =>
         <ListItem key={report.id} avatar button style={styles.listItem}>
           <Body style={styles.body}>
             <Grid>
@@ -38,9 +40,16 @@ export function ChurchReportListComponent(props: IProps): JSX.Element {
                   <Text note>{report.type.name}</Text>
                 </Col>
                 <Col style={styles.rightWrapper}>
-                  <Button transparent dark onPress={() => onPressEdit(report)}>
-                    <Icon name='create' style={styles.buttonIcon} />
-                  </Button>
+                  <PopupMenu
+                    transparent dark
+                    actions={[{
+                      display: 'Editar',
+                      onPress: () => onPressEdit(report)
+                    }, {
+                      display: 'Excluir',
+                      onPress: () => onPressRemove(report, index)
+                    }]}
+                  />
                 </Col>
               </Row>
               <Row style={styles.counterRow}>
@@ -92,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   rightWrapper: {
-    maxWidth: 70
+    maxWidth: 50
   },
   leftView: {
     marginLeft: -5,

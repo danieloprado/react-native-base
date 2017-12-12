@@ -44,4 +44,8 @@ export class ChurchReportService {
     });
   }
 
+  public remove(id: number): Observable<IChurchReport> {
+    return this.apiService.delete(`church-report/${id}`);
+  }
+
 }
