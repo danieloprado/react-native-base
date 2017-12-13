@@ -48,10 +48,10 @@ class EventFeaturedCard extends BaseComponent<IState> {
       <View>
         {!loading && !!event &&
           <Card>
-            {!!event.featuredImage &&
+            {!!event.image &&
               <Image
                 style={styles.image}
-                source={{ uri: event.featuredImage }}
+                source={{ uri: event.image }}
               />
             }
             <CardItem header style={styles.header}>
