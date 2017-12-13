@@ -1,4 +1,4 @@
-export const enInformativeType = {
-  church: 1,
-  cell: 2
-};
+export enum enInformativeType {
+  church = 1,
+  cell = 2
+}

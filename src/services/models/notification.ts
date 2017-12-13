@@ -54,7 +54,7 @@ export class NotificationService {
 
     this.token$
       .distinctUntilChanged()
-      .do(t => console.log(t))
+      .do(() => FCM.subscribeToTopic('all'))
       .filter(t => !!t)
       .logError()
       .switchMap(t => storageService.set('notification-token', t))
