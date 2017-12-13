@@ -15,6 +15,7 @@ import ProfileEditPage from './pages/profile/form';
 import WelcomePage from './pages/welcome';
 import { variables } from './theme';
 
+
 const appDrawer = DrawerNavigator({
   Home: { screen: HomePage },
   Profile: { screen: ProfileDetails },
@@ -28,7 +29,10 @@ const appDrawer = DrawerNavigator({
     contentComponent: SideMenu as any,
     contentOptions: {
       inactiveTintColor: 'black',
-      activeTintColor: variables.accent
+      activeTintColor: variables.accent,
+      ...(variables.platform === 'ios' ? {
+        activeBackgroundColor: variables.toolbarDefaultBg
+      } : {})
     }
   });
 

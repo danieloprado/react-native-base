@@ -66,8 +66,8 @@ export const DrawerNavigatorItems = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: Platform.OS === 'ios' ? 20 : 0,
-    paddingVertical: 4,
+    marginTop: 0,
+    paddingVertical: 0,
   },
   item: {
     flexDirection: 'row',

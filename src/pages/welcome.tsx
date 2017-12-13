@@ -53,7 +53,7 @@ export default class WelcomPage extends BaseComponent<IState> {
       return;
     }
 
-    if (isDevelopment) return this.navigate('ChurchReport', null, true);
+    if (isDevelopment) return this.navigate('Home', null, true);
     this.navigate('Home', null, true);
   }
 
@@ -187,7 +187,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: variables.deviceHeight,
-    width: variables.deviceWidth
+    width: variables.deviceWidth,
+    backgroundColor: 'black'
   },
   logo: {
     height: 120,

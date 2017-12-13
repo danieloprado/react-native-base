@@ -85,7 +85,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
           <Right>
             {!loading && !error &&
               <Button transparent onPress={() => this.save()}>
-                <Icon name='checkmark' />
+                <Icon name='md-checkmark' />
               </Button>
             }
           </Right>

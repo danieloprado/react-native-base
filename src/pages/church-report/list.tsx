@@ -1,4 +1,4 @@
-import { Body, Button, Container, Content, Fab, Header, Icon, Left, Right, Text, Title, View } from 'native-base';
+import { Body, Button, Container, Content, Fab, Header, Icon, Left, Right, Title, View } from 'native-base';
 import * as React from 'react';
 import { RefreshControl, StyleSheet } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
@@ -12,7 +12,7 @@ import { confirm } from '../../providers/confirm';
 import { toast } from '../../providers/toast';
 import * as services from '../../services';
 import { ChurchReportService } from '../../services/models/churchReport';
-import { theme, variables } from '../../theme';
+import { theme } from '../../theme';
 import { ChurchReportListComponent } from './components/list';
 
 interface IState extends IStateBase {
@@ -88,9 +88,6 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
           </Body>
           <Right />
         </Header>
-        <View style={styles.filterContainer}>
-          <Text>Teste</Text>
-        </View>
         <Content
           refreshControl={
             <RefreshControl
@@ -115,20 +112,9 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
           }
         </Content>
         <Fab onPress={() => this.navigate('ChurchReportForm')}>
-          <Icon name='add' />
+          <Icon name='md-add' />
         </Fab>
       </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  filterContainer: {
-    backgroundColor: variables.accent,
-    paddingTop: 10,
-    paddingBottom: 10
-  },
-  container: {
-    flex: 1
-  }
-});

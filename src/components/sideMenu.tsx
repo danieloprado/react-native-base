@@ -6,7 +6,7 @@ import { NavigationScreenProps } from 'react-navigation';
 import { IUserToken } from '../interfaces/userToken';
 import * as services from '../services';
 import { TokenService } from '../services/models/token';
-import platform from '../theme/native-base/variables/platform';
+import { variables } from '../theme';
 import { BaseComponent, IStateBase } from './base';
 import { DrawerNavigatorItems as DrawerItems } from './drawerItems';
 
@@ -75,11 +75,12 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height
   },
   header: {
-    backgroundColor: platform.toolbarDefaultBg,
+    backgroundColor: variables.toolbarDefaultBg,
     // height: 200
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16
+    padding: 16,
+    marginTop: variables.platform === 'ios' ? 10 : 0
   },
   logo: {
     height: 80,
@@ -88,6 +89,6 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
-    color: platform.toolbarTextColor
+    color: variables.platform === 'ios' ? variables.defaultTextColor : variables.toolbarTextColor
   }
 });

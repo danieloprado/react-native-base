@@ -39,6 +39,10 @@ declare module "native-base" {
       renderHeader?: any;
     }
 
+    interface Icon {
+      name?: string;
+    }
+
   }
 
 }

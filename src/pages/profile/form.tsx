@@ -51,7 +51,6 @@ export default class ProfileEditPage extends BaseComponent<IState> {
   }
 
   public save(): void {
-    console.log(this.state.model);
     this.profileValidator.validate(this.state.model)
       .do(({ model, errors }) => this.setState({ validation: errors, model }, true))
       .filter(({ valid }) => valid)
@@ -80,7 +79,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
           </Body>
           <Right>
             <Button transparent onPress={() => this.save()}>
-              <Icon name='checkmark' />
+              <Icon name='md-checkmark' />
             </Button>
           </Right>
         </Header>

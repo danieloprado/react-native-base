@@ -7,6 +7,7 @@ import { Col, Grid, Row } from 'react-native-easy-grid';
 import { PopupMenu } from '../../../components/popupMenu';
 import { dateFormatter } from '../../../formatters/date';
 import { IChurchReport } from '../../../interfaces/churchReport';
+import { variables } from '../../../theme';
 
 interface IProps {
   reports: IChurchReport[];
@@ -28,7 +29,7 @@ export function ChurchReportListComponent(props: IProps): JSX.Element {
         <ListItem key={report.id} avatar button style={styles.listItem}>
           <Body style={styles.body}>
             <Grid>
-              <Row>
+              <Row style={styles.infoRow}>
                 <Col style={styles.leftWrapper}>
                   <View style={styles.leftView}>
                     <Text style={styles.day}>{dateFormatter.format(report.date, 'DD')}</Text>
@@ -91,6 +92,9 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     paddingLeft: 0
   },
+  infoRow: {
+    alignItems: 'flex-start'
+  },
   body: {
     marginLeft: 0,
     paddingLeft: 10
@@ -101,7 +105,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   rightWrapper: {
-    maxWidth: 50
+    maxWidth: variables.platform === 'ios' ? 60 : 50
   },
   leftView: {
     marginLeft: -5,
@@ -116,7 +120,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   counterRow: {
-    marginTop: 20
+    marginTop: 10
   },
   col: {
     flexDirection: 'column',

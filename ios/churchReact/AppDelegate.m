@@ -24,7 +24,7 @@
   NSURL *jsCodeLocation;
 
   #ifdef DEBUG
-    jsCodeLocation = [NSURL URLWithString:@"http://10.84.77.206:8081/index.ios.bundle?platform=ios&dev=true"];
+    jsCodeLocation = [NSURL URLWithString:@"http://192.168.25.5:8081/index.ios.bundle?platform=ios&dev=true"];
   #else
     jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
   #endif
@@ -98,6 +98,16 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   [FBSDKAppEvents activateApp];
+
+  #ifdef DEBUG
+    application.idleTimerDisabled = YES; 
+  #endif
+}
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+  #ifdef DEBUG
+    application.idleTimerDisabled = NO; 
+  #endif
 }
 
 @end
