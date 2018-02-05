@@ -4,7 +4,7 @@ import * as React from 'react';
 import { ListView, ListViewDataSource, Modal } from 'react-native';
 import { Subject } from 'rxjs';
 
-import { IQuiz, IQuizQuestion } from '../interfaces/quiz';
+import { enQuizQuestionType, IQuiz, IQuizQuestion } from '../interfaces/quiz';
 import { IQuizAnswer } from '../interfaces/quizAnswer';
 import { QuizFormValidator } from '../validators/quizForm';
 import { BaseComponent, IStateBase } from './base';
@@ -33,7 +33,7 @@ export class QuizFormModal extends BaseComponent<IState> {
   }
 
   public show(title: string, quiz: IQuiz, submitCallback: (value: IQuizAnswer) => Observable<any>): Subject<IQuizAnswer> {
-    this.setState({ show: true, submitted: false, title, quiz, model: {}, submitCallback, validation: null });
+    this.setState({ show: true, submitted: false, title, quiz, model: {}, submitCallback, validation: {} });
 
     this.validator = new QuizFormValidator(quiz);
 
@@ -41,10 +41,28 @@ export class QuizFormModal extends BaseComponent<IState> {
     return this.result$;
   }
 
+  public getIcon(question: IQuizQuestion): string {
+    switch (question.type) {
+      case enQuizQuestionType.phone:
+        return 'phone-portrait';
+      case enQuizQuestionType.date:
+        return 'calendar';
+      case enQuizQuestionType.date:
+        return 'calendar';
+      case enQuizQuestionType.email:
+        return 'mail';
+      default:
+        if (/nome/gi.test(question.title)) {
+          return 'person';
+        }
+
+        return 'empty';
+    }
+  }
+
   public render(): JSX.Element {
     const { show, title, quiz, model, validation, submitted } = this.state;
     const types: any = { 'choose-one': 'dropdown', 'multiple': 'text' };
-    const icons: any = { 'Nome': 'person', 'Nascimento': 'calendar', 'Celular': 'phone-portrait' };
 
     return (
       <Modal
@@ -75,7 +93,7 @@ export class QuizFormModal extends BaseComponent<IState> {
                     <Field
                       key={question.id}
                       label={question.title}
-                      icon={icons[question.title] || 'empty'}
+                      icon={this.getIcon(question)}
                       value={model[`question-${index}`]}
                       type={types[question.type] || question.type}
                       options={this.getOptions(question)}

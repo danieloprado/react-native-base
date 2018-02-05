@@ -20,7 +20,7 @@ export class QuizFormValidator extends BaseValidator<IQuizFormValidatorResult> {
     };
 
     super(quiz.questions.reduce((rules: any, question, index) => {
-      rules[`question-${index}`] = typeRules[question.type];
+      rules[`question-${index}`] = typeRules[question.type] || 'string';
       rules[`question-${index}`] += question.required ? '|required' : '';
 
       return rules;
