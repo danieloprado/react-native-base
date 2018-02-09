@@ -20,6 +20,7 @@ export interface IEvent {
   featuredText?: string;
   image?: string;
   quizId?: number;
+  quizSuccessMessage?: string;
 
   enableQuiz: boolean;
   quiz?: IQuiz;

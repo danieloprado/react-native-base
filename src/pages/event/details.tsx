@@ -8,6 +8,7 @@ import { QuizFormModal } from '../../components/quizFormModal';
 import { dateFormatter } from '../../formatters/date';
 import { IEvent, IEventDate } from '../../interfaces/event';
 import { IQuizAnswer } from '../../interfaces/quizAnswer';
+import { alert } from '../../providers/alert';
 import { toast } from '../../providers/toast';
 import * as services from '../../services';
 import { QuizService } from '../../services/models/quiz';
@@ -42,6 +43,12 @@ export default class EventDetailsPage extends BaseComponent<IState> {
       .bindComponent(this)
       .subscribe(result => {
         if (!result) return;
+
+        if (event.quizSuccessMessage) {
+          alert('Atenção', event.quizSuccessMessage).subscribe();
+          return;
+        }
+
         toast('Inscrição efetuada com sucesso!');
       });
   }
