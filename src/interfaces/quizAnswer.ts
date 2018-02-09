@@ -1,7 +1,8 @@
-import { IQuizQuestion } from './quiz';
-
-export interface IQuizAnswerItem extends Partial<IQuizQuestion> {
-  answer: string;
+export interface IQuizAnswerItem {
+  questionId: number;
+  title: string;
+  description: string;
+  answer: any;
 }
 
 export interface IQuizAnswer {

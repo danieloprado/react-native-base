@@ -139,7 +139,12 @@ export class QuizFormModal extends BaseComponent<IState> {
           quizId: quiz.id,
           quizVersion: quiz.version,
           answers: quiz.questions.map((question, index) => {
-            return { title: question.title, answer: model[`question-${index}`] };
+            return {
+              questionId: question.id,
+              title: question.title,
+              description: question.description,
+              answer: model[`question-${index}`]
+            };
           })
         };
       })

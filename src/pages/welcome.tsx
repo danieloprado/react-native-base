@@ -53,7 +53,7 @@ export default class WelcomPage extends BaseComponent<IState> {
       return;
     }
 
-    if (isDevelopment) return this.navigate('Home', null, true);
+    if (isDevelopment) return this.navigate('Event', null, true);
     this.navigate('Home', null, true);
   }
 
