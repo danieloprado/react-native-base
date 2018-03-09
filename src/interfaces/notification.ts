@@ -7,5 +7,5 @@ export interface INotificationInfo<T = any> {
 }
 
 export interface INotificationHandler<T extends { [key: string]: string } = any> {
-  (dispatch: NavigationDispatch<any>, info: INotificationInfo<T>, appStarted: boolean): Promise<void>;
+  (dispatch: NavigationDispatch, info: INotificationInfo<T>, appStarted: boolean): Promise<void>;
 }

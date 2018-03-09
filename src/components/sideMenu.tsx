@@ -19,7 +19,7 @@ interface IState extends IStateBase {
   routes: any[];
 }
 
-export class SideMenu extends BaseComponent<IState, NavigationScreenProps<any>> {
+export class SideMenu extends BaseComponent<IState, NavigationScreenProps> {
   private tokenService: TokenService;
 
   constructor(props: any) {

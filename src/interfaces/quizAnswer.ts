@@ -1,5 +1,5 @@
 export interface IQuizAnswerItem {
-  questionId: number;
+  questionId: string;
   title: string;
   description: string;
   answer: any;

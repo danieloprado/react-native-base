@@ -15,7 +15,6 @@ import ProfileEditPage from './pages/profile/form';
 import WelcomePage from './pages/welcome';
 import { variables } from './theme';
 
-
 const appDrawer = DrawerNavigator({
   Home: { screen: HomePage },
   Profile: { screen: ProfileDetails },

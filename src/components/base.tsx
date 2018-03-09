@@ -1,11 +1,5 @@
 import { Component } from 'react';
-import {
-  NavigationAction,
-  NavigationActions,
-  NavigationNavigateActionPayload,
-  NavigationRoute,
-  NavigationScreenProp,
-} from 'react-navigation';
+import { NavigationActions, NavigationNavigateActionPayload, NavigationScreenProp } from 'react-navigation';
 import { Subscription } from 'rxjs';
 
 import { alertError } from '../providers/alert';
@@ -22,7 +16,7 @@ export interface IStateBase<T = any> {
 export abstract class BaseComponent<S extends IStateBase = IStateBase, P = any> extends Component<P, S> {
   public subscriptions: Subscription[];
   public params: any;
-  public navigation?: NavigationScreenProp<NavigationRoute<any>, NavigationAction>;
+  public navigation?: NavigationScreenProp<any>;
 
   private unmonted: boolean;
 
@@ -68,7 +62,7 @@ export abstract class BaseComponent<S extends IStateBase = IStateBase, P = any> 
   }
 
   protected goBack(): void {
-    this.navigation.goBack();
+    this.navigation.goBack(null);
   }
 
   protected navigate(routeName: string, params?: any, reset?: any): void {

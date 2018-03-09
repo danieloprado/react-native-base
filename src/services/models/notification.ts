@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import FCM, { FCMEvent, Notification } from 'react-native-fcm';
 import SplashScreen from 'react-native-splash-screen';
-import { NavigationAction, NavigationRoute, NavigationScreenProp } from 'react-navigation';
+import { NavigationScreenProp } from 'react-navigation';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Subject } from 'rxjs/Rx';
 
@@ -11,7 +11,7 @@ import { StorageService } from './storage';
 import { TokenService } from './token';
 
 export class NotificationService {
-  private navigator: NavigationScreenProp<NavigationRoute<any>, NavigationAction>;
+  private navigator: NavigationScreenProp<any>;
 
   private appDidOpen$: ReplaySubject<void>;
   private setup$: ReplaySubject<void>;
@@ -61,7 +61,7 @@ export class NotificationService {
       .subscribe();
   }
 
-  public setup(navigator: NavigationScreenProp<NavigationRoute<any>, NavigationAction>): void {
+  public setup(navigator: NavigationScreenProp<any>): void {
     this.navigator = navigator;
     FCM.requestPermissions().then(() => { }, () => { });
 
@@ -195,14 +195,6 @@ export class NotificationService {
 }
 
 export interface INotificationInfoRemote extends Notification, INotificationInfo {
-  fcm?: {
-    action?: string;
-    tag?: string;
-    icon?: string;
-    color?: string;
-    body: string;
-    title?: string;
-  };
   aps?: {
     alert: string | { title: string; body: string; }
   };
