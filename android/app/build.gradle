@@ -92,13 +92,13 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "br.com.icbsorocaba.app"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 26
         versionCode 13
         versionName "2.3.4"
         ndk {
