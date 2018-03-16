@@ -109,9 +109,9 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-native@0.52.16":
-  version "0.52.16"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.52.16.tgz#d474cdba5b44e4b695e4c918c88d3e171772c298"
+"@types/react-native@0.52.17":
+  version "0.52.17"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.52.17.tgz#4714aa125af5f20b502ff3ffa75700a1cdb3d794"
   dependencies:
     "@types/react" "*"
 
@@ -3662,9 +3662,9 @@ react-native@0.53.3:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
-react-navigation@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.0.tgz#0dbef16a086d8fcdbcf44147e0c77fa53121648e"
+react-navigation@1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.2.tgz#6b150cbb6706a70ae352562a6eab490cedd05f47"
   dependencies:
     clamp "^1.0.1"
     hoist-non-react-statics "^2.2.0"
@@ -3957,9 +3957,9 @@ rx@2.3.24:
   version "2.3.24"
   resolved "https://registry.yarnpkg.com/rx/-/rx-2.3.24.tgz#14f950a4217d7e35daa71bbcbe58eff68ea4b2b7"
 
-rxjs@5.5.6:
-  version "5.5.6"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.6.tgz#e31fb96d6fd2ff1fd84bcea8ae9c02d007179c02"
+rxjs@5.5.7:
+  version "5.5.7"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.7.tgz#afb3d1642b069b2fbf203903d6501d1acb4cda27"
   dependencies:
     symbol-observable "1.0.1"
 

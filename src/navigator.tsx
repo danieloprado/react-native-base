@@ -25,7 +25,7 @@ const appDrawer = DrawerNavigator({
   Dev: { screen: DevPage },
 }, {
     initialRouteName: 'Home',
-    contentComponent: SideMenu as any,
+    contentComponent: SideMenu,
     contentOptions: {
       inactiveTintColor: 'black',
       activeTintColor: variables.accent,

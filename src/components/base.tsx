@@ -65,7 +65,19 @@ export abstract class BaseComponent<S extends IStateBase = IStateBase, P = any> 
     this.navigation.goBack(null);
   }
 
-  protected navigate(routeName: string, params?: any, reset?: any): void {
+  protected navigate(routeName: string, reset?: boolean): void;
+  protected navigate(routeName: string, params: any, reset?: boolean): void;
+  protected navigate(routeName: string, resetOrParam?: any, forceReset?: any): void {
+    let params, reset: boolean;
+
+    if (typeof resetOrParam === 'boolean') {
+      reset = resetOrParam;
+      params = null;
+    } else {
+      reset = forceReset || false;
+      params = resetOrParam;
+    }
+
     if (!reset) {
       this.navigation.navigate(routeName, params);
       return;
