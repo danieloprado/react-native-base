@@ -8,9 +8,8 @@ import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
 import { IInformative } from '../../interfaces/informative';
 import { toast } from '../../providers/toast';
-import * as services from '../../services';
-import { InformativeService } from '../../services/models/informative';
 import { theme } from '../../theme';
+import informativeService from '../../services/informative';
 
 interface IState extends IStateBase {
   refreshing: boolean;
@@ -26,12 +25,8 @@ export default class InformativeListPage extends BaseComponent<IState> {
     )
   };
 
-  private informativeService: InformativeService;
-
   constructor(props: any) {
     super(props);
-
-    this.informativeService = services.get('informativeService');
     this.state = { refreshing: true, informatives: [] };
   }
 
@@ -46,7 +41,7 @@ export default class InformativeListPage extends BaseComponent<IState> {
   public load(refresh: boolean = false): void {
     this.setState({ refreshing: true }, true);
 
-    this.informativeService.list(refresh)
+    informativeService.list(refresh)
       .logError()
       .bindComponent(this)
       .subscribe(informatives => {

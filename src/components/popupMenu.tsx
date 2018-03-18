@@ -2,9 +2,7 @@ import { ActionSheet, Button, Icon } from 'native-base';
 import * as propTypes from 'prop-types';
 import * as React from 'react';
 import { findNodeHandle, Platform, UIManager } from 'react-native';
-
-import * as services from '../services';
-import { LogService } from '../services/models/log';
+import logService from '../services/log';
 
 interface IProps {
   actions: {
@@ -16,13 +14,6 @@ interface IProps {
 
 export class PopupMenu extends React.Component<IProps> {
   public static propTypes: any = { actions: propTypes.array.isRequired };
-
-  private logService: LogService;
-
-  constructor(props: any) {
-    super(props);
-    this.logService = services.get('logService');
-  }
 
   public showMenu(): void {
     const { actions } = this.props;
@@ -42,7 +33,7 @@ export class PopupMenu extends React.Component<IProps> {
     (UIManager as any).showPopupMenu(
       findNodeHandle(this.refs.menu as any),
       actions.map((a: any) => a.display),
-      (err: any) => this.logService.handleError(err),
+      (err: any) => logService.handleError(err),
       (event: string, buttonIndex: number) => {
         if (event !== 'itemSelected') return;
         actions[buttonIndex].onPress();

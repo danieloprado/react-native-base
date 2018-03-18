@@ -13,39 +13,28 @@ import { Subscription } from 'rxjs';
 import { Loader } from './components/loader';
 import { Navigator } from './navigator';
 import * as loaderOperador from './operators/loader';
-import * as services from './services';
-import { LogService } from './services/models/log';
-import { NotificationService } from './services/models/notification';
-import { TokenService } from './services/models/token';
 import getTheme from './theme/native-base/components';
 import platform from './theme/native-base/variables/platform';
+import tokenService from './services/token';
+import logService from './services/log';
+import notificationService from './services/notification';
 
 interface IState {
   loading: boolean;
 }
 
 class App extends Component<any, IState> {
-  private tokenService: TokenService;
-  private notificationService: NotificationService;
-  private logService: LogService;
-
   private subscription: Subscription;
   private navigator: any;
 
   constructor(props: any) {
     super(props);
-
-    services.init();
-    this.tokenService = services.get('tokenService');
-    this.notificationService = services.get('notificationService');
-    this.logService = services.get('logService');
-
     this.state = { loading: true };
   }
 
   public componentWillMount(): void {
-    this.subscription = this.tokenService.getUser()
-      .do(user => this.logService.setUser(user))
+    this.subscription = tokenService.getUser()
+      .do(user => logService.setUser(user))
       .logError()
       .subscribe();
   }
@@ -58,7 +47,7 @@ class App extends Component<any, IState> {
   public componentDidMount(): void {
     loaderOperador.setup(this.refs.loader as Loader);
     this.setState({ loading: false }, () => {
-      this.notificationService.setup(this.navigator);
+      notificationService.setup(this.navigator);
     });
   }
 
@@ -70,7 +59,7 @@ class App extends Component<any, IState> {
         <Root>
           <Loader ref='loader' />
           {!loading &&
-            <Navigator ref={nav => { this.navigator = nav; }} onNavigationStateChange={this.onNavigationStateChange.bind(this)} />
+            <Navigator ref={(nav: any) => { this.navigator = nav; }} onNavigationStateChange={this.onNavigationStateChange.bind(this)} />
           }
         </Root>
       </StyleProvider>
@@ -83,7 +72,7 @@ class App extends Component<any, IState> {
     console.log(JSON.stringify(currentState, null, 2));
 
     if (!currentState || !currentState.routes || !currentState.routes.length || prevState === currentState) return;
-    this.logService.breadcrumb(this.getCurrentRouteName(currentState), 'navigation');
+    logService.breadcrumb(this.getCurrentRouteName(currentState), 'navigation');
   }
 
   private getCurrentRouteName(navigationState: NavigationState): string {

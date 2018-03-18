@@ -24,9 +24,8 @@ import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
 import { IUser } from '../../interfaces/user';
 import { confirm } from '../../providers/confirm';
-import * as services from '../../services';
-import { ProfileService } from '../../services/models/profile';
 import { theme, variables } from '../../theme';
+import profileService from '../../services/profile';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -42,17 +41,13 @@ export default class ProfileDetailsPage extends BaseComponent<IState> {
     )
   };
 
-  private profileService: ProfileService;
-
   constructor(props: any) {
     super(props);
-
-    this.profileService = services.get('profileService');
     this.state = { loading: true };
   }
 
   public componentDidMount(): void {
-    this.profileService.get()
+    profileService.get()
       .logError()
       .bindComponent(this)
       .subscribe(profile => {
@@ -63,7 +58,7 @@ export default class ProfileDetailsPage extends BaseComponent<IState> {
   public logout(): void {
     confirm('Confirmar', 'Deseja realmente sair?', 'Sim', 'Não')
       .filter(ok => ok)
-      .switchMap(() => this.profileService.logout().loader())
+      .switchMap(() => profileService.logout().loader())
       .logError()
       .bindComponent(this)
       .subscribe();
@@ -114,7 +109,7 @@ export default class ProfileDetailsPage extends BaseComponent<IState> {
             <View style={StyleSheet.flatten([theme.emptyMessage, theme.alignCenter])}>
               <Icon name='contact' style={StyleSheet.flatten([styles.loginIcon, theme.iconLarge])} />
               <Text style={styles.loginText}>Ainda não te conhecemos, mas gostaríamos de saber mais sobre você!</Text>
-              <Button block onPress={() => this.navigate('Welcome', { force: true })}>
+              <Button block onPress={() => this.navigate('Login', { force: true })}>
                 <Text>ENTRAR</Text>
               </Button>
             </View>

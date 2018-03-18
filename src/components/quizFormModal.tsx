@@ -1,8 +1,7 @@
-import { Observable } from 'listr/node_modules/rxjs/Rx';
 import { Body, Button, Container, Content, Form, Header, Icon, Left, Right, Text, Title } from 'native-base';
 import * as React from 'react';
 import { ListView, ListViewDataSource, Modal } from 'react-native';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 import { enQuizQuestionType, IQuiz, IQuizQuestion } from '../interfaces/quiz';
 import { IQuizAnswer } from '../interfaces/quizAnswer';

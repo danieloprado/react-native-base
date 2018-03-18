@@ -7,9 +7,8 @@ import { EmptyMessage } from '../../components/emptyMessage';
 import { ErrorMessage } from '../../components/errorMessage';
 import { informativeRender } from '../../formatters/informativeRender';
 import { IInformative } from '../../interfaces/informative';
-import * as services from '../../services';
-import { enInformativeType } from '../../services/enums/informativeType';
-import { InformativeService } from '../../services/models/informative';
+import informativeService from '../../services/informative';
+import { enInformativeType } from '../../interfaces/enums/informativeType';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -20,12 +19,8 @@ interface IState extends IStateBase {
 }
 
 export default class InformativeDetailsPage extends BaseComponent<IState> {
-  private informativeService: InformativeService;
-
   constructor(props: any) {
     super(props);
-
-    this.informativeService = services.get('informativeService');
     const { informative } = this.params;
 
     this.state = {
@@ -38,7 +33,7 @@ export default class InformativeDetailsPage extends BaseComponent<IState> {
   public componentDidMount(): void {
     if (this.state.informative) return;
 
-    this.informativeService.get(this.params.id)
+    informativeService.get(this.params.id)
       .logError()
       .bindComponent(this)
       .subscribe(informative => {

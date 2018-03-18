@@ -5,14 +5,12 @@ import SplashScreen from 'react-native-splash-screen';
 
 import { BaseComponent, IStateBase } from '../components/base';
 import { alertError } from '../providers/alert';
-import * as services from '../services';
-import { FacebookService } from '../services/models/facebook';
-import { GoogleService } from '../services/models/google';
-import { NotificationService } from '../services/models/notification';
-import { ProfileService } from '../services/models/profile';
-import { StorageService } from '../services/models/storage';
 import { isDevelopment } from '../settings';
 import { theme, variables } from '../theme';
+import storageService from '../services/storage';
+import facebookService from '../services/facebook';
+import googleService from '../services/google';
+import profileService from '../services/profile';
 
 interface IState extends IStateBase {
   loaded: boolean;
@@ -22,21 +20,9 @@ interface IState extends IStateBase {
   force: boolean;
 }
 
-export default class WelcomPage extends BaseComponent<IState> {
-  private storageService: StorageService;
-  private notificationService: NotificationService;
-  private profileService: ProfileService;
-  private facebookService: FacebookService;
-  private googleService: GoogleService;
-
+export default class LoginPage extends BaseComponent<IState> {
   constructor(props: any) {
     super(props);
-
-    this.storageService = services.get('storageService');
-    this.notificationService = services.get('notificationService');
-    this.profileService = services.get('profileService');
-    this.facebookService = services.get('facebookService');
-    this.googleService = services.get('googleService');
 
     this.state = {
       loaded: false,
@@ -58,7 +44,7 @@ export default class WelcomPage extends BaseComponent<IState> {
   }
 
   public completed(): void {
-    this.storageService.set('welcomeCompleted', true)
+    storageService.set('welcomeCompleted', true)
       .logError()
       .bindComponent(this)
       .subscribe(() => this.navigateToHome());
@@ -81,13 +67,13 @@ export default class WelcomPage extends BaseComponent<IState> {
 
   public loginSocial(provider: 'google' | 'facebook'): void {
     const providers = {
-      'facebook': this.facebookService,
-      'google': this.googleService
+      'facebook': facebookService,
+      'google': googleService
     };
 
     providers[provider].login()
       .filter(accessToken => !!accessToken)
-      .switchMap(accessToken => this.profileService.register(provider, accessToken))
+      .switchMap(accessToken => profileService.register(provider, accessToken))
       .loader()
       .logError()
       .bindComponent(this)
@@ -102,7 +88,6 @@ export default class WelcomPage extends BaseComponent<IState> {
           <ImageBackground source={require('../images/background.png')} style={styles.background}>
             <Image source={require('../images/logo.png')} style={styles.logo} />
             <Animated.View
-              onLayout={(event: any) => this.viewLoaded(event)}
               style={this.state.animationClass}>
               <Text style={styles.welcome}>
                 Olá!

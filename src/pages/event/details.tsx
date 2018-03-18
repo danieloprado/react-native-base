@@ -10,9 +10,8 @@ import { IEvent, IEventDate } from '../../interfaces/event';
 import { IQuizAnswer } from '../../interfaces/quizAnswer';
 import { alert } from '../../providers/alert';
 import { toast } from '../../providers/toast';
-import * as services from '../../services';
-import { QuizService } from '../../services/models/quiz';
 import { variables } from '../../theme';
+import quizService from '../../services/quiz';
 
 interface IState extends IStateBase {
   event: IEvent;
@@ -20,13 +19,14 @@ interface IState extends IStateBase {
   error?: any;
 }
 
-export default class EventDetailsPage extends BaseComponent<IState> {
-  private quizService: QuizService;
+interface IRefs {
+  quizForm: QuizFormModal;
+}
+
+export default class EventDetailsPage extends BaseComponent<IState, any, IRefs> {
 
   constructor(props: any) {
     super(props);
-
-    this.quizService = services.get('quizService');
 
     this.state = {
       event: this.params.event,
@@ -37,7 +37,7 @@ export default class EventDetailsPage extends BaseComponent<IState> {
   public form(): void {
     const { event } = this.state;
 
-    (this.refs.quizForm as QuizFormModal)
+    this.refs.quizForm
       .show('Inscrição', event.quiz, this.saveForm.bind(this))
       .logError()
       .bindComponent(this)
@@ -54,7 +54,7 @@ export default class EventDetailsPage extends BaseComponent<IState> {
   }
 
   public saveForm(model: IQuizAnswer): Observable<void> {
-    return this.quizService.saveAnswer(model).loader();
+    return quizService.saveAnswer(model).loader();
   }
 
   public render(): JSX.Element {

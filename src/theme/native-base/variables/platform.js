@@ -172,17 +172,17 @@ export default {
 
 
   // Header
-  toolbarBtnColor: (platform === 'ios') ? accent : '#fff',
-  toolbarDefaultBg: (platform === 'ios') ? '#F8F8F8' : primary,
+  toolbarBtnColor: '#fff',
+  toolbarDefaultBg: primary,
   toolbarHeight: (platform === 'ios') ? 64 : 56,
   toolbarIconSize: (platform === 'ios') ? 20 : 22,
   toolbarSearchIconSize: (platform === 'ios') ? 20 : 23,
-  toolbarInputColor: (platform === 'ios') ? '#CECDD2' : '#fff',
+  toolbarInputColor: '#fff',
   searchBarHeight: (platform === 'ios') ? 30 : 40,
   toolbarInverseBg: '#222',
-  toolbarTextColor: (platform === 'ios') ? accent : '#fff',
+  toolbarTextColor: '#fff',
   toolbarDefaultBorder: (platform === 'ios') ? '#cdcdce' : primary,
-  iosStatusbar: (platform === 'ios') ? 'dark-content' : 'light-content',
+  iosStatusbar: 'light-content',
   get statusBarColor() {
     return color(this.toolbarDefaultBg).darken(0.2).hex();
   },
@@ -285,7 +285,7 @@ export default {
   subtitleColor: (platform === 'ios') ? '#8e8e93' : '#FFF',
 
   // New Variable
-  titleFontColor: (platform === 'ios') ? primary : '#fff',
+  titleFontColor: '#fff',
 
 
   // Other

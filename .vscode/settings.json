@@ -15,10 +15,5 @@
   "files.associations": {
     "*.js": "javascriptreact"
   },
-  "typescriptHero.resolver.ignorePatterns": [
-    "build",
-    "out",
-    "dist"
-  ],
   "typescript.tsdk": "node_modules/typescript/lib"
 }

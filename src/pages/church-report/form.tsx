@@ -9,9 +9,8 @@ import { dateFormatter } from '../../formatters/date';
 import { IChurchReport } from '../../interfaces/churchReport';
 import { ISelectItem } from '../../interfaces/selectItem';
 import { alertError } from '../../providers/alert';
-import * as services from '../../services';
-import { ChurchReportService } from '../../services/models/churchReport';
 import { ChurchReportValidator } from '../../validators/churchReport';
+import churchReportService from '../../services/churchReport';
 
 interface IState extends IStateBase<IChurchReport> {
   loading: boolean;
@@ -22,13 +21,11 @@ interface IState extends IStateBase<IChurchReport> {
 
 export default class ChurchReportFormPage extends BaseComponent<IState> {
   private churchReportValidator: ChurchReportValidator;
-  private churchReportService: ChurchReportService;
 
   constructor(props: any) {
     super(props);
 
     this.churchReportValidator = new ChurchReportValidator();
-    this.churchReportService = services.get('churchReportService');
 
     this.state = {
       loading: true,
@@ -42,7 +39,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
   }
 
   public componentDidMount(): void {
-    this.churchReportService.types()
+    churchReportService.types()
       .logError()
       .bindComponent(this)
       .subscribe(types => {
@@ -60,7 +57,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
     this.churchReportValidator.validate(this.state.model)
       .do(({ model, errors }) => this.setState({ validation: errors, model, submitted: true }, true))
       .filter(({ valid }) => valid)
-      .switchMap(({ model }) => this.churchReportService.save(model).loader())
+      .switchMap(({ model }) => churchReportService.save(model).loader())
       .logError()
       .bindComponent(this)
       .subscribe(() => {

@@ -1,14 +1,13 @@
 import { Body, Button, Card, CardItem, Icon, Spinner, Text, View } from 'native-base';
 import * as React from 'react';
 import { Linking } from 'react-native';
-import { withNavigation } from 'react-navigation';
 
 import { BaseComponent, IStateBase } from '../../../components/base';
 import { phoneFormatter } from '../../../formatters/phone';
 import { IChurch } from '../../../interfaces/church';
-import * as services from '../../../services';
-import { ChurchService } from '../../../services/models/church';
 import { theme } from '../../../theme';
+import churchService from '../../../services/church';
+import { WithNavigation } from '../../../decorators/withNavigation';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -16,18 +15,16 @@ interface IState extends IStateBase {
   error?: any;
 }
 
-class ChurchCard extends BaseComponent<IState> {
-  private churchService: ChurchService;
+@WithNavigation()
+export default class ChurchCard extends BaseComponent<IState> {
 
   constructor(props: any) {
     super(props);
-
-    this.churchService = services.get('churchService');
     this.state = { loading: true };
   }
 
   public componentDidMount(): void {
-    this.churchService.info()
+    churchService.info()
       .logError()
       .bindComponent(this)
       .subscribe(church => {
@@ -92,5 +89,3 @@ class ChurchCard extends BaseComponent<IState> {
     );
   }
 }
-
-export default withNavigation(ChurchCard);

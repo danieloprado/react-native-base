@@ -1,5 +1,4 @@
 import { NavigationActions } from 'react-navigation';
-
 import { INotificationHandler } from '../../interfaces/notification';
 
 export const handle: INotificationHandler<{ id: string }> = async (dispatch, info, appStarted) => {

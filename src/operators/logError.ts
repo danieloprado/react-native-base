@@ -1,9 +1,7 @@
 import { Subscriber } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Rx';
-
-import * as services from '../services';
-import { LogService } from '../services/models/log';
+import logService from '../services/log';
 
 interface IIgnoreParam {
   (err: any): boolean;
@@ -29,16 +27,12 @@ class LogErrorOperator {
 }
 
 class LogErrorSubscriber extends Subscriber<any> {
-  private logService: LogService;
-
   constructor(
     protected destination: Subscriber<any>,
     private ignore: IIgnoreParam
   ) {
     super(destination);
-
     this.ignore = ignore;
-    this.logService = services.get('logService');
   }
 
   public _next(value: any): void {
@@ -51,7 +45,7 @@ class LogErrorSubscriber extends Subscriber<any> {
 
   public _error(err: any): void {
     if (!this.ignore || !this.ignore(err)) {
-      this.logService.handleError(err);
+      logService.handleError(err);
     }
 
     this.destination.error(err);

@@ -1,4 +1,4 @@
-import { DrawerNavigator, NavigationContainer, StackNavigator } from 'react-navigation';
+import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
 import { SideMenu } from './components/sideMenu';
 import DevPage from './pages/_dev';
@@ -12,8 +12,9 @@ import InformativeDetailsPage from './pages/informative/details';
 import InformativeListPage from './pages/informative/list';
 import ProfileDetails from './pages/profile/details';
 import ProfileEditPage from './pages/profile/form';
-import WelcomePage from './pages/welcome';
+import IndexPage from './pages';
 import { variables } from './theme';
+import LoginPage from './pages/login';
 
 const appDrawer = DrawerNavigator({
   Home: { screen: HomePage },
@@ -28,16 +29,14 @@ const appDrawer = DrawerNavigator({
     contentComponent: SideMenu,
     contentOptions: {
       inactiveTintColor: 'black',
-      activeTintColor: variables.accent,
-      ...(variables.platform === 'ios' ? {
-        activeBackgroundColor: variables.toolbarDefaultBg
-      } : {})
+      activeTintColor: variables.accent
     }
   });
 
 // tslint:disable-next-line:variable-name
-export const Navigator: NavigationContainer = StackNavigator({
-  Welcome: { screen: WelcomePage },
+export const Navigator: any = StackNavigator({
+  Index: { screen: IndexPage },
+  Login: { screen: LoginPage },
   Home: { screen: appDrawer },
   Profile: { screen: appDrawer },
   ProfileEdit: { screen: ProfileEditPage },
@@ -51,5 +50,5 @@ export const Navigator: NavigationContainer = StackNavigator({
   Dev: { screen: appDrawer }
 }, {
     headerMode: 'none',
-    initialRouteName: 'Welcome',
+    initialRouteName: 'Index',
   });

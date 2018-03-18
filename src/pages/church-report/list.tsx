@@ -10,10 +10,9 @@ import { IChurchReport } from '../../interfaces/churchReport';
 import { alertError } from '../../providers/alert';
 import { confirm } from '../../providers/confirm';
 import { toast } from '../../providers/toast';
-import * as services from '../../services';
-import { ChurchReportService } from '../../services/models/churchReport';
 import { theme } from '../../theme';
 import { ChurchReportListComponent } from './components/list';
+import churchReportService from '../../services/churchReport';
 
 interface IState extends IStateBase {
   refreshing: boolean;
@@ -29,12 +28,8 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
     )
   };
 
-  private churchReportService: ChurchReportService;
-
   constructor(props: any) {
     super(props);
-
-    this.churchReportService = services.get('churchReportService');
     this.state = { refreshing: true, error: false, reports: [] };
   }
 
@@ -45,7 +40,7 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
   public load(refresh: boolean = false): void {
     this.setState({ refreshing: true }, true);
 
-    this.churchReportService.list(refresh)
+    churchReportService.list(refresh)
       .logError()
       .bindComponent(this)
       .subscribe(reports => {
@@ -63,7 +58,7 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
   public onPressRemove(report: IChurchReport, index: number): void {
     confirm('Excluir', 'Deseja realmente apagar o relatório?', 'Sim', 'Não')
       .filter(ok => ok)
-      .switchMap(() => this.churchReportService.remove(report.id).loader())
+      .switchMap(() => churchReportService.remove(report.id).loader())
       .logError()
       .bindComponent(this)
       .subscribe(() => {

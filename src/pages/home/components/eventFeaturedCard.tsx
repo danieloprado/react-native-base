@@ -1,14 +1,13 @@
 import { Button, Card, CardItem, H2, Text, View } from 'native-base';
 import * as React from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { withNavigation } from 'react-navigation';
 
 import { BaseComponent, IStateBase } from '../../../components/base';
 import { dateFormatter } from '../../../formatters/date';
 import { IEvent } from '../../../interfaces/event';
-import * as services from '../../../services';
-import { EventService } from '../../../services/models/event';
 import { theme, variables } from '../../../theme';
+import eventService from '../../../services/event';
+import { WithNavigation } from '../../../decorators/withNavigation';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -16,18 +15,16 @@ interface IState extends IStateBase {
   error?: any;
 }
 
-class EventFeaturedCard extends BaseComponent<IState> {
-  private eventService: EventService;
+@WithNavigation()
+export default class EventFeaturedCard extends BaseComponent<IState> {
 
   constructor(props: any) {
     super(props);
-
-    this.eventService = services.get('eventService');
     this.state = { loading: true };
   }
 
   public componentDidMount(): void {
-    this.eventService.next(true)
+    eventService.next(true)
       .logError()
       .bindComponent(this)
       .last()
@@ -90,5 +87,3 @@ const styles = StyleSheet.create({
     width: variables.deviceWidth - 120
   }
 });
-
-export default withNavigation(EventFeaturedCard);

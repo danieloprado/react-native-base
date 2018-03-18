@@ -6,10 +6,9 @@ import { Field } from '../../components/field';
 import { ISelectItem } from '../../interfaces/selectItem';
 import { IUser } from '../../interfaces/user';
 import { alertError } from '../../providers/alert';
-import * as services from '../../services';
-import { AddressService } from '../../services/models/address';
-import { ProfileService } from '../../services/models/profile';
 import { ProfileValidator } from '../../validators/profile';
+import addressService from '../../services/address';
+import profileService from '../../services/profile';
 
 const genderOptions = [
   { value: null, display: 'Não informado' },
@@ -24,26 +23,22 @@ interface IState extends IStateBase<IUser> {
 
 export default class ProfileEditPage extends BaseComponent<IState> {
   private profileValidator: ProfileValidator;
-  private addressService: AddressService;
-  private profileService: ProfileService;
 
   constructor(props: any) {
     super(props);
 
     this.profileValidator = new ProfileValidator();
-    this.addressService = services.get('addressService');
-    this.profileService = services.get('profileService');
 
     this.state = {
       model: this.params.profile,
-      states: this.addressService.getStates(),
-      cities: this.addressService.getCities(this.params.profile.state)
+      states: addressService.getStates(),
+      cities: addressService.getCities(this.params.profile.state)
     };
   }
 
   public updateModel(validator: any, key: string, value?: string): void {
     if (key === 'state') {
-      const cities = this.addressService.getCities(value);
+      const cities = addressService.getCities(value);
       this.setState({ cities }, true);
     }
 
@@ -54,7 +49,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
     this.profileValidator.validate(this.state.model)
       .do(({ model, errors }) => this.setState({ validation: errors, model }, true))
       .filter(({ valid }) => valid)
-      .switchMap(({ model }) => this.profileService.save(model).loader())
+      .switchMap(({ model }) => profileService.save(model).loader())
       .logError()
       .bindComponent(this)
       .subscribe(() => {

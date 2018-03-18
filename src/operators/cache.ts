@@ -2,9 +2,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subscriber, Subscription } from 'rxjs/Rx';
 
 import { ICache } from '../interfaces/cache';
-import * as services from '../services';
-import { CacheService } from '../services/models/cache';
-import { LogService } from '../services/models/log';
+import cacheService from '../services/cache';
+import logService from '../services/log';
 
 interface IOptions {
   refresh: boolean;
@@ -30,29 +29,23 @@ declare module 'rxjs/Observable' {
 }
 
 class CacheOperator {
-  private cacheService: CacheService;
-  private logService: LogService;
-
   constructor(
     private key: string,
     private options: IOptions
-  ) {
-    this.cacheService = services.get('cacheService');
-    this.logService = services.get('logService');
-  }
+  ) { }
 
   public call(subscriber: Subscriber<any>, source: Observable<any>): Subscription {
     if (this.options.refresh) {
       return source
-        .do(data => this.cacheService.saveData(this.key, data, this.options))
+        .do(data => cacheService.saveData(this.key, data, this.options))
         .subscribe(subscriber);
     }
 
     let currentCache: ICache;
-    return this.cacheService.getData(this.key)
+    return cacheService.getData(this.key)
       .switchMap(cache => {
         currentCache = cache;
-        if (cache && !this.cacheService.isExpirated(cache)) {
+        if (cache && !cacheService.isExpirated(cache)) {
           return Observable.of(cache.data);
         }
 
@@ -60,12 +53,12 @@ class CacheOperator {
       })
       .switchMap(data => {
         if (currentCache && currentCache.data === data) {
-          this.logService.breadcrumb('Cache', 'manual', data);
+          logService.breadcrumb('Cache', 'manual', data);
           return Observable.of(data);
         }
 
-        this.logService.breadcrumb('Cache Set', 'manual', data);
-        return this.cacheService.saveData(this.key, data, this.options).map(() => data);
+        logService.breadcrumb('Cache Set', 'manual', data);
+        return cacheService.saveData(this.key, data, this.options).map(() => data);
       })
       .subscribe(subscriber);
   }

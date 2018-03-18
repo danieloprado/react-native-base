@@ -9,8 +9,7 @@ import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
 import { eventListFormatter, IEventListFormatted } from '../../formatters/eventList';
 import { toast } from '../../providers/toast';
-import * as services from '../../services';
-import { EventService } from '../../services/models/event';
+import eventService from '../../services/event';
 
 interface IState extends IStateBase {
   refreshing: boolean;
@@ -26,12 +25,8 @@ export default class EventListPage extends BaseComponent<IState> {
     )
   };
 
-  private eventService: EventService;
-
   constructor(props: any) {
     super(props);
-
-    this.eventService = services.get('eventService');
     this.state = { refreshing: true, error: false, eventGroup: [] };
   }
 
@@ -46,7 +41,7 @@ export default class EventListPage extends BaseComponent<IState> {
   public load(refresh: boolean = false): void {
     this.setState({ refreshing: true }, true);
 
-    this.eventService.list(refresh)
+    eventService.list(refresh)
       .logError()
       .bindComponent(this)
       .subscribe(events => {

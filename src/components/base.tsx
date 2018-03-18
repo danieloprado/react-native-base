@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, ReactInstance } from 'react';
 import { NavigationActions, NavigationNavigateActionPayload, NavigationScreenProp } from 'react-navigation';
 import { Subscription } from 'rxjs';
 
@@ -13,10 +13,11 @@ export interface IStateBase<T = any> {
   };
 }
 
-export abstract class BaseComponent<S extends IStateBase = IStateBase, P = any> extends Component<P, S> {
+export abstract class BaseComponent<S extends IStateBase = IStateBase, P = any, R = any> extends Component<P, S> {
   public subscriptions: Subscription[];
   public params: any;
   public navigation?: NavigationScreenProp<any>;
+  public refs: R & { [key: string]: ReactInstance };
 
   private unmonted: boolean;
 

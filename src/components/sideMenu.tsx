@@ -1,14 +1,15 @@
 import { Text } from 'native-base';
 import * as React from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, View } from 'react-native';
+import { Dimensions, Image, ScrollView, StyleSheet, View, ImageBackground } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
 import { IUserToken } from '../interfaces/userToken';
-import * as services from '../services';
-import { TokenService } from '../services/models/token';
 import { variables } from '../theme';
 import { BaseComponent, IStateBase } from './base';
 import { DrawerNavigatorItems as DrawerItems } from './drawerItems';
+import { IChurch } from '../interfaces/church';
+import tokenService from '../services/token';
+import churchService from '../services/church';
 
 const ROUTES_ROLES = [
   { key: 'ChurchReport', roles: ['churchReport'] },
@@ -17,16 +18,14 @@ const ROUTES_ROLES = [
 
 interface IState extends IStateBase {
   routes: any[];
+  church?: IChurch;
 }
 
 export class SideMenu extends BaseComponent<IState, NavigationScreenProps> {
-  private tokenService: TokenService;
 
   constructor(props: any) {
     super(props);
-
-    this.tokenService = services.get('tokenService');
-    this.state = { routes: [] };
+    this.state = { routes: [], church: {} as any };
   }
 
   public filterRoutes(user: IUserToken): any {
@@ -43,24 +42,25 @@ export class SideMenu extends BaseComponent<IState, NavigationScreenProps> {
   }
 
   public componentDidMount(): void {
-    this.tokenService.getUser()
+    tokenService.getUser()
+      .combineLatest(churchService.info())
       .logError()
       .bindComponent(this)
-      .subscribe(user => {
+      .subscribe(([user, church]) => {
         const routes = this.filterRoutes(user);
-        this.setState({ routes });
+        this.setState({ routes, church });
       });
   }
 
   public render(): JSX.Element {
-    const { routes } = this.state;
+    const { routes, church } = this.state;
 
     return (
       <View style={styles.container}>
-        <View style={styles.header}>
+        <ImageBackground source={require('../images/background.png')} style={styles.header}>
           <Image source={require('../images/logo.png')} style={styles.logo} />
-          <Text style={styles.headerText}>ICB Sorocaba</Text>
-        </View>
+          <Text style={styles.headerText}>{church.name}</Text>
+        </ImageBackground>
         <ScrollView>
           <DrawerItems {...this.props} routes={routes} />
         </ScrollView>
@@ -75,20 +75,18 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height
   },
   header: {
-    backgroundColor: variables.toolbarDefaultBg,
     // height: 200
-    flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
-    marginTop: variables.platform === 'ios' ? 10 : 0
+    paddingTop: variables.platform === 'ios' ? 26 : 0,
+    justifyContent: 'center'
   },
   logo: {
-    height: 80,
-    width: 80,
-    marginRight: 20
+    height: 100,
+    width: 100
   },
   headerText: {
     fontSize: 20,
-    color: variables.platform === 'ios' ? variables.defaultTextColor : variables.toolbarTextColor
+    color: variables.toolbarTextColor
   }
 });

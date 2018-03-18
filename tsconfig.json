@@ -8,6 +8,7 @@
     "importHelpers": true,
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
     "skipLibCheck": true,
     "jsx": "react-native",
     "allowJs": true

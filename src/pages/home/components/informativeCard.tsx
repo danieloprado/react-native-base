@@ -1,14 +1,13 @@
 import { Body, Button, Card, CardItem, Icon, Right, Spinner, Text, View } from 'native-base';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import { withNavigation } from 'react-navigation';
 
 import { BaseComponent, IStateBase } from '../../../components/base';
 import { dateFormatter } from '../../../formatters/date';
 import { IInformative } from '../../../interfaces/informative';
-import * as services from '../../../services';
-import { InformativeService } from '../../../services/models/informative';
 import { theme, variables } from '../../../theme';
+import informativeService from '../../../services/informative';
+import { WithNavigation } from '../../../decorators/withNavigation';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -16,18 +15,15 @@ interface IState extends IStateBase {
   error?: any;
 }
 
-class InformativeCard extends BaseComponent<IState> {
-  private informativeService: InformativeService;
-
+@WithNavigation()
+export default class InformativeCard extends BaseComponent<IState> {
   constructor(props: any) {
     super(props);
-
-    this.informativeService = services.get('informativeService');
     this.state = { loading: true };
   }
 
   public componentDidMount(): void {
-    this.informativeService.last()
+    informativeService.last()
       .logError()
       .bindComponent(this)
       .subscribe(informative => {
@@ -89,5 +85,3 @@ const styles = StyleSheet.create({
     width: variables.deviceWidth - 120
   }
 });
-
-export default withNavigation(InformativeCard);
