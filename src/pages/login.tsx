@@ -17,6 +17,7 @@ interface IState extends IStateBase {
   animationHeight: Animated.Value;
   animationFade: Animated.Value;
   animationClass: any;
+  animationContainer: any;
   force: boolean;
 }
 
@@ -29,6 +30,7 @@ export default class LoginPage extends BaseComponent<IState> {
       animationHeight: new Animated.Value(0),
       animationFade: new Animated.Value(0),
       animationClass: {},
+      animationContainer: { opacity: 0 },
       force: (this.params || {}).force
     };
   }
@@ -50,18 +52,25 @@ export default class LoginPage extends BaseComponent<IState> {
       .subscribe(() => this.navigateToHome());
   }
 
-  public animate(finalHeight: number): void {
-    this.setState({
+  public async viewLoaded(event: any): Promise<void> {
+    if (this.state.loaded) {
+      return;
+    }
+
+    this.setState({ loaded: true });
+    const finalHeight = event.nativeEvent.layout.height;
+
+    await this.setState({
       animationClass: {
         height: this.state.animationHeight,
         opacity: this.state.animationFade
-      }
-    }).then(() => {
-      SplashScreen.hide();
-      setTimeout(() => {
-        Animated.timing(this.state.animationFade, { toValue: 1 }).start();
-        Animated.timing(this.state.animationHeight, { toValue: finalHeight }).start();
-      }, 500);
+      },
+      animationContainer: { opacity: this.state.animationFade }
+    });
+
+    setTimeout(() => {
+      Animated.timing(this.state.animationFade, { toValue: 1 }).start();
+      Animated.timing(this.state.animationHeight, { toValue: finalHeight }).start();
     });
   }
 
@@ -81,35 +90,46 @@ export default class LoginPage extends BaseComponent<IState> {
   }
 
   public render(): JSX.Element {
+    const { animationClass, animationContainer } = this.state;
+
     return (
       <Container>
         <View style={styles.container}>
           <StatusBar backgroundColor='#000000'></StatusBar>
           <ImageBackground source={require('../images/background.png')} style={styles.background}>
-            <Image source={require('../images/logo.png')} style={styles.logo} />
-            <Animated.View
-              style={this.state.animationClass}>
-              <Text style={styles.welcome}>
-                Olá!
+            <Animated.View style={StyleSheet.flatten([animationContainer, styles.background])}>
+              <Image source={require('../images/logo.png')} style={styles.logo} />
+              <Animated.View
+                onLayout={(event: any) => this.viewLoaded(event)}
+                style={animationClass}>
+                <Text style={styles.welcome}>
+                  Olá!
               </Text>
-              <Text style={styles.instructions}>
-                Gostaríamos de te conhecer
+                <Text style={styles.instructions}>
+                  Gostaríamos de te conhecer
               </Text>
-              <View style={styles.buttons}>
-                <Button onPress={() => this.loginSocial('facebook')} iconLeft style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
-                  <Icon name='logo-facebook' />
-                  <Text>FACEBOOK</Text>
-                </Button>
-                <Button onPress={() => this.loginSocial('google')} iconLeft style={theme.buttonGoogle}>
-                  <Icon name='logo-google' />
-                  <Text>GOOGLE</Text>
-                </Button>
-              </View>
-              <View style={styles.skipWrapper}>
-                <Button block transparent onPress={() => this.completed()}>
-                  <Text style={styles.skipText}>PULAR</Text>
-                </Button>
-              </View>
+                <View style={styles.buttons}>
+                  <Button
+                    iconLeft
+                    onPress={() => this.loginSocial('facebook')}
+                    style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
+                    <Icon name='logo-facebook' />
+                    <Text>FACEBOOK</Text>
+                  </Button>
+                  <Button
+                    iconLeft
+                    onPress={() => this.loginSocial('google')}
+                    style={theme.buttonGoogle}>
+                    <Icon name='logo-google' />
+                    <Text>GOOGLE</Text>
+                  </Button>
+                </View>
+                <View style={styles.skipWrapper}>
+                  <Button block transparent onPress={() => this.completed()}>
+                    <Text style={styles.skipText}>PULAR</Text>
+                  </Button>
+                </View>
+              </Animated.View>
             </Animated.View>
           </ImageBackground>
         </View>
@@ -142,8 +162,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: variables.deviceHeight,
-    width: variables.deviceWidth,
-    backgroundColor: 'black'
+    width: variables.deviceWidth
   },
   logo: {
     height: 120,

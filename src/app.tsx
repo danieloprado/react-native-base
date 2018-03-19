@@ -69,8 +69,6 @@ class App extends Component<any, IState> {
   private onNavigationStateChange(prevState: NavigationState, currentState: NavigationState): void {
     Keyboard.dismiss();
 
-    console.log(JSON.stringify(currentState, null, 2));
-
     if (!currentState || !currentState.routes || !currentState.routes.length || prevState === currentState) return;
     logService.breadcrumb(this.getCurrentRouteName(currentState), 'navigation');
   }

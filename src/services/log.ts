@@ -7,7 +7,6 @@ export class LogService {
   private bugsnag: any;
 
   constructor(private isDevelopment: boolean) {
-
     const config = new Configuration();
     config.notifyReleaseStages = ['production'];
 

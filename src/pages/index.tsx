@@ -17,11 +17,11 @@ export default class WelcomPage extends BaseComponent {
       .filter(hasNotification => !hasNotification)
       .switchMap(() => storageService.get<boolean>('welcomeCompleted'))
       .map(welcomeCompleted => {
-        setTimeout(() => SplashScreen.hide());
+        setTimeout(() => SplashScreen.hide(), 500);
 
         return isDevelopment ?
-          this.navigate('Event', true) :
-          this.navigate(welcomeCompleted ? 'Home' : 'Home', true);
+          this.navigate('Login', true) :
+          this.navigate(welcomeCompleted ? 'Home' : 'Login', true);
       })
       .logError()
       .bindComponent(this)
