@@ -18,6 +18,7 @@ import platform from './theme/native-base/variables/platform';
 import tokenService from './services/token';
 import logService from './services/log';
 import notificationService from './services/notification';
+import bibleDatabase from './database/bible';
 
 interface IState {
   loading: boolean;
@@ -37,6 +38,12 @@ class App extends Component<any, IState> {
       .do(user => logService.setUser(user))
       .logError()
       .subscribe();
+
+    bibleDatabase.listBooks()
+      .logError()
+      .subscribe(b => {
+        console.log(b);
+      }, err => console.error(err));
   }
 
   public componentWillUnmount(): void {

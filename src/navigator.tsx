@@ -1,7 +1,9 @@
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
 import { SideMenu } from './components/sideMenu';
+import IndexPage from './pages';
 import DevPage from './pages/_dev';
+import BiblePage from './pages/bible';
 import ChurchPage from './pages/church';
 import ChurchReportFormPage from './pages/church-report/form';
 import ChurchReportListPage from './pages/church-report/list';
@@ -10,15 +12,15 @@ import EventListPage from './pages/event/list';
 import HomePage from './pages/home';
 import InformativeDetailsPage from './pages/informative/details';
 import InformativeListPage from './pages/informative/list';
-import ProfileDetails from './pages/profile/details';
-import ProfileEditPage from './pages/profile/form';
-import IndexPage from './pages';
-import { variables } from './theme';
 import LoginPage from './pages/login';
+import ProfileDetailsPage from './pages/profile/details';
+import ProfileEditPage from './pages/profile/form';
+import { variables } from './theme';
 
 const appDrawer = DrawerNavigator({
   Home: { screen: HomePage },
-  Profile: { screen: ProfileDetails },
+  Bible: { screen: BiblePage },
+  Profile: { screen: ProfileDetailsPage },
   Informative: { screen: InformativeListPage },
   Event: { screen: EventListPage },
   ChurchReport: { screen: ChurchReportListPage },
@@ -38,6 +40,7 @@ export const Navigator: any = StackNavigator({
   Index: { screen: IndexPage },
   Login: { screen: LoginPage },
   Home: { screen: appDrawer },
+  Bible: { screen: appDrawer },
   Profile: { screen: appDrawer },
   ProfileEdit: { screen: ProfileEditPage },
   Informative: { screen: appDrawer },

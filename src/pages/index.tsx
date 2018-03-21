@@ -3,9 +3,9 @@ import { View } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
 import { BaseComponent } from '../components/base';
-import { isDevelopment } from '../settings';
 import notificationService from '../services/notification';
 import storageService from '../services/storage';
+import { isDevelopment } from '../settings';
 
 export default class WelcomPage extends BaseComponent {
 
@@ -20,7 +20,7 @@ export default class WelcomPage extends BaseComponent {
         setTimeout(() => SplashScreen.hide(), 500);
 
         return isDevelopment ?
-          this.navigate('Login', true) :
+          this.navigate('Bible', true) :
           this.navigate(welcomeCompleted ? 'Home' : 'Login', true);
       })
       .logError()
