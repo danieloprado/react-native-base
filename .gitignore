@@ -2,6 +2,7 @@
 *.zip
 *.log
 .directory
+native-base-theme
 # OSX
 #
 .DS_Store

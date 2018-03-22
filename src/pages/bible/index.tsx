@@ -1,9 +1,8 @@
-import { Body, Button, Container, Content, Header, Icon, Left, Right, Spinner, Text } from 'native-base';
+import { Body, Button, Container, Content, Header, Icon, Left, Right, Text, Title } from 'native-base';
 import React from 'react';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { BaseComponent } from '../../components/base';
-import { PopupMenu } from '../../components/popupMenu';
 import { toast } from '../../providers/toast';
 
 export default class BiblePage extends BaseComponent {
@@ -27,16 +26,12 @@ export default class BiblePage extends BaseComponent {
             </Button>
           </Left>
           <Body>
-            <PopupMenu actions={[{
-              display: 'Teste',
-              onPress: () => { }
-            }]} />
+            <Title>Bíblia - A Mensagem</Title>
           </Body>
           <Right />
         </Header>
-        <Content >
-          <Spinner />
-          <Button onPress={() => toast('Pressed', 0)}>
+        <Content padder>
+          <Button onPress={() => toast('Não conseguimos se comunicar com o servidor')}>
             <Text>Test</Text>
           </Button>
         </Content>

@@ -13,12 +13,11 @@ import { Subscription } from 'rxjs';
 import { Loader } from './components/loader';
 import { Navigator } from './navigator';
 import * as loaderOperador from './operators/loader';
-import getTheme from './theme/native-base/components';
-import platform from './theme/native-base/variables/platform';
-import tokenService from './services/token';
 import logService from './services/log';
 import notificationService from './services/notification';
-import bibleDatabase from './database/bible';
+import tokenService from './services/token';
+import getTheme from './theme/native-base/components';
+import platform from './theme/native-base/variables/platform';
 
 interface IState {
   loading: boolean;
@@ -38,12 +37,6 @@ class App extends Component<any, IState> {
       .do(user => logService.setUser(user))
       .logError()
       .subscribe();
-
-    bibleDatabase.listBooks()
-      .logError()
-      .subscribe(b => {
-        console.log(b);
-      }, err => console.error(err));
   }
 
   public componentWillUnmount(): void {

@@ -430,9 +430,9 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-navigation@1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-1.2.2.tgz#a6f38121fbc8d2ea098f3b158af2a49108caffa6"
+"@types/react-navigation@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-1.2.3.tgz#3783fd9a93932403164d0a90d6888058e8a6653a"
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
@@ -1397,9 +1397,9 @@ bser@^2.0.0:
   dependencies:
     node-int64 "^0.4.0"
 
-bugsnag-react-native@2.9.1:
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.9.1.tgz#d719bf362ba7421abc0ee491f210c02090b8f925"
+bugsnag-react-native@2.9.3:
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/bugsnag-react-native/-/bugsnag-react-native-2.9.3.tgz#0e8130cc08b18ac87bf24bbf75f089ce066eb4c7"
   dependencies:
     promise "^7"
     prop-types "^15.6.0"
@@ -4048,9 +4048,9 @@ react-native-cli@2.0.1:
     prompt "^0.2.14"
     semver "^5.0.3"
 
-react-native-device-info@0.21.0:
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.21.0.tgz#113b726bb05397e70249aa85453da93399a2ce30"
+react-native-device-info@0.21.2:
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.21.2.tgz#82209bf529f5cae7eab1d6512b1cfb03e29ced30"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
@@ -4085,9 +4085,9 @@ react-native-easy-grid@0.1.17:
   version "0.6.1"
   resolved "git+https://github.com/facebook/react-native-fbsdk#23ae582dd8ebc48592e1cfa1b0e4bc35e98a4ab0"
 
-react-native-fcm@14.1.0:
-  version "14.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-14.1.0.tgz#e1b58e041d4cc8bf100206a57bb5182d1324551c"
+react-native-fcm@14.1.3:
+  version "14.1.3"
+  resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-14.1.3.tgz#14fe949ac7dfa8dea5ed116cbfbeba8cfce88763"
 
 react-native-google-signin@0.12.0:
   version "0.12.0"

@@ -20,7 +20,7 @@ export default class WelcomPage extends BaseComponent {
         setTimeout(() => SplashScreen.hide(), 500);
 
         return isDevelopment ?
-          this.navigate('Bible', true) :
+          this.navigate('Login', true) :
           this.navigate(welcomeCompleted ? 'Home' : 'Login', true);
       })
       .logError()

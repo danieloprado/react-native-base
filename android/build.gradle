@@ -18,5 +18,16 @@ allprojects {
         jcenter()
         maven { url "$rootDir/../node_modules/react-native/android" }
         maven { url 'https://maven.google.com' }
+        configurations.all {
+            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+                def requested = details.requested
+                if (requested.group == 'com.google.android.gms') {
+                    details.useVersion '11.8.0'
+                }
+                if (requested.group == 'com.google.firebase') {
+                    details.useVersion '11.8.0'
+                }
+            }
+        }
     }
 }

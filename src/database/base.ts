@@ -1,19 +1,16 @@
-import SQLite from 'react-native-sqlite-storage';
-import logService from '../services/log';
-
 export abstract class BaseDatabase {
   private db: any;
 
   constructor(name: string, readOnly: boolean) {
-    this.db = SQLite.openDatabase({
-      name,
-      readOnly,
-      createFromLocation: `~${name}.sqlite`
-    }, () => { }, (err: any) => {
-      console.error(err);
-      logService.breadcrumb('trying to open database ' + name);
-      logService.handleError(err);
-    });
+    // this.db = SQLite.openDatabase({
+    //   name,
+    //   readOnly,
+    //   createFromLocation: `~${name}.sqlite`
+    // }, () => { }, (err: any) => {
+    //   console.error(err);
+    //   logService.breadcrumb('trying to open database ' + name);
+    //   logService.handleError(err);
+    // });
   }
 
   protected query<T>(sql: string, params: any[] = []): Promise<T> {
