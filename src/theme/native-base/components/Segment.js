@@ -1,3 +1,5 @@
+import { PixelRatio } from 'react-native';
+
 import variable from './../variables/platform';
 
 export default (variables = variable) => {
@@ -9,6 +11,8 @@ export default (variables = variable) => {
 		flexDirection: 'row',
 		justifyContent: 'center',
 		backgroundColor: variables.segmentBackgroundColor,
+		borderBottomWidth: platform === 'ios' ? 1 / PixelRatio.getPixelSizeForLayoutSize(1) : 0,
+		borderBottomColor: variables.toolbarDefaultBorder,
 		'NativeBase.Button': {
 			alignSelf: 'center',
 			borderRadius: 0,
@@ -17,6 +21,7 @@ export default (variables = variable) => {
 			backgroundColor: 'transparent',
 			borderWidth: 1,
 			borderLeftWidth: 0,
+			paddingTop: 5,
 			borderColor: variables.segmentBorderColor,
 			elevation: 0,
 			'.active': {
@@ -26,13 +31,13 @@ export default (variables = variable) => {
 				},
 			},
 			'.first': {
-				borderTopLeftRadius: platform === 'ios' ? 5 : undefined,
-				borderBottomLeftRadius: platform === 'ios' ? 5 : undefined,
+				borderTopLeftRadius: 5,
+				borderBottomLeftRadius: 5,
 				borderLeftWidth: 1,
 			},
 			'.last': {
-				borderTopRightRadius: platform === 'ios' ? 5 : undefined,
-				borderBottomRightRadius: platform === 'ios' ? 5 : undefined,
+				borderTopRightRadius: 5,
+				borderBottomRightRadius: 5,
 			},
 			'NativeBase.Text': {
 				color: variables.segmentTextColor,

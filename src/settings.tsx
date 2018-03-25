@@ -1,3 +1,5 @@
+import { IBibleState } from './interfaces/bible/state';
+
 export const env = __DEV__ ? 'development' : 'production';
 export const isDevelopment = env === 'development';
 
@@ -5,6 +7,11 @@ export const churchSlug = 'icb-sorocaba';
 export const defaultAddress = {
   state: 'SP',
   city: 'Sorocaba'
+};
+
+export const defaultBible: IBibleState = {
+  book: 43,
+  capter: 998
 };
 
 export const apiTimeout = 15 * 1000;

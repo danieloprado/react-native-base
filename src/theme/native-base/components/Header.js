@@ -201,8 +201,7 @@ export default (variables = variable) => {
       alignSelf: 'center',
       'NativeBase.Segment': {
         borderWidth: 0,
-        alignSelf: 'flex-end',
-        marginRight: platform === 'ios' ? -40 : -55,
+        alignSelf: 'center',
       },
       'NativeBase.Button': {
         alignSelf: 'center',
