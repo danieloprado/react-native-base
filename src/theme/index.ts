@@ -26,6 +26,7 @@ export const theme: typeof variablesTheme & { primary: string, accent: string } 
   get btnPrimaryBg(): string {
     return accent;
   },
+  topTabBarTextColor: variablesTheme.platform === 'ios' ? accent : 'white',
 };
 
 console.log(theme.statusBarColor);

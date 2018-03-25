@@ -22,6 +22,7 @@ import bibleDatabase from '../../database/bible';
 import { IBibleData } from '../../interfaces/bible/data';
 import { toastError } from '../../providers/toast';
 import { classes, theme } from '../../theme';
+import BibleModalPicker from './components/modalPicker';
 
 interface IState extends IStateBase, Partial<IBibleData> {
   loading: boolean;
@@ -35,6 +36,8 @@ export default class BiblePage extends BaseComponent<IState> {
     )
   };
 
+  private modalPicker: BibleModalPicker;
+
   constructor(props: any) {
     super(props);
     this.state = { loading: true };
@@ -45,7 +48,6 @@ export default class BiblePage extends BaseComponent<IState> {
       .bindComponent(this)
       .logError()
       .subscribe(({ book, capter, verses }) => {
-        console.log(capter);
         verses.push({ id: 'empty' } as any);
         this.setState({ book, capter, verses, loading: false });
       }, err => toastError(err));
@@ -65,11 +67,17 @@ export default class BiblePage extends BaseComponent<IState> {
     bibleDatabase.change(book.id, capter);
   }
 
+  public showPicker(): void {
+    if (this.state.loading) return;
+    this.modalPicker.show();
+  }
+
   public render(): JSX.Element {
     const { loading, capter, verses } = this.state;
 
     return (
       <Container>
+        <BibleModalPicker ref={modalPicker => this.modalPicker = modalPicker} />
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
@@ -78,7 +86,7 @@ export default class BiblePage extends BaseComponent<IState> {
           </Left>
           <Body>
             <Segment>
-              <Button first last active>
+              <Button first last active onPress={() => this.showPicker()}>
                 <Text>{this.getTitle()}</Text>
               </Button>
             </Segment>
@@ -95,11 +103,11 @@ export default class BiblePage extends BaseComponent<IState> {
           <FlatList
             keyExtractor={verse => verse.id.toString()}
             data={verses}
-            renderItem={({ item }) =>
+            renderItem={({ item, index }) =>
               <ListItem button style={[classes.listItem, styles.listItem]}>
                 <Body style={item.id !== 'empty' ? null : styles.bodyEmpty}>
                   {!item.reference && item.id !== 'empty' &&
-                    <Text style={styles.title}>{item.text}</Text>
+                    <Text style={index === 0 ? styles.titleNoMargin : styles.title}>{item.text}</Text>
                   }
                   {!!item.reference && item.id !== 'empty' &&
                     <Text>
@@ -142,6 +150,9 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     marginTop: 30
+  },
+  titleNoMargin: {
+    fontWeight: 'bold'
   },
   reference: {
     fontWeight: 'bold',
