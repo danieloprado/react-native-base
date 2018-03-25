@@ -42,9 +42,12 @@ export class BibleDatabase extends BaseDatabase {
       .map(data => data.map(this.mapBook));
   }
 
-  public getCapter(id: number): Observable<IBibleCapter> {
+  public getCapter(book: number, id: number): Observable<IBibleCapter> {
     return Observable.of(true)
-      .switchMap(() => this.query(`SELECT * FROM capitulos WHERE id = ${id}`))
+      .switchMap(() => this.query(`
+        SELECT * FROM capitulos
+        WHERE livro = ${book} AND referencia = ${id}
+      `))
       .map(data => data[0])
       .map(this.mapCapter);
   }
@@ -55,18 +58,22 @@ export class BibleDatabase extends BaseDatabase {
       .map(data => data.map(this.mapCapter));
   }
 
-  public listVerses(capter: number): Observable<IBibleVerse[]> {
+  public listVerses(book: number, capter: number): Observable<IBibleVerse[]> {
     return Observable.of(true)
-      .switchMap(() => this.query(`SELECT * FROM versiculo WHERE capitulo = ${capter}`))
+      .switchMap(() => this.query(`
+        SELECT v.* FROM versiculo AS v
+        JOIN capitulos AS c ON v.capitulo = c.id
+        WHERE c.livro = ${book} AND c.referencia = ${capter}
+      `))
       .map(data => data.map(this.mapVerse));
   }
 
   public current(): Observable<IBibleData> {
     return this.state$
-      .switchMap(state => Observable.combineLatest(
-        this.getBook(state.book),
-        this.getCapter(state.capter),
-        this.listVerses(state.capter)
+      .switchMap(({ book, capter }) => Observable.combineLatest(
+        this.getBook(book),
+        this.getCapter(book, capter),
+        this.listVerses(book, capter)
       ))
       .map(([book, capter, verses]) => {
         return { book, capter, verses };
@@ -87,10 +94,9 @@ export class BibleDatabase extends BaseDatabase {
 
   private mapCapter(capitulo: IBibleDatabaseCapter): IBibleCapter {
     return {
-      id: capitulo.id,
-      reference: capitulo.referencia,
-      previous: capitulo.anterior,
-      next: capitulo.proximo
+      id: capitulo.referencia,
+      previous: capitulo.anterior !== capitulo.referencia ? capitulo.anterior : null,
+      next: capitulo.proximo !== capitulo.referencia ? capitulo.proximo : null
     };
   }
 

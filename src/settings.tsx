@@ -11,7 +11,7 @@ export const defaultAddress = {
 
 export const defaultBible: IBibleState = {
   book: 43,
-  capter: 998
+  capter: 1
 };
 
 export const apiTimeout = 15 * 1000;

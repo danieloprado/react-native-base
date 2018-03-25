@@ -45,6 +45,7 @@ export default class BiblePage extends BaseComponent<IState> {
       .bindComponent(this)
       .logError()
       .subscribe(({ book, capter, verses }) => {
+        console.log(capter);
         verses.push({ id: 'empty' } as any);
         this.setState({ book, capter, verses, loading: false });
       }, err => toastError(err));
@@ -54,7 +55,7 @@ export default class BiblePage extends BaseComponent<IState> {
     const { loading, book, capter } = this.state;
     if (loading) return 'Carregando';
 
-    return `${book.name} ${capter.reference}`;
+    return `${book.name} ${capter.id}`;
   }
 
   public changeCapter(capter: number): void {
