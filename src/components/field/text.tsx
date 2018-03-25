@@ -2,7 +2,7 @@ import { Icon, Input, Item } from 'native-base';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { variables } from '../../theme';
+import { theme } from '../../theme';
 
 const keyboardTypes: any = {
   text: 'default',
@@ -99,7 +99,7 @@ export class FieldText extends React.Component<IProps> {
     const maskedValue = mask ? mask.apply(value || '') : value;
 
     return (
-      <Item style={StyleSheet.flatten([(style || {}).item, hasError ? { borderColor: variables.inputErrorBorderColor } : null])} error={hasError}>
+      <Item style={StyleSheet.flatten([(style || {}).item, hasError ? { borderColor: theme.inputErrorBorderColor } : null])} error={hasError}>
         <Input
           placeholder={placeholder}
           ref={i => this.input = i}
@@ -120,7 +120,7 @@ export class FieldText extends React.Component<IProps> {
 
 const styles = StyleSheet.create({
   input: {
-    height: 40,
+    height: 41,
     lineHeight: 20,
     paddingLeft: 0
   }

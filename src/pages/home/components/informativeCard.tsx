@@ -3,11 +3,11 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { BaseComponent, IStateBase } from '../../../components/base';
+import { WithNavigation } from '../../../decorators/withNavigation';
 import { dateFormatter } from '../../../formatters/date';
 import { IInformative } from '../../../interfaces/informative';
-import { theme, variables } from '../../../theme';
 import informativeService from '../../../services/informative';
-import { WithNavigation } from '../../../decorators/withNavigation';
+import { classes, theme } from '../../../theme';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -41,18 +41,18 @@ export default class InformativeCard extends BaseComponent<IState> {
         </CardItem>
         {loading &&
           <CardItem>
-            <Body style={theme.alignCenter}>
+            <Body style={classes.alignCenter}>
               <Spinner />
             </Body>
           </CardItem>
         }
         {!loading && error && !informative &&
-          <CardItem style={theme.alignCenter}>
+          <CardItem style={classes.alignCenter}>
             <Text note>Não conseguimos atualizar</Text>
           </CardItem>
         }
         {!loading && !error && !informative &&
-          <CardItem style={theme.alignCenter}>
+          <CardItem style={classes.alignCenter}>
             <Text note>Nenhum informativo criado</Text>
           </CardItem>
         }
@@ -68,7 +68,7 @@ export default class InformativeCard extends BaseComponent<IState> {
                 <Icon name='arrow-forward' />
               </Right>
             </CardItem>
-            <CardItem footer style={theme.alignRight}>
+            <CardItem footer style={classes.alignRight}>
               <Button transparent onPress={() => this.navigate('Informative')}>
                 <Text>VER TODOS</Text>
               </Button>
@@ -82,6 +82,6 @@ export default class InformativeCard extends BaseComponent<IState> {
 
 const styles = StyleSheet.create({
   viewContent: {
-    width: variables.deviceWidth - 120
+    width: theme.deviceWidth - 120
   }
 });

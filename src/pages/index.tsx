@@ -7,7 +7,7 @@ import notificationService from '../services/notification';
 import storageService from '../services/storage';
 import { isDevelopment } from '../settings';
 
-export default class WelcomPage extends BaseComponent {
+export default class IndexPage extends BaseComponent {
 
   public componentWillMount(): void {
     notificationService.appDidOpen();
@@ -20,7 +20,7 @@ export default class WelcomPage extends BaseComponent {
         setTimeout(() => SplashScreen.hide(), 500);
 
         return isDevelopment ?
-          this.navigate('Login', true) :
+          this.navigate('Bible', true) :
           this.navigate(welcomeCompleted ? 'Home' : 'Login', true);
       })
       .logError()

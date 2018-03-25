@@ -24,8 +24,8 @@ import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
 import { IUser } from '../../interfaces/user';
 import { confirm } from '../../providers/confirm';
-import { theme, variables } from '../../theme';
 import profileService from '../../services/profile';
+import { classes, theme } from '../../theme';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -106,8 +106,8 @@ export default class ProfileDetailsPage extends BaseComponent<IState> {
             <ErrorMessage error={error} />
           }
           {!loading && !profile && !error &&
-            <View style={StyleSheet.flatten([theme.emptyMessage, theme.alignCenter])}>
-              <Icon name='contact' style={StyleSheet.flatten([styles.loginIcon, theme.iconLarge])} />
+            <View style={StyleSheet.flatten([classes.emptyMessage, classes.alignCenter])}>
+              <Icon name='contact' style={StyleSheet.flatten([styles.loginIcon, classes.iconLarge])} />
               <Text style={styles.loginText}>Ainda não te conhecemos, mas gostaríamos de saber mais sobre você!</Text>
               <Button block onPress={() => this.navigate('Login', { force: true })}>
                 <Text>ENTRAR</Text>
@@ -126,27 +126,27 @@ export default class ProfileDetailsPage extends BaseComponent<IState> {
               </View>
               <List>
                 {!!profile.email &&
-                  <ListItem style={StyleSheet.flatten([theme.listItem, styles.listItem])}>
-                    <Left style={theme.listIconWrapper}>
-                      <Icon name='mail' style={theme.listIcon} />
+                  <ListItem style={StyleSheet.flatten([classes.listItem, styles.listItem])}>
+                    <Left style={classes.listIconWrapper}>
+                      <Icon name='mail' style={classes.listIcon} />
                     </Left>
                     <Body>
                       <Text>{profile.email}</Text>
                     </Body>
                   </ListItem>
                 }
-                <ListItem style={StyleSheet.flatten([theme.listItem, styles.listItem])}>
-                  <Left style={theme.listIconWrapper}>
-                    <Icon name={profile.gender === 'f' ? 'female' : 'male'} style={theme.listIcon} />
+                <ListItem style={StyleSheet.flatten([classes.listItem, styles.listItem])}>
+                  <Left style={classes.listIconWrapper}>
+                    <Icon name={profile.gender === 'f' ? 'female' : 'male'} style={classes.listIcon} />
                   </Left>
                   <Body>
                     <Text>{gender}</Text>
                   </Body>
                 </ListItem>
                 {!!profile.birthday &&
-                  <ListItem style={StyleSheet.flatten([theme.listItem, styles.listItem])}>
-                    <Left style={theme.listIconWrapper}>
-                      <Icon name='calendar' style={theme.listIcon} />
+                  <ListItem style={StyleSheet.flatten([classes.listItem, styles.listItem])}>
+                    <Left style={classes.listIconWrapper}>
+                      <Icon name='calendar' style={classes.listIcon} />
                     </Left>
                     <Body>
                       <Text>{dateFormatter.formatBirthday(profile.birthday)}</Text>
@@ -154,9 +154,9 @@ export default class ProfileDetailsPage extends BaseComponent<IState> {
                   </ListItem>
                 }
                 {!!profile.fullAddress &&
-                  <ListItem style={StyleSheet.flatten([theme.listItem, styles.listItem])}>
-                    <Left style={theme.listIconWrapper}>
-                      <Icon name='pin' style={theme.listIcon} />
+                  <ListItem style={StyleSheet.flatten([classes.listItem, styles.listItem])}>
+                    <Left style={classes.listIconWrapper}>
+                      <Icon name='pin' style={classes.listIcon} />
                     </Left>
                     <Body>
                       <Text>{profile.fullAddress}</Text>
@@ -179,14 +179,14 @@ const styles = StyleSheet.create({
   loginIcon: {
     marginTop: 20,
     marginBottom: 10,
-    color: variables.accent
+    color: theme.accent
   },
   loginText: {
     textAlign: 'center',
     marginBottom: 20
   },
   header: {
-    backgroundColor: variables.accent,
+    backgroundColor: theme.accent,
     padding: 16,
     justifyContent: 'center',
     alignItems: 'center'

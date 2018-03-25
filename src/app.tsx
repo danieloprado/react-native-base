@@ -16,8 +16,8 @@ import * as loaderOperador from './operators/loader';
 import logService from './services/log';
 import notificationService from './services/notification';
 import tokenService from './services/token';
+import { theme } from './theme';
 import getTheme from './theme/native-base/components';
-import platform from './theme/native-base/variables/platform';
 
 interface IState {
   loading: boolean;
@@ -55,7 +55,7 @@ class App extends Component<any, IState> {
     const { loading } = this.state;
 
     return (
-      <StyleProvider style={getTheme(platform)}>
+      <StyleProvider style={getTheme(theme)}>
         <Root>
           <Loader ref='loader' />
           {!loading &&

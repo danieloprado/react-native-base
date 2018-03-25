@@ -4,9 +4,9 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 
 import { INotificationHandler, INotificationInfo } from '../interfaces/notification';
 import { InteractionManager } from '../providers/interactionManager';
+import firebaseService, { FirebaseService, INotificationInfoRemote } from './firebase';
 import storageService, { StorageService } from './storage';
 import tokenService, { TokenService } from './token';
-import firebaseService, { FirebaseService, INotificationInfoRemote } from './firebase';
 
 export class NotificationService {
   private navigator: NavigationScreenProp<any>;
@@ -36,7 +36,7 @@ export class NotificationService {
 
     this.firebaseService.onNewNotification()
       .logError()
-      .switchMap(({ notification, initial }) => this.received(notification, initial))
+      .switchMap(n => this.received(n.notification, n.initial))
       .subscribe();
 
     this.token$

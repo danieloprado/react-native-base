@@ -8,8 +8,8 @@ import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
 import { IInformative } from '../../interfaces/informative';
 import { toast } from '../../providers/toast';
-import { theme } from '../../theme';
 import informativeService from '../../services/informative';
+import { classes } from '../../theme';
 
 interface IState extends IStateBase {
   refreshing: boolean;
@@ -78,15 +78,15 @@ export default class InformativeListPage extends BaseComponent<IState> {
             <ErrorMessage error={error} />
           }
           <List dataArray={informatives} renderRow={informative =>
-            <ListItem button key={informative.id} style={theme.listItem} onPress={() => this.details(informative)}>
-              <Left style={theme.listIconWrapper}>
-                <Icon name={informative.icon} style={theme.listIcon} />
+            <ListItem button key={informative.id} style={classes.listItem} onPress={() => this.details(informative)}>
+              <Left style={classes.listIconWrapper}>
+                <Icon name={informative.icon} style={classes.listIcon} />
               </Left>
               <Body>
                 <Text>{informative.title}</Text>
                 <Text note>{dateFormatter.format(informative.date, 'dddd, DD [de] MMMM [de] YYYY')}</Text>
               </Body>
-              <Right style={theme.listIconWrapperSmall}>
+              <Right style={classes.listIconWrapperSmall}>
                 <Icon name='arrow-forward' />
               </Right>
             </ListItem>

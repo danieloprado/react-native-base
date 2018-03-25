@@ -1,10 +1,36 @@
+import variablesTheme from 'native-base/src/theme/variables/platform';
 import { Dimensions, StyleSheet } from 'react-native';
 
-import variablesTheme from './native-base/variables/platform';
+const primary = '#263238';
+const accent = '#86bd90';
 
-export const variables = variablesTheme;
+export const theme: typeof variablesTheme & { primary: string, accent: string } = {
+  ...Object.keys(variablesTheme).reduce((acc, key) => {
+    let value = (variablesTheme as any)[key];
 
-export const theme = StyleSheet.create({
+    const prop = Object.getOwnPropertyDescriptor(variablesTheme, key);
+    if (prop.get) {
+      Object.defineProperty(acc, key, prop);
+      return acc;
+    } else if (value === '#3F51B5') {
+      value = primary;
+    } else if (value === '#007aff') {
+      value = accent;
+    }
+
+    acc[key] = value;
+    return acc;
+  }, {} as any),
+  primary,
+  accent,
+  get btnPrimaryBg(): string {
+    return accent;
+  },
+};
+
+console.log(theme.statusBarColor);
+
+export const classes = StyleSheet.create({
   buttonFacebook: {
     backgroundColor: '#3b5998'
   },

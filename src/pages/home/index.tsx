@@ -3,7 +3,7 @@ import * as React from 'react';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { BaseComponent } from '../../components/base';
-import { theme } from '../../theme';
+import { classes } from '../../theme';
 import ChurchCard from './components/churchCard';
 import EventCard from './components/eventCard';
 import EventFeaturedCard from './components/eventFeaturedCard';
@@ -20,7 +20,7 @@ export default class HomePage extends BaseComponent {
   public render(): JSX.Element {
 
     return (
-      <Container style={theme.cardsContainer}>
+      <Container style={classes.cardsContainer}>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
@@ -33,7 +33,7 @@ export default class HomePage extends BaseComponent {
           <Right />
         </Header>
         <Content>
-          <View style={theme.cardsPadding}>
+          <View style={classes.cardsPadding}>
             <EventFeaturedCard></EventFeaturedCard>
             <ChurchCard></ChurchCard>
             <InformativeCard></InformativeCard>

@@ -2,7 +2,7 @@ import { Body, Button, Header, Icon, Left, Picker, Right, Title, View } from 'na
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { variables } from '../../theme';
+import { theme } from '../../theme';
 
 interface IProps {
   label?: string;
@@ -46,16 +46,16 @@ export function FieldPicker(props: IProps): JSX.Element {
 
 const styles = StyleSheet.create({
   pickerContainer: {
-    borderWidth: variables.borderWidth * 2,
+    borderWidth: theme.borderWidth * 2,
     borderTopWidth: 0,
     borderRightWidth: 0,
     borderLeftWidth: 0,
-    borderColor: variables.inputBorderColor,
+    borderColor: theme.inputBorderColor,
     flex: 1,
     alignItems: 'stretch'
   },
   picker: {
-    width: variables.deviceWidth - 20,
+    width: theme.deviceWidth - 20,
     paddingLeft: 0
   }
 });

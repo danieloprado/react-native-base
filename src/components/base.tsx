@@ -2,8 +2,8 @@ import { Component, ReactInstance } from 'react';
 import { NavigationActions, NavigationNavigateActionPayload, NavigationScreenProp } from 'react-navigation';
 import { Subscription } from 'rxjs';
 
-import { alertError } from '../providers/alert';
 import { InteractionManager } from '../providers/interactionManager';
+import { toastError } from '../providers/toast';
 import { BaseValidator } from '../validators/base';
 
 export interface IStateBase<T = any> {
@@ -120,7 +120,7 @@ export abstract class BaseComponent<S extends IStateBase = IStateBase, P = any, 
       .bindComponent(this)
       .subscribe(({ model, errors }: any) => {
         this.setState({ validation: errors, model }, true);
-      }, (err: any) => alertError(err).subscribe());
+      }, (err: any) => toastError(err));
   }
 
 }

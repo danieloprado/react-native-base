@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { BaseComponent } from '../components/base';
-import { theme } from '../theme';
+import { classes } from '../theme';
 
 export default class DevPage extends BaseComponent {
   public static navigationOptions: NavigationDrawerScreenOptions = {
@@ -20,7 +20,7 @@ export default class DevPage extends BaseComponent {
 
   public render(): JSX.Element {
     return (
-      <Container style={theme.cardsContainer}>
+      <Container style={classes.cardsContainer}>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
@@ -33,7 +33,7 @@ export default class DevPage extends BaseComponent {
           <Right />
         </Header>
         <Content>
-          <View style={StyleSheet.flatten([theme.cardsPadding, theme.alignCenter])}>
+          <View style={StyleSheet.flatten([classes.cardsPadding, classes.alignCenter])}>
             <Button onPress={() => this.testError()}>
               <Text>Test Error</Text>
             </Button>

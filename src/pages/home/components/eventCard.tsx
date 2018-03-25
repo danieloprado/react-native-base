@@ -3,11 +3,11 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { BaseComponent, IStateBase } from '../../../components/base';
+import { WithNavigation } from '../../../decorators/withNavigation';
 import { dateFormatter } from '../../../formatters/date';
 import { IEvent } from '../../../interfaces/event';
-import { theme, variables } from '../../../theme';
 import eventService from '../../../services/event';
-import { WithNavigation } from '../../../decorators/withNavigation';
+import { classes, theme } from '../../../theme';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -42,18 +42,18 @@ export default class EventCard extends BaseComponent<IState> {
         </CardItem>
         {loading &&
           <CardItem>
-            <Body style={theme.alignCenter}>
+            <Body style={classes.alignCenter}>
               <Spinner />
             </Body>
           </CardItem>
         }
         {!loading && error && !event &&
-          <CardItem style={theme.alignCenter}>
+          <CardItem style={classes.alignCenter}>
             <Text note>Não conseguimos atualizar</Text>
           </CardItem>
         }
         {!loading && !error && !event &&
-          <CardItem style={theme.alignCenter}>
+          <CardItem style={classes.alignCenter}>
             <Text note>Nenhum evento próximo</Text>
           </CardItem>
         }
@@ -75,7 +75,7 @@ export default class EventCard extends BaseComponent<IState> {
                 <Icon name='arrow-forward' />
               </Right>
             </CardItem>
-            <CardItem footer style={theme.alignRight}>
+            <CardItem footer style={classes.alignRight}>
               <Button transparent onPress={() => this.navigate('Event')}>
                 <Text>VER TODOS</Text>
               </Button>
@@ -90,6 +90,6 @@ export default class EventCard extends BaseComponent<IState> {
 
 const styles = StyleSheet.create({
   viewContent: {
-    width: variables.deviceWidth - 120
+    width: theme.deviceWidth - 120
   }
 });

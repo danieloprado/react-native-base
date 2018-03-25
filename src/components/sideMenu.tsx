@@ -1,15 +1,15 @@
 import { Text } from 'native-base';
 import * as React from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, View, ImageBackground } from 'react-native';
+import { Dimensions, Image, ImageBackground, ScrollView, StyleSheet, View } from 'react-native';
 import { NavigationScreenProps } from 'react-navigation';
 
+import { IChurch } from '../interfaces/church';
 import { IUserToken } from '../interfaces/userToken';
-import { variables } from '../theme';
+import churchService from '../services/church';
+import tokenService from '../services/token';
+import { theme } from '../theme';
 import { BaseComponent, IStateBase } from './base';
 import { DrawerNavigatorItems as DrawerItems } from './drawerItems';
-import { IChurch } from '../interfaces/church';
-import tokenService from '../services/token';
-import churchService from '../services/church';
 
 const ROUTES_ROLES = [
   { key: 'ChurchReport', roles: ['churchReport'] },
@@ -75,10 +75,9 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height
   },
   header: {
-    // height: 200
     alignItems: 'center',
     padding: 16,
-    paddingTop: variables.platform === 'ios' ? 26 : 0,
+    paddingTop: theme.platform === 'ios' ? 26 : 0,
     justifyContent: 'center'
   },
   logo: {
@@ -87,6 +86,6 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
-    color: variables.toolbarTextColor
+    color: 'white'
   }
 });

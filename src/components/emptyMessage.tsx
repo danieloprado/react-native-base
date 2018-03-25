@@ -3,7 +3,7 @@ import * as propTypes from 'prop-types';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { variables } from '../theme';
+import { theme } from '../theme';
 
 interface IProps {
   icon: string;
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   icon: {
     marginTop: 90,
     fontSize: 100,
-    color: variables.darkGray
+    color: theme.darkGray
   },
   message: {
     marginTop: 5,

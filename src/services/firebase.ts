@@ -1,7 +1,8 @@
-import { ReplaySubject, Observable } from 'rxjs';
-import FCM, { FCMEvent } from 'react-native-fcm';
-import { INotificationInfo } from '../interfaces/notification';
 import { Platform } from 'react-native';
+import FCM, { FCMEvent } from 'react-native-fcm';
+import { Observable, ReplaySubject } from 'rxjs';
+
+import { INotificationInfo } from '../interfaces/notification';
 
 export class FirebaseService {
   private lastId: string;
@@ -69,7 +70,7 @@ export class FirebaseService {
   private notificationCallback(initial: boolean): any {
     return (notification: INotificationInfoRemote) => {
       if (!notification && initial) {
-        this.notification$.next(null);
+        this.notification$.next({ notification: null, initial });
         return;
       }
 

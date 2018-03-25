@@ -10,8 +10,8 @@ import { IEvent, IEventDate } from '../../interfaces/event';
 import { IQuizAnswer } from '../../interfaces/quizAnswer';
 import { alert } from '../../providers/alert';
 import { toast } from '../../providers/toast';
-import { variables } from '../../theme';
 import quizService from '../../services/quiz';
+import { theme } from '../../theme';
 
 interface IState extends IStateBase {
   event: IEvent;
@@ -100,7 +100,7 @@ export default class EventDetailsPage extends BaseComponent<IState, any, IRefs> 
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: variables.accent,
+    backgroundColor: theme.accent,
     padding: 16
   },
   headerText: {

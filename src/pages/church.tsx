@@ -23,8 +23,8 @@ import { BaseComponent, IStateBase } from '../components/base';
 import { ErrorMessage } from '../components/errorMessage';
 import { phoneFormatter } from '../formatters/phone';
 import { IChurch } from '../interfaces/church';
-import { theme } from '../theme';
 import churchService from '../services/church';
+import { classes } from '../theme';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -93,7 +93,7 @@ export default class ChurchPage extends BaseComponent<IState> {
           }
           {!loading && !error && church &&
             <View style={styles.container}>
-              <View style={theme.alignCenter}>
+              <View style={classes.alignCenter}>
                 <Image source={require('../images/logo.png')} style={styles.logo} />
                 <H2 style={styles.headerText}>{church.name}</H2>
               </View>
@@ -103,8 +103,8 @@ export default class ChurchPage extends BaseComponent<IState> {
                     button
                     onPress={() => this.openPhone()}
                     style={styles.listItem}>
-                    <Left style={theme.listIconWrapper}>
-                      <Icon name='call' style={theme.listIcon} />
+                    <Left style={classes.listIconWrapper}>
+                      <Icon name='call' style={classes.listIcon} />
                     </Left>
                     <Body>
                       <Text>{phoneFormatter(church.phone)}</Text>
@@ -116,8 +116,8 @@ export default class ChurchPage extends BaseComponent<IState> {
                     button
                     onPress={() => this.openEmail()}
                     style={styles.listItem}>
-                    <Left style={theme.listIconWrapper}>
-                      <Icon name='mail' style={theme.listIcon} />
+                    <Left style={classes.listIconWrapper}>
+                      <Icon name='mail' style={classes.listIcon} />
                     </Left>
                     <Body>
                       <Text>{church.email}</Text>
@@ -129,8 +129,8 @@ export default class ChurchPage extends BaseComponent<IState> {
                     button
                     onPress={() => this.openAddress()}
                     style={styles.listItem}>
-                    <Left style={theme.listIconWrapper}>
-                      <Icon name='pin' style={theme.listIcon} />
+                    <Left style={classes.listIconWrapper}>
+                      <Icon name='pin' style={classes.listIcon} />
                     </Left>
                     <Body>
                       <Text>{church.address}</Text>
@@ -147,8 +147,8 @@ export default class ChurchPage extends BaseComponent<IState> {
                       button
                       onPress={() => this.openUrl(social.url)}
                       style={styles.listItem}>
-                      <Left style={theme.listIconWrapper}>
-                        <Icon name={icon} style={theme.listIcon} />
+                      <Left style={classes.listIconWrapper}>
+                        <Icon name={icon} style={classes.listIcon} />
                       </Left>
                       <Body>
                         <Text>{social.name === 'website' ? social.url : social.name.toUpperCase()}</Text>

@@ -3,11 +3,11 @@ import * as React from 'react';
 import { Linking } from 'react-native';
 
 import { BaseComponent, IStateBase } from '../../../components/base';
+import { WithNavigation } from '../../../decorators/withNavigation';
 import { phoneFormatter } from '../../../formatters/phone';
 import { IChurch } from '../../../interfaces/church';
-import { theme } from '../../../theme';
 import churchService from '../../../services/church';
-import { WithNavigation } from '../../../decorators/withNavigation';
+import { classes } from '../../../theme';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -51,13 +51,13 @@ export default class ChurchCard extends BaseComponent<IState> {
         </CardItem>
         {loading &&
           <CardItem>
-            <Body style={theme.alignCenter}>
+            <Body style={classes.alignCenter}>
               <Spinner />
             </Body>
           </CardItem>
         }
         {!loading && !church &&
-          <CardItem style={theme.alignCenter}>
+          <CardItem style={classes.alignCenter}>
             <Text note>Não conseguimos atualizar</Text>
           </CardItem>
         }
@@ -72,12 +72,12 @@ export default class ChurchCard extends BaseComponent<IState> {
             {!!church.address &&
               <CardItem button onPress={() => this.openAddress()}>
                 <Icon name='pin' />
-                <Text style={theme.cardItemMultiline}>
+                <Text style={classes.cardItemMultiline}>
                   {church.address}
                 </Text>
               </CardItem>
             }
-            <CardItem footer style={theme.alignRight}>
+            <CardItem footer style={classes.alignRight}>
               <Button transparent onPress={() => this.navigate('Church')}>
                 <Text>DETALHES</Text>
               </Button>

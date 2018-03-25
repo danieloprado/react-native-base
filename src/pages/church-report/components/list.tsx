@@ -7,7 +7,7 @@ import { Col, Grid, Row } from 'react-native-easy-grid';
 import { PopupMenu } from '../../../components/popupMenu';
 import { dateFormatter } from '../../../formatters/date';
 import { IChurchReport } from '../../../interfaces/churchReport';
-import { variables } from '../../../theme';
+import { theme } from '../../../theme';
 
 interface IProps {
   reports: IChurchReport[];
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   rightWrapper: {
-    maxWidth: variables.platform === 'ios' ? 60 : 50
+    maxWidth: theme.platform === 'ios' ? 60 : 50
   },
   leftView: {
     marginLeft: -5,

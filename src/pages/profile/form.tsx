@@ -5,10 +5,10 @@ import { BaseComponent, IStateBase } from '../../components/base';
 import { Field } from '../../components/field';
 import { ISelectItem } from '../../interfaces/selectItem';
 import { IUser } from '../../interfaces/user';
-import { alertError } from '../../providers/alert';
-import { ProfileValidator } from '../../validators/profile';
+import { toastError } from '../../providers/toast';
 import addressService from '../../services/address';
 import profileService from '../../services/profile';
+import { ProfileValidator } from '../../validators/profile';
 
 const genderOptions = [
   { value: null, display: 'Não informado' },
@@ -54,7 +54,7 @@ export default class ProfileEditPage extends BaseComponent<IState> {
       .bindComponent(this)
       .subscribe(() => {
         this.goBack();
-      }, err => alertError(err).subscribe());
+      }, err => toastError(err));
   }
 
   public render(): JSX.Element {

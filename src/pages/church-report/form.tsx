@@ -8,9 +8,9 @@ import { Field } from '../../components/field';
 import { dateFormatter } from '../../formatters/date';
 import { IChurchReport } from '../../interfaces/churchReport';
 import { ISelectItem } from '../../interfaces/selectItem';
-import { alertError } from '../../providers/alert';
-import { ChurchReportValidator } from '../../validators/churchReport';
+import { toastError } from '../../providers/toast';
 import churchReportService from '../../services/churchReport';
+import { ChurchReportValidator } from '../../validators/churchReport';
 
 interface IState extends IStateBase<IChurchReport> {
   loading: boolean;
@@ -62,7 +62,7 @@ export default class ChurchReportFormPage extends BaseComponent<IState> {
       .bindComponent(this)
       .subscribe(() => {
         this.goBack();
-      }, err => alertError(err).subscribe());
+      }, err => toastError(err));
   }
 
   public render(): JSX.Element {

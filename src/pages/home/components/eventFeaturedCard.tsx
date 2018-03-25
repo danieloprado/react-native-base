@@ -3,11 +3,11 @@ import * as React from 'react';
 import { Image, StyleSheet } from 'react-native';
 
 import { BaseComponent, IStateBase } from '../../../components/base';
+import { WithNavigation } from '../../../decorators/withNavigation';
 import { dateFormatter } from '../../../formatters/date';
 import { IEvent } from '../../../interfaces/event';
-import { theme, variables } from '../../../theme';
 import eventService from '../../../services/event';
-import { WithNavigation } from '../../../decorators/withNavigation';
+import { classes, theme } from '../../../theme';
 
 interface IState extends IStateBase {
   loading: boolean;
@@ -62,7 +62,7 @@ export default class EventFeaturedCard extends BaseComponent<IState> {
             <CardItem>
               <Text>{event.featuredText}</Text>
             </CardItem>
-            <CardItem footer style={theme.alignRight}>
+            <CardItem footer style={classes.alignRight}>
               <Button transparent onPress={() => this.details()}>
                 <Text>DETALHES</Text>
               </Button>
@@ -77,13 +77,13 @@ export default class EventFeaturedCard extends BaseComponent<IState> {
 const styles = StyleSheet.create({
   image: {
     flex: 1,
-    height: variables.deviceHeight * 0.2,
+    height: theme.deviceHeight * 0.2,
     resizeMode: 'cover'
   },
   header: {
     paddingBottom: 0
   },
   viewContent: {
-    width: variables.deviceWidth - 120
+    width: theme.deviceWidth - 120
   }
 });

@@ -4,7 +4,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
 import { ISelectItem } from '../../interfaces/selectItem';
-import { theme, variables } from '../../theme';
+import { classes, theme } from '../../theme';
 import { BaseComponent } from './../base';
 import { FieldCheckbox } from './checkbox';
 import { FieldDatepicker } from './datetime';
@@ -138,8 +138,8 @@ export class Field extends BaseComponent<any, IProps> {
     return (
       <ListItem style={styles.container}>
         {icon &&
-          <Left style={theme.listIconWrapper}>
-            {icon !== 'empty' && <Icon name={icon} style={theme.listIcon} />}
+          <Left style={classes.listIconWrapper}>
+            {icon !== 'empty' && <Icon name={icon} style={classes.listIcon} />}
           </Left>
         }
         <Body>
@@ -169,9 +169,9 @@ const styles = StyleSheet.create({
   },
   errorLabel: {
     opacity: 0.8,
-    color: variables.inputErrorBorderColor
+    color: theme.inputErrorBorderColor
   },
   errorMessage: {
-    color: variables.inputErrorBorderColor
+    color: theme.inputErrorBorderColor
   }
 });

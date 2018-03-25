@@ -1,16 +1,15 @@
 import { Button, Container, Icon, Text, View } from 'native-base';
 import * as React from 'react';
 import { Animated, Image, ImageBackground, StatusBar, StyleSheet } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
 
 import { BaseComponent, IStateBase } from '../components/base';
-import { alertError } from '../providers/alert';
-import { isDevelopment } from '../settings';
-import { theme, variables } from '../theme';
-import storageService from '../services/storage';
+import { toastError } from '../providers/toast';
 import facebookService from '../services/facebook';
 import googleService from '../services/google';
 import profileService from '../services/profile';
+import storageService from '../services/storage';
+import { isDevelopment } from '../settings';
+import { classes, theme } from '../theme';
 
 interface IState extends IStateBase {
   loaded: boolean;
@@ -86,7 +85,7 @@ export default class LoginPage extends BaseComponent<IState> {
       .loader()
       .logError()
       .bindComponent(this)
-      .subscribe(() => this.completed(), err => alertError(err).subscribe());
+      .subscribe(() => this.completed(), err => toastError(err));
   }
 
   public render(): JSX.Element {
@@ -112,14 +111,14 @@ export default class LoginPage extends BaseComponent<IState> {
                   <Button
                     iconLeft
                     onPress={() => this.loginSocial('facebook')}
-                    style={StyleSheet.flatten([theme.buttonFacebook, styles.buttonFirst])}>
+                    style={StyleSheet.flatten([classes.buttonFacebook, styles.buttonFirst])}>
                     <Icon name='logo-facebook' />
                     <Text>FACEBOOK</Text>
                   </Button>
                   <Button
                     iconLeft
                     onPress={() => this.loginSocial('google')}
-                    style={theme.buttonGoogle}>
+                    style={classes.buttonGoogle}>
                     <Icon name='logo-google' />
                     <Text>GOOGLE</Text>
                   </Button>
@@ -161,8 +160,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: variables.deviceHeight,
-    width: variables.deviceWidth
+    height: theme.deviceHeight,
+    width: theme.deviceWidth
   },
   logo: {
     height: 120,

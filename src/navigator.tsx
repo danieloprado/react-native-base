@@ -15,7 +15,7 @@ import InformativeListPage from './pages/informative/list';
 import LoginPage from './pages/login';
 import ProfileDetailsPage from './pages/profile/details';
 import ProfileEditPage from './pages/profile/form';
-import { variables } from './theme';
+import { theme } from './theme';
 
 const appDrawer = DrawerNavigator({
   Home: { screen: HomePage },
@@ -31,7 +31,7 @@ const appDrawer = DrawerNavigator({
     contentComponent: SideMenu,
     contentOptions: {
       inactiveTintColor: 'black',
-      activeTintColor: variables.accent
+      activeTintColor: theme.accent
     }
   });
 

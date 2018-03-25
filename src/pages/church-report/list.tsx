@@ -7,12 +7,11 @@ import { BaseComponent, IStateBase } from '../../components/base';
 import { EmptyMessage } from '../../components/emptyMessage';
 import { ErrorMessage } from '../../components/errorMessage';
 import { IChurchReport } from '../../interfaces/churchReport';
-import { alertError } from '../../providers/alert';
 import { confirm } from '../../providers/confirm';
-import { toast } from '../../providers/toast';
-import { theme } from '../../theme';
-import { ChurchReportListComponent } from './components/list';
+import { toast, toastError } from '../../providers/toast';
 import churchReportService from '../../services/churchReport';
+import { classes } from '../../theme';
+import { ChurchReportListComponent } from './components/list';
 
 interface IState extends IStateBase {
   refreshing: boolean;
@@ -64,14 +63,14 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
       .subscribe(() => {
         this.state.reports.splice(index, 1);
         this.setState({ reports: this.state.reports });
-      }, err => alertError(err).subscribe());
+      }, err => toastError(err));
   }
 
   public render(): JSX.Element {
     const { refreshing, reports, error } = this.state;
 
     return (
-      <Container style={theme.cardsContainer}>
+      <Container style={classes.cardsContainer}>
         <Header>
           <Left>
             <Button transparent onPress={() => this.openDrawer()}>
@@ -97,7 +96,7 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
             <EmptyMessage icon='list' message='Nenhum relatório criado' />
           }
           {!!reports.length &&
-            <View style={StyleSheet.flatten([theme.fabPadding])}>
+            <View style={StyleSheet.flatten([classes.fabPadding])}>
               <ChurchReportListComponent
                 reports={reports}
                 onPressEdit={this.onPressEdit.bind(this)}
