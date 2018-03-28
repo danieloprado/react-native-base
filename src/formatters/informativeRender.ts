@@ -6,6 +6,7 @@ export function informativeRender(informative: IInformative): string {
     <html>
       <head>
         <meta name="viewport" content="initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         <meta charset="UTF-8">
 
         <style>
