@@ -99,8 +99,8 @@ android {
         applicationId "br.com.icbsorocaba.app"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 13
-        versionName "2.3.4"
+        versionCode 14
+        versionName "2.3.5"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
