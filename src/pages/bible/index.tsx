@@ -47,9 +47,11 @@ export default class BiblePage extends BaseComponent<IState> {
     bibleDatabase.current()
       .bindComponent(this)
       .logError()
-      .subscribe(({ book, capter, verses }) => {
+      .subscribe(async ({ book, capter, verses }) => {
         verses.push({ id: 'empty' } as any);
-        this.setState({ book, capter, verses, loading: false });
+        await this.setState({ book, capter, verses, loading: false });
+
+        this.showPicker();
       }, err => toastError(err));
   }
 
@@ -68,8 +70,10 @@ export default class BiblePage extends BaseComponent<IState> {
   }
 
   public showPicker(): void {
-    if (this.state.loading) return;
-    this.modalPicker.show();
+    const { loading, book, capter } = this.state;
+
+    if (loading) return;
+    this.modalPicker.show(book.id, capter.id);
   }
 
   public render(): JSX.Element {

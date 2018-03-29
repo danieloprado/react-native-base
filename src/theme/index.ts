@@ -1,10 +1,24 @@
+import color from 'color';
 import variablesTheme from 'native-base/src/theme/variables/platform';
 import { Dimensions, StyleSheet } from 'react-native';
 
 const primary = '#263238';
-const accent = '#86bd90';
+const accent = variablesTheme.platform === 'android' ?
+  '#86bd90' :
+  color('#86bd90')
+    .darken(0.1)
+    .hex();
 
-export const theme: typeof variablesTheme & { primary: string, accent: string } = {
+interface IThemeExtra {
+  primary: string;
+  accent: string;
+  gray: string;
+  darkGray: string;
+  facebookColor: string;
+  googleColor: string;
+}
+
+export const theme: typeof variablesTheme & IThemeExtra = {
   ...Object.keys(variablesTheme).reduce((acc, key) => {
     let value = (variablesTheme as any)[key];
 
@@ -23,6 +37,10 @@ export const theme: typeof variablesTheme & { primary: string, accent: string } 
   }, {} as any),
   primary,
   accent,
+  gray: '#f4f4f7',
+  darkGray: '#cdcdce',
+  facebookColor: '#3b5998',
+  googleColor: '#de5245',
   get btnPrimaryBg(): string {
     return accent;
   },

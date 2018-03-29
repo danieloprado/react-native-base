@@ -396,9 +396,9 @@
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@types/base-64/-/base-64-0.1.2.tgz#63ac318302cdabb5f04e8ae2a56e54d4832107e2"
 
-"@types/lodash@4.14.105":
-  version "4.14.105"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.105.tgz#9fcc4627a1f98f8f8fce79ddb2bff4afd97e959b"
+"@types/lodash@4.14.106":
+  version "4.14.106"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.106.tgz#6093e9a02aa567ddecfe9afadca89e53e5dce4dd"
 
 "@types/moment@2.13.0":
   version "2.13.0"
@@ -424,15 +424,21 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
-"@types/react-native@*", "@types/react-native@0.52.18":
+"@types/react-native@*":
   version "0.52.18"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.52.18.tgz#082fada6fdddc6c745a4c1a6234e4aa3b104176b"
   dependencies:
     "@types/react" "*"
 
-"@types/react-navigation@1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-1.2.3.tgz#3783fd9a93932403164d0a90d6888058e8a6653a"
+"@types/react-native@0.52.20":
+  version "0.52.20"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.52.20.tgz#ab47fd2de3fd81c398da1253ddf7cea5f798e17d"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-navigation@1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@types/react-navigation/-/react-navigation-1.5.0.tgz#83684d0224abfffc90105c6d373ad93a9da6df70"
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
@@ -441,9 +447,9 @@
   version "16.0.40"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.40.tgz#caabc2296886f40b67f6fc80f0f3464476461df9"
 
-"@types/react@16.0.15":
-  version "16.0.15"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.15.tgz#1b1eba408fc75735b3e53a83333c346eeeb0022b"
+"@types/react@16.1.0":
+  version "16.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.1.0.tgz#6c0e9955ce73f332b4a1948d45decaf18c764c6e"
 
 "@types/validatorjs@3.7.1":
   version "3.7.1"
@@ -3469,7 +3475,7 @@ mkdirp@0.x.x, "mkdirp@>=0.5 0", mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-moment@*, moment@2.21.0, moment@^2.19.0:
+moment@*, moment@2.21.0:
   version "2.21.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.21.0.tgz#2a114b51d2a6ec9e6d83cf803f838a878d8a023a"
 
@@ -3526,9 +3532,9 @@ native-base-shoutem-theme@0.2.2:
     lodash "^4.10.1"
     prop-types "^15.5.10"
 
-native-base@2.3.10:
-  version "2.3.10"
-  resolved "https://registry.yarnpkg.com/native-base/-/native-base-2.3.10.tgz#01f0e9b1ab5f4fcd3b9c04b19743d589fa444176"
+native-base@2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/native-base/-/native-base-2.4.1.tgz#2fca37b85a0a0f631c647c6be6837e879c9a9c82"
   dependencies:
     blueimp-md5 "^2.5.0"
     clamp "^1.0.1"
@@ -3957,14 +3963,7 @@ prompt@^0.2.14:
     utile "0.2.x"
     winston "0.8.x"
 
-prop-types@15.5.10:
-  version "15.5.10"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
-  dependencies:
-    fbjs "^0.8.9"
-    loose-envify "^1.3.1"
-
-prop-types@15.6.1, prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0:
+prop-types@15.6.1, prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -4029,7 +4028,7 @@ react-devtools-core@3.1.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-animatable@^1.2.3:
+react-native-animatable@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.2.4.tgz#b5fb7657e8f6edadbc26697057a327fb920b3039"
   dependencies:
@@ -4048,9 +4047,9 @@ react-native-cli@2.0.1:
     prompt "^0.2.14"
     semver "^5.0.3"
 
-react-native-device-info@0.21.2:
-  version "0.21.2"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.21.2.tgz#82209bf529f5cae7eab1d6512b1cfb03e29ced30"
+react-native-device-info@0.21.4:
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-0.21.4.tgz#364d893b3e00d4422c7b02e7e26952fe181f57d2"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
@@ -4104,20 +4103,19 @@ react-native-keyboard-aware-scroll-view@0.4.2:
     prop-types "^15.6.0"
     react-native-iphone-x-helper "^1.0.1"
 
-react-native-modal-datetime-picker@4.13.0:
-  version "4.13.0"
-  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-4.13.0.tgz#bcf9f62c691befb133bf6fd6e5d6189d397608ef"
+react-native-modal-datetime-picker@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-5.1.0.tgz#6e183531170881c2ff5b0742d132060f828e2b77"
   dependencies:
-    moment "^2.19.0"
-    prop-types "15.5.10"
-    react-native-modal "3.1.0"
+    prop-types "^15.6.1"
+    react-native-modal "^5.4.0"
 
-react-native-modal@3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-3.1.0.tgz#3e6911152e9dcd6e15457cf0c24d7fd833c4a57a"
+react-native-modal@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-5.4.0.tgz#95f70b5d68e08824951cd11038b9db2d6fdb9962"
   dependencies:
-    prop-types "15.5.10"
-    react-native-animatable "^1.2.3"
+    prop-types "^15.6.1"
+    react-native-animatable "^1.2.4"
 
 react-native-safe-area-view@^0.7.0:
   version "0.7.0"
@@ -4158,9 +4156,9 @@ react-native-vector-icons@~4.4.2:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@0.54.2:
-  version "0.54.2"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.54.2.tgz#73786e7bf3f80b0b060ca0bfe5b192f9c2f253da"
+react-native@0.54.3:
+  version "0.54.3"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.54.3.tgz#e32807ab7ddc70811418101b73a482639d09ccca"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
@@ -4530,7 +4528,13 @@ rx@2.3.24:
   version "2.3.24"
   resolved "https://registry.yarnpkg.com/rx/-/rx-2.3.24.tgz#14f950a4217d7e35daa71bbcbe58eff68ea4b2b7"
 
-rxjs@5.5.7, rxjs@^5.0.0-beta.11:
+rxjs@5.5.8:
+  version "5.5.8"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.8.tgz#b2b0809a57614ad6254c03d7446dea0d83ca3791"
+  dependencies:
+    symbol-observable "1.0.1"
+
+rxjs@^5.0.0-beta.11:
   version "5.5.7"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.7.tgz#afb3d1642b069b2fbf203903d6501d1acb4cda27"
   dependencies:
@@ -5113,9 +5117,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@2.7.2:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.7.2.tgz#2d615a1ef4aee4f574425cdff7026edf81919836"
+typescript@2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.1.tgz#6160e4f8f195d5ba81d4876f9c0cc1fbc0820624"
 
 ua-parser-js@^0.7.9:
   version "0.7.17"

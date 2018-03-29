@@ -83,6 +83,7 @@ export class FirebaseService {
   }
 }
 
+//@ts-ignore
 export interface INotificationInfoRemote extends Notification, INotificationInfo {
   aps?: {
     alert: string | { title: string; body: string; }

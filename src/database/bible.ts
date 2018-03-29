@@ -76,8 +76,14 @@ export class BibleDatabase extends BaseDatabase {
         this.listVerses(book, capter)
       ))
       .map(([book, capter, verses]) => {
+        if (!book || !capter) {
+          this.state$.next(defaultBible);
+          return null;
+        }
+
         return { book, capter, verses };
-      });
+      })
+      .filter(data => !!data);
   }
 
   public change(book: number, capter: number): void {
@@ -85,6 +91,7 @@ export class BibleDatabase extends BaseDatabase {
   }
 
   private mapBook(livro: IBibleDatabaseBook): IBibleBook {
+    if (!livro) return null;
     return {
       id: livro.id,
       name: livro.livro,
@@ -93,6 +100,7 @@ export class BibleDatabase extends BaseDatabase {
   }
 
   private mapCapter(capitulo: IBibleDatabaseCapter): IBibleCapter {
+    if (!capitulo) return null;
     return {
       id: capitulo.referencia,
       previous: capitulo.anterior !== capitulo.referencia ? capitulo.anterior : null,
@@ -101,6 +109,7 @@ export class BibleDatabase extends BaseDatabase {
   }
 
   private mapVerse(versiculo: IBibleDatabaseVerse): IBibleVerse {
+    if (!versiculo) return null;
     return {
       id: versiculo.id,
       reference: versiculo.referencia,

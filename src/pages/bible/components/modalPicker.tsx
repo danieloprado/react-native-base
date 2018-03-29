@@ -1,6 +1,6 @@
-import { Body, Button, Container, Header, Icon, Left, List, ListItem, Right, Tab, Tabs, Text, Title } from 'native-base';
+import { Body, Button, Container, Header, Icon, Left, ListItem, Radio, Right, Tab, Tabs, Text, Title } from 'native-base';
 import * as React from 'react';
-import { Modal } from 'react-native';
+import { ListView, ListViewDataSource, Modal } from 'react-native';
 import { Subject } from 'rxjs';
 
 import { BaseComponent, IStateBase } from '../../../components/base';
@@ -9,18 +9,25 @@ import { IBibleBook } from '../../../interfaces/bible/book';
 import { toastError } from '../../../providers/toast';
 import { classes } from '../../../theme';
 
-interface IState extends IStateBase {
+interface IModel {
+  bookId: number;
+  capterId: number;
+}
+
+interface IState extends IStateBase<IModel> {
   show: boolean;
   books?: IBibleBook[];
 }
 
 export default class BibleModalPicker extends BaseComponent<IState> {
-  private result$: Subject<{ book: number, capter: number; }>;
+  private result$: Subject<IModel>;
+  private dataSource: ListViewDataSource;
 
   constructor(props: any) {
     super(props);
 
     this.result$ = null;
+    this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = { show: false };
   }
 
@@ -33,15 +40,23 @@ export default class BibleModalPicker extends BaseComponent<IState> {
       }, err => toastError(err));
   }
 
-  public show(): Subject<{ book: number, capter: number; }> {
-    this.setState({ show: true });
+  public show(bookId: number, capterId: number): Subject<IModel> {
+    this.setState({ show: true, model: { bookId, capterId } });
 
     this.result$ = new Subject();
     return this.result$;
   }
 
+  public changeBook(book: IBibleBook): void {
+    const { model } = this.state;
+    model.bookId = book.id;
+
+    this.setState({ model });
+  }
+
   public render(): JSX.Element {
-    const { show, books } = this.state;
+    const { show, books, model } = this.state;
+    console.log(model);
 
     return (
       <Modal
@@ -64,11 +79,19 @@ export default class BibleModalPicker extends BaseComponent<IState> {
           {show &&
             <Tabs>
               <Tab heading='Livros'>
-                <List dataArray={books} renderRow={(book: IBibleBook) =>
-                  <ListItem button key={book.id} style={classes.listItem}>
+                <ListView dataSource={this.dataSource.cloneWithRows(books)} renderRow={(book: IBibleBook) =>
+                  <ListItem
+                    selected={model.bookId === book.id}
+                    button
+                    key={book.id}
+                    style={classes.listItem}
+                    onPress={() => this.changeBook(book)}>
                     <Body>
                       <Text>{book.name}</Text>
                     </Body>
+                    <Right>
+                      <Radio selected={model.bookId === book.id} />
+                    </Right>
                   </ListItem>
                 } />
               </Tab>
