@@ -19,15 +19,15 @@ import * as React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent, IStateBase } from '../../components/base';
-import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
 import { IUser } from '../../interfaces/user';
 import { confirm } from '../../providers/confirm';
 import profileService from '../../services/profile';
+import BaseComponent from '../../shared/abstract/baseComponent';
+import { ErrorMessage } from '../../shared/errorMessage';
 import { classes, theme } from '../../theme';
 
-interface IState extends IStateBase {
+interface IState {
   loading: boolean;
   profile?: IUser;
   error?: any;

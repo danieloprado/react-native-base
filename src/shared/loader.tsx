@@ -2,10 +2,11 @@ import { Spinner, View } from 'native-base';
 import * as React from 'react';
 import { Modal, StyleSheet } from 'react-native';
 
+import { isAndroid } from '../settings';
 import { theme } from '../theme';
-import { BaseComponent, IStateBase } from './base';
+import BaseComponent from './abstract/baseComponent';
 
-interface IState extends IStateBase {
+interface IState {
   refs: string[];
 }
 
@@ -51,7 +52,7 @@ export class Loader extends BaseComponent<IState, IProps> {
         onRequestClose={() => { }}
       >
         <View style={StyleSheet.flatten(styles.container)}>
-          <Spinner size='large' color={theme.platform === 'android' ? theme.accent : undefined} />
+          <Spinner size='large' color={isAndroid ? theme.accent : undefined} />
         </View>
       </Modal>
     );

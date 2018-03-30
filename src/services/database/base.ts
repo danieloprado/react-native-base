@@ -1,8 +1,8 @@
 import SQLite from 'react-native-sqlite-storage';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 
-import logService from '../services/log';
-import { theme } from '../theme';
+import { isiOS } from '../../settings';
+import logService from '../log';
 
 export abstract class BaseDatabase {
   private db$: ReplaySubject<any>;
@@ -13,7 +13,7 @@ export abstract class BaseDatabase {
     const db = SQLite.openDatabase({
       name: `${name}.sqlite`,
       readOnly,
-      createFromLocation: theme.platform === 'ios' ? 1 : `~${name}.sqlite`
+      createFromLocation: isiOS ? 1 : `~${name}.sqlite`
     }, () => {
       this.db$.next(db);
     }, (err: any) => {

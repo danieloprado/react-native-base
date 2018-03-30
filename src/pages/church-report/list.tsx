@@ -3,17 +3,17 @@ import * as React from 'react';
 import { RefreshControl, StyleSheet } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent, IStateBase } from '../../components/base';
-import { EmptyMessage } from '../../components/emptyMessage';
-import { ErrorMessage } from '../../components/errorMessage';
 import { IChurchReport } from '../../interfaces/churchReport';
 import { confirm } from '../../providers/confirm';
 import { toast, toastError } from '../../providers/toast';
 import churchReportService from '../../services/churchReport';
+import BaseComponent from '../../shared/abstract/baseComponent';
+import { EmptyMessage } from '../../shared/emptyMessage';
+import { ErrorMessage } from '../../shared/errorMessage';
 import { classes } from '../../theme';
 import { ChurchReportListComponent } from './components/list';
 
-interface IState extends IStateBase {
+interface IState {
   refreshing: boolean;
   reports: IChurchReport[];
   error?: any;

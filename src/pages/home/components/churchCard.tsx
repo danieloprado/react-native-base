@@ -2,14 +2,14 @@ import { Body, Button, Card, CardItem, Icon, Spinner, Text, View } from 'native-
 import * as React from 'react';
 import { Linking } from 'react-native';
 
-import { BaseComponent, IStateBase } from '../../../components/base';
 import { WithNavigation } from '../../../decorators/withNavigation';
 import { phoneFormatter } from '../../../formatters/phone';
 import { IChurch } from '../../../interfaces/church';
 import churchService from '../../../services/church';
+import BaseComponent from '../../../shared/abstract/baseComponent';
 import { classes } from '../../../theme';
 
-interface IState extends IStateBase {
+interface IState {
   loading: boolean;
   church?: IChurch;
   error?: any;

@@ -3,7 +3,7 @@ import { Subscriber } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Rx';
 
-import { Loader } from '../components/loader';
+import { Loader } from '../shared/loader';
 
 let globalLoaderComponent: Loader;
 

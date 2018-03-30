@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Subscriber, Subscription } from 'rxjs/Rx';
 
-import { BaseComponent } from '../components/base';
+import BaseComponent from '../shared/abstract/baseComponent';
 
 function bindComponent<T>(this: Observable<T>, component: BaseComponent): Observable<T> {
   return this.lift(new BindComponentOperator(component));

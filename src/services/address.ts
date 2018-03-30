@@ -1,6 +1,6 @@
 import { ISelectItem } from '../interfaces/selectItem';
-import STATES from '../database/states';
 import { defaultAddress } from '../settings';
+import STATES from './database/states';
 
 export class AddressService {
   private states: ISelectItem[];

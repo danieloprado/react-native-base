@@ -19,14 +19,14 @@ import * as React from 'react';
 import { Image, Linking, StyleSheet } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent, IStateBase } from '../components/base';
-import { ErrorMessage } from '../components/errorMessage';
 import { phoneFormatter } from '../formatters/phone';
 import { IChurch } from '../interfaces/church';
 import churchService from '../services/church';
+import BaseComponent from '../shared/abstract/baseComponent';
+import { ErrorMessage } from '../shared/errorMessage';
 import { classes } from '../theme';
 
-interface IState extends IStateBase {
+interface IState  {
   loading: boolean;
   church?: IChurch;
   error?: any;

@@ -2,16 +2,16 @@ import { Button, Container, Icon, Text, View } from 'native-base';
 import * as React from 'react';
 import { Animated, Image, ImageBackground, StatusBar, StyleSheet } from 'react-native';
 
-import { BaseComponent, IStateBase } from '../components/base';
 import { toastError } from '../providers/toast';
 import facebookService from '../services/facebook';
 import googleService from '../services/google';
 import profileService from '../services/profile';
 import storageService from '../services/storage';
 import { isDevelopment } from '../settings';
+import BaseComponent from '../shared/abstract/baseComponent';
 import { classes, theme } from '../theme';
 
-interface IState extends IStateBase {
+interface IState  {
   loaded: boolean;
   animationHeight: Animated.Value;
   animationFade: Animated.Value;

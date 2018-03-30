@@ -2,7 +2,7 @@ import { Body, Button, Container, Content, Header, Icon, Left, Right, Title, Vie
 import * as React from 'react';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent } from '../../components/base';
+import BaseComponent from '../../shared/abstract/baseComponent';
 import { classes } from '../../theme';
 import ChurchCard from './components/churchCard';
 import EventCard from './components/eventCard';

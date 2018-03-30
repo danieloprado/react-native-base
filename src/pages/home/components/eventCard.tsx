@@ -2,14 +2,14 @@ import { Body, Button, Card, CardItem, Icon, Right, Spinner, Text, View } from '
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { BaseComponent, IStateBase } from '../../../components/base';
 import { WithNavigation } from '../../../decorators/withNavigation';
 import { dateFormatter } from '../../../formatters/date';
 import { IEvent } from '../../../interfaces/event';
 import eventService from '../../../services/event';
+import BaseComponent from '../../../shared/abstract/baseComponent';
 import { classes, theme } from '../../../theme';
 
-interface IState extends IStateBase {
+interface IState {
   loading: boolean;
   event?: IEvent;
   error?: any;

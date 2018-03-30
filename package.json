@@ -27,7 +27,7 @@
     "react-native-modal-datetime-picker": "5.1.0",
     "react-native-splash-screen": "3.0.6",
     "react-native-sqlite-storage": "^3.3.4",
-    "react-navigation": "1.2.0",
+    "react-navigation": "1.5.8",
     "rxjs": "5.5.8",
     "validatorjs": "git+https://github.com/danieloprado/validatorjs"
   },

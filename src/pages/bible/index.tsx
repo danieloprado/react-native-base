@@ -17,15 +17,19 @@ import React from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent, IStateBase } from '../../components/base';
-import bibleDatabase from '../../database/bible';
-import { IBibleData } from '../../interfaces/bible/data';
+import { IBibleBook, IBibleCapter, IBibleVerse } from '../../interfaces/bible';
 import { toastError } from '../../providers/toast';
+import bibleDatabase from '../../services/database/bible';
+import { isiOS } from '../../settings';
+import BaseComponent from '../../shared/abstract/baseComponent';
 import { classes, theme } from '../../theme';
 import BibleModalPicker from './components/modalPicker';
 
-interface IState extends IStateBase, Partial<IBibleData> {
+interface IState {
   loading: boolean;
+  book?: IBibleBook;
+  capter?: IBibleCapter;
+  verses?: IBibleVerse[];
 }
 
 export default class BiblePage extends BaseComponent<IState> {
@@ -47,11 +51,9 @@ export default class BiblePage extends BaseComponent<IState> {
     bibleDatabase.current()
       .bindComponent(this)
       .logError()
-      .subscribe(async ({ book, capter, verses }) => {
+      .subscribe(({ book, capter, verses }) => {
         verses.push({ id: 'empty' } as any);
-        await this.setState({ book, capter, verses, loading: false });
-
-        this.showPicker();
+        this.setState({ book, capter, verses, loading: false });
       }, err => toastError(err));
   }
 
@@ -168,6 +170,6 @@ const styles = StyleSheet.create({
   fab: {
     height: 40,
     width: 40,
-    backgroundColor: theme.platform === 'ios' ? theme.accent : theme.primary
+    backgroundColor: isiOS ? theme.accent : theme.primary
   }
 });

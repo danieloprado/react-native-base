@@ -1,15 +1,15 @@
 import { Body, Button, Container, Content, Form, Header, Icon, Left, Right, Text, Title } from 'native-base';
 import * as React from 'react';
 import { ListView, ListViewDataSource, Modal } from 'react-native';
-import { Subject, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { enQuizQuestionType, IQuiz, IQuizQuestion } from '../interfaces/quiz';
 import { IQuizAnswer } from '../interfaces/quizAnswer';
 import { QuizFormValidator } from '../validators/quizForm';
-import { BaseComponent, IStateBase } from './base';
+import FormComponent, { IStateForm } from './abstract/formComponent';
 import { Field } from './field';
 
-interface IState extends IStateBase {
+interface IState extends IStateForm {
   show: boolean;
   quiz?: IQuiz;
   submitted?: boolean;
@@ -17,7 +17,7 @@ interface IState extends IStateBase {
   submitCallback?: (value: IQuizAnswer) => Observable<any>;
 }
 
-export class QuizFormModal extends BaseComponent<IState> {
+export class QuizFormModal extends FormComponent<IState> {
   private dataSource: ListViewDataSource;
   private result$: Subject<IQuizAnswer>;
   private validator: QuizFormValidator;

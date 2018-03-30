@@ -1,12 +1,12 @@
 import { Body, Button, Container, Header, Icon, Left, ListItem, Radio, Right, Tab, Tabs, Text, Title } from 'native-base';
 import * as React from 'react';
-import { ListView, ListViewDataSource, Modal } from 'react-native';
+import { FlatList, Modal } from 'react-native';
 import { Subject } from 'rxjs';
 
-import { BaseComponent, IStateBase } from '../../../components/base';
-import bibleDatabase from '../../../database/bible';
-import { IBibleBook } from '../../../interfaces/bible/book';
+import { IBibleBook } from '../../../interfaces/bible';
 import { toastError } from '../../../providers/toast';
+import bibleDatabase from '../../../services/database/bible';
+import BaseComponent from '../../../shared/abstract/baseComponent';
 import { classes } from '../../../theme';
 
 interface IModel {
@@ -14,20 +14,19 @@ interface IModel {
   capterId: number;
 }
 
-interface IState extends IStateBase<IModel> {
+interface IState  {
   show: boolean;
   books?: IBibleBook[];
+  model?: IModel;
 }
 
 export default class BibleModalPicker extends BaseComponent<IState> {
   private result$: Subject<IModel>;
-  private dataSource: ListViewDataSource;
 
   constructor(props: any) {
     super(props);
 
     this.result$ = null;
-    this.dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.state = { show: false };
   }
 
@@ -79,21 +78,25 @@ export default class BibleModalPicker extends BaseComponent<IState> {
           {show &&
             <Tabs>
               <Tab heading='Livros'>
-                <ListView dataSource={this.dataSource.cloneWithRows(books)} renderRow={(book: IBibleBook) =>
-                  <ListItem
-                    selected={model.bookId === book.id}
-                    button
-                    key={book.id}
-                    style={classes.listItem}
-                    onPress={() => this.changeBook(book)}>
-                    <Body>
-                      <Text>{book.name}</Text>
-                    </Body>
-                    <Right>
-                      <Radio selected={model.bookId === book.id} />
-                    </Right>
-                  </ListItem>
-                } />
+                <FlatList
+                  keyExtractor={book => book.id.toString()}
+                  extraData={model.bookId}
+                  data={books}
+                  renderItem={({ item }: { item: IBibleBook }) =>
+                    <ListItem
+                      selected={model.bookId === item.id}
+                      button
+                      key={item.id}
+                      style={classes.listItem}
+                      onPress={() => this.changeBook(item)}>
+                      <Body>
+                        <Text>{item.name}</Text>
+                      </Body>
+                      <Right>
+                        <Radio selected={model.bookId === item.id} />
+                      </Right>
+                    </ListItem>
+                  } />
               </Tab>
               <Tab heading='Capítulos'>
               </Tab>

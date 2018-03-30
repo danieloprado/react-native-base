@@ -2,10 +2,10 @@ import * as React from 'react';
 import { View } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
-import { BaseComponent } from '../components/base';
 import notificationService from '../services/notification';
 import storageService from '../services/storage';
 import { isDevelopment } from '../settings';
+import BaseComponent from '../shared/abstract/baseComponent';
 
 export default class IndexPage extends BaseComponent {
 

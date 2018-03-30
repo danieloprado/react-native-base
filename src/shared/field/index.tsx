@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 
 import { ISelectItem } from '../../interfaces/selectItem';
 import { classes, theme } from '../../theme';
-import { BaseComponent } from './../base';
+import BaseComponent from '../abstract/baseComponent';
 import { FieldCheckbox } from './checkbox';
 import { FieldDatepicker } from './datetime';
 import { FieldPicker } from './picker';

@@ -1,7 +1,4 @@
-import './operators/bindComponent';
-import './operators/cache';
-import './operators/logError';
-import 'rxjs/add/operator/map';
+import './operators';
 
 import { Root, StyleProvider } from 'native-base';
 import * as React from 'react';
@@ -10,12 +7,12 @@ import { AppRegistry, Keyboard } from 'react-native';
 import { NavigationState } from 'react-navigation';
 import { Subscription } from 'rxjs';
 
-import { Loader } from './components/loader';
-import { Navigator } from './navigator';
+import Navigator from './navigator';
 import * as loaderOperador from './operators/loader';
 import logService from './services/log';
 import notificationService from './services/notification';
 import tokenService from './services/token';
+import { Loader } from './shared/loader';
 import { theme } from './theme';
 import getTheme from './theme/native-base/components';
 

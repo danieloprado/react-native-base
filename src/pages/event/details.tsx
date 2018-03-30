@@ -3,17 +3,17 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { Observable } from 'rxjs/Rx';
 
-import { BaseComponent, IStateBase } from '../../components/base';
-import { QuizFormModal } from '../../components/quizFormModal';
 import { dateFormatter } from '../../formatters/date';
 import { IEvent, IEventDate } from '../../interfaces/event';
 import { IQuizAnswer } from '../../interfaces/quizAnswer';
 import { alert } from '../../providers/alert';
 import { toast } from '../../providers/toast';
 import quizService from '../../services/quiz';
+import BaseComponent from '../../shared/abstract/baseComponent';
+import { QuizFormModal } from '../../shared/quizFormModal';
 import { theme } from '../../theme';
 
-interface IState extends IStateBase {
+interface IState {
   event: IEvent;
   date: IEventDate;
   error?: any;

@@ -1,13 +1,13 @@
 import { Body, Button, Container, Content, Form, Header, Icon, Left, List, Right, Title } from 'native-base';
 import * as React from 'react';
 
-import { BaseComponent, IStateBase } from '../../components/base';
-import { Field } from '../../components/field';
 import { ISelectItem } from '../../interfaces/selectItem';
 import { IUser } from '../../interfaces/user';
 import { toastError } from '../../providers/toast';
 import addressService from '../../services/address';
 import profileService from '../../services/profile';
+import FormComponent, { IStateForm } from '../../shared/abstract/formComponent';
+import { Field } from '../../shared/field';
 import { ProfileValidator } from '../../validators/profile';
 
 const genderOptions = [
@@ -16,12 +16,12 @@ const genderOptions = [
   { value: 'f', display: 'Feminino' },
 ];
 
-interface IState extends IStateBase<IUser> {
+interface IState extends IStateForm<IUser> {
   states: ISelectItem[];
   cities: ISelectItem[];
 }
 
-export default class ProfileEditPage extends BaseComponent<IState> {
+export default class ProfileEditPage extends FormComponent<IState> {
   private profileValidator: ProfileValidator;
 
   constructor(props: any) {

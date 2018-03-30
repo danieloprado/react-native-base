@@ -4,10 +4,10 @@ import * as React from 'react';
 import { ListView, StyleSheet } from 'react-native';
 import { Col, Grid, Row } from 'react-native-easy-grid';
 
-import { PopupMenu } from '../../../components/popupMenu';
 import { dateFormatter } from '../../../formatters/date';
 import { IChurchReport } from '../../../interfaces/churchReport';
-import { theme } from '../../../theme';
+import { isiOS } from '../../../settings';
+import { PopupMenu } from '../../../shared/popupMenu';
 
 interface IProps {
   reports: IChurchReport[];
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   rightWrapper: {
-    maxWidth: theme.platform === 'ios' ? 60 : 50
+    maxWidth: isiOS ? 60 : 50
   },
   leftView: {
     marginLeft: -5,

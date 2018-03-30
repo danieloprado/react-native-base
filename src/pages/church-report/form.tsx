@@ -2,24 +2,24 @@ import { Body, Button, Container, Content, Form, Header, Icon, Left, List, Right
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
-import { BaseComponent, IStateBase } from '../../components/base';
-import { ErrorMessage } from '../../components/errorMessage';
-import { Field } from '../../components/field';
 import { dateFormatter } from '../../formatters/date';
 import { IChurchReport } from '../../interfaces/churchReport';
 import { ISelectItem } from '../../interfaces/selectItem';
 import { toastError } from '../../providers/toast';
 import churchReportService from '../../services/churchReport';
+import FormComponent, { IStateForm } from '../../shared/abstract/formComponent';
+import { ErrorMessage } from '../../shared/errorMessage';
+import { Field } from '../../shared/field';
 import { ChurchReportValidator } from '../../validators/churchReport';
 
-interface IState extends IStateBase<IChurchReport> {
+interface IState extends IStateForm<IChurchReport> {
   loading: boolean;
   submitted: boolean;
   types?: ISelectItem<number>[];
   error?: any;
 }
 
-export default class ChurchReportFormPage extends BaseComponent<IState> {
+export default class ChurchReportFormPage extends FormComponent<IState> {
   private churchReportValidator: ChurchReportValidator;
 
   constructor(props: any) {

@@ -1,6 +1,5 @@
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
 
-import { SideMenu } from './components/sideMenu';
 import IndexPage from './pages';
 import DevPage from './pages/_dev';
 import BiblePage from './pages/bible';
@@ -15,6 +14,7 @@ import InformativeListPage from './pages/informative/list';
 import LoginPage from './pages/login';
 import ProfileDetailsPage from './pages/profile/details';
 import ProfileEditPage from './pages/profile/form';
+import { SideMenu } from './shared/sideMenu';
 import { theme } from './theme';
 
 const appDrawer = DrawerNavigator({
@@ -36,7 +36,7 @@ const appDrawer = DrawerNavigator({
   });
 
 // tslint:disable-next-line:variable-name
-export const Navigator: any = StackNavigator({
+ const Navigator: any = StackNavigator({
   Index: { screen: IndexPage },
   Login: { screen: LoginPage },
   Home: { screen: appDrawer },
@@ -54,4 +54,6 @@ export const Navigator: any = StackNavigator({
 }, {
     headerMode: 'none',
     initialRouteName: 'Index',
-  });
+   });
+
+export default Navigator;

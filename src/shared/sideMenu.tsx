@@ -7,8 +7,8 @@ import { IChurch } from '../interfaces/church';
 import { IUserToken } from '../interfaces/userToken';
 import churchService from '../services/church';
 import tokenService from '../services/token';
-import { theme } from '../theme';
-import { BaseComponent, IStateBase } from './base';
+import { isiOS } from '../settings';
+import BaseComponent from './abstract/baseComponent';
 import { DrawerNavigatorItems as DrawerItems } from './drawerItems';
 
 const ROUTES_ROLES = [
@@ -16,7 +16,7 @@ const ROUTES_ROLES = [
   { key: 'Dev', roles: ['sysAdmin'] }
 ];
 
-interface IState extends IStateBase {
+interface IState {
   routes: any[];
   church?: IChurch;
 }
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     padding: 16,
-    paddingTop: theme.platform === 'ios' ? 26 : 0,
+    paddingTop: isiOS ? 26 : 0,
     justifyContent: 'center'
   },
   logo: {

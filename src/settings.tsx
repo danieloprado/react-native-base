@@ -1,7 +1,12 @@
-import { IBibleState } from './interfaces/bible/state';
+import { Platform } from 'react-native';
+
+import { IBibleState } from './interfaces/bible';
 
 export const env = __DEV__ ? 'development' : 'production';
 export const isDevelopment = env === 'development';
+
+export const isiOS = Platform.OS === 'ios';
+export const isAndroid = Platform.OS === 'android';
 
 export const churchSlug = 'icb-sorocaba';
 export const defaultAddress = {

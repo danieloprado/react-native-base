@@ -3,15 +3,15 @@ import * as React from 'react';
 import { RefreshControl } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent, IStateBase } from '../../components/base';
-import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
 import { IInformative } from '../../interfaces/informative';
 import { toast } from '../../providers/toast';
 import informativeService from '../../services/informative';
+import BaseComponent from '../../shared/abstract/baseComponent';
+import { ErrorMessage } from '../../shared/errorMessage';
 import { classes } from '../../theme';
 
-interface IState extends IStateBase {
+interface IState {
   refreshing: boolean;
   informatives: IInformative[];
   error?: any;

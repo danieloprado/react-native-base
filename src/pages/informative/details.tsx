@@ -2,15 +2,15 @@ import { Body, Button, Container, Content, Header, Icon, Left, Right, Spinner, T
 import * as React from 'react';
 import { Share, WebView } from 'react-native';
 
-import { BaseComponent, IStateBase } from '../../components/base';
-import { EmptyMessage } from '../../components/emptyMessage';
-import { ErrorMessage } from '../../components/errorMessage';
 import { informativeRender } from '../../formatters/informativeRender';
+import { enInformativeType } from '../../interfaces/enums/informativeType';
 import { IInformative } from '../../interfaces/informative';
 import informativeService from '../../services/informative';
-import { enInformativeType } from '../../interfaces/enums/informativeType';
+import BaseComponent from '../../shared/abstract/baseComponent';
+import { EmptyMessage } from '../../shared/emptyMessage';
+import { ErrorMessage } from '../../shared/errorMessage';
 
-interface IState extends IStateBase {
+interface IState {
   loading: boolean;
   informative?: IInformative;
   html: string;

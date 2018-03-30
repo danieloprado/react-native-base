@@ -2,18 +2,9 @@ import { Component, ReactInstance } from 'react';
 import { NavigationActions, NavigationNavigateActionPayload, NavigationScreenProp } from 'react-navigation';
 import { Subscription } from 'rxjs';
 
-import { InteractionManager } from '../providers/interactionManager';
-import { toastError } from '../providers/toast';
-import { BaseValidator } from '../validators/base';
+import { InteractionManager } from '../../providers/interactionManager';
 
-export interface IStateBase<T = any> {
-  model?: Partial<T>;
-  validation?: {
-    [key: string]: string;
-  };
-}
-
-export abstract class BaseComponent<S extends IStateBase = IStateBase, P = any, R = any> extends Component<P, S> {
+export default abstract class BaseComponent<S = any, P = any, R = any> extends Component<P, S> {
   public subscriptions: Subscription[];
   public params: any;
   public navigation?: NavigationScreenProp<any>;
@@ -87,7 +78,11 @@ export abstract class BaseComponent<S extends IStateBase = IStateBase, P = any, 
     this.navigation.dispatch(NavigationActions.reset({
       index: 0,
       key: null,
-      actions: [NavigationActions.navigate({ routeName, params })]
+      actions: [NavigationActions.navigate({
+        routeName,
+        params,
+        action: NavigationActions.navigate({ routeName, params })
+       })]
     }));
   }
 
@@ -98,29 +93,4 @@ export abstract class BaseComponent<S extends IStateBase = IStateBase, P = any, 
       actions: routes.map(route => NavigationActions.navigate(route))
     }));
   }
-
-  protected updateModel(key: string, value: string): void;
-  protected updateModel(validator: BaseValidator<any>, key: string, value: string): void;
-  protected updateModel(validator: any, key: string, value?: string): void {
-    if (arguments.length === 2) {
-      key = validator;
-      validator = null;
-    }
-
-    let { model } = this.state as any;
-    model[key] = value;
-
-    if (!validator) {
-      this.setState({ validation: {}, model }, true);
-      return;
-    }
-
-    validator.validate(model)
-      .logError()
-      .bindComponent(this)
-      .subscribe(({ model, errors }: any) => {
-        this.setState({ validation: errors, model }, true);
-      }, (err: any) => toastError(err));
-  }
-
 }

@@ -3,15 +3,15 @@ import * as React from 'react';
 import { RefreshControl, StyleSheet } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent, IStateBase } from '../../components/base';
-import { EmptyMessage } from '../../components/emptyMessage';
-import { ErrorMessage } from '../../components/errorMessage';
 import { dateFormatter } from '../../formatters/date';
 import { eventListFormatter, IEventListFormatted } from '../../formatters/eventList';
 import { toast } from '../../providers/toast';
 import eventService from '../../services/event';
+import BaseComponent from '../../shared/abstract/baseComponent';
+import { EmptyMessage } from '../../shared/emptyMessage';
+import { ErrorMessage } from '../../shared/errorMessage';
 
-interface IState extends IStateBase {
+interface IState {
   refreshing: boolean;
   eventGroup: IEventListFormatted[];
   error?: any;

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
-import { BaseComponent } from '../components/base';
+import BaseComponent from '../shared/abstract/baseComponent';
 import { classes } from '../theme';
 
 export default class DevPage extends BaseComponent {

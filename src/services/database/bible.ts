@@ -1,13 +1,9 @@
 import { Observable, ReplaySubject } from 'rxjs';
 
-import { IBibleBook } from '../interfaces/bible/book';
-import { IBibleCapter } from '../interfaces/bible/capter';
-import { IBibleData } from '../interfaces/bible/data';
-import { IBibleDatabaseBook, IBibleDatabaseCapter, IBibleDatabaseVerse } from '../interfaces/bible/database';
-import { IBibleState } from '../interfaces/bible/state';
-import { IBibleVerse } from '../interfaces/bible/verse';
-import storageService from '../services/storage';
-import { defaultBible } from '../settings';
+import { IBibleBook, IBibleCapter, IBibleData, IBibleState, IBibleVerse } from '../../interfaces/bible';
+import { IBibleDatabaseBook, IBibleDatabaseCapter, IBibleDatabaseVerse } from '../../interfaces/bible/database';
+import { defaultBible } from '../../settings';
+import storageService from '../storage';
 import { BaseDatabase } from './base';
 
 export class BibleDatabase extends BaseDatabase {
