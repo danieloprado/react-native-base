@@ -4,6 +4,7 @@ import { FlatList, Modal } from 'react-native';
 import { Subject } from 'rxjs';
 
 import { IBibleBook } from '../../../interfaces/bible';
+import { InteractionManager } from '../../../providers/interactionManager';
 import { toastError } from '../../../providers/toast';
 import bibleDatabase from '../../../services/database/bible';
 import BaseComponent from '../../../shared/abstract/baseComponent';
@@ -14,7 +15,7 @@ interface IModel {
   capterId: number;
 }
 
-interface IState  {
+interface IState {
   show: boolean;
   books?: IBibleBook[];
   model?: IModel;
@@ -22,6 +23,7 @@ interface IState  {
 
 export default class BibleModalPicker extends BaseComponent<IState> {
   private result$: Subject<IModel>;
+  private bookList: FlatList<IBibleBook>;
 
   constructor(props: any) {
     super(props);
@@ -40,7 +42,10 @@ export default class BibleModalPicker extends BaseComponent<IState> {
   }
 
   public show(bookId: number, capterId: number): Subject<IModel> {
-    this.setState({ show: true, model: { bookId, capterId } });
+    this.setState({ show: true, model: { bookId, capterId } }).then(async () => {
+      await InteractionManager.runAfterInteractions();
+      setTimeout(() => this.bookList.scrollToIndex({ index: bookId }), 1000);
+    });
 
     this.result$ = new Subject();
     return this.result$;
@@ -55,7 +60,6 @@ export default class BibleModalPicker extends BaseComponent<IState> {
 
   public render(): JSX.Element {
     const { show, books, model } = this.state;
-    console.log(model);
 
     return (
       <Modal
@@ -64,6 +68,7 @@ export default class BibleModalPicker extends BaseComponent<IState> {
         visible={show}
         onRequestClose={() => this.hide()}>
         <Container>
+
           <Header hasTabs>
             <Left>
               <Button transparent onPress={() => this.hide()}>
@@ -75,18 +80,22 @@ export default class BibleModalPicker extends BaseComponent<IState> {
             </Body>
             <Right />
           </Header>
+
           {show &&
             <Tabs>
               <Tab heading='Livros'>
                 <FlatList
+                  ref={(ref: any) => this.bookList = ref}
                   keyExtractor={book => book.id.toString()}
                   extraData={model.bookId}
                   data={books}
+                  getItemLayout={(data, index) => (
+                    { length: 43, offset: 43 * index, index }
+                  )}
                   renderItem={({ item }: { item: IBibleBook }) =>
                     <ListItem
                       selected={model.bookId === item.id}
                       button
-                      key={item.id}
                       style={classes.listItem}
                       onPress={() => this.changeBook(item)}>
                       <Body>
@@ -102,6 +111,7 @@ export default class BibleModalPicker extends BaseComponent<IState> {
               </Tab>
             </Tabs>
           }
+
         </Container>
       </Modal>
     );
