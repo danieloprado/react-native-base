@@ -14,7 +14,7 @@ import {
   Text,
 } from 'native-base';
 import React from 'react';
-import { Clipboard, FlatList, FlatListStatic, NativeEventSubscription, Share, StyleSheet } from 'react-native';
+import { Clipboard, FlatList, FlatListStatic, Share, StyleSheet } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { IBibleBook, IBibleCapter, IBibleVerse } from '../../interfaces/bible';
@@ -46,7 +46,6 @@ export default class BiblePage extends BaseComponent<IState> {
 
   private modalPicker: BibleModalPicker;
   private flatListRef: FlatListStatic<IBibleVerse>;
-  private backEvent: NativeEventSubscription;
 
   constructor(props: any) {
     super(props);
