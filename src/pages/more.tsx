@@ -1,4 +1,4 @@
-import { Body, Container, Content, Header, Icon, Left, ListItem, Right, Text, Title } from 'native-base';
+import { Body, Card, CardItem, Container, Content, Header, Icon, Left, ListItem, Right, Text, Title } from 'native-base';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationTabScreenOptions } from 'react-navigation';
@@ -39,6 +39,17 @@ export default class MorePage extends BaseComponent {
               <Icon name='arrow-forward' />
             </Right>
           </ListItem>
+
+          <Card>
+            <CardItem button>
+              <Body>
+                <Text>Relátorio de Culto</Text>
+              </Body>
+              <Right>
+                <Icon name='arrow-forward' />
+              </Right>
+            </CardItem>
+          </Card>
         </Content>
       </Container>
     );
@@ -54,6 +65,7 @@ const styles = StyleSheet.create({
   avatarIcon: {
     fontSize: 65,
     width: 58,
-    marginTop: 10
+    marginTop: 10,
+    opacity: 0.6
   }
 });

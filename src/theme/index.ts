@@ -102,7 +102,8 @@ export const classes = StyleSheet.create({
     width: 40,
     fontSize: 30,
     marginLeft: 10,
-    textAlign: 'center'
+    textAlign: 'center',
+    opacity: 0.6
   },
   iconLarge: {
     fontSize: 80
