@@ -14,7 +14,7 @@ import {
   Text,
 } from 'native-base';
 import React from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, FlatListStatic, StyleSheet } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { IBibleBook, IBibleCapter, IBibleVerse } from '../../interfaces/bible';
@@ -41,6 +41,7 @@ export default class BiblePage extends BaseComponent<IState> {
   };
 
   private modalPicker: BibleModalPicker;
+  private flatListRef: FlatListStatic<IBibleVerse>;
 
   constructor(props: any) {
     super(props);
@@ -51,9 +52,10 @@ export default class BiblePage extends BaseComponent<IState> {
     bibleDatabase.current()
       .bindComponent(this)
       .logError()
-      .subscribe(({ book, capter, verses }) => {
-        verses.push({ id: 'empty' } as any);
-        this.setState({ book, capter, verses, loading: false });
+      .subscribe(async ({ book, capter, verses }) => {
+        verses = [...verses, { id: 'empty' } as any];
+        await this.setState({ book, capter, verses, loading: false });
+        this.flatListRef.scrollToIndex({ index: 0 });
       }, err => toastError(err));
   }
 
@@ -75,7 +77,14 @@ export default class BiblePage extends BaseComponent<IState> {
     const { loading, book, capter } = this.state;
 
     if (loading) return;
-    this.modalPicker.show(book.id, capter.id);
+    this.modalPicker.show(book.id, capter.id)
+      .logError()
+      .bindComponent(this)
+      .filter(data => !!data)
+      .subscribe(({ bookId, capterId }) => {
+        this.setState({ loading: true }, true);
+        bibleDatabase.change(bookId, capterId);
+      }, err => toastError(err));
   }
 
   public render(): JSX.Element {
@@ -107,23 +116,10 @@ export default class BiblePage extends BaseComponent<IState> {
 
         {!loading &&
           <FlatList
+            ref={(ref: any) => this.flatListRef = ref}
             keyExtractor={verse => verse.id.toString()}
             data={verses}
-            renderItem={({ item, index }) =>
-              <ListItem button style={[classes.listItem, styles.listItem]}>
-                <Body style={item.id !== 'empty' ? null : styles.bodyEmpty}>
-                  {!item.reference && item.id !== 'empty' &&
-                    <Text style={index === 0 ? styles.titleNoMargin : styles.title}>{item.text}</Text>
-                  }
-                  {!!item.reference && item.id !== 'empty' &&
-                    <Text>
-                      <Text style={styles.reference}>{item.reference + '  '}</Text>
-                      {item.text}
-                    </Text>
-                  }
-                </Body>
-              </ListItem>
-            }
+            renderItem={({ item, index }) => this.renderRow(item, index)}
           />
         }
 
@@ -145,6 +141,41 @@ export default class BiblePage extends BaseComponent<IState> {
           </Fab>
         }
       </Container>
+    );
+  }
+
+  public renderRow(item: IBibleVerse, index: number): JSX.Element {
+    if (item.id as any === 'empyt') {
+      return (
+        <ListItem style={[classes.listItem, styles.listItem]}>
+          <Body style={styles.bodyEmpty} />
+        </ListItem>
+      );
+    }
+
+    if (!item.reference) {
+      return (
+        <ListItem style={[classes.listItem, styles.listItem]}>
+          <Body>
+            <Text style={index === 0 ? styles.titleNoMargin : styles.title}>{item.text}</Text>
+          </Body>
+        </ListItem>
+      );
+    }
+
+    return (
+      <ListItem
+        button
+        style={[classes.listItem, styles.listItem]}
+        onLongPress={() => alert('teste')}
+      >
+        <Body>
+          <Text>
+            <Text style={styles.reference}>{item.reference + '  '}</Text>
+            {item.text}
+          </Text>
+        </Body>
+      </ListItem>
     );
   }
 }

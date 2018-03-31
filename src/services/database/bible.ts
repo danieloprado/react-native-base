@@ -35,6 +35,7 @@ export class BibleDatabase extends BaseDatabase {
   public listBooks(): Observable<IBibleBook[]> {
     return Observable.of(true)
       .switchMap(() => this.query('SELECT * FROM livros'))
+      .cache('bible-books', { persist: false })
       .map(data => data.map(this.mapBook));
   }
 
@@ -50,7 +51,7 @@ export class BibleDatabase extends BaseDatabase {
 
   public listCapters(book: number): Observable<IBibleCapter[]> {
     return Observable.of(true)
-      .switchMap(() => this.query(`SELECT * FROM capitulos WHERE book = ${book}`))
+      .switchMap(() => this.query(`SELECT * FROM capitulos WHERE livro = ${book}`))
       .map(data => data.map(this.mapCapter));
   }
 
@@ -79,7 +80,8 @@ export class BibleDatabase extends BaseDatabase {
 
         return { book, capter, verses };
       })
-      .filter(data => !!data);
+      .filter(data => !!data)
+      .shareReplay(1);
   }
 
   public change(book: number, capter: number): void {
