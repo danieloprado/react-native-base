@@ -14,22 +14,26 @@ import {
   Text,
 } from 'native-base';
 import React from 'react';
-import { FlatList, FlatListStatic, StyleSheet } from 'react-native';
+import { Clipboard, FlatList, FlatListStatic, NativeEventSubscription, Share, StyleSheet } from 'react-native';
 import { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { IBibleBook, IBibleCapter, IBibleVerse } from '../../interfaces/bible';
-import { toastError } from '../../providers/toast';
+import { toast, toastError } from '../../providers/toast';
 import bibleDatabase from '../../services/database/bible';
 import { isiOS } from '../../settings';
 import BaseComponent from '../../shared/abstract/baseComponent';
 import { classes, theme } from '../../theme';
 import BibleModalPicker from './components/modalPicker';
 
+interface IBibleVerseSelectable extends IBibleVerse {
+  selected?: boolean;
+}
+
 interface IState {
   loading: boolean;
   book?: IBibleBook;
   capter?: IBibleCapter;
-  verses?: IBibleVerse[];
+  verses?: IBibleVerseSelectable[];
 }
 
 export default class BiblePage extends BaseComponent<IState> {
@@ -42,10 +46,15 @@ export default class BiblePage extends BaseComponent<IState> {
 
   private modalPicker: BibleModalPicker;
   private flatListRef: FlatListStatic<IBibleVerse>;
+  private backEvent: NativeEventSubscription;
 
   constructor(props: any) {
     super(props);
     this.state = { loading: true };
+  }
+
+  get selecting(): boolean {
+    return this.state.verses && this.state.verses.some(v => v.selected);
   }
 
   public componentDidMount(): void {
@@ -87,27 +96,87 @@ export default class BiblePage extends BaseComponent<IState> {
       }, err => toastError(err));
   }
 
+  public toggleSelected(verse: IBibleVerseSelectable): void {
+    verse.selected = !verse.selected;
+
+    const { verses } = this.state;
+    this.setState({ verses });
+  }
+
+  public clearSelection(): void {
+    const { verses } = this.state;
+
+    verses.forEach(v => v.selected = false);
+    this.setState({ verses });
+  }
+
+  public copySelection(): void {
+    Clipboard.setString(this.generateVerseText());
+    toast('Copiado', 3000);
+    this.clearSelection();
+  }
+
+  public async shareSelection(): Promise<void> {
+    const { book, capter } = this.state;
+    const message = this.generateVerseText();
+
+    await Share.share({
+      title: `${book.name} ${capter.id}`,
+      message
+    });
+
+    this.clearSelection();
+  }
+
+  public generateVerseText(): string {
+    const { book, capter, verses } = this.state;
+
+    return `${verses.filter(v => v.selected).map(verse => {
+      return `${verse.reference}. ${verse.text}`;
+    }).join('\n')}\n\n${book.name} ${capter.id}`;
+  }
+
   public render(): JSX.Element {
     const { loading, capter, verses } = this.state;
 
     return (
       <Container>
         <BibleModalPicker ref={modalPicker => this.modalPicker = modalPicker} />
-        <Header>
-          <Left>
-            <Button transparent onPress={() => this.openDrawer()}>
-              <Icon name='menu' />
-            </Button>
-          </Left>
-          <Body>
-            <Segment>
-              <Button first last active onPress={() => this.showPicker()}>
-                <Text>{this.getTitle()}</Text>
+        {!this.selecting &&
+          <Header>
+            <Left>
+              <Button transparent onPress={() => this.openDrawer()}>
+                <Icon name='menu' />
               </Button>
-            </Segment>
-          </Body>
-          <Right />
-        </Header>
+            </Left>
+            <Body>
+              <Segment>
+                <Button first last active onPress={() => this.showPicker()}>
+                  <Text>{this.getTitle()}</Text>
+                </Button>
+              </Segment>
+            </Body>
+            <Right />
+          </Header>
+        }
+        {!!this.selecting &&
+          <Header>
+            <Left>
+              <Button transparent onPress={() => this.clearSelection()}>
+                <Icon name='close' />
+              </Button>
+            </Left>
+            <Body />
+            <Right>
+              <Button transparent onPress={() => this.copySelection()}>
+                <Icon name='copy' />
+              </Button>
+              <Button transparent onPress={() => this.shareSelection()}>
+                <Icon name='share' />
+              </Button>
+            </Right>
+          </Header>
+        }
         {loading &&
           <Content padder>
             <Spinner />
@@ -118,6 +187,7 @@ export default class BiblePage extends BaseComponent<IState> {
           <FlatList
             ref={(ref: any) => this.flatListRef = ref}
             keyExtractor={verse => verse.id.toString()}
+            extraData={verses.map(v => v.selected)}
             data={verses}
             renderItem={({ item, index }) => this.renderRow(item, index)}
           />
@@ -144,8 +214,8 @@ export default class BiblePage extends BaseComponent<IState> {
     );
   }
 
-  public renderRow(item: IBibleVerse, index: number): JSX.Element {
-    if (item.id as any === 'empyt') {
+  public renderRow(verse: IBibleVerseSelectable, index: number): JSX.Element {
+    if (verse.id as any === 'empty') {
       return (
         <ListItem style={[classes.listItem, styles.listItem]}>
           <Body style={styles.bodyEmpty} />
@@ -153,11 +223,11 @@ export default class BiblePage extends BaseComponent<IState> {
       );
     }
 
-    if (!item.reference) {
+    if (!verse.reference) {
       return (
         <ListItem style={[classes.listItem, styles.listItem]}>
           <Body>
-            <Text style={index === 0 ? styles.titleNoMargin : styles.title}>{item.text}</Text>
+            <Text style={index === 0 ? styles.titleNoMargin : styles.title}>{verse.text}</Text>
           </Body>
         </ListItem>
       );
@@ -167,12 +237,13 @@ export default class BiblePage extends BaseComponent<IState> {
       <ListItem
         button
         style={[classes.listItem, styles.listItem]}
-        onLongPress={() => alert('teste')}
-      >
+        onPress={() => this.selecting && this.toggleSelected(verse)}
+        onLongPress={() => this.toggleSelected(verse)}
+        selected={verse.selected}>
         <Body>
           <Text>
-            <Text style={styles.reference}>{item.reference + '  '}</Text>
-            {item.text}
+            <Text style={styles.reference}>{verse.reference + '.  '}</Text>
+            {verse.text}
           </Text>
         </Body>
       </ListItem>
