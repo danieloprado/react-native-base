@@ -13,15 +13,16 @@ export default (variables = variable) => {
     marginHorizontal: 2,
     flex: 1,
     borderWidth: variables.borderWidth,
-    borderRadius: 2,
+    borderRadius: 3,
+    overflow: 'hidden',
     borderColor: variables.cardBorderColor,
     flexWrap: 'nowrap',
     backgroundColor: variables.cardDefaultBg,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.05,
     shadowRadius: 1.5,
-    elevation: 3
+    elevation: 2
   };
 
   return cardTheme;

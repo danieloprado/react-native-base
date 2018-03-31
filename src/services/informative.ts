@@ -1,9 +1,10 @@
 import { Observable } from 'rxjs';
 
 import { dateFormatter } from '../formatters/date';
-import { IInformative } from '../interfaces/informative';
-import apiService, { ApiService } from './api';
 import { enInformativeType } from '../interfaces/enums/informativeType';
+import { IInformative } from '../interfaces/informative';
+import { isiOS } from '../settings';
+import apiService, { ApiService } from './api';
 
 export class InformativeService {
   constructor(private apiService: ApiService) { }
@@ -13,7 +14,7 @@ export class InformativeService {
       .cache('service-informative-list', { refresh })
       .map(data => {
         return (data || []).map(informative => {
-          informative.icon = informative.typeId === enInformativeType.cell ? 'home' : 'paper';
+          informative.icon = informative.typeId === enInformativeType.cell ? isiOS ? 'contacts' : 'people' : 'document';
           return dateFormatter.parseObj(informative);
         });
       });

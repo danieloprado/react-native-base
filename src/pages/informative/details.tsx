@@ -65,7 +65,7 @@ export default class InformativeDetailsPage extends BaseComponent<IState> {
       <Container>
         <Header>
           <Left>
-            <Button transparent onPress={() => this.goBack()}>
+            <Button transparent onPress={() => this.navigateBack()}>
               <Icon name='arrow-back' />
             </Button>
           </Left>

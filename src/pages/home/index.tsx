@@ -1,8 +1,10 @@
-import { Body, Button, Container, Content, Header, Icon, Left, Right, Title, View } from 'native-base';
+import { Body, Container, Content, Header, Icon, Left, Right, Title, View } from 'native-base';
 import * as React from 'react';
-import { NavigationDrawerScreenOptions } from 'react-navigation';
+import { NavigationTabScreenOptions } from 'react-navigation';
 
+import { isiOS } from '../../settings';
 import BaseComponent from '../../shared/abstract/baseComponent';
+import ButtonHeaderProfile from '../../shared/buttonHeaderProfile';
 import { classes } from '../../theme';
 import ChurchCard from './components/churchCard';
 import EventCard from './components/eventCard';
@@ -10,9 +12,9 @@ import EventFeaturedCard from './components/eventFeaturedCard';
 import InformativeCard from './components/informativeCard';
 
 export default class HomePage extends BaseComponent {
-  public static navigationOptions: NavigationDrawerScreenOptions = {
-    drawerLabel: 'Início' as any,
-    drawerIcon: ({ tintColor }) => (
+  public static navigationOptions: NavigationTabScreenOptions = {
+    tabBarLabel: 'Início' as any,
+    tabBarIcon: ({ tintColor }) => (
       <Icon name='home' style={{ color: tintColor }} />
     )
   };
@@ -22,15 +24,13 @@ export default class HomePage extends BaseComponent {
     return (
       <Container style={classes.cardsContainer}>
         <Header>
-          <Left>
-            <Button transparent onPress={() => this.openDrawer()}>
-              <Icon name='menu' />
-            </Button>
-          </Left>
+          {isiOS ? <Left /> : null}
           <Body>
             <Title>ICB Sorocaba</Title>
           </Body>
-          <Right />
+          <Right>
+            <ButtonHeaderProfile />
+          </Right>
         </Header>
         <Content>
           <View style={classes.cardsPadding}>

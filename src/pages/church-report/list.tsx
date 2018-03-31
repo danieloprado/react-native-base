@@ -73,8 +73,8 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
       <Container style={classes.cardsContainer}>
         <Header>
           <Left>
-            <Button transparent onPress={() => this.openDrawer()}>
-              <Icon name='menu' />
+            <Button transparent onPress={() => this.navigateBack()}>
+              <Icon name='arrow-back' />
             </Button>
           </Left>
           <Body>

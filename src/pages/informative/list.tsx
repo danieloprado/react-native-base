@@ -1,12 +1,13 @@
-import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title } from 'native-base';
+import { Body, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title } from 'native-base';
 import * as React from 'react';
 import { RefreshControl } from 'react-native';
-import { NavigationDrawerScreenOptions } from 'react-navigation';
+import { NavigationTabScreenOptions } from 'react-navigation';
 
 import { dateFormatter } from '../../formatters/date';
 import { IInformative } from '../../interfaces/informative';
-import { toast } from '../../providers/toast';
+import { toastError } from '../../providers/toast';
 import informativeService from '../../services/informative';
+import { isiOS } from '../../settings';
 import BaseComponent from '../../shared/abstract/baseComponent';
 import { ErrorMessage } from '../../shared/errorMessage';
 import { classes } from '../../theme';
@@ -18,10 +19,10 @@ interface IState {
 }
 
 export default class InformativeListPage extends BaseComponent<IState> {
-  public static navigationOptions: NavigationDrawerScreenOptions = {
-    drawerLabel: 'Informativos' as any,
-    drawerIcon: ({ tintColor }) => (
-      <Icon name='paper' style={{ color: tintColor }} />
+  public static navigationOptions: NavigationTabScreenOptions = {
+    tabBarLabel: 'Informativos' as any,
+    tabBarIcon: ({ tintColor }) => (
+      <Icon name='document' style={{ color: tintColor }} />
     )
   };
 
@@ -48,7 +49,7 @@ export default class InformativeListPage extends BaseComponent<IState> {
         informatives = informatives || [];
         this.setState({ refreshing: false, informatives, error: false });
       }, error => {
-        if (refresh) toast('Não conseguimos atualizar');
+        if (refresh) toastError('Não conseguimos atualizar');
         this.setState({ refreshing: false, error });
       });
   }
@@ -59,11 +60,7 @@ export default class InformativeListPage extends BaseComponent<IState> {
     return (
       <Container>
         <Header>
-          <Left>
-            <Button transparent onPress={() => this.openDrawer()}>
-              <Icon name='menu' />
-            </Button>
-          </Left>
+          {isiOS ? <Left /> : null}
           <Body>
             <Title>Informativos</Title>
           </Body>

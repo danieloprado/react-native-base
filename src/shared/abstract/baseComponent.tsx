@@ -49,11 +49,7 @@ export default abstract class BaseComponent<S = any, P = any, R = any> extends C
     });
   }
 
-  protected openDrawer(): void {
-    this.navigate('DrawerOpen');
-  }
-
-  protected goBack(): void {
+  protected navigateBack(): void {
     this.navigation.goBack(null);
   }
 
@@ -82,7 +78,7 @@ export default abstract class BaseComponent<S = any, P = any, R = any> extends C
         routeName,
         params,
         action: NavigationActions.navigate({ routeName, params })
-       })]
+      })]
     }));
   }
 

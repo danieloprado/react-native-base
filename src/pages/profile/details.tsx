@@ -17,7 +17,6 @@ import {
 } from 'native-base';
 import * as React from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { dateFormatter } from '../../formatters/date';
 import { IUser } from '../../interfaces/user';
@@ -34,13 +33,6 @@ interface IState {
 }
 
 export default class ProfileDetailsPage extends BaseComponent<IState> {
-  public static navigationOptions: NavigationDrawerScreenOptions = {
-    drawerLabel: 'Perfil' as any,
-    drawerIcon: ({ tintColor }) => (
-      <Icon name='contact' style={{ color: tintColor }} />
-    )
-  };
-
   constructor(props: any) {
     super(props);
     this.state = { loading: true };
@@ -85,8 +77,8 @@ export default class ProfileDetailsPage extends BaseComponent<IState> {
       <Container>
         <Header>
           <Left>
-            <Button transparent onPress={() => this.openDrawer()}>
-              <Icon name='menu' />
+            <Button transparent onPress={() => this.navigateBack()}>
+              <Icon name='arrow-back' />
             </Button>
           </Left>
           <Body>

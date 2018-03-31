@@ -61,7 +61,7 @@ export default class ChurchReportFormPage extends FormComponent<IState> {
       .logError()
       .bindComponent(this)
       .subscribe(() => {
-        this.goBack();
+        this.navigateBack();
       }, err => toastError(err));
   }
 
@@ -72,7 +72,7 @@ export default class ChurchReportFormPage extends FormComponent<IState> {
       <Container>
         <Header>
           <Left>
-            <Button transparent onPress={() => this.goBack()}>
+            <Button transparent onPress={() => this.navigateBack()}>
               <Icon name='arrow-back' />
             </Button>
           </Left>
@@ -99,7 +99,7 @@ export default class ChurchReportFormPage extends FormComponent<IState> {
 
                   <Field
                     label='Descrição'
-                    icon='paper'
+                    icon='document'
                     ref='title'
                     type='text'
                     value={model.title}

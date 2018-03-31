@@ -1,12 +1,13 @@
 import { Body, Button, Container, Content, Header, Icon, Left, List, ListItem, Right, Text, Title, View } from 'native-base';
 import * as React from 'react';
 import { RefreshControl, StyleSheet } from 'react-native';
-import { NavigationDrawerScreenOptions } from 'react-navigation';
+import { NavigationTabScreenOptions } from 'react-navigation';
 
 import { dateFormatter } from '../../formatters/date';
 import { eventListFormatter, IEventListFormatted } from '../../formatters/eventList';
-import { toast } from '../../providers/toast';
+import { toastError } from '../../providers/toast';
 import eventService from '../../services/event';
+import { isiOS } from '../../settings';
 import BaseComponent from '../../shared/abstract/baseComponent';
 import { EmptyMessage } from '../../shared/emptyMessage';
 import { ErrorMessage } from '../../shared/errorMessage';
@@ -18,9 +19,9 @@ interface IState {
 }
 
 export default class EventListPage extends BaseComponent<IState> {
-  public static navigationOptions: NavigationDrawerScreenOptions = {
-    drawerLabel: 'Agenda' as any,
-    drawerIcon: ({ tintColor }) => (
+  public static navigationOptions: NavigationTabScreenOptions = {
+    tabBarLabel: 'Agenda' as any,
+    tabBarIcon: ({ tintColor }) => (
       <Icon name='calendar' style={{ color: tintColor }} />
     )
   };
@@ -48,7 +49,7 @@ export default class EventListPage extends BaseComponent<IState> {
         const eventGroup = eventListFormatter(events || []);
         this.setState({ refreshing: false, error: false, eventGroup });
       }, error => {
-        if (refresh) toast('Não conseguimos atualizar');
+        if (refresh) toastError('Não conseguimos atualizar');
         this.setState({ refreshing: false, error });
       });
   }
@@ -59,11 +60,7 @@ export default class EventListPage extends BaseComponent<IState> {
     return (
       <Container>
         <Header>
-          <Left>
-            <Button transparent onPress={() => this.openDrawer()}>
-              <Icon name='menu' />
-            </Button>
-          </Left>
+          {isiOS ? <Left /> : null}
           <Body>
             <Title>Agenda</Title>
           </Body>

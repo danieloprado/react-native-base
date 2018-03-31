@@ -17,7 +17,6 @@ import {
 } from 'native-base';
 import * as React from 'react';
 import { Image, Linking, StyleSheet } from 'react-native';
-import { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { phoneFormatter } from '../formatters/phone';
 import { IChurch } from '../interfaces/church';
@@ -26,19 +25,13 @@ import BaseComponent from '../shared/abstract/baseComponent';
 import { ErrorMessage } from '../shared/errorMessage';
 import { classes } from '../theme';
 
-interface IState  {
+interface IState {
   loading: boolean;
   church?: IChurch;
   error?: any;
 }
 
 export default class ChurchPage extends BaseComponent<IState> {
-  public static navigationOptions: NavigationDrawerScreenOptions = {
-    drawerLabel: 'Igreja' as any,
-    drawerIcon: ({ tintColor }) => (
-      <Icon name='information-circle' style={{ color: tintColor }} />
-    )
-  };
 
   constructor(props: any) {
     super(props);
@@ -77,8 +70,8 @@ export default class ChurchPage extends BaseComponent<IState> {
       <Container>
         <Header>
           <Left>
-            <Button transparent onPress={() => this.openDrawer()}>
-              <Icon name='menu' />
+            <Button transparent onPress={() => this.navigateBack()}>
+              <Icon name='arrow-back' />
             </Button>
           </Left>
           <Body>

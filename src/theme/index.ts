@@ -1,13 +1,8 @@
-import color from 'color';
 import variablesTheme from 'native-base/src/theme/variables/platform';
 import { Dimensions, StyleSheet } from 'react-native';
 
 const primary = '#263238';
-const accent = variablesTheme.platform === 'android' ?
-  '#86bd90' :
-  color('#86bd90')
-    .darken(0.1)
-    .hex();
+const accent = '#86bd90';
 
 interface IThemeExtra {
   primary: string;
@@ -46,8 +41,6 @@ export const theme: typeof variablesTheme & IThemeExtra = {
   },
   topTabBarTextColor: variablesTheme.platform === 'ios' ? accent : 'white',
 };
-
-console.log(theme.statusBarColor);
 
 export const classes = StyleSheet.create({
   buttonFacebook: {

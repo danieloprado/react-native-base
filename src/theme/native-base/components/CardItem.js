@@ -129,8 +129,7 @@ export default (variables = variable) => {
     },
     '.header': {
       'NativeBase.Text': {
-        fontSize: 16,
-        fontWeight: platform === 'ios' ? '600' : '500'
+        fontSize: 16
       },
       '.bordered': {
         'NativeBase.Text': {

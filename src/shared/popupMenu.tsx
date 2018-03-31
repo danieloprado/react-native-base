@@ -2,6 +2,7 @@ import { ActionSheet, Button, Icon } from 'native-base';
 import * as propTypes from 'prop-types';
 import * as React from 'react';
 import { findNodeHandle, Platform, UIManager } from 'react-native';
+
 import logService from '../services/log';
 
 interface IProps {

@@ -65,7 +65,7 @@ export default class EventDetailsPage extends BaseComponent<IState, any, IRefs> 
         <QuizFormModal ref='quizForm' />
         <Header>
           <Left>
-            <Button transparent onPress={() => this.goBack()}>
+            <Button transparent onPress={() => this.navigateBack()}>
               <Icon name='arrow-back' />
             </Button>
           </Left>

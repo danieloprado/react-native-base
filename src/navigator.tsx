@@ -1,4 +1,4 @@
-import { DrawerNavigator, StackNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator } from 'react-navigation';
 
 import IndexPage from './pages';
 import DevPage from './pages/_dev';
@@ -12,48 +12,74 @@ import HomePage from './pages/home';
 import InformativeDetailsPage from './pages/informative/details';
 import InformativeListPage from './pages/informative/list';
 import LoginPage from './pages/login';
+import MorePage from './pages/more';
 import ProfileDetailsPage from './pages/profile/details';
 import ProfileEditPage from './pages/profile/form';
-import { SideMenu } from './shared/sideMenu';
 import { theme } from './theme';
 
-const appDrawer = DrawerNavigator({
+const tabNavigator = TabNavigator({
   Home: { screen: HomePage },
   Bible: { screen: BiblePage },
-  Profile: { screen: ProfileDetailsPage },
   Informative: { screen: InformativeListPage },
   Event: { screen: EventListPage },
-  ChurchReport: { screen: ChurchReportListPage },
-  Church: { screen: ChurchPage },
-  Dev: { screen: DevPage },
+  More: { screen: MorePage }
 }, {
     initialRouteName: 'Home',
-    contentComponent: SideMenu,
-    contentOptions: {
-      inactiveTintColor: 'black',
-      activeTintColor: theme.accent
+    tabBarPosition: 'bottom',
+    swipeEnabled: false,
+    tabBarOptions: {
+      showIcon: true,
+      showLabel: true,
+      activeTintColor: theme.accent,
+      pressColor: theme.accent,
+      indicatorStyle: {
+        backgroundColor: 'transparent'
+      },
+      inactiveTintColor: 'gray',
+      ... (theme.platform === 'ios' ? {} :
+        {
+          tabStyle: {
+            height: 60,
+            elevation: 8
+          },
+          labelStyle: {
+            fontSize: 10,
+            width: 110
+          },
+          iconStyle: {
+            marginTop: 10,
+            width: 50,
+            marginBottom: -5
+          },
+          style: {
+            backgroundColor: 'white'
+          },
+        })
     }
   });
 
 // tslint:disable-next-line:variable-name
- const Navigator: any = StackNavigator({
+const Navigator: any = StackNavigator({
   Index: { screen: IndexPage },
   Login: { screen: LoginPage },
-  Home: { screen: appDrawer },
-  Bible: { screen: appDrawer },
-  Profile: { screen: appDrawer },
+
+  Home: { screen: tabNavigator },
+  Bible: { screen: tabNavigator },
+  Informative: { screen: tabNavigator },
+  Event: { screen: tabNavigator },
+  More: { screen: tabNavigator },
+
+  Profile: { screen: ProfileDetailsPage },
   ProfileEdit: { screen: ProfileEditPage },
-  Informative: { screen: appDrawer },
   InformativeDetails: { screen: InformativeDetailsPage },
-  Event: { screen: appDrawer },
   EventDetails: { screen: EventDetailsPage },
-  ChurchReport: { screen: appDrawer },
+  ChurchReport: { screen: ChurchReportListPage },
   ChurchReportForm: { screen: ChurchReportFormPage },
-  Church: { screen: appDrawer },
-  Dev: { screen: appDrawer }
+  Church: { screen: ChurchPage },
+  Dev: { screen: DevPage }
 }, {
     headerMode: 'none',
     initialRouteName: 'Index',
-   });
+  });
 
 export default Navigator;

@@ -11,7 +11,7 @@ import { isDevelopment } from '../settings';
 import BaseComponent from '../shared/abstract/baseComponent';
 import { classes, theme } from '../theme';
 
-interface IState  {
+interface IState {
   loaded: boolean;
   animationHeight: Animated.Value;
   animationFade: Animated.Value;
@@ -36,7 +36,7 @@ export default class LoginPage extends BaseComponent<IState> {
 
   public navigateToHome(): void {
     if (this.state.force) {
-      this.goBack();
+      this.navigateBack();
       return;
     }
 

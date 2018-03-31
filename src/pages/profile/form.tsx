@@ -53,7 +53,7 @@ export default class ProfileEditPage extends FormComponent<IState> {
       .logError()
       .bindComponent(this)
       .subscribe(() => {
-        this.goBack();
+        this.navigateBack();
       }, err => toastError(err));
   }
 
@@ -65,7 +65,7 @@ export default class ProfileEditPage extends FormComponent<IState> {
       <Container>
         <Header>
           <Left>
-            <Button transparent onPress={() => this.goBack()}>
+            <Button transparent onPress={() => this.navigateBack()}>
               <Icon name='arrow-back' />
             </Button>
           </Left>

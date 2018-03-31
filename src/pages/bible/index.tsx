@@ -15,7 +15,7 @@ import {
 } from 'native-base';
 import React from 'react';
 import { Clipboard, FlatList, FlatListStatic, Share, StyleSheet } from 'react-native';
-import { NavigationDrawerScreenOptions } from 'react-navigation';
+import { NavigationTabScreenOptions } from 'react-navigation';
 
 import { IBibleBook, IBibleCapter, IBibleVerse } from '../../interfaces/bible';
 import { toast, toastError } from '../../providers/toast';
@@ -37,9 +37,9 @@ interface IState {
 }
 
 export default class BiblePage extends BaseComponent<IState> {
-  public static navigationOptions: NavigationDrawerScreenOptions = {
-    drawerLabel: 'Bíblia - A Mensagem',
-    drawerIcon: ({ tintColor }) => (
+  public static navigationOptions: NavigationTabScreenOptions = {
+    tabBarLabel: 'Bíblia',
+    tabBarIcon: ({ tintColor }) => (
       <Icon name='bookmarks' style={{ color: tintColor }} />
     )
   };
@@ -143,11 +143,7 @@ export default class BiblePage extends BaseComponent<IState> {
         <BibleModalPicker ref={modalPicker => this.modalPicker = modalPicker} />
         {!this.selecting &&
           <Header>
-            <Left>
-              <Button transparent onPress={() => this.openDrawer()}>
-                <Icon name='menu' />
-              </Button>
-            </Left>
+            <Left />
             <Body>
               <Segment>
                 <Button first last active onPress={() => this.showPicker()}>

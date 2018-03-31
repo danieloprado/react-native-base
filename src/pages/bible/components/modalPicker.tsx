@@ -79,7 +79,7 @@ export default class BibleModalPicker extends BaseComponent<IState> {
           </Header>
 
           {show &&
-            <Tabs ref={ref => this.tabs = ref}>
+            <Tabs ref={ref => this.tabs = ref} locked={true}>
               <Tab heading='Livros'>
                 <BibleListBooks value={model.bookId} onChange={v => this.changeBook(v)} />
               </Tab>
