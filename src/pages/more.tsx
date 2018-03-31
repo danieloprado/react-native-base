@@ -1,10 +1,10 @@
-import { Body, Container, Content, Header, Icon, Left, Right, Title, View } from 'native-base';
+import { Body, Container, Content, Header, Icon, Left, ListItem, Right, Text, Title } from 'native-base';
 import * as React from 'react';
+import { StyleSheet } from 'react-native';
 import { NavigationTabScreenOptions } from 'react-navigation';
 
 import { isiOS } from '../settings';
 import BaseComponent from '../shared/abstract/baseComponent';
-import ButtonHeaderProfile from '../shared/buttonHeaderProfile';
 import { classes } from '../theme';
 
 export default class MorePage extends BaseComponent {
@@ -24,16 +24,36 @@ export default class MorePage extends BaseComponent {
           <Body>
             <Title>Mais</Title>
           </Body>
-          <Right>
-            <ButtonHeaderProfile />
-          </Right>
+          <Right />
         </Header>
         <Content>
-          <View>
-
-          </View>
+          <ListItem avatar button onPress={() => this.navigate('Login')}>
+            <Left>
+              <Icon name='contact' style={styles.avatarIcon} />
+            </Left>
+            <Body style={styles.removeBorder}>
+              <Text>Bem vindo!</Text>
+              <Text note>Gostaríamos de te conhecer</Text>
+            </Body>
+            <Right style={styles.removeBorder}>
+              <Icon name='arrow-forward' />
+            </Right>
+          </ListItem>
         </Content>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  removeBorder: {
+    borderBottomWidth: 0,
+    alignItems: 'flex-start',
+    alignSelf: 'center'
+  },
+  avatarIcon: {
+    fontSize: 65,
+    width: 58,
+    marginTop: 10
+  }
+});

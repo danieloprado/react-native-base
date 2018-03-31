@@ -82,9 +82,7 @@ export default class EventCard extends BaseComponent<IState> {
             </CardItem>
           </View>
         }
-
-      </Card>
-    );
+      </Card>);
   }
 }
 

@@ -59,9 +59,11 @@ export default class EventFeaturedCard extends BaseComponent<IState> {
                 </Text>
               </View>
             </CardItem>
-            <CardItem>
-              <Text>{event.featuredText}</Text>
-            </CardItem>
+            {!!event.featuredText &&
+              <CardItem>
+                <Text>{event.featuredText}</Text>
+              </CardItem>
+            }
             <CardItem footer style={classes.alignRight}>
               <Button transparent onPress={() => this.details()}>
                 <Text>DETALHES</Text>

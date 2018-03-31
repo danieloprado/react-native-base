@@ -7,7 +7,6 @@ import facebookService from '../services/facebook';
 import googleService from '../services/google';
 import profileService from '../services/profile';
 import storageService from '../services/storage';
-import { isDevelopment } from '../settings';
 import BaseComponent from '../shared/abstract/baseComponent';
 import { classes, theme } from '../theme';
 
@@ -17,7 +16,7 @@ interface IState {
   animationFade: Animated.Value;
   animationClass: any;
   animationContainer: any;
-  force: boolean;
+  initial: boolean;
 }
 
 export default class LoginPage extends BaseComponent<IState> {
@@ -30,17 +29,16 @@ export default class LoginPage extends BaseComponent<IState> {
       animationFade: new Animated.Value(0),
       animationClass: {},
       animationContainer: { opacity: 0 },
-      force: (this.params || {}).force
+      initial: (this.params || {}).initial
     };
   }
 
   public navigateToHome(): void {
-    if (this.state.force) {
+    if (!this.state.initial) {
       this.navigateBack();
       return;
     }
 
-    if (isDevelopment) return this.navigate('Event', null, true);
     this.navigate('Home', null, true);
   }
 
@@ -89,7 +87,7 @@ export default class LoginPage extends BaseComponent<IState> {
   }
 
   public render(): JSX.Element {
-    const { animationClass, animationContainer } = this.state;
+    const { animationClass, animationContainer, initial } = this.state;
 
     return (
       <Container>
@@ -102,7 +100,7 @@ export default class LoginPage extends BaseComponent<IState> {
                 onLayout={(event: any) => this.viewLoaded(event)}
                 style={animationClass}>
                 <Text style={styles.welcome}>
-                  Olá!
+                  Bem-vindo!
               </Text>
                 <Text style={styles.instructions}>
                   Gostaríamos de te conhecer
@@ -125,7 +123,7 @@ export default class LoginPage extends BaseComponent<IState> {
                 </View>
                 <View style={styles.skipWrapper}>
                   <Button block transparent onPress={() => this.completed()}>
-                    <Text style={styles.skipText}>PULAR</Text>
+                    <Text style={styles.skipText}>{initial ? 'PULAR' : 'VOLTAR'}</Text>
                   </Button>
                 </View>
               </Animated.View>

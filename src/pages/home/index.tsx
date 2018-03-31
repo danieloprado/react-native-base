@@ -26,7 +26,7 @@ export default class HomePage extends BaseComponent {
         <Header>
           {isiOS ? <Left /> : null}
           <Body>
-            <Title>ICB Sorocaba</Title>
+            <Title>Início</Title>
           </Body>
           <Right>
             <ButtonHeaderProfile />
@@ -34,10 +34,10 @@ export default class HomePage extends BaseComponent {
         </Header>
         <Content>
           <View style={classes.cardsPadding}>
-            <EventFeaturedCard></EventFeaturedCard>
-            <ChurchCard></ChurchCard>
-            <InformativeCard></InformativeCard>
-            <EventCard></EventCard>
+            <ChurchCard />
+            <EventFeaturedCard />
+            <EventCard />
+            <InformativeCard />
           </View>
         </Content>
       </Container>

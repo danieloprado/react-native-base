@@ -1,6 +1,6 @@
 import { Body, Button, Card, CardItem, Icon, Spinner, Text, View } from 'native-base';
 import * as React from 'react';
-import { Linking } from 'react-native';
+import { Linking, StyleSheet } from 'react-native';
 
 import { WithNavigation } from '../../../decorators/withNavigation';
 import { phoneFormatter } from '../../../formatters/phone';
@@ -47,7 +47,7 @@ export default class ChurchCard extends BaseComponent<IState> {
     return (
       <Card>
         <CardItem header>
-          <Text>Igreja</Text>
+          <Text>{(church || { name: 'Igreja' }).name}</Text>
         </CardItem>
         {loading &&
           <CardItem>
@@ -89,3 +89,15 @@ export default class ChurchCard extends BaseComponent<IState> {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  header: {
+    alignItems: 'center',
+    padding: 10,
+    justifyContent: 'center'
+  },
+  logo: {
+    height: 100,
+    width: 100
+  }
+});
