@@ -231,10 +231,9 @@ export default class BiblePage extends BaseComponent<IState> {
     return (
       <ListItem
         button
-        style={[classes.listItem, styles.listItem]}
+        style={[classes.listItem, styles.listItem, verse.selected ? styles.selected : null]}
         onPress={() => this.selecting && this.toggleSelected(verse)}
-        onLongPress={() => this.toggleSelected(verse)}
-        selected={verse.selected}>
+        onLongPress={() => this.toggleSelected(verse)}>
         <Body>
           <Text>
             <Text style={styles.reference}>{verse.reference + '.  '}</Text>
@@ -263,6 +262,9 @@ const styles = StyleSheet.create({
   },
   bodyEmpty: {
     height: 40
+  },
+  selected: {
+    backgroundColor: '#ddddddab'
   },
   fab: {
     height: 40,
