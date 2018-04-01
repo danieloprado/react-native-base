@@ -14,7 +14,6 @@ interface IState {
   loading: boolean;
   informative?: IInformative;
   html: string;
-  text?: string;
   error?: any;
 }
 
@@ -43,14 +42,12 @@ export default class InformativeDetailsPage extends BaseComponent<IState> {
   }
 
   public share(): void {
-    Share.share({
-      title: this.state.informative.title,
-      message: this.state.text
-    });
-  }
+    const { informative } = this.state;
 
-  public setText(text: string): void {
-    this.setState({ text });
+    Share.share({
+      title: informative.title,
+      message: `Acompanhe o informativo: \n${informative.url}`
+    });
   }
 
   public render(): JSX.Element {
@@ -98,8 +95,7 @@ export default class InformativeDetailsPage extends BaseComponent<IState> {
         {!loading && !error && !!informative &&
           <View style={{ flex: 1 }}>
             <WebView
-              source={{ html }}
-              onMessage={event => this.setText(event.nativeEvent.data)}
+              source={{ html, baseUrl: '' }}
               style={{ flex: 1 }} />
           </View>
         }

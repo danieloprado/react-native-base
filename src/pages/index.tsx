@@ -20,7 +20,7 @@ export default class IndexPage extends BaseComponent {
         setTimeout(() => SplashScreen.hide(), 500);
 
         return isDevelopment ?
-          this.navigate('More', true) :
+          this.navigate('Bible', true) :
           this.navigate(welcomeCompleted ? 'Home' : 'Login', { initial: true }, true);
       })
       .logError()
