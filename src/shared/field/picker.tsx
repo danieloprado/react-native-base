@@ -22,6 +22,10 @@ export function FieldPicker(props: IProps): JSX.Element {
         mode={type}
         prompt={label}
         selectedValue={value}
+        textStyle={{ paddingLeft: 0 }}
+        itemTextStyle={{
+          flex: 1
+        }}
         renderHeader={(backAction: any) =>
           <Header>
             <Left>

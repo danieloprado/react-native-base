@@ -1,19 +1,11 @@
 import { Body, Button, Container, Content, Header, Icon, Left, Right, Text, Title, View } from 'native-base';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import BaseComponent from '../shared/abstract/baseComponent';
 import { classes } from '../theme';
 
 export default class DevPage extends BaseComponent {
-  public static navigationOptions: NavigationDrawerScreenOptions = {
-    drawerLabel: 'Dev' as any,
-    drawerIcon: ({ tintColor }) => (
-      <Icon name='hammer' style={{ color: tintColor }} />
-    )
-  };
-
   public testError(): void {
     throw new Error('Test');
   }

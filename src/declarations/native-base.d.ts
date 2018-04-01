@@ -37,6 +37,7 @@ declare module "native-base" {
 
     interface Picker {
       renderHeader?: any;
+      itemTextStyle?: any;
     }
 
     interface Icon {

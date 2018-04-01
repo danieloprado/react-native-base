@@ -3,6 +3,7 @@ import FCM, { FCMEvent } from 'react-native-fcm';
 import { Observable, ReplaySubject } from 'rxjs';
 
 import { INotificationInfo } from '../interfaces/notification';
+import { churchSlug } from '../settings';
 
 export class FirebaseService {
   private lastId: string;
@@ -23,6 +24,7 @@ export class FirebaseService {
 
     this.token$
       .map(() => FCM.subscribeToTopic('all'))
+      .map(() => FCM.subscribeToTopic('app-' + churchSlug))
       .logError()
       .subscribe();
   }

@@ -22,8 +22,6 @@ export const defaultBible: IBibleState = {
 export const apiTimeout = 15 * 1000;
 export const apiEndpoint = env === 'production' ?
   `https://app.icbsorocaba.com.br/api/app/${churchSlug}` :
-  // `http://10.84.77.250:3001/api/app/${churchSlug}`;
-  // `http://192.168.25.5:3001/api/app/${churchSlug}`;
   // `http://192.168.0.62:3001/api/app/${churchSlug}`;
   `https://app.icbsorocaba.com.br/api/app/${churchSlug}`;
 

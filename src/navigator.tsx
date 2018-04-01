@@ -17,6 +17,11 @@ import ProfileDetailsPage from './pages/profile/details';
 import ProfileEditPage from './pages/profile/form';
 import { theme } from './theme';
 
+export const ROUTES_ROLES = [
+  { display: 'Relátorio de Culto', icon: 'list-box', key: 'ChurchReport', roles: ['churchReport'] },
+  { display: 'Dev Test', icon: 'hammer', key: 'Dev', roles: ['sysAdmin'] }
+];
+
 const tabNavigator = TabNavigator({
   Home: { screen: HomePage },
   Bible: { screen: BiblePage },

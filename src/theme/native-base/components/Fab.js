@@ -4,6 +4,7 @@ export default (variables = variable) => {
 	const platform = variables.platform;
 
 	const fabTheme = {
+		backgroundColor: variable.btnPrimaryBg,
 		'NativeBase.Button': {
 			alignItems: 'center',
 			padding: null,

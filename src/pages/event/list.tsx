@@ -173,7 +173,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
     flexDirection: 'column',
-    paddingLeft: 10,
     paddingRight: 10
   }
 });

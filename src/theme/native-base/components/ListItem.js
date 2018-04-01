@@ -114,7 +114,16 @@ export default (variables = variable) => {
       borderColor: variables.listBorderColor
     },
     '.selected': {
-      backgroundColor: '#ddddddad'
+      'NativeBase.Left': {
+        ...selectedStyle
+      },
+      'NativeBase.Body': {
+        ...selectedStyle
+      },
+      'NativeBase.Right': {
+        ...selectedStyle
+      },
+      ...selectedStyle
     },
     'NativeBase.Left': {
       'NativeBase.Body': {

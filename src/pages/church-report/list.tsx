@@ -1,7 +1,6 @@
 import { Body, Button, Container, Content, Fab, Header, Icon, Left, Right, Title, View } from 'native-base';
 import * as React from 'react';
 import { RefreshControl, StyleSheet } from 'react-native';
-import { NavigationDrawerScreenOptions } from 'react-navigation';
 
 import { IChurchReport } from '../../interfaces/churchReport';
 import { confirm } from '../../providers/confirm';
@@ -20,13 +19,6 @@ interface IState {
 }
 
 export default class ChurchReportListPage extends BaseComponent<IState> {
-  public static navigationOptions: NavigationDrawerScreenOptions = {
-    drawerLabel: 'Relatório de Culto' as any,
-    drawerIcon: ({ tintColor }) => (
-      <Icon name='list-box' style={{ color: tintColor }} />
-    )
-  };
-
   constructor(props: any) {
     super(props);
     this.state = { refreshing: true, error: false, reports: [] };
@@ -70,7 +62,7 @@ export default class ChurchReportListPage extends BaseComponent<IState> {
     const { refreshing, reports, error } = this.state;
 
     return (
-      <Container style={classes.cardsContainer}>
+      <Container>
         <Header>
           <Left>
             <Button transparent onPress={() => this.navigateBack()}>
