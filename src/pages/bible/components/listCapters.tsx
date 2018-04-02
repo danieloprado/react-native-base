@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'black',
-    opacity: 0.8
+    opacity: 0.8,
+    fontSize: 18
   }
 });

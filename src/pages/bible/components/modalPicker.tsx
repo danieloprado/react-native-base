@@ -78,16 +78,18 @@ export default class BibleModalPicker extends BaseComponent<IState> {
             <Right />
           </Header>
 
-          {show &&
-            <Tabs ref={ref => this.tabs = ref} locked={true}>
-              <Tab heading='Livros'>
+          <Tabs ref={ref => this.tabs = ref} locked={true}>
+            <Tab heading='Livros'>
+              {show &&
                 <BibleListBooks value={model.bookId} onChange={v => this.changeBook(v)} />
-              </Tab>
-              <Tab heading='Capítulos'>
+              }
+            </Tab>
+            <Tab heading='Capítulos'>
+              {show &&
                 <BibleListCapters bookId={model.bookId} onChange={v => this.changeCapter(v)} />
-              </Tab>
-            </Tabs>
-          }
+              }
+            </Tab>
+          </Tabs>
 
         </Container>
       </Modal>

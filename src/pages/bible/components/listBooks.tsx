@@ -1,6 +1,6 @@
 import { Body, ListItem, Radio, Right, Spinner, Text } from 'native-base';
 import React, { PureComponent } from 'react';
-import { FlatList, FlatListStatic, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 import { IBibleBook } from '../../../interfaces/bible';
 import { toastError } from '../../../providers/toast';
@@ -8,9 +8,6 @@ import bibleDatabase from '../../../services/database/bible';
 import { isiOS } from '../../../settings';
 import BaseComponent from '../../../shared/abstract/baseComponent';
 import { classes } from '../../../theme';
-
-const ITEM_HEIGHT = isiOS ? 45 : 54;
-const ITEM_OFFSET = (index: number) => (ITEM_HEIGHT * index) - (ITEM_HEIGHT * 2);
 
 interface IState {
   books: IBibleBook[];
@@ -22,8 +19,6 @@ interface IProps {
 }
 
 export default class BibleListBooks extends BaseComponent<IState, IProps> {
-  private flatListRef: FlatListStatic<IBibleBook>;
-
   constructor(props: any) {
     super(props);
     this.state = { books: null };
@@ -33,9 +28,9 @@ export default class BibleListBooks extends BaseComponent<IState, IProps> {
     bibleDatabase.listBooks()
       .logError()
       .bindComponent(this)
-      .subscribe(async books => {
-        await this.setState({ books });
-        setTimeout(() => this.flatListRef.scrollToIndex({ index: this.props.value }), 500);
+      .delay(100)
+      .subscribe(books => {
+        this.setState({ books });
       }, err => toastError(err));
   }
 
@@ -53,15 +48,24 @@ export default class BibleListBooks extends BaseComponent<IState, IProps> {
 
     return (
       <FlatList
-        ref={(ref: any) => this.flatListRef = ref}
         keyExtractor={book => book.id.toString()}
         extraData={value}
         data={books}
-        getItemLayout={(data, index) => (
-          { length: ITEM_HEIGHT, offset: ITEM_OFFSET(index), index }
-        )}
-        renderItem={this.renderItem.bind(this)} />
+        initialScrollIndex={value}
+        getItemLayout={this.getItemLayout.bind(this)}
+        renderItem={this.renderItem.bind(this)}
+      />
     );
+  }
+
+  public getItemLayout(data: IBibleBook[], index: number): any {
+    const height = isiOS ? 45 : 54;
+
+    return {
+      length: height,
+      offset: (height * index) - (height * 2),
+      index
+    };
   }
 
   public renderItem({ item }: { item: IBibleBook }): JSX.Element {
