@@ -1,5 +1,15 @@
-Church React Native
+Base React Native
 ===================
+
+Values to Change
+----------------
+AppId: %APP_ID%
+AppId: %APP_NAME%
+%BUGSNAG_KEY%
+
+File to change
+--------------
+* ./android/app/google-services.json
 
 Workspace General
 -----------------
@@ -67,7 +77,7 @@ Release
 
 ```bash
 yarn release-android
-# ICBSorocaba-signed.apk will be generated at the project folder
+# ReactApp.apk will be generated at the project folder
 ```
 
 IOS
@@ -100,7 +110,7 @@ Development
 -----------
 
 ### XCode
-Open the *ios/churchReact.xcworkspace*
+Open the *ios/appReact.xcworkspace*
 
 ### Command line:
 ```bash

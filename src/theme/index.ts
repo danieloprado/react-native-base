@@ -1,8 +1,7 @@
 import variablesTheme from 'native-base/src/theme/variables/platform';
 import { Dimensions, StyleSheet } from 'react-native';
 
-const primary = '#263238';
-const accent = '#86bd90';
+import { themeSettings } from '../settings';
 
 interface IThemeExtra {
   primary: string;
@@ -22,33 +21,27 @@ export const theme: typeof variablesTheme & IThemeExtra = {
       Object.defineProperty(acc, key, prop);
       return acc;
     } else if (value === '#3F51B5') {
-      value = primary;
+      value = themeSettings.primary;
     } else if (value === '#007aff') {
-      value = accent;
+      value = themeSettings.accent;
     }
 
     acc[key] = value;
     return acc;
   }, {} as any),
-  primary,
-  accent,
+  primary: themeSettings.primary,
+  accent: themeSettings.accent,
   gray: '#f4f4f7',
   darkGray: '#cdcdce',
   facebookColor: '#3b5998',
   googleColor: '#de5245',
   get btnPrimaryBg(): string {
-    return accent;
+    return themeSettings.accent;
   },
-  topTabBarTextColor: variablesTheme.platform === 'ios' ? accent : 'white',
+  topTabBarTextColor: variablesTheme.platform === 'ios' ? themeSettings.accent : 'white',
 };
 
 export const classes = StyleSheet.create({
-  buttonFacebook: {
-    backgroundColor: '#3b5998'
-  },
-  buttonGoogle: {
-    backgroundColor: '#de5245'
-  },
   cardsContainer: {
     backgroundColor: '#f4f4f7'
   },

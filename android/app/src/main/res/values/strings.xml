@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">ICB Sorocaba</string>
-    <string name="facebook_app_id">1161262080594379</string>
-    <string name="bugsnag_appkey">7f394ec621690879be85bc0bef530ac9</string>
+    <string name="app_name">%APP_NAME%</string>
+    <string name="bugsnag_appkey">%BUGSNAG_KEY%</string>
 </resources>

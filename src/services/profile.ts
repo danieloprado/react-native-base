@@ -8,13 +8,11 @@ import apiService, { ApiService } from './api';
 import cacheService, { CacheService } from './cache';
 import notificationService, { NotificationService } from './notification';
 import tokenService, { TokenService } from './token';
-import { churchSlug } from '../settings';
 
 export class ProfileService {
   private profileUpdate$: Subject<IUser>;
 
   constructor(
-    private churchSlug: string,
     private apiService: ApiService,
     private cacheService: CacheService,
     private notificationService: NotificationService,
@@ -35,22 +33,6 @@ export class ProfileService {
       .switchMap(token => this.updateNotificationToken(token))
       .logError()
       .subscribe();
-  }
-
-  public register(provider: string, accessToken: string): Observable<void> {
-    return this.notificationService.getToken()
-      .first()
-      .switchMap(notificationToken => {
-        return this.apiService.post('register', {
-          deviceId: device.getUniqueID(),
-          name: `${device.getBrand()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`,
-          application: this.churchSlug,
-          provider,
-          accessToken,
-          notificationToken
-        });
-      })
-      .switchMap(res => this.tokenService.setToken(res));
   }
 
   public get(refresh?: boolean): Observable<IUser> {
@@ -86,7 +68,7 @@ export class ProfileService {
 
   public logout(): Observable<void> {
     return this.apiService
-      .post('profile/logout', { deviceId: device.getUniqueID(), application: this.churchSlug })
+      .post('profile/logout', { deviceId: device.getUniqueID(), application: '%APP_ID%' })
       .switchMap(() => this.tokenService.clearToken())
       .switchMap(() => this.cacheService.clear());
   }
@@ -94,12 +76,12 @@ export class ProfileService {
   private updateNotificationToken(notificationToken: string): Observable<void> {
     const deviceId = device.getUniqueID();
     const deviceName = `${device.getBrand()} - ${device.getModel()} (${device.getSystemName()} ${device.getSystemVersion()})`;
-    const application = this.churchSlug;
+    const application = '%APP_ID%';
 
     return this.apiService.post('profile/notification-token', { deviceId, application, notificationToken, deviceName });
   }
 
 }
 
-const profileService = new ProfileService(churchSlug, apiService, cacheService, notificationService, tokenService);
+const profileService = new ProfileService(apiService, cacheService, notificationService, tokenService);
 export default profileService;

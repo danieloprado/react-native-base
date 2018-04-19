@@ -1,14 +1,14 @@
 import { Client, Configuration } from 'bugsnag-react-native';
 
 import { IUserToken } from '../interfaces/userToken';
-import { isDevelopment } from '../settings';
+import { bugsnagFilterEnv, isDevelopment } from '../settings';
 
 export class LogService {
   private bugsnag: any;
 
   constructor(private isDevelopment: boolean) {
     const config = new Configuration();
-    config.notifyReleaseStages = ['production'];
+    config.notifyReleaseStages = bugsnagFilterEnv;
 
     this.bugsnag = new Client(config);
   }

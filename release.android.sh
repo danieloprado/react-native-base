@@ -1,9 +1,11 @@
 VERSION=$(node -p "require('./package.json').version") 
 echo "version $VERSION"
 
-rm ICBSorocaba.apk
+BUGSNAG_KEY = '%BUGSNAG_KEY%';
+
+rm ReactApp.apk
 (cd android && ./gradlew assembleRelease)
-mv android/app/build/outputs/apk/app-release.apk ICBSorocaba.apk
+mv android/app/build/outputs/apk/app-release.apk ReactApp.apk
 
 echo "Bundle source map ANDROID"
 yarn react-native bundle -- \
@@ -14,7 +16,7 @@ yarn react-native bundle -- \
   --sourcemap-output /tmp/fitfood.android.sourcemap
 
 yarn bugsnag-sourcemaps upload -- \
-     --api-key 7f394ec621690879be85bc0bef530ac9 \
+     --api-key $BUGSNAG_KEY \
      --app-version $VERSION \
      --minified-file /tmp/fitfood.android.bundle \
      --source-map /tmp/fitfood.android.sourcemap \
@@ -31,7 +33,7 @@ yarn react-native bundle -- \
   --sourcemap-output /tmp/fitfood.ios.sourcemap
 
 yarn bugsnag-sourcemaps upload -- \
-     --api-key 7f394ec621690879be85bc0bef530ac9 \
+     --api-key $BUGSNAG_KEY \
      --app-version $VERSION \
      --minified-file /tmp/fitfood.ios.bundle \
      --source-map /tmp/fitfood.ios.sourcemap \

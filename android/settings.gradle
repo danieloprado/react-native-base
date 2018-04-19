@@ -1,4 +1,4 @@
-rootProject.name = 'churchReact'
+rootProject.name = 'appReact'
 include ':react-native-fcm'
 project(':react-native-fcm').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fcm/android')
 include ':bugsnag-react-native'

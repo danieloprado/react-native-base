@@ -1,5 +1,4 @@
 import { Button, Icon, Text, View } from 'native-base';
-import * as propTypes from 'prop-types';
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 
@@ -12,26 +11,23 @@ interface IProps {
   onPress?: Function;
 }
 
-export function EmptyMessage(props: IProps): JSX.Element {
-  return (
-    <View padder style={styles.container}>
-      <Icon name={props.icon} style={styles.icon} />
-      <Text style={styles.message}>{props.message}</Text>
-      {!!props.button &&
-        <Button accent block style={styles.button} onPress={() => props.onPress()}>
-          <Text>{props.button}</Text>
-        </Button>
-      }
-    </View>
-  );
-}
+export class EmptyMessage extends React.PureComponent<IProps> {
+  public render(): JSX.Element {
+    const { icon, message, button, onPress } = this.props;
 
-(EmptyMessage as any).propTypes = {
-  icon: propTypes.string.isRequired,
-  message: propTypes.string.isRequired,
-  button: propTypes.string,
-  onPress: propTypes.func
-};
+    return (
+      <View padder style={styles.container}>
+        <Icon name={icon} style={styles.icon} />
+        <Text style={styles.message}>{message}</Text>
+        {!!button &&
+          <Button accent block style={styles.button} onPress={() => onPress()}>
+            <Text>{button}</Text>
+          </Button>
+        }
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {

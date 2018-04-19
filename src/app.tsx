@@ -85,4 +85,4 @@ class App extends Component<any, IState> {
 
 }
 
-AppRegistry.registerComponent('churchReact', () => App);
+AppRegistry.registerComponent('appReact', () => App);

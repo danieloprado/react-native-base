@@ -1,55 +1,27 @@
 import { Body, Button, Container, Content, Form, Header, Icon, Left, List, Right, Title } from 'native-base';
 import * as React from 'react';
 
-import { ISelectItem } from '../../interfaces/selectItem';
 import { IUser } from '../../interfaces/user';
 import { toastError } from '../../providers/toast';
-import addressService from '../../services/address';
 import profileService from '../../services/profile';
 import FormComponent, { IStateForm } from '../../shared/abstract/formComponent';
 import { Field } from '../../shared/field';
 import { ProfileValidator } from '../../validators/profile';
 
-const genderOptions = [
-  { value: null, display: 'Não informado' },
-  { value: 'm', display: 'Masculino' },
-  { value: 'f', display: 'Feminino' },
-];
-
-interface IState extends IStateForm<IUser> {
-  states: ISelectItem[];
-  cities: ISelectItem[];
-}
-
-export default class ProfileEditPage extends FormComponent<IState> {
+export default class ProfileEditPage extends FormComponent<IStateForm<IUser>> {
   private profileValidator: ProfileValidator;
 
   constructor(props: any) {
     super(props);
 
     this.profileValidator = new ProfileValidator();
-
-    this.state = {
-      model: this.params.profile,
-      states: addressService.getStates(),
-      cities: addressService.getCities(this.params.profile.state)
-    };
-  }
-
-  public updateModel(validator: any, key: string, value?: string): void {
-    if (key === 'state') {
-      const cities = addressService.getCities(value);
-      this.setState({ cities }, true);
-    }
-
-    super.updateModel(validator, key, value);
+    this.state = { model: {} };
   }
 
   public save(): void {
-    this.profileValidator.validate(this.state.model)
-      .do(({ model, errors }) => this.setState({ validation: errors, model }, true))
-      .filter(({ valid }) => valid)
-      .switchMap(({ model }) => profileService.save(model).loader())
+    this.isFormValid(this.profileValidator)
+      .filter(valid => valid)
+      .switchMap(() => profileService.save(this.state.model as IUser).loader())
       .logError()
       .bindComponent(this)
       .subscribe(() => {
@@ -58,7 +30,7 @@ export default class ProfileEditPage extends FormComponent<IState> {
   }
 
   public render(): JSX.Element {
-    let { model, validation, states, cities } = this.state;
+    let { model, validation } = this.state;
     validation = validation || {};
 
     return (
@@ -118,7 +90,11 @@ export default class ProfileEditPage extends FormComponent<IState> {
                 ref='gender'
                 type='dropdown'
                 value={model.gender}
-                options={genderOptions}
+                options={[
+                  { value: null, display: 'Não informado' },
+                  { value: 'm', display: 'Masculino' },
+                  { value: 'f', display: 'Feminino' },
+                ]}
                 error={validation.gender}
                 next={() => this.refs.birthday}
                 onChange={this.updateModel.bind(this, this.profileValidator, 'gender')}
@@ -183,27 +159,6 @@ export default class ProfileEditPage extends FormComponent<IState> {
                 error={validation.neighborhood}
                 next={() => this.refs.state}
                 onChange={this.updateModel.bind(this, this.profileValidator, 'neighborhood')}
-              />
-              <Field
-                label='Estado'
-                icon='empty'
-                value={model.state}
-                ref='state'
-                type='dialog'
-                options={states}
-                error={validation.state}
-                next={() => this.refs.city}
-                onChange={this.updateModel.bind(this, this.profileValidator, 'state')}
-              />
-              <Field label='Cidade'
-                icon='empty'
-                value={model.city}
-                ref='city'
-                type='dialog'
-                options={cities}
-                error={validation.city}
-                onChange={this.updateModel.bind(this, this.profileValidator, 'city')}
-                onSubmit={() => this.save()}
               />
             </List>
           </Form>

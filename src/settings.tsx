@@ -1,31 +1,19 @@
 import { Platform } from 'react-native';
 
-import { IBibleState } from './interfaces/bible';
-
 export const env = __DEV__ ? 'development' : 'production';
 export const isDevelopment = env === 'development';
 
 export const isiOS = Platform.OS === 'ios';
 export const isAndroid = Platform.OS === 'android';
 
-export const churchSlug = 'icb-sorocaba';
-export const defaultAddress = {
-  state: 'SP',
-  city: 'Sorocaba'
-};
-
-export const defaultBible: IBibleState = {
-  book: 43,
-  capter: 1
-};
+export const bugsnagFilterEnv = ['production'];
 
 export const apiTimeout = 15 * 1000;
-export const apiEndpoint = env === 'production' ?
-  `https://app.icbsorocaba.com.br/api/app/${churchSlug}` :
-  // `http://192.168.0.62:3001/api/app/${churchSlug}`;
-  `https://app.icbsorocaba.com.br/api/app/${churchSlug}`;
+export const apiEndpoint = isDevelopment ?
+  `https://your-dev-api` :
+  `https://your-api`;
 
-export const googleApi = {
-  iosClientId: '808003968903-f53sinpkpe1sjc8jtaauho5ouemo1ere.apps.googleusercontent.com',
-  webClientId: '808003968903-apaspmu2kabjhpdv88ki1brmtgqv4o6r.apps.googleusercontent.com'
+export const themeSettings = {
+  primary: '#263238',
+  accent: '#86bd90'
 };
